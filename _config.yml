@@ -1,4 +1,4 @@
-baseurl: /notes/
+baseurl: /notes
 title: LuoSongtao-Blog
 description: "A Jekyll Blog Theme For Hackers"
 author:
@@ -24,7 +24,7 @@ pagination:
 defaults:
   -
     scope:
-      path: ""
+      path: "notes"
       type: "posts"
     values:
       layout: "post"

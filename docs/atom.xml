@@ -454,7 +454,7 @@ export PATH=$PATH:$HADOOP_HOME/bin
   &lt;li&gt;
     &lt;p&gt;连接 » 添加 » 手动&lt;/p&gt;
 
-    &lt;p&gt;&lt;img src=&quot;/assets/images/shadowsocks-Qt5.png&quot; alt=&quot;图片&quot; /&gt;&lt;/p&gt;
+    &lt;p&gt;&lt;img src=&quot;/notes/assets/images/shadowsocks-Qt5.png&quot; alt=&quot;图片&quot; /&gt;&lt;/p&gt;
   &lt;/li&gt;
   &lt;li&gt;设置 » 常规设置
     &lt;ul&gt;
@@ -462,7 +462,7 @@ export PATH=$PATH:$HADOOP_HOME/bin
     &lt;/ul&gt;
   &lt;/li&gt;
   &lt;li&gt;Ubuntu中：
-  &lt;img src=&quot;/assets/images/Ubuntu18.04配置手动代理.png&quot; alt=&quot;配置手动代理&quot; /&gt;&lt;/li&gt;
+  &lt;img src=&quot;/notes/assets/images/Ubuntu18.04配置手动代理.png&quot; alt=&quot;配置手动代理&quot; /&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;p&gt;但是此时，全局都是使用ss客户端进行代理，因此接下来，需要改为PAC模式，才能让我们更舒服的使用。&lt;/p&gt;
@@ -505,7 +505,7 @@ export PATH=$PATH:$HADOOP_HOME/bin
   &lt;li&gt;使用PAC文件实现非全局代理
     &lt;ul&gt;
       &lt;li&gt;将生成的&lt;code class=&quot;highlighter-rouge&quot;&gt;autoproxy.pac&lt;/code&gt;文件所在绝对路径设置为自动代理的URL路径
-  &lt;img src=&quot;/assets/images/配置pac模式非全局代理.png&quot; alt=&quot;配置pac模式非全局代理&quot; /&gt;&lt;/li&gt;
+  &lt;img src=&quot;/notes/assets/images/配置pac模式非全局代理.png&quot; alt=&quot;配置pac模式非全局代理&quot; /&gt;&lt;/li&gt;
       &lt;li&gt;同时注意：此时shadsocks-qt5中的代理配置，需要改为socks5模式&lt;/li&gt;
     &lt;/ul&gt;
   &lt;/li&gt;
