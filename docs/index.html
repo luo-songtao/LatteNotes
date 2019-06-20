@@ -6,7 +6,7 @@
   <meta name="generator" content="Jekyll">
 
   <title>LuoSongtao-Blog</title>
-  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/notes/css/main.css">
 
   <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="ATOM Feed" /> <!-- Begin Jekyll SEO tag v2.6.1 -->
 <title>LuoSongtao-Blog | A Jekyll Blog Theme For Hackers</title>
@@ -16,12 +16,12 @@
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="A Jekyll Blog Theme For Hackers" />
 <meta property="og:description" content="A Jekyll Blog Theme For Hackers" />
-<link rel="canonical" href="http://0.0.0.0:4000/" />
-<meta property="og:url" content="http://0.0.0.0:4000/" />
+<link rel="canonical" href="http://0.0.0.0:4000/notes/" />
+<meta property="og:url" content="http://0.0.0.0:4000/notes/" />
 <meta property="og:site_name" content="LuoSongtao-Blog" />
-<link rel="next" href="http://0.0.0.0:4000/page/2/" />
+<link rel="next" href="http://0.0.0.0:4000/notes/page/2/" />
 <script type="application/ld+json">
-{"author":{"@type":"Person","name":"LuoSongtao"},"description":"A Jekyll Blog Theme For Hackers","@type":"WebSite","url":"http://0.0.0.0:4000/","name":"LuoSongtao-Blog","headline":"LuoSongtao-Blog","@context":"https://schema.org"}</script>
+{"author":{"@type":"Person","name":"LuoSongtao"},"description":"A Jekyll Blog Theme For Hackers","@type":"WebSite","url":"http://0.0.0.0:4000/notes/","name":"LuoSongtao-Blog","headline":"LuoSongtao-Blog","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
 </head>
@@ -31,7 +31,7 @@
     <header>
   <div style="text-align: center;">
     <div>
-      <a id="username" href="/">
+      <a id="username" href="/notes/">
       
       <span style="font-size: x-large;color: #b5e853">luosongtao@home:~$</span>
       </a>
@@ -42,15 +42,15 @@
 </div>
 
 <!-- script pointing to jekyll-search.js -->
-<script src="/assets/js/simple-jekyll-search.min.js"></script>
-<script async src="/searchdata.js"></script>
+<script src="/notes/assets/js/simple-jekyll-search.min.js"></script>
+<script async src="/notes/searchdata.js"></script>
 
     </div>
   </div>
   <div class="header-links">
-      <a href="/archive"><h2 class="header-link">Archive</h2></a>
-<a href="/about"><h2 class="header-link">About</h2></a>
-<a href="/atom.xml"><h2 class="header-link">RSS</h2></a>
+      <a href="/notes/archive"><h2 class="header-link">Archive</h2></a>
+<a href="/notes/about"><h2 class="header-link">About</h2></a>
+<a href="/notes/atom.xml"><h2 class="header-link">RSS</h2></a>
   </div>
 
 </header>
@@ -58,7 +58,7 @@
         <nav class="nav">
     <h3 class="active"><a href="/">最新</a></h3>
     
-        <h3><a href="/waiting">待整理</a></h3>
+        <h3><a href="/notes/waiting">待整理</a></h3>
     
 </nav>
 
@@ -66,13 +66,13 @@
         <ul>
             
               <li>
-                  <h2><a href="/Hadoop%E5%88%86%E5%B8%83%E5%BC%8F%E9%9B%86%E7%BE%A4%E6%90%AD%E5%BB%BA%E9%85%8D%E7%BD%AE%E4%BB%8B%E7%BB%8D">Hadoop分布式集群搭建配置介绍</a></h2>
+                  <h2><a href="/notes/Hadoop%E5%88%86%E5%B8%83%E5%BC%8F%E9%9B%86%E7%BE%A4%E6%90%AD%E5%BB%BA%E9%85%8D%E7%BD%AE%E4%BB%8B%E7%BB%8D">Hadoop分布式集群搭建配置介绍</a></h2>
                   <time datetime="2019-01-25T00:00:00-06:00">25 Jan 2019</time>
                   <p>环境准备 软件版本示例 系统：CentOS7.5为例、2C4G 三台服务器分配的IP地址：192.168.19.137/138/139 规划：137作为hadoop-master，其他两台作为数据节点138、139分别为hadoop-slave1、hadoop-slave2 jdk使用1.8版本 hadoop使用2.9.1版本，下载地址：http://apache.claz.org/hadoop/common/hadoop-2.9.1/hadoop-2.9.1.tar.gz host配置和主机名配置 修改所有服务器的/etc/hosts文件，添加以下配置 192.168.19.137 hadoop-master 192.168.19.138 hadoop-slave1 192.168.19.139 hadoop-slave2 依次修改所有的服务器的主机名：HOSTNAME，以hadoop-master为例：在137服务器上 vi /etc/susconfig/network HOSTNAME=hadoop-master 执行reboot now后生效，注意需要一次修改每一台服务，改为对应的hadoop-slave1、hadoop-slave2等 之后的配置将使用HOSTNAME进行域名配置，这样便于管理和识别 JDK安装： 方法一：官网下载JDK，https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html 方法二：使用安装JDK：`yum -y install java-1.8.0-openjdk* 安装后，配置环境变量，这里以方法一为例： 下载JDK1.8.0解压放到/root/bigdata目录下，并设置软连接/root/bigdata/jdk指向它 vi /root/.bash_profile export JAVE_HOME=/root/bigdata/jdk export PATH=$PATH:$JAVA_HOME/bin 使用source /root/.bash_profile是配置立即生效 免密登录 以下以hadoop-master为例，配置服务器的本机无密码登录： 生成密钥：ssh-keygen -t rsa 追加公钥：cat ~/.ssh/id_rsa.pub &gt;&gt; ~/.ssh/authorized_keys 设置权限：chmod 600 ~/.ssh/authorized_keys...</p>
               </li>
             
               <li>
-                  <h2><a href="/%E5%9F%BA%E4%BA%8EUbuntu18.04%E7%9A%84shadowsocks-qt5%E5%AE%89%E8%A3%85%E5%B9%B6%E9%85%8D%E7%BD%AEPAC%E8%A7%84%E5%88%99">基于Ubuntu18.04的shadowsocks-qt5安装并配置PAC规则</a></h2>
+                  <h2><a href="/notes/%E5%9F%BA%E4%BA%8EUbuntu18.04%E7%9A%84shadowsocks-qt5%E5%AE%89%E8%A3%85%E5%B9%B6%E9%85%8D%E7%BD%AEPAC%E8%A7%84%E5%88%99">基于Ubuntu18.04的shadowsocks-qt5安装并配置PAC规则</a></h2>
                   <time datetime="2018-07-06T03:00:00-05:00">06 Jul 2018</time>
                   <p>大家应该比较清楚，对于我们程序员来说，翻越某墙的本领几乎已成为我们的基础技能之一。 因为很多我们所使用的服务或者要查看某些服务的官方文档，直接访问，要么没法打开，要么就慢得出奇。 不过还好，它的出现让笔者方便了不少，便宜实惠又好用。 一般在windows、MacOS、Android、IOS等平台上，都是有对应的图形化ss客户端。在github上下载，直接安装就能使用。并且基本自带PAC功能。 不过在DeskTop的Linux上使用图形化ss客户端，我们就要费点周折了。 因为只能自行编译安装shadowsocks-qt5，其实其安装教程，github上已经非常详尽了，只不过笔者在安装依赖环境时也是遇到些问题，这里就针对我们常用的桌面版Liunx(Ubuntu18.04)，总结以下安装过程。 编译和安装libQtShadowsocks 依赖环境： Qt &gt;= 5.5 Botan-2 &gt;= 2.3.0 Or Botan-1.10 (Not recommended) CMake &gt;= 3.1 A C++ Compiler that supports C++14 features (i.e. GCC &gt;= 4.9) 建议：先安装一个aptitude(sudo apt-get install -y aptitude)，因为它除了支持apt-get的所有命令外，还有比如search这样的命令，对于确定模块的完整名称非常有帮助 Step 1: 安装GCC 一般情况下，直接sudo aptitude -y install gcc即可 Step 2: 安装CMake 一般情况下，直接sudo aptitude...</p>
               </li>
@@ -94,13 +94,13 @@
         
       
         
-          <a href="/page/2/" class="page-item">2</a>
+          <a href="/notes/page/2/" class="page-item">2</a>
         
       
     
 
     
-      <a href="/page/2/" class="page-item">&raquo;</a>
+      <a href="/notes/page/2/" class="page-item">&raquo;</a>
     
   </div>
    <footer>
