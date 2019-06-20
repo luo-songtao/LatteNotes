@@ -7,7 +7,7 @@ author:
   url: "https://ashishchaudhary.in/hacker-blog"
 
 source: .
-destination: ./_site
+destination: ./docs
 permalink: /:title
 
 pagination:
