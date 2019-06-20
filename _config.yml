@@ -1,0 +1,43 @@
+baseurl: /
+title: LuoSongtao-Blog
+description: "A Jekyll Blog Theme For Hackers"
+author:
+  name: "LuoSongtao"
+  email: "ryomawithlst@gmail.com"
+  url: "https://ashishchaudhary.in/hacker-blog"
+
+source: .
+destination: ./_site
+permalink: /:title
+
+pagination:
+  enabled: true
+  debug: true
+  per_page: 2
+  permalink: '/page/:num/'
+  category: "posts"
+  sort_reverse: true
+  trail:
+    before: 2
+    after: 2
+
+defaults:
+  -
+    scope:
+      path: ""
+      type: "posts"
+    values:
+      layout: "post"
+
+future: true
+plugins: ['jekyll-seo-tag', 'jekyll-paginate-v2', 'jekyll-sitemap']
+
+github:
+  repository_url: luo-songtao/spread-ideas
+repository: luo-songtao/spread-ideas
+
+search_engine: "js"
+
+# Custom variables
+owner : "LuoSongtao"
+year : "2019"
