@@ -4,9 +4,4 @@ pagination:
   enabled: true
 ---
 
-<nav class="nav">
-    <h3 class="active"><a href="/">最新</a></h3>
-    {% for c in site.data._metadata.categories %}
-        <h3><a href="{{ c.verbose_name | prepend: site.baseurl | replace: '//', '/' }}">{{ c.name }}</a></h3>
-    {% endfor %}
-</nav>
+{% include nav.html %}

@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+  <meta name="generator" content="Jekyll">
+
+  <title>数学分析-两个重要的不等式</title>
+  <link rel="stylesheet" href="/css/main.css">
+
+  <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="ATOM Feed" /> <!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>数学分析-两个重要的不等式 | LuoSongtao-学习笔记</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="数学分析-两个重要的不等式" />
+<meta name="author" content="LuoSongtao" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="三角不等式" />
+<meta property="og:description" content="三角不等式" />
+<link rel="canonical" href="http://0.0.0.0:4000/mathematical-analysis/%E4%B8%A4%E4%B8%AA%E9%87%8D%E8%A6%81%E7%9A%84%E4%B8%8D%E7%AD%89%E5%BC%8F" />
+<meta property="og:url" content="http://0.0.0.0:4000/mathematical-analysis/%E4%B8%A4%E4%B8%AA%E9%87%8D%E8%A6%81%E7%9A%84%E4%B8%8D%E7%AD%89%E5%BC%8F" />
+<meta property="og:site_name" content="LuoSongtao-学习笔记" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2019-11-17T05:00:01-06:00" />
+<script type="application/ld+json">
+{"author":{"@type":"Person","name":"LuoSongtao"},"description":"三角不等式","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"http://0.0.0.0:4000/mathematical-analysis/%E4%B8%A4%E4%B8%AA%E9%87%8D%E8%A6%81%E7%9A%84%E4%B8%8D%E7%AD%89%E5%BC%8F"},"headline":"数学分析-两个重要的不等式","dateModified":"2019-11-17T05:00:01-06:00","url":"http://0.0.0.0:4000/mathematical-analysis/%E4%B8%A4%E4%B8%AA%E9%87%8D%E8%A6%81%E7%9A%84%E4%B8%8D%E7%AD%89%E5%BC%8F","datePublished":"2019-11-17T05:00:01-06:00","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+        inlineMath: [['$','$']]
+      }
+    });
+  </script>
+
+</head>
+
+<body>
+  <div id="wrapper">
+    <header>
+  <div style="text-align: center;">
+    <div>
+      <a id="username" href="/">
+      
+      <span style="font-size: x-large; color: #00C2C4;">luosongtao</span>
+      <span style="font-size: x-large; color: #7E7E7C;">@</span>
+      <span style="font-size: x-large; color: #76E87B;">home:</span>
+      <span style="font-size: x-large; color: #FF7F7A;">~$</span>
+      </a>
+      
+<div id="search">
+	<input type="text" id="search-input" placeholder="Command.." style="vertical-align:middle;">
+	<ul id="results-container"></ul>
+</div>
+
+<!-- script pointing to jekyll-search.js -->
+<script src="/assets/js/simple-jekyll-search.min.js"></script>
+<script async src="/searchdata.js"></script>
+
+    </div>
+  </div>
+  <div class="header-links">
+      <a href="/archive"><h2 class="header-link">时间轴</h2></a>
+<a href="/about"><h2 class="header-link">关于</h2></a>
+<!--<a href="/atom.xml"><h2 class="header-link">RSS</h2></a>-->
+  </div>
+
+</header>
+    <div class="container">
+        <article>
+  <h1>数学分析-两个重要的不等式</h1>
+  <time datetime="2019-11-17T05:00:01-06:00" class="by-line">17 Nov 2019</time>
+  <ul class="section-nav">
+<li class="toc-entry toc-h3"><a href="#三角不等式">三角不等式</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#证明">证明</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#平均值不等式">平均值不等式</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#证明-1">证明</a></li>
+</ul>
+</li>
+</ul><h3 id="三角不等式">
+<a class="anchor" href="#%E4%B8%89%E8%A7%92%E4%B8%8D%E7%AD%89%E5%BC%8F" aria-hidden="true"><span class="octicon octicon-link"></span></a>三角不等式</h3>
+
+<p>对任意实数$a,b$，有：</p>
+
+<script type="math/tex; mode=display">||a|-|b||\le |a+b| \le |a| + |b|</script>
+
+<h4 id="证明">
+<a class="anchor" href="#%E8%AF%81%E6%98%8E" aria-hidden="true"><span class="octicon octicon-link"></span></a>证明</h4>
+
+<p><img src="/%20assets/images/mathemathical-analysis/%E4%B8%89%E8%A7%92%E4%B8%8D%E7%AD%89%E5%BC%8F.png" alt="三角不等式"></p>
+
+<h3 id="平均值不等式">
+<a class="anchor" href="#%E5%B9%B3%E5%9D%87%E5%80%BC%E4%B8%8D%E7%AD%89%E5%BC%8F" aria-hidden="true"><span class="octicon octicon-link"></span></a>平均值不等式</h3>
+
+<p>$a_1, a_2, ···, a_n(n\in N^+)$</p>
+
+<ul>
+  <li>
+    <p>算术平均</p>
+
+    <script type="math/tex; mode=display">\frac {a_1+a_2+···+a_n}{n}</script>
+  </li>
+  <li>
+    <p>几何平均</p>
+
+    <script type="math/tex; mode=display">\sqrt [n]{a_1a_2···a_n}</script>
+  </li>
+  <li>
+    <p>调和平均</p>
+
+    <script type="math/tex; mode=display">\frac {n}{\frac{1}{a_1}+\frac{1}{a_2}+···+\frac{1}{a_n}}</script>
+  </li>
+</ul>
+
+<p>有：</p>
+
+<script type="math/tex; mode=display">\frac {a_1+a_2+···+a_n}{n} \ge \sqrt [n]{a_1a_2···a_n}  \ge \frac {n}{\frac{1}{a_1}+\frac{1}{a_2}+···+\frac{1}{a_n}}</script>
+
+<h4 id="证明-1">
+<a class="anchor" href="#%E8%AF%81%E6%98%8E-1" aria-hidden="true"><span class="octicon octicon-link"></span></a>证明</h4>
+
+<p><img src="/assets/images/mathemathical-analysis/%E5%B9%B3%E5%9D%87%E5%80%BC%E4%B8%8D%E7%AD%89%E5%BC%8F.png" alt="平均值不等式"></p>
+
+
+</article>
+      <section id="main_content">
+        <ul>
+            
+        </ul>
+      </section>
+    </div>
+  </div>
+   <footer>
+  <a href="/">
+    <span>
+        <b>LuoSongtao</b>
+    </span>
+    
+    <span>© 2019</span>
+  </a>
+</footer>
+
+  
+</body>
+
+</html>

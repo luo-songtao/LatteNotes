@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+  <meta name="generator" content="Jekyll">
+
+  <title>Spark集群安装与配置</title>
+  <link rel="stylesheet" href="/css/main.css">
+
+  <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="ATOM Feed" /> <!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Spark集群安装与配置 | LuoSongtao-学习笔记</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="Spark集群安装与配置" />
+<meta name="author" content="LuoSongtao" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Spark安装与配置" />
+<meta property="og:description" content="Spark安装与配置" />
+<link rel="canonical" href="http://0.0.0.0:4000/%E5%A4%A7%E6%95%B0%E6%8D%AE/Spark%E9%9B%86%E7%BE%A4%E5%AE%89%E8%A3%85%E4%B8%8E%E9%85%8D%E7%BD%AE" />
+<meta property="og:url" content="http://0.0.0.0:4000/%E5%A4%A7%E6%95%B0%E6%8D%AE/Spark%E9%9B%86%E7%BE%A4%E5%AE%89%E8%A3%85%E4%B8%8E%E9%85%8D%E7%BD%AE" />
+<meta property="og:site_name" content="LuoSongtao-学习笔记" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2018-10-20T00:00:00-05:00" />
+<script type="application/ld+json">
+{"author":{"@type":"Person","name":"LuoSongtao"},"description":"Spark安装与配置","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"http://0.0.0.0:4000/%E5%A4%A7%E6%95%B0%E6%8D%AE/Spark%E9%9B%86%E7%BE%A4%E5%AE%89%E8%A3%85%E4%B8%8E%E9%85%8D%E7%BD%AE"},"headline":"Spark集群安装与配置","dateModified":"2018-10-20T00:00:00-05:00","url":"http://0.0.0.0:4000/%E5%A4%A7%E6%95%B0%E6%8D%AE/Spark%E9%9B%86%E7%BE%A4%E5%AE%89%E8%A3%85%E4%B8%8E%E9%85%8D%E7%BD%AE","datePublished":"2018-10-20T00:00:00-05:00","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+        inlineMath: [['$','$']]
+      }
+    });
+  </script>
+
+</head>
+
+<body>
+  <div id="wrapper">
+    <header>
+  <div style="text-align: center;">
+    <div>
+      <a id="username" href="/">
+      
+      <span style="font-size: x-large; color: #00C2C4;">luosongtao</span>
+      <span style="font-size: x-large; color: #7E7E7C;">@</span>
+      <span style="font-size: x-large; color: #76E87B;">home:</span>
+      <span style="font-size: x-large; color: #FF7F7A;">~$</span>
+      </a>
+      
+<div id="search">
+	<input type="text" id="search-input" placeholder="Command.." style="vertical-align:middle;">
+	<ul id="results-container"></ul>
+</div>
+
+<!-- script pointing to jekyll-search.js -->
+<script src="/assets/js/simple-jekyll-search.min.js"></script>
+<script async src="/searchdata.js"></script>
+
+    </div>
+  </div>
+  <div class="header-links">
+      <a href="/archive"><h2 class="header-link">时间轴</h2></a>
+<a href="/about"><h2 class="header-link">关于</h2></a>
+<!--<a href="/atom.xml"><h2 class="header-link">RSS</h2></a>-->
+  </div>
+
+</header>
+    <div class="container">
+        <article>
+  <h1>Spark集群安装与配置</h1>
+  <time datetime="2018-10-20T00:00:00-05:00" class="by-line">20 Oct 2018</time>
+  <h2 id="spark安装与配置">Spark安装与配置</h2>
+
+<ul>
+  <li>
+    <p>下载编译版本，以2.2.2版本为例：wget http://apache.cs.utah.edu/spark/spark-2.2.2/spark-2.2.2-bin-hadoop2.7.tgz</p>
+  </li>
+  <li>
+    <p>同安装hadoop一样，解压缩到指定目录下，如这里是<code class="highlighter-rouge">/root/bigdata</code></p>
+
+    <p>设置软链接</p>
+
+    <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">ln</span> <span class="nt">-s</span> /root/bigdata/spark-2.2.2-bin-hadoop2.7 /root/bigdata/spark
+</code></pre></div>    </div>
+
+    <p>设置环境变量：<code class="highlighter-rouge">~/.bash_profile</code></p>
+
+    <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">export</span> <span class="nv">$SPARK_HOME</span><span class="o">=</span>/root/bigdata/spark
+</code></pre></div>    </div>
+
+    <p><code class="highlighter-rouge">source ~/.bash_profile</code>使配置生效</p>
+  </li>
+  <li>
+    <p>修改<code class="highlighter-rouge">spark/config/spark-env.sh</code>文件，添加：</p>
+
+    <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">export </span><span class="nv">SPARK_HOME</span><span class="o">=</span>/root/bigdata/spark
+<span class="nb">export </span><span class="nv">JAVA_HOME</span><span class="o">=</span>/root/bigdata/jdk
+<span class="nb">export </span><span class="nv">HADOOP_HOME</span><span class="o">=</span>/root/bigdata/hadoop
+<span class="nb">export </span><span class="nv">YARN_HOME</span><span class="o">=</span>/root/bigdata/hadoop
+<span class="nb">export </span><span class="nv">HADOOP_CONF_DIR</span><span class="o">=</span><span class="nv">$HADOOP_HOME</span>/etc/hadoop
+<span class="nb">export </span><span class="nv">YARN_CONF_DIR</span><span class="o">=</span><span class="nv">$YARN_HOME</span>/etc/hadoop
+<span class="nb">export </span><span class="nv">SPARK_MASTER_IP</span><span class="o">=</span>192.168.19.137
+<span class="nb">export </span><span class="nv">SPARK_LIBRARY_PATH</span><span class="o">=</span>.:<span class="nv">$JAVA_HOME</span>/lib:<span class="nv">$JAVA_HOME</span>/jre/lib:<span class="nv">$HADOOP_HOME</span>/lib/native
+  
+<span class="nv">SPARK_LOCAL_DIRS</span><span class="o">=</span>/root/bigdata/spark/tmp
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>修改<code class="highlighter-rouge">spark/config/slaves</code>，设置spark的从端机器的域名或IP，这里我们将三台机器都作为从服务器，该配置对于standalone模式资源管理有效</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>hadoop-master
+hadoop-slave1
+hadoop-slave2
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>在hadoop的配置文件路径下对<code class="highlighter-rouge">yarn-site.xml</code>添加以下配置，防止yarn关闭spark的APP</p>
+
+    <div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;property&gt;</span>
+    <span class="nt">&lt;name&gt;</span>yarn.nodemanager.vmem-check-enabled<span class="nt">&lt;/name&gt;</span>
+    <span class="nt">&lt;value&gt;</span>false<span class="nt">&lt;/value&gt;</span>
+<span class="nt">&lt;/property&gt;</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>同理，如果是搭建集群，那么此时还需要将整个目录拷贝到其他机器行，并配置相应的环境变量</p>
+
+    <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>scp ......
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h4 id="spark启动">Spark启动</h4>
+
+<ul>
+  <li>关闭防火墙</li>
+</ul>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>systemctl stop firewalld
+</code></pre></div></div>
+
+<ul>
+  <li>启动Master和Worker</li>
+</ul>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$SPARK_HOME</span>/sbin/start-all.sh
+</code></pre></div></div>
+
+<ul>
+  <li>通过SPARK WEB UI查看Spark集群及Spark
+    <ul>
+      <li>http://192.168.19.137:8080/  监控Spark集群</li>
+      <li>http://192.168.19.137:4040/  监控Spark Job</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="pyspark安装与使用">Pyspark安装与使用</h2>
+
+<h4 id="什么是pyspark">什么是pyspark？</h4>
+
+<p>pyspark是python实现spark的API，我们可以利用pyspark编写Spark程序并提交给Spark去执行</p>
+
+<h4 id="安装pyspark">安装pyspark</h4>
+
+<p>pyspark的版本必须和spark版本一致，但通常我们下载编译版本中，自带了相应版本的pyspark安装包，在<code class="highlighter-rouge">$SPARK_HOME/python</code>目录下</p>
+
+<p>我们将其安装到虚拟环境中，这里虚拟化我们使用的是miniconda的python，</p>
+
+<p>查看虚拟环境</p>
+
+<p><code class="highlighter-rouge">conda env list</code></p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>base                  *  /miniconda2
+py365                    /miniconda2/envs/py365
+</code></pre></div></div>
+
+<p>进入一个提前配置好的虚拟环境<code class="highlighter-rouge">py365</code>：<code class="highlighter-rouge">source activate py365</code></p>
+
+<p>进入<code class="highlighter-rouge">$SPARK_HOME/python</code>目录下执行：<code class="highlighter-rouge">python setup.py install</code></p>
+
+<p>分别在所有从服务器上重复以上步骤，都安装上pyspark（注意：主从机器的python环境和目录一定要保持一致，否则可能出现问题）</p>
+
+<h4 id="其他">其他</h4>
+
+<p>若要在spark中使用hive，那么还需要将hive-sive.xml软链接到spark的conf目录下，并配置HIVE_HOME\HIVE_CONF_DIR环境变量在spark-env.sh中</p>
+
+</article>
+      <section id="main_content">
+        <ul>
+            
+        </ul>
+      </section>
+    </div>
+  </div>
+   <footer>
+  <a href="/">
+    <span>
+        <b>LuoSongtao</b>
+    </span>
+    
+    <span>© 2019</span>
+  </a>
+</footer>
+
+  
+</body>
+
+</html>

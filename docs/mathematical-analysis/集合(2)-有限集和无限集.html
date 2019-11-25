@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+  <meta name="generator" content="Jekyll">
+
+  <title>数学分析-集合(2)-有限集与无限集</title>
+  <link rel="stylesheet" href="/css/main.css">
+
+  <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="ATOM Feed" /> <!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>数学分析-集合(2)-有限集与无限集 | LuoSongtao-学习笔记</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="数学分析-集合(2)-有限集与无限集" />
+<meta name="author" content="LuoSongtao" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="定义" />
+<meta property="og:description" content="定义" />
+<link rel="canonical" href="http://0.0.0.0:4000/mathematical-analysis/%E9%9B%86%E5%90%88(2)-%E6%9C%89%E9%99%90%E9%9B%86%E5%92%8C%E6%97%A0%E9%99%90%E9%9B%86" />
+<meta property="og:url" content="http://0.0.0.0:4000/mathematical-analysis/%E9%9B%86%E5%90%88(2)-%E6%9C%89%E9%99%90%E9%9B%86%E5%92%8C%E6%97%A0%E9%99%90%E9%9B%86" />
+<meta property="og:site_name" content="LuoSongtao-学习笔记" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2019-11-17T03:00:00-06:00" />
+<script type="application/ld+json">
+{"author":{"@type":"Person","name":"LuoSongtao"},"description":"定义","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"http://0.0.0.0:4000/mathematical-analysis/%E9%9B%86%E5%90%88(2)-%E6%9C%89%E9%99%90%E9%9B%86%E5%92%8C%E6%97%A0%E9%99%90%E9%9B%86"},"headline":"数学分析-集合(2)-有限集与无限集","dateModified":"2019-11-17T03:00:00-06:00","url":"http://0.0.0.0:4000/mathematical-analysis/%E9%9B%86%E5%90%88(2)-%E6%9C%89%E9%99%90%E9%9B%86%E5%92%8C%E6%97%A0%E9%99%90%E9%9B%86","datePublished":"2019-11-17T03:00:00-06:00","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+        inlineMath: [['$','$']]
+      }
+    });
+  </script>
+
+</head>
+
+<body>
+  <div id="wrapper">
+    <header>
+  <div style="text-align: center;">
+    <div>
+      <a id="username" href="/">
+      
+      <span style="font-size: x-large; color: #00C2C4;">luosongtao</span>
+      <span style="font-size: x-large; color: #7E7E7C;">@</span>
+      <span style="font-size: x-large; color: #76E87B;">home:</span>
+      <span style="font-size: x-large; color: #FF7F7A;">~$</span>
+      </a>
+      
+<div id="search">
+	<input type="text" id="search-input" placeholder="Command.." style="vertical-align:middle;">
+	<ul id="results-container"></ul>
+</div>
+
+<!-- script pointing to jekyll-search.js -->
+<script src="/assets/js/simple-jekyll-search.min.js"></script>
+<script async src="/searchdata.js"></script>
+
+    </div>
+  </div>
+  <div class="header-links">
+      <a href="/archive"><h2 class="header-link">时间轴</h2></a>
+<a href="/about"><h2 class="header-link">关于</h2></a>
+<!--<a href="/atom.xml"><h2 class="header-link">RSS</h2></a>-->
+  </div>
+
+</header>
+    <div class="container">
+        <article>
+  <h1>数学分析-集合(2)-有限集与无限集</h1>
+  <time datetime="2019-11-17T03:00:00-06:00" class="by-line">17 Nov 2019</time>
+  <ul class="section-nav">
+<li class="toc-entry toc-h3"><a href="#定义">定义</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#有限集">有限集</a></li>
+<li class="toc-entry toc-h4"><a href="#无限集">无限集</a></li>
+<li class="toc-entry toc-h4"><a href="#可列集">可列集</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#定理1可列个可列集之并也是可列集">定理1：可列个可列集之并也是可列集</a>
+<ul>
+<li class="toc-entry toc-h6"><a href="#证明">证明</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h5"><a href="#定理2有理数集合q是可列集">定理2：有理数集合$Q$是可列集</a>
+<ul>
+<li class="toc-entry toc-h6"><a href="#证明-1">证明</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#descartes乘积集合">Descartes乘积集合</a></li>
+</ul><h3 id="定义">
+<a class="anchor" href="#%E5%AE%9A%E4%B9%89" aria-hidden="true"><span class="octicon octicon-link"></span></a>定义</h3>
+
+<h4 id="有限集">
+<a class="anchor" href="#%E6%9C%89%E9%99%90%E9%9B%86" aria-hidden="true"><span class="octicon octicon-link"></span></a>有限集</h4>
+
+<p>$S$ 是由$n$个元素组成($n$是非负整数)，则称$S$是有限集</p>
+
+<h4 id="无限集">
+<a class="anchor" href="#%E6%97%A0%E9%99%90%E9%9B%86" aria-hidden="true"><span class="octicon octicon-link"></span></a>无限集</h4>
+
+<p>不是有限集的集合称为无限集</p>
+
+<h4 id="可列集">
+<a class="anchor" href="#%E5%8F%AF%E5%88%97%E9%9B%86" aria-hidden="true"><span class="octicon octicon-link"></span></a>可列集</h4>
+
+<p>如果无限集中的元素可按某种规则排成一列，则称该集合为可列集，也称为可数集。$S=\lbrace a_1, a_2, ···, a_n, ··· \rbrace$</p>
+
+<ul>
+  <li>无限集包含可列子集，但无限集不一定是可列集，如$R$</li>
+  <li>整数集合$Z$是可列集
+    <ul>
+      <li>$Z=\lbrace 0, 1, -1, 2, -2, ···, n, -n, ···  \rbrace$</li>
+    </ul>
+  </li>
+</ul>
+
+<h5 id="定理1可列个可列集之并也是可列集">
+<a class="anchor" href="#%E5%AE%9A%E7%90%861%E5%8F%AF%E5%88%97%E4%B8%AA%E5%8F%AF%E5%88%97%E9%9B%86%E4%B9%8B%E5%B9%B6%E4%B9%9F%E6%98%AF%E5%8F%AF%E5%88%97%E9%9B%86" aria-hidden="true"><span class="octicon octicon-link"></span></a>定理1：可列个可列集之并也是可列集</h5>
+
+<ul>
+  <li>
+    <p>$A_n(n=1,2,3,···)$，每个$A_n$是可列集</p>
+
+    <script type="math/tex; mode=display">\bigcup ^ \infty _ {n=1} A_n = A_1\cup A_2\cup A_3\cup ···\cup A_n\cup···</script>
+
+    <p>则<script type="math/tex">\bigcup ^ \infty _ {n=1} A_n</script>也是可列集</p>
+  </li>
+</ul>
+
+<h6 id="证明">
+<a class="anchor" href="#%E8%AF%81%E6%98%8E" aria-hidden="true"><span class="octicon octicon-link"></span></a>证明</h6>
+
+<p>将每个可列集元素作为一个阵列的一行，然后采用对角线方法可将所有元素一一排列，无一重复、无一遗漏</p>
+
+<p><img src="/assets/images/mathemathical-analysis/%E8%AF%81-%E5%8F%AF%E5%88%97%E4%B8%AA%E5%8F%AF%E5%88%97%E9%9B%86%E4%B9%8B%E5%B9%B6%E4%B9%9F%E6%98%AF%E5%8F%AF%E5%88%97%E9%9B%86.png" alt="可列个可列集之并也是可列集 "></p>
+
+<h5 id="定理2有理数集合q是可列集">
+<a class="anchor" href="#%E5%AE%9A%E7%90%862%E6%9C%89%E7%90%86%E6%95%B0%E9%9B%86%E5%90%88q%E6%98%AF%E5%8F%AF%E5%88%97%E9%9B%86" aria-hidden="true"><span class="octicon octicon-link"></span></a>定理2：有理数集合$Q$是可列集</h5>
+
+<h6 id="证明-1">
+<a class="anchor" href="#%E8%AF%81%E6%98%8E-1" aria-hidden="true"><span class="octicon octicon-link"></span></a>证明</h6>
+
+<p>$(-\infty, +\infty)$由可列个(n,n+1]区间构成，只需证$(0,1]$中有理数全体是可列集</p>
+
+<p>$(0,1]$中每个有理数可统一表示为$\frac qp, p\in N^+, q \in N^+且 p,q互质，q\le p$</p>
+
+<p><img src="/assets/images/mathemathical-analysis/%E8%AF%81-%E6%9C%89%E7%90%86%E6%95%B0%E9%9B%86%E5%90%88Q%E6%98%AF%E5%8F%AF%E5%88%97%E9%9B%86.png" alt="有理数集合Q是可列集"></p>
+
+<h3 id="descartes乘积集合">
+<a class="anchor" href="#descartes%E4%B9%98%E7%A7%AF%E9%9B%86%E5%90%88" aria-hidden="true"><span class="octicon octicon-link"></span></a>Descartes乘积集合</h3>
+
+<p>$A、B$两集合：$A\times B=\lbrace (x,y)\vert x\in A 且 y\in B \rbrace$</p>
+
+<p>若$A=B=R$</p>
+
+<ul>
+  <li>$R^2 = R\times R$：Descartes平面直角坐标系</li>
+  <li>$R^3 = R\times R\times R$：Descartes空间直角坐标系</li>
+</ul>
+
+<p><img src="/assets/images/mathemathical-analysis/Descartes%E4%B9%98%E7%A7%AF%E9%9B%86%E5%90%88.png" alt="Descartes乘积集合"></p>
+
+</article>
+      <section id="main_content">
+        <ul>
+            
+        </ul>
+      </section>
+    </div>
+  </div>
+   <footer>
+  <a href="/">
+    <span>
+        <b>LuoSongtao</b>
+    </span>
+    
+    <span>© 2019</span>
+  </a>
+</footer>
+
+  
+</body>
+
+</html>

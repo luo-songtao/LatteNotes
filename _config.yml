@@ -1,19 +1,19 @@
-baseurl: /notes
-title: LuoSongtao-Blog
-description: "A Jekyll Blog Theme For Hackers"
+baseurl: /
+title: LuoSongtao-学习笔记
+description: "千里之行始于足下；不积跬步无以致千里"
 author:
   name: "LuoSongtao"
   email: "ryomawithlst@gmail.com"
-  url: "https://ashishchaudhary.in/hacker-blog"
+  url: ""
 
 source: .
 destination: ./docs
-permalink: /:title
+permalink: /:categories/:title
 
 pagination:
   enabled: true
   debug: true
-  per_page: 2
+  per_page: 5
   permalink: '/page/:num/'
   category: "posts"
   sort_reverse: true
@@ -30,11 +30,11 @@ defaults:
       layout: "post"
 
 future: true
-plugins: ['jekyll-seo-tag', 'jekyll-paginate-v2', 'jekyll-sitemap']
+plugins: ['jekyll-seo-tag', 'jekyll-paginate-v2', 'jekyll-sitemap' ,'jekyll-toc']
 
 github:
-  repository_url: luo-songtao/spread-ideas
-repository: luo-songtao/spread-ideas
+  repository_url: luo-songtao
+repository: luo-songtao
 
 search_engine: "js"
 

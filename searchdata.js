@@ -11,7 +11,7 @@ var jsondata=[
       "tags"     : "{{ post.tags | join: ', ' }}",
       "url"      : "{{ post.url }}",
       "date"     : "{{ post.date }}",
-      "content"  : "{{ post.content | strip_html | strip_newlines | remove: '"' }}"
+      "content"  : "{{ post.content | strip_html | strip_newlines | remove: '"' | remove: 'u' | remove: 'x'}}"
     } {% unless forloop.last %},{% endunless %}
   {% endfor %}
   ,
@@ -35,7 +35,7 @@ var sjs = SimpleJekyllSearch({
     resultsContainer: document.getElementById('results-container'),
     json: jsondata,
     searchResultTemplate: '<li><a href="{url}" title="{desc}">{title}</a></li>',
-    noResultsText: 'No results found',
+    noResultsText: '木有找到呀',
     limit: 10,
     fuzzy: false,
     exclude: []

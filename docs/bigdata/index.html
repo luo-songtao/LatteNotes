@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+  <meta name="generator" content="Jekyll">
+
+  <title>大数据</title>
+  <link rel="stylesheet" href="/css/main.css">
+
+  <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="ATOM Feed" /> <!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>大数据 | LuoSongtao-学习笔记</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="大数据" />
+<meta name="author" content="LuoSongtao" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="千里之行始于足下；不积跬步无以致千里" />
+<meta property="og:description" content="千里之行始于足下；不积跬步无以致千里" />
+<link rel="canonical" href="http://0.0.0.0:4000/bigdata/" />
+<meta property="og:url" content="http://0.0.0.0:4000/bigdata/" />
+<meta property="og:site_name" content="LuoSongtao-学习笔记" />
+<script type="application/ld+json">
+{"author":{"@type":"Person","name":"LuoSongtao"},"description":"千里之行始于足下；不积跬步无以致千里","@type":"WebPage","headline":"大数据","url":"http://0.0.0.0:4000/bigdata/","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+        inlineMath: [['$','$']]
+      }
+    });
+  </script>
+
+</head>
+
+<body>
+  <div id="wrapper">
+    <header>
+  <div style="text-align: center;">
+    <div>
+      <a id="username" href="/">
+      
+      <span style="font-size: x-large; color: #00C2C4;">luosongtao</span>
+      <span style="font-size: x-large; color: #7E7E7C;">@</span>
+      <span style="font-size: x-large; color: #76E87B;">home:</span>
+      <span style="font-size: x-large; color: #FF7F7A;">~$</span>
+      </a>
+      
+<div id="search">
+	<input type="text" id="search-input" placeholder="Command.." style="vertical-align:middle;">
+	<ul id="results-container"></ul>
+</div>
+
+<!-- script pointing to jekyll-search.js -->
+<script src="/assets/js/simple-jekyll-search.min.js"></script>
+<script async src="/searchdata.js"></script>
+
+    </div>
+  </div>
+  <div class="header-links">
+      <a href="/archive"><h2 class="header-link">时间轴</h2></a>
+<a href="/about"><h2 class="header-link">关于</h2></a>
+<!--<a href="/atom.xml"><h2 class="header-link">RSS</h2></a>-->
+  </div>
+
+</header>
+    <div class="container">
+        <nav class="nav">
+    <h3><a href="/">最新</a></h3>
+    
+        
+        <h3><a href="/docker">Docker</a></h3>
+        
+    
+        
+        <h3 class="active"><a href="/bigdata">大数据</a></h3>
+        
+    
+        
+        <h3><a href="/mathematical-analysis">数学分析</a></h3>
+        
+    
+        
+        <h3><a href="/others">其他</a></h3>
+        
+    
+</nav>
+
+      <section id="main_content">
+        <ul>
+            
+              <li>
+                  <h2><a href="/%E5%A4%A7%E6%95%B0%E6%8D%AE/Hadoop%E5%88%86%E5%B8%83%E5%BC%8F%E9%9B%86%E7%BE%A4%E6%90%AD%E5%BB%BA%E9%85%8D%E7%BD%AE%E4%BB%8B%E7%BB%8D">Hadoop分布式集群搭建配置介绍</a></h2>
+                  <time datetime="2019-01-25T00:00:00-06:00">25 Jan 2019</time>
+                  <p>环境准备 软件版本示例 系统：CentOS7.5为例、2C4G 三台服务器分配的IP地址：192.168.19.137/138/139 规划：137作为hadoop-master，其他两台作为数据节点138、139分别为hadoop-slave1、hadoop-slave2 jdk使用1.8版本 hadoop使用2.9.1版本，下载地址：http://apache.claz.org/hadoop/common/hadoop-2.9.1/hadoop-2.9.1.tar.gz host配置和主机名配置 修改所有服务器的/etc/hosts文件，添加以下配置 192.168.19.137 hadoop-master 192.168.19.138 hadoop-slave1 192.168.19.139 hadoop-slave2 依次修改所有的服务器的主机名：HOSTNAME，以hadoop-master为例：在137服务器上 vi /etc/susconfig/network HOSTNAME=hadoop-master 执行reboot now后生效，注意需要一次修改每一台服务，改为对应的hadoop-slave1、hadoop-slave2等 之后的配置将使用HOSTNAME进行域名配置，这样便于管理和识别 JDK安装： 方法一：官网下载JDK，https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html 方法二：使用安装JDK：`yum -y install java-1.8.0-openjdk* 安装后，配置环境变量，这里以方法一为例： 下载JDK1.8.0解压放到/root/bigdata目录下，并设置软连接/root/bigdata/jdk指向它 vi /root/.bash_profile export JAVE_HOME=/root/bigdata/jdk export PATH=$PATH:$JAVA_HOME/bin 使用source /root/.bash_profile是配置立即生效 免密登录 以下以hadoop-master为例，配置服务器的本机无密码登录： 生成密钥：ssh-keygen -t rsa 追加公钥：cat ~/.ssh/id_rsa.pub &gt;&gt; ~/.ssh/authorized_keys 设置权限：chmod 600 ~/.ssh/authorized_keys...</p>
+              </li>
+            
+              <li>
+                  <h2><a href="/%E5%A4%A7%E6%95%B0%E6%8D%AE/Spark%E9%9B%86%E7%BE%A4%E5%AE%89%E8%A3%85%E4%B8%8E%E9%85%8D%E7%BD%AE">Spark集群安装与配置</a></h2>
+                  <time datetime="2018-10-20T00:00:00-05:00">20 Oct 2018</time>
+                  <p>Spark安装与配置 下载编译版本，以2.2.2版本为例：wget http://apache.cs.utah.edu/spark/spark-2.2.2/spark-2.2.2-bin-hadoop2.7.tgz 同安装hadoop一样，解压缩到指定目录下，如这里是/root/bigdata 设置软链接 ln -s /root/bigdata/spark-2.2.2-bin-hadoop2.7 /root/bigdata/spark 设置环境变量：~/.bash_profile export $SPARK_HOME=/root/bigdata/spark source ~/.bash_profile使配置生效 修改spark/config/spark-env.sh文件，添加： export SPARK_HOME=/root/bigdata/spark export JAVA_HOME=/root/bigdata/jdk export HADOOP_HOME=/root/bigdata/hadoop export YARN_HOME=/root/bigdata/hadoop export HADOOP_CONF_DIR=$HADOOP_HOME/etc/hadoop export YARN_CONF_DIR=$YARN_HOME/etc/hadoop export SPARK_MASTER_IP=192.168.19.137 export SPARK_LIBRARY_PATH=.:$JAVA_HOME/lib:$JAVA_HOME/jre/lib:$HADOOP_HOME/lib/native SPARK_LOCAL_DIRS=/root/bigdata/spark/tmp 修改spark/config/slaves，设置spark的从端机器的域名或IP，这里我们将三台机器都作为从服务器，该配置对于standalone模式资源管理有效 hadoop-master hadoop-slave1 hadoop-slave2 在hadoop的配置文件路径下对yarn-site.xml添加以下配置，防止yarn关闭spark的APP &lt;property&gt; &lt;name&gt;yarn.nodemanager.vmem-check-enabled&lt;/name&gt; &lt;value&gt;false&lt;/value&gt; &lt;/property&gt; 同理，如果是搭建集群，那么此时还需要将整个目录拷贝到其他机器行，并配置相应的环境变量 scp ...... Spark启动 关闭防火墙 systemctl stop firewalld 启动Master和Worker...</p>
+              </li>
+            
+              <li>
+                  <h2><a href="/%E5%A4%A7%E6%95%B0%E6%8D%AE/Hive%E9%9B%86%E7%BE%A4%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE">Hive集群安装配置</a></h2>
+                  <time datetime="2018-09-30T00:00:00-05:00">30 Sep 2018</time>
+                  <p>基于HADOOP分布式集群安装HIVE 环境准备 Hive安装与配置 注意：hive的配置相对比较复杂,缺少任何一步都会带来一系列问题，需要耐心，另外以下配置均已CentOS7为例 这里使用当前稳定版：2.3.4 下载：https://mirrors.tuna.tsinghua.edu.cn/apache/hive/ 解压放到/root/bigdata/，并建立软链接ln -s /root/bigdata/apache-hive-2.3.4-bin /root/bigdata/hive 环境变量： # .bash_profile export HIVE_HOME=$HOME/bigdata/bin export PATH=$PATH:$HIVE_HOME/bin 使用source命令使其生效 安装启动 cd /root/bigdata/hive 拷贝默认配置文件：cp hive/conf/hive-default.xml.template hive/conf/hive-site.xml 修改默认配置文件：vi hive/conf/hive-site.xml hive相关路径配置 找到 &lt;name&gt;hive.metastore.warehouse.dir&lt;/name&gt; &lt;value&gt;/user/hive/warehouse&lt;/value&gt; &lt;name&gt;hive.exec.scratchdir&lt;/name&gt; &lt;value&gt;/tmp/hive&lt;/value&gt; 这里的两个路径指的是hdfs里的路径，因此需要在hdfs中手动创建这两个目录，并修改权限，如果更改为其他路径，那么相应的创建也需要变更 hadoop fs -mkdir -p /user/hive/warehouse hadoop fs -chmod -R 777 /user/hive/warehouse hadoop fs -mkdir -p /tmp/hive/ hadoop...</p>
+              </li>
+            
+              <li>
+                  <h2><a href="/%E5%A4%A7%E6%95%B0%E6%8D%AE/Hadoop%E5%88%86%E5%B8%83%E5%BC%8F%E9%9B%86%E7%BE%A4%E6%90%AD%E5%BB%BA%E9%85%8D%E7%BD%AE%E4%BB%8B%E7%BB%8D">Hadoop分布式集群搭建配置介绍</a></h2>
+                  <time datetime="2018-09-25T00:00:00-05:00">25 Sep 2018</time>
+                  <p>环境准备 软件版本示例 系统：CentOS7.5为例、2C4G 三台服务器分配的IP地址：192.168.19.137/138/139 规划：137作为hadoop-master，其他两台作为数据节点138、139分别为hadoop-slave1、hadoop-slave2 jdk使用1.8版本 hadoop使用2.9.1版本，下载地址：http://apache.claz.org/hadoop/common/hadoop-2.9.1/hadoop-2.9.1.tar.gz host配置和主机名配置 修改所有服务器的/etc/hosts文件，添加以下配置 192.168.19.137 hadoop-master 192.168.19.138 hadoop-slave1 192.168.19.139 hadoop-slave2 依次修改所有的服务器的主机名：HOSTNAME，以hadoop-master为例：在137服务器上 vi /etc/susconfig/network HOSTNAME=hadoop-master 执行reboot now后生效，注意需要一次修改每一台服务，改为对应的hadoop-slave1、hadoop-slave2等 之后的配置将使用HOSTNAME进行域名配置，这样便于管理和识别 JDK安装： 方法一：官网下载JDK，https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html 方法二：使用安装JDK：`yum -y install java-1.8.0-openjdk* 安装后，配置环境变量，这里以方法一为例： 下载JDK1.8.0解压放到/root/bigdata目录下，并设置软连接/root/bigdata/jdk指向它 vi /root/.bash_profile export JAVE_HOME=/root/bigdata/jdk export PATH=$PATH:$JAVA_HOME/bin 使用source /root/.bash_profile是配置立即生效 免密登录 以下以hadoop-master为例，配置服务器的本机无密码登录： 生成密钥：ssh-keygen -t rsa 追加公钥：cat ~/.ssh/id_rsa.pub &gt;&gt; ~/.ssh/authorized_keys 设置权限：chmod 600 ~/.ssh/authorized_keys...</p>
+              </li>
+            
+        </ul>
+      </section>
+    </div>
+  </div>
+   <footer>
+  <a href="/">
+    <span>
+        <b>LuoSongtao</b>
+    </span>
+    
+    <span>© 2019</span>
+  </a>
+</footer>
+
+  
+</body>
+
+</html>

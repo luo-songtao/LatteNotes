@@ -56,13 +56,13 @@ li {
 
 header {
   background: rgba(0, 0, 0, 0.1);
-  border-bottom: 1px dashed $conifer; //header;
+  border-bottom: 1px dashed #F0F0F0; //header;
   padding: 20px;
   margin: 0 0 10px 0;
 }
 
 .header-links {
-  text-align: center;
+  text-align: right;
 }
 
 .header-link {
@@ -84,10 +84,26 @@ header h1 {
   -webkit-font-smoothing: antialiased;
 }
 
+p {
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1),
+               0 0 5px rgba(181, 232, 83, 0.1),
+               0 0 10px rgba(181, 232, 83, 0.1);
+  letter-spacing: -1px;
+  -webkit-font-smoothing: antialiased;
+}
+
 header h2 {
   font-size: 18px;
-  font-weight: 300;
-  color: #333;
+  font-weight: bold;
+  color: #F0F0F0;
+  text-align: center;
+  font-family: Monaco, "Bitstream Vera Sans Mono", "Lucida Console", Terminal, monospace;
+
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1),
+               0 0 5px rgba(181, 232, 83, 0.1),
+               0 0 10px rgba(181, 232, 83, 0.1);
+  letter-spacing: -1px;
+  -webkit-font-smoothing: antialiased;
 }
 
 /* Main Content
@@ -111,8 +127,16 @@ h1, h2, h3, h4, h5, h6 {
                0 0 10px rgba(181, 232, 83, 0.1);
 }
 
+h1 {color: #f0f0f0;}
+h2 {color: $header;}
+h3 {color: $header;}
+h4 {color: #b5e853;}
+h5 {color: #b5e853;}
+h6 {color: #b5e853;}
+
 #main_content h1 {
   font-size: 30px;
+  color: #feff01;
 }
 
 #main_content h2 {
@@ -240,7 +264,7 @@ hr {
 */
 
 a {
-  color: #63c0f5;
+  color: #a3fff7;
   text-shadow: 0 0 5px rgba(104, 182, 255, 0.5);
 }
 
@@ -337,12 +361,12 @@ a {
 }
 
 .nav h3>a{
-  color: #333;
+  color: #F0F0F0;
 }
 
 /*hover*/
 nav h3:hover>a{
-    color: #F0F0F0;
+    color: #feff01;
 }
 
 .nav h3.active>a{
