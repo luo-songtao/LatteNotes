@@ -3,17 +3,17 @@ title: LuoSongtao-学习笔记
 description: "千里之行始于足下；不积跬步无以致千里"
 author:
   name: "LuoSongtao"
-  email: "ryomawithlst@gmail.com"
+  email: "ryomawithlst@gmail/outlook.com"
   url: ""
 
 source: .
-destination: ./docs
+destination: ./new_docs
 permalink: /:categories/:title
 
 pagination:
   enabled: true
   debug: true
-  per_page: 5
+  per_page: 8
   permalink: '/page/:num/'
   category: "posts"
   sort_reverse: true
@@ -40,4 +40,4 @@ search_engine: "js"
 
 # Custom variables
 owner : "LuoSongtao"
-year : "2019"
+year : "2020"

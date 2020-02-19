@@ -1,0 +1,24 @@
+name: CI
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Docker Buildx
+      uses: crazy-max/ghaction-docker-buildx@v1.0.5
+    - name: Deploy Html To Branch "gh-pages"
+      run: |
+        docker-compose up -d
+        git config user.name "luo-songtao"
+        git config user.email "ryomawithlst@gmail.com"
+        git subtree add --prefix=docs origin gh-pages
+        rm -rf dev/*
+        mv docs/ docs/docs/
+        git add docs
+        git commit -m "${{ github.sha }}"
+        git subtree push --prefix=docs origin gh-pages
