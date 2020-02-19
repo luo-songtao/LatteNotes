@@ -7,7 +7,7 @@ author:
   url: ""
 
 source: .
-destination: ./
+destination: ./docs
 permalink: /:categories/:title
 
 pagination:
