@@ -1,27 +1,742 @@
----
-layout: null
----
 <?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>{{ site.title | xml_escape }}</title>
-    <description>{{ site.description | xml_escape }}</description>
-    <link>{{ site.url }}</link>
-    <atom:link href="{{ site.url }}/feed.xml" rel="self" type="application/rss+xml" />
+    <title>MicroNotes</title>
+    <description>千里之行始于足下；不积跬步无以致千里</description>
+    <link></link>
+    <atom:link href="/feed.xml" rel="self" type="application/rss+xml" />
     <author>
-      <name>{{ site.author.name }}</name>
-      <email>{{ site.author.email }}</email>
-      <uri>{{ site.author.url }}</uri>
+      <name>LuoSongtao</name>
+      <email>ryomawithlst@gmail/outlook.com</email>
+      <uri></uri>
     </author>
-    {% for post in site.posts limit:10 %}
+    
       <item>
-        <title>{{ post.title | xml_escape }}</title>
-        <description>{{ post.content | xml_escape }}</description>
-        <pubDate>{{ post.date | date: "%a, %d %b %Y %H:%M:%S %z" }}</pubDate>
-        <link>{{ site.url }}/{{ post.url }}</link>
-        <link href="{{ site.url }}{{ post.url }}"/>
-        <guid isPermaLink="true">{{ site.url }}{{ post.url }}</guid>
+        <title>数学分析-定积分的基本性质</title>
+        <description>&lt;h3 id=&quot;定积分的基本性质&quot;&gt;定积分的基本性质&lt;/h3&gt;
+
+&lt;h4 id=&quot;线性性&quot;&gt;线性性&lt;/h4&gt;
+
+&lt;p&gt;$f(x),g(x)在[a,b]上可积，则k_1f(x)+k_2g(x)也在[a,b]上可积，且:$&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\int_{a}^b[k_1f(x)+k_2g(x)]dx=k_1\int_{a}^bf(x)dx+k_2\int_{a}^bg(x)dx&lt;/script&gt;
+
+&lt;h5 id=&quot;推论&quot;&gt;推论&lt;/h5&gt;
+
+&lt;p&gt;$f(x)在[a,b]上可积，f与g仅在有限个点上取不同值，则g(x)也在[a,b]上可积，且:$&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\int_{a}^bg(x)dx = \int_{a}^bf(x)dx&lt;/script&gt;
+
+&lt;h6 id=&quot;证明&quot;&gt;证明&lt;/h6&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/mathemathical-analysis/证-定积分线性性推论.png&quot; alt=&quot;证-定积分线性性推论&quot; /&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;乘积可积性&quot;&gt;乘积可积性&lt;/h4&gt;
+
+&lt;p&gt;$f(x),g(x)在[a,b]上可积,则f(x)g(x)也在[a,b]上可积$&lt;/p&gt;
+
+&lt;h4 id=&quot;保序性&quot;&gt;保序性&lt;/h4&gt;
+
+&lt;p&gt;$f(x),g(x)在[a,b]上可积，f(x)\ge g(x),则$&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\int_{a}^bf(x)dx\ge \int_{a}^bg(x)dx&lt;/script&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\Longleftrightarrow \int_{a}^b(f(x)-g(x))dx\ge 0&lt;/script&gt;
+
+&lt;h4 id=&quot;绝对可积性&quot;&gt;绝对可积性&lt;/h4&gt;
+
+&lt;p&gt;$f(x)在[a,b]上可积，则\vert f(x) \vert 也在[a,b]上可积,且$&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\vert \int_{a}^bf(x)dx \vert \le \int_{a}^b\vert f(x)\vert dx&lt;/script&gt;
+
+&lt;h4 id=&quot;区间可加性&quot;&gt;区间可加性&lt;/h4&gt;
+
+&lt;p&gt;$设f(x)在[a,b]上可积，c\in(a,b),则f(x)在[a,c]与[c,b]上可积；反之，若f(x)在[a,c]与[c,b]上可积，则f(x)在[a,b]上可积，且:$&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\int_a^bf(x)dx =\int_a^cf(x)dx + \int_c^bf(x)dx&lt;/script&gt;
+
+&lt;h4 id=&quot;积分第一中值定理&quot;&gt;积分第一中值定理&lt;/h4&gt;
+
+&lt;p&gt;$f(x),g(x)在[a,b]上可积，且g(x)在[a,b]上不变号，则\exists \eta in [m,M],(m=\inf_{x\in[a,b]} f(x),M=\sup_{x\in[a,b]} f(x))使：$&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\int_a^bf(x)g(x)dx = \eta \int_a^bg(x)dx&lt;/script&gt;
+
+&lt;p&gt;$若f(x)在[a,b]上连续，则\exists \xi \in [a,b]，使:$&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\int_a^bf(x)g(x)dx = f(\xi)\int_a^bg(x)dx&lt;/script&gt;
+
+&lt;h5 id=&quot;证明-1&quot;&gt;证明&lt;/h5&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/mathemathical-analysis/证-积分第一中值定理.png&quot; alt=&quot;证-积分第一中值定理&quot; /&gt;&lt;/p&gt;
+</description>
+        <pubDate>Fri, 13 Dec 2019 00:00:00 -0600</pubDate>
+        <link>//mathematical-analysis/%E5%AE%9A%E7%A7%AF%E5%88%86%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%80%A7%E8%B4%A8</link>
+        <link href="/mathematical-analysis/%E5%AE%9A%E7%A7%AF%E5%88%86%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%80%A7%E8%B4%A8"/>
+        <guid isPermaLink="true">/mathematical-analysis/%E5%AE%9A%E7%A7%AF%E5%88%86%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%80%A7%E8%B4%A8</guid>
       </item>
-    {% endfor %}
+    
+      <item>
+        <title>数学分析-定积分的概念和可积条件</title>
+        <description>&lt;h3 id=&quot;定积分的概念和可积条件&quot;&gt;定积分的概念和可积条件&lt;/h3&gt;
+
+&lt;p&gt;古希腊-“穷竭法”-阿基米德&lt;/p&gt;
+
+&lt;p&gt;中国古代-刘徽-“割圆术”&lt;/p&gt;
+
+&lt;p&gt;十七世纪-Kepler-天体运动三大定理&lt;/p&gt;
+
+&lt;h4 id=&quot;定积分的定义&quot;&gt;定积分的定义&lt;/h4&gt;
+
+&lt;h5 id=&quot;前提条件&quot;&gt;前提条件&lt;/h5&gt;
+
+&lt;p&gt;$设f(x)定义在[a,b]上讨论f(x)在[a,b]上的定积分。首先必须要求f(x)有界$&lt;/p&gt;
+
+&lt;h5 id=&quot;定义&quot;&gt;定义&lt;/h5&gt;
+
+&lt;p&gt;$设f(x)在[a,b]上有界，对[a,b]做划分:$&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+P:a=x_0&lt;x_1&lt;x_2&lt;···&lt;x_n=b,\Delta x_i = x_i - x_{n-1} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;$任取\xi_i\in [x_{i-1},x_i]，，取\lambda = max \lbrace \Delta x_i \rbrace ,若$&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\lim_{\lambda \rightarrow 0}\sum_{i=1}^nf(\xi_i)\Delta x_i&lt;/script&gt;
+
+&lt;p&gt;$且极限值与划分P及取点\xi_i无关，则称f(x)在[a,b]上Riemann可积(可积)$&lt;/p&gt;
+
+&lt;p&gt;$极限值I称为f(x)在[a,b]上的定积分，记为$&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;I=\int_a^bf(x)dx\qquad (I=\lim_{\lambda \rightarrow 0}\sum_{i=1}^nf(\xi_i)\Delta x_i)&lt;/script&gt;
+
+&lt;h5 id=&quot;讨论&quot;&gt;讨论&lt;/h5&gt;
+
+&lt;p&gt;$在定义中，a&amp;lt;b,假若a\ge b,规定:$&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\int_a^bf(x)dx = -\int_b^af(x)dx \qquad (相当于\Delta xi 为负值)&lt;/script&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\Longrightarrow \int_a^af(x)dx = -\int_a^af(x)dx \Longrightarrow \int_a^af(x)dx = 0&lt;/script&gt;
+
+&lt;h5 id=&quot;定积分的varepsilondelta语言&quot;&gt;定积分的$\varepsilon$~$\delta$语言&lt;/h5&gt;
+
+&lt;p&gt;$\exists I,\forall \varepsilon &amp;gt;0,\exists \delta &amp;gt;0,使得\forall P:a=x_0&amp;lt;x_1&amp;lt;x_2&amp;lt;···&amp;lt;x_n=b,\Delta x_i = x_i - x_{n-1}$&lt;/p&gt;
+
+&lt;p&gt;$\qquad \forall \xi_i \in [x_{i-1},x_i],只需\lambda = \max \lbrace \Delta x_i \rbrace \lt \delta,成立$&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\vert \lim_{\lambda \rightarrow 0}\sum_{i=1}^nf(\xi_i)\Delta x_i)-I \vert &lt; \varepsilon %]]&gt;&lt;/script&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\Longleftrightarrow \lim_{\lambda \rightarrow 0}\sum_{i=1}^nf(\xi_i)\Delta x_i) = I&lt;/script&gt;
+
+&lt;h5 id=&quot;狄利克雷函数dirichlet&quot;&gt;狄利克雷函数(Dirichlet)&lt;/h5&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{equation} D(x)=\left\lbrace \begin{aligned}  &amp; 0 &amp;x \in R-Q\\ &amp; 1 &amp; x\in Q \end{aligned} \right. \end{equation} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;$[a,b]=[0,1]$&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{equation} \lim_{\lambda \rightarrow 0}\sum_{i=1}^nD(\xi_i)\Delta x_i)=\left\lbrace \begin{aligned}  &amp; 0 &amp;\xi_i 取有理数\\ &amp; 1 &amp; \xi_i取无理数 \end{aligned} \right. \end{equation} %]]&gt;&lt;/script&gt;
+
+&lt;h4 id=&quot;达布和darboux和&quot;&gt;达布和(Darboux和)&lt;/h4&gt;
+
+&lt;p&gt;$f(x)在[a,b]有界.$&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;M=\sup_{x\in [a,b]} f(x)&lt;/script&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;m=\inf_{x\in [a,b]} f(x)&lt;/script&gt;
+
+&lt;p&gt;$区间划分P:a=x_0&amp;lt;x_1&amp;lt;x_2&amp;lt;···&amp;lt;x_n=b,\Delta x_i = x_i - x_{n-1}$&lt;/p&gt;
+
+&lt;p&gt;$在[x_{i-1},x_i]上:$&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;M_i=\sup_{x\in [x_{i-1},x_i]} f(x)&lt;/script&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;m_i=\inf_{x\in [x_{i-1},x_i]} f(x)&lt;/script&gt;
+
+&lt;h5 id=&quot;达布上和&quot;&gt;达布上和&lt;/h5&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\overline{S}(P)=\sum_{i=1}^nM_i\Delta x_i&lt;/script&gt;
+
+&lt;h5 id=&quot;达布下和&quot;&gt;达布下和&lt;/h5&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\underline{S}(P)=\sum_{i=1}^nm_i\Delta x_i&lt;/script&gt;
+
+&lt;h5 id=&quot;黎曼和与达布和关系&quot;&gt;黎曼和与达布和关系&lt;/h5&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\overline{S}\le S \le \underline{S}&lt;/script&gt;
+
+&lt;h5 id=&quot;引理-大和不增小和不减&quot;&gt;引理-“大和不增,小和不减”&lt;/h5&gt;
+
+&lt;p&gt;$若在原划分中增加分点，则大和不增，小和不减$&lt;/p&gt;
+
+&lt;h6 id=&quot;证明&quot;&gt;证明&lt;/h6&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/mathemathical-analysis/证-达布和-大和不增小和不减.png&quot; alt=&quot;证-达布和-大和不增小和不减&quot; /&gt;&lt;/p&gt;
+
+&lt;h5 id=&quot;引理-任意划分小和不超过任意划分大和&quot;&gt;引理-任意划分小和不超过任意划分大和&lt;/h5&gt;
+
+&lt;p&gt;$对任意划分P_1,P_2,恒有$&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\underline{S}(P_1) \le \overline{S}(P_2)&lt;/script&gt;
+
+&lt;p&gt;且&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;m(b-a)\le \underline{S}(P_1) \le \overline{S}(P_2)\le M(b-a)&lt;/script&gt;
+
+&lt;h6 id=&quot;证明-1&quot;&gt;证明&lt;/h6&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/mathemathical-analysis/证-达布和-任意划分小和不超过任意划分大和.png&quot; alt=&quot;证-达布和-任意划分小和不超过任意划分大和&quot; /&gt;&lt;/p&gt;
+
+&lt;h5 id=&quot;考虑&quot;&gt;考虑&lt;/h5&gt;
+
+&lt;p&gt;$\overline{S} 表示对一切划分的达布大和构成的集合$&lt;/p&gt;
+
+&lt;p&gt;$\underline{S} 表示对一切划分的达布小和构成的集合$&lt;/p&gt;
+
+&lt;p&gt;定义：&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;L = \inf \lbrace \overline{S}(P) \vert  \overline{S}(P) \in  \overline{S} \rbrace&lt;/script&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;l = \sup \lbrace \underline{S}(P) \vert  \underline{S}(P) \in  \underline{S} \rbrace&lt;/script&gt;
+
+&lt;p&gt;$根据前一引理$&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\underline{S}(P_i) \le l \le L\le \overline{S}(P_j)&lt;/script&gt;
+
+&lt;h4 id=&quot;达布定理&quot;&gt;达布定理&lt;/h4&gt;
+
+&lt;p&gt;$f(x)在[a,b]有界，则有(相关符号参考上文)：$&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\lim_{\lambda \rightarrow 0}\overline{S}(P)=L&lt;/script&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\lim_{\lambda \rightarrow 0}\underline{S}(P)=l&lt;/script&gt;
+
+&lt;p&gt;符号表示：&lt;/p&gt;
+
+&lt;p&gt;$\forall \varepsilon &amp;gt; 0,\exists P’,\vert \overline(S)(P’)-L \vert &amp;lt; \frac \varepsilon 2$&lt;/p&gt;
+
+&lt;p&gt;$\Rightarrow \forall \varepsilon &amp;gt; 0,\exists \delta &amp;gt;0, \forall P，只要\lambda &amp;lt; \delta : \vert \overline(S)(P)-L \vert &amp;lt; \varepsilon$&lt;/p&gt;
+
+&lt;h5 id=&quot;证明-2&quot;&gt;证明&lt;/h5&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/mathemathical-analysis/证-达布定理.png&quot; alt=&quot;证-达布定理&quot; /&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;可积的充要条件&quot;&gt;可积的充要条件&lt;/h4&gt;
+
+&lt;h5 id=&quot;可积充要定理10版&quot;&gt;可积充要定理1.0版&lt;/h5&gt;
+
+&lt;p&gt;$f(x)在[a,b]上可积的充要条件是:$&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\lim_{\lambda \rightarrow 0}\overline{S}(P)=\lim_{\lambda \rightarrow 0}\underline{S}(P)&lt;/script&gt;
+
+&lt;h5 id=&quot;证明-3&quot;&gt;证明&lt;/h5&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/mathemathical-analysis/证-可积的充要条件.png&quot; alt=&quot;证-可积的充要条件&quot; /&gt;&lt;/p&gt;
+
+&lt;h5 id=&quot;可积充要定理20版&quot;&gt;可积充要定理2.0版&lt;/h5&gt;
+
+&lt;p&gt;$M_i-m_i表示f(x)在[x_{i-1},x_i]上的振幅，记为\omega_i$&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\lim_{\lambda \rightarrow 0}\overline{S}(P)=\lim_{\lambda \rightarrow 0}\underline{S}(P) \Longleftrightarrow \lim_{\lambda \rightarrow 0}\sum_{i=1}^n\omega_i\Delta x_i = 0&lt;/script&gt;
+
+&lt;p&gt;$则f(x)在[a,b]上可积的充要条件是:$&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\lim_{\lambda \rightarrow 0}\sum_{i=1}^n\omega_i\Delta x_i = 0&lt;/script&gt;
+
+&lt;p&gt;符号表示：&lt;/p&gt;
+
+&lt;p&gt;$\forall \varepsilon &amp;gt; 0, \exists \delta &amp;gt;0, \forall P,只要\lambda &amp;lt; \delta$&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\sum_{i=1}^n\omega_i\Delta x_i&lt; \varepsilon %]]&gt;&lt;/script&gt;
+
+&lt;h6 id=&quot;推论1闭区间上的连续函数一定可积&quot;&gt;推论1：闭区间上的连续函数一定可积&lt;/h6&gt;
+
+&lt;h6 id=&quot;推论2闭区间上的单调函数一定可积&quot;&gt;推论2：闭区间上的单调函数一定可积&lt;/h6&gt;
+
+&lt;h5 id=&quot;可积充要定理30版&quot;&gt;可积充要定理3.0版&lt;/h5&gt;
+
+&lt;p&gt;$在[a,b]上有界的函数f(x)可积的充分必要条件是：$&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\forall \varepsilon &gt;0, \exists P, 使\sum_{i=1}^n\omega_i\Delta x_i &lt; \varepsilon %]]&gt;&lt;/script&gt;
+
+&lt;h6 id=&quot;推论3闭区间上只有有限个不连续点的有界函数一定可积&quot;&gt;推论3：闭区间上只有有限个不连续点的有界函数一定可积&lt;/h6&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/mathemathical-analysis/证-可积条件推论.png&quot; alt=&quot;证-可积条件推论&quot; /&gt;&lt;/p&gt;
+
+&lt;h6 id=&quot;推论振幅不能任意小的但小区间长度之和可以任意小的话则fx也是可以可积的&quot;&gt;推论*：振幅不能任意小的，但小区间长度之和可以任意小的话，则$f(x)$也是可以可积的&lt;/h6&gt;
+</description>
+        <pubDate>Thu, 12 Dec 2019 00:00:00 -0600</pubDate>
+        <link>//mathematical-analysis/%E5%AE%9A%E7%A7%AF%E5%88%86%E7%9A%84%E6%A6%82%E5%BF%B5%E5%92%8C%E5%8F%AF%E7%A7%AF%E6%9D%A1%E4%BB%B6</link>
+        <link href="/mathematical-analysis/%E5%AE%9A%E7%A7%AF%E5%88%86%E7%9A%84%E6%A6%82%E5%BF%B5%E5%92%8C%E5%8F%AF%E7%A7%AF%E6%9D%A1%E4%BB%B6"/>
+        <guid isPermaLink="true">/mathematical-analysis/%E5%AE%9A%E7%A7%AF%E5%88%86%E7%9A%84%E6%A6%82%E5%BF%B5%E5%92%8C%E5%8F%AF%E7%A7%AF%E6%9D%A1%E4%BB%B6</guid>
+      </item>
+    
+      <item>
+        <title>数学分析-有理函数的不定积分及其应用</title>
+        <description>&lt;h3 id=&quot;有理函数的不定积分&quot;&gt;有理函数的不定积分&lt;/h3&gt;
+
+&lt;p&gt;$f(x)$是初等函数&lt;/p&gt;
+
+&lt;p&gt;$f’(x)=F(x)$,$F(x)$仍是初等函数&lt;/p&gt;
+
+&lt;p&gt;但$\int f(x)dx$不一定是初等函数&lt;/p&gt;
+
+&lt;p&gt;例如：$\int \frac {\sin x}{x}dx,\int e^{\pm x^2}dx,\int \sqrt {1-k^2\sin^2 x}dx\space (0&amp;lt;k^2&amp;lt;1)$等。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;若$f(x)$是有理函数，则$\int f(x)dx$是初等函数&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;记有理函数$R(x)=\frac {p_m(x)}{q_n(x)},p_m(x),q_n(x)$分别是次数为$m,n$的多项式&lt;/p&gt;
+
+&lt;h5 id=&quot;真分式&quot;&gt;真分式&lt;/h5&gt;
+
+&lt;p&gt;不妨设$p_m(x),q_n(x)$没有公因式，且$q_n(x)$最高次项的系数为1，且$m&amp;lt;n$，则$R(x)$是真分式&lt;/p&gt;
+
+&lt;h4 id=&quot;有理函数不定积分求解分析&quot;&gt;有理函数不定积分求解分析&lt;/h4&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/mathemathical-analysis/有理函数不定积分求解分析.png&quot; alt=&quot;有理函数不定积分求解分析&quot; /&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;部分分式&quot;&gt;部分分式&lt;/h4&gt;
+
+&lt;h5 id=&quot;定理1分解实根部分&quot;&gt;定理1(分解实根部分)&lt;/h5&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/mathemathical-analysis/证-部分分式-分解实根部分.png&quot; alt=&quot;证-部分分式-分解实根部分&quot; /&gt;&lt;/p&gt;
+
+&lt;h5 id=&quot;定理2分解虚根部分&quot;&gt;定理2(分解虚根部分)&lt;/h5&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/mathemathical-analysis/证-部分分式-分解虚根部分.png&quot; alt=&quot;证-部分分式-分解虚根部分&quot; /&gt;&lt;/p&gt;
+
+&lt;h5 id=&quot;有理函数不定积分-部分分式公式&quot;&gt;有理函数不定积分-部分分式公式&lt;/h5&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/mathemathical-analysis/有理函数不定积分-部分分式公式.png&quot; alt=&quot;有理函数不定积分-部分分式公式&quot; /&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;example1&quot;&gt;Example1&lt;/h4&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/mathemathical-analysis/例题-有理函数不定积分-部分分式.png&quot; alt=&quot;例题-有理函数不定积分-部分分式&quot; /&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;example2-某些含有根式的函数的积分&quot;&gt;Example2-某些含有根式的函数的积分&lt;/h4&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/mathemathical-analysis/例题-某些含有根式的函数的积分.png&quot; alt=&quot;例题-某些含有根式的函数的积分&quot; /&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;example3-含有三角函数表达式的积分&quot;&gt;Example3-含有三角函数表达式的积分&lt;/h4&gt;
+
+&lt;p&gt;万能代换公式&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/mathemathical-analysis/例题-含有三角函数表达式的积分.png&quot; alt=&quot;例题-含有三角函数表达式的积分&quot; /&gt;&lt;/p&gt;
+</description>
+        <pubDate>Wed, 11 Dec 2019 00:00:00 -0600</pubDate>
+        <link>//mathematical-analysis/%E6%9C%89%E7%90%86%E5%87%BD%E6%95%B0%E7%9A%84%E4%B8%8D%E5%AE%9A%E7%A7%AF%E5%88%86%E5%8F%8A%E5%85%B6%E5%BA%94%E7%94%A8</link>
+        <link href="/mathematical-analysis/%E6%9C%89%E7%90%86%E5%87%BD%E6%95%B0%E7%9A%84%E4%B8%8D%E5%AE%9A%E7%A7%AF%E5%88%86%E5%8F%8A%E5%85%B6%E5%BA%94%E7%94%A8"/>
+        <guid isPermaLink="true">/mathematical-analysis/%E6%9C%89%E7%90%86%E5%87%BD%E6%95%B0%E7%9A%84%E4%B8%8D%E5%AE%9A%E7%A7%AF%E5%88%86%E5%8F%8A%E5%85%B6%E5%BA%94%E7%94%A8</guid>
+      </item>
+    
+      <item>
+        <title>数学分析-换元积分法与分部积分法</title>
+        <description>&lt;h3 id=&quot;换元积分法&quot;&gt;换元积分法&lt;/h3&gt;
+
+&lt;h4 id=&quot;第一类换元积分法&quot;&gt;第一类换元积分法&lt;/h4&gt;
+
+&lt;p&gt;第一类换元积分法又称“&lt;strong&gt;凑&lt;/strong&gt;微分法”&lt;/p&gt;
+
+&lt;p&gt;若要求$\int f(x)dx$ ,$f(x)$可以写成：&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;f(x)=\widetilde{f}(g(x))g'(x)&lt;/script&gt;
+
+&lt;p&gt;且&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\int \widetilde{f}(u)du=F(u)+c&lt;/script&gt;
+
+&lt;p&gt;则&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\int f(x)dx=F(g(x))+c&lt;/script&gt;
+
+&lt;h5 id=&quot;example&quot;&gt;Example&lt;/h5&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/mathemathical-analysis/例题-换元积分法.png&quot; alt=&quot;例题-换元积分法&quot; /&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;第二类换元积分法&quot;&gt;第二类换元积分法&lt;/h4&gt;
+
+&lt;p&gt;求$\int f(x)dx$&lt;/p&gt;
+
+&lt;p&gt;$令x=\varphi(t),t=\varphi^{-1}(x)$&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\int f(x)dx=\int f(\varphi(t))d\varphi(t)=\int f(\varphi(t))\varphi'(t)dt&lt;/script&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\int f(\varphi(t))\varphi'(t)dt=\widetilde{F}(t)+c\Longrightarrow \int f(x)dx = \widetilde{F}(\varphi^{-1}(x))+c&lt;/script&gt;
+
+&lt;h5 id=&quot;example-1&quot;&gt;Example&lt;/h5&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/mathemathical-analysis/例题-换元积分法2.png&quot; alt=&quot;例题-换元积分法2&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;分部积分法&quot;&gt;分部积分法&lt;/h3&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{equation} \begin{aligned} &amp; d(u(x)v(x))=ux)dv(x)+v(x)du(x) \\ \Longrightarrow &amp; \int u(x)dv(x) = \int d(u(x)v(x))-\int v(x)du(x) \\ \Longrightarrow &amp; \int u(x)dv(x) = u(x)v(x)-\int v(x)du(x) \end{aligned} \end{equation} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;意即若求积分时，$\int u(x)dv(x)$可以通过计算出$\int v(x)du(x)$来得出结果，这就是分部积分法&lt;/p&gt;
+
+&lt;h4 id=&quot;说明&quot;&gt;说明&lt;/h4&gt;
+
+&lt;p&gt;$令P_n(x)是n次多项式$&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;对于&lt;/p&gt;
+
+    &lt;script type=&quot;math/tex; mode=display&quot;&gt;\int P_n(x)\sin \alpha x dx,\int P_n(x)\cos \alpha x dx,\int P_n(x)e^{\lambda x} dx···&lt;/script&gt;
+
+    &lt;p&gt;应考虑对$\sin \alpha x,\cos \alpha x,e^{\lambda x}$部分先积分&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;对于&lt;/p&gt;
+
+    &lt;script type=&quot;math/tex; mode=display&quot;&gt;\int P_n(x)\arcsin x dx,\int P_n(x)\arctan x dx,\int P_n(x)\ln x dx···&lt;/script&gt;
+
+    &lt;p&gt;应考虑对$P_n(x)$部分先积分&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;对于&lt;/p&gt;
+
+    &lt;script type=&quot;math/tex; mode=display&quot;&gt;\int e^{\lambda x}\sin \alpha x dx,\int e^{\lambda x}\cos \alpha x dx,\int \sqrt {x^2+a^2} dx···&lt;/script&gt;
+
+    &lt;p&gt;可通过多次分部积分法，得到原积分式，只要其系数不为1，那么就可以得出结果&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;对于&lt;/p&gt;
+
+    &lt;script type=&quot;math/tex; mode=display&quot;&gt;\int f^n(x)dx&lt;/script&gt;
+
+    &lt;p&gt;通过分部积分法，降低$f(x)$的次数，得到递推公式&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;example-2&quot;&gt;Example&lt;/h4&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/mathemathical-analysis/例题-分部积分法.png&quot; alt=&quot;例题-分部积分法&quot; /&gt;&lt;/p&gt;
+</description>
+        <pubDate>Tue, 10 Dec 2019 00:00:00 -0600</pubDate>
+        <link>//mathematical-analysis/%E6%8D%A2%E5%85%83%E7%A7%AF%E5%88%86%E6%B3%95%E4%B8%8E%E5%88%86%E9%83%A8%E7%A7%AF%E5%88%86%E6%B3%95</link>
+        <link href="/mathematical-analysis/%E6%8D%A2%E5%85%83%E7%A7%AF%E5%88%86%E6%B3%95%E4%B8%8E%E5%88%86%E9%83%A8%E7%A7%AF%E5%88%86%E6%B3%95"/>
+        <guid isPermaLink="true">/mathematical-analysis/%E6%8D%A2%E5%85%83%E7%A7%AF%E5%88%86%E6%B3%95%E4%B8%8E%E5%88%86%E9%83%A8%E7%A7%AF%E5%88%86%E6%B3%95</guid>
+      </item>
+    
+      <item>
+        <title>数学分析-不定积分</title>
+        <description>&lt;h3 id=&quot;不定积分&quot;&gt;不定积分&lt;/h3&gt;
+
+&lt;p&gt;$在某个区间上，F’(x)=f(x),则称F(x)是f(x)的一个原函数$&lt;/p&gt;
+
+&lt;p&gt;$设G(x)是该区间上f(x)的另一个原函数，则:$&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;(F(x)-G(x))'=f(x)-f(x)=0\Rightarrow F(x)-G(x) = c&lt;/script&gt;
+
+&lt;h4 id=&quot;不定积分定义&quot;&gt;不定积分定义&lt;/h4&gt;
+
+&lt;p&gt;一个函数$f(x)$的原函数的全体称为这个函数的不定积分，记作$\int f(x)dx$&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;$\int$——积分号&lt;/li&gt;
+  &lt;li&gt;$f(x)$——被积函数&lt;/li&gt;
+  &lt;li&gt;$x$——积分变量&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;不定积分表示的是一个函数族&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\int f(x)dx=F(x)+c&lt;/script&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\int f(u)du=F(u)+c&lt;/script&gt;
+
+&lt;h4 id=&quot;不定积分与微分的关系&quot;&gt;不定积分与微分的关系&lt;/h4&gt;
+
+&lt;p&gt;不定积分与微分互为逆运算&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{equation} \begin{aligned} F(x)\overset{d}{\longrightarrow} &amp;f(x)dx \\ F(x)+c\underset{\int}{\longleftarrow} &amp;f(x)dx\end{aligned} \end{equation} %]]&gt;&lt;/script&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;d(\int f(x)dx)=d(F(x)+c)=f(x)dx&lt;/script&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\int f(x)dx=\int dF(x)=F(x)+c&lt;/script&gt;
+
+&lt;h4 id=&quot;不定积分的线性性质&quot;&gt;不定积分的线性性质&lt;/h4&gt;
+
+&lt;p&gt;$设有f(x),g(x)的原函数都存在，k_1,k_2是任意常数,则:$&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\int [k_1f(x)+k_2g(x)]dx=k_1\int f(x)dx+k_2\int g(x)dx&lt;/script&gt;
+
+&lt;h4 id=&quot;example&quot;&gt;Example&lt;/h4&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/mathemathical-analysis/例题-不定积分.png&quot; alt=&quot;例题-不定积分&quot; /&gt;&lt;/p&gt;
+</description>
+        <pubDate>Mon, 09 Dec 2019 00:00:00 -0600</pubDate>
+        <link>//mathematical-analysis/%E4%B8%8D%E5%AE%9A%E7%A7%AF%E5%88%86</link>
+        <link href="/mathematical-analysis/%E4%B8%8D%E5%AE%9A%E7%A7%AF%E5%88%86"/>
+        <guid isPermaLink="true">/mathematical-analysis/%E4%B8%8D%E5%AE%9A%E7%A7%AF%E5%88%86</guid>
+      </item>
+    
+      <item>
+        <title>数学分析-方程的近似求解</title>
+        <description>&lt;h3 id=&quot;方程的近似求解&quot;&gt;方程的近似求解&lt;/h3&gt;
+
+&lt;p&gt;解析方法：使用方程的系数来表示方程的解&lt;/p&gt;
+
+&lt;p&gt;数值方法&lt;/p&gt;
+
+&lt;h4 id=&quot;二分法&quot;&gt;二分法&lt;/h4&gt;
+
+&lt;h4 id=&quot;newton迭代法&quot;&gt;Newton迭代法&lt;/h4&gt;
+</description>
+        <pubDate>Sun, 08 Dec 2019 00:00:00 -0600</pubDate>
+        <link>//mathematical-analysis/%E6%96%B9%E7%A8%8B%E7%9A%84%E8%BF%91%E4%BC%BC%E6%B1%82%E8%A7%A3</link>
+        <link href="/mathematical-analysis/%E6%96%B9%E7%A8%8B%E7%9A%84%E8%BF%91%E4%BC%BC%E6%B1%82%E8%A7%A3"/>
+        <guid isPermaLink="true">/mathematical-analysis/%E6%96%B9%E7%A8%8B%E7%9A%84%E8%BF%91%E4%BC%BC%E6%B1%82%E8%A7%A3</guid>
+      </item>
+    
+      <item>
+        <title>数学分析-应用举例</title>
+        <description>&lt;h3 id=&quot;极值问题&quot;&gt;极值问题&lt;/h3&gt;
+
+&lt;p&gt;$y=f(x),x=x_0是极值点，则f’(x_0)=0，或者f’(x_0)不存在$&lt;/p&gt;
+
+&lt;h4 id=&quot;极值点判定定理&quot;&gt;极值点判定定理&lt;/h4&gt;
+
+&lt;p&gt;$设f(x)在x_0的某一领域中有定义，且f(x)在x_0连续$&lt;/p&gt;
+
+&lt;p&gt;$(1). 设\exists \delta &amp;gt;0,f(x)在(x_0-\delta,x_0),(x_0,x_0+\delta)上可导$&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;$在(x_0-\delta,x_0),f’(x)\ge 0;在(x_0,x_0+\delta),f’(x)\le 0,则x_0是极大值点，f(x_0)是一个极大值$&lt;/li&gt;
+  &lt;li&gt;$在(x_0-\delta,x_0),f’(x)\le 0;在(x_0,x_0+\delta),f’(x)\ge 0,则x_0是极小值点，f(x_0)是一个极小值$&lt;/li&gt;
+  &lt;li&gt;$f’(x)在(x_0-\delta,x_0),(x_0,x_0+\delta)$上同号，则x_0不是极值点&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;$(2). 设f’(x_0)=0,f(x)在x_0二阶可导$&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;$f’‘(x_0)&amp;lt;0,则x_0是极大值点$&lt;/li&gt;
+  &lt;li&gt;$f’‘(x_0)&amp;gt;0,则x_0是极小值点$&lt;/li&gt;
+  &lt;li&gt;$f’‘(x_0)=0,则无法判断$&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&quot;证明及example&quot;&gt;证明及Example&lt;/h5&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/mathemathical-analysis/证+例题-极值判定定理.png&quot; alt=&quot;证+例题-极值判定定理&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;最值问题&quot;&gt;最值问题&lt;/h3&gt;
+
+&lt;p&gt;$y=f(x),在[a,b],则f(x)在[a,b]必定取到最大、最小值$&lt;/p&gt;
+
+&lt;p&gt;$若最值点在(a,b)上，则最值点必定是极值点\Rightarrow f’(x_0)=0或不存在$&lt;/p&gt;
+
+&lt;p&gt;$\therefore 求解最值问题：先求解(a,b)上的极值可能点，再结合x=a,b两点，比较它们的函数值$&lt;/p&gt;
+
+&lt;h3 id=&quot;数学建模&quot;&gt;数学建模&lt;/h3&gt;
+
+&lt;p&gt;用数学工具分析应用问题，然后归纳为数学问题，就称为数学建模&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/mathemathical-analysis/例题-数学建模.png&quot; alt=&quot;例题-数学建模&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;函数作图&quot;&gt;函数作图&lt;/h3&gt;
+
+&lt;p&gt;首先考虑对称性、周期性&lt;/p&gt;
+
+&lt;p&gt;然后:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;考虑不连续点&lt;/li&gt;
+  &lt;li&gt;考虑一阶导数为零或不存在的点(极值点)&lt;/li&gt;
+  &lt;li&gt;考虑二阶导数为零或不存在的点(凸性)&lt;/li&gt;
+  &lt;li&gt;列表(利用f’(x)、f’‘(x)的数据决定f(x)的性质)&lt;/li&gt;
+  &lt;li&gt;找出渐近线，加上一些特殊点&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        <pubDate>Sat, 07 Dec 2019 00:00:00 -0600</pubDate>
+        <link>//mathematical-analysis/%E5%BA%94%E7%94%A8%E4%B8%BE%E4%BE%8B</link>
+        <link href="/mathematical-analysis/%E5%BA%94%E7%94%A8%E4%B8%BE%E4%BE%8B"/>
+        <guid isPermaLink="true">/mathematical-analysis/%E5%BA%94%E7%94%A8%E4%B8%BE%E4%BE%8B</guid>
+      </item>
+    
+      <item>
+        <title>数学分析-函数的Taylor公式及其应用</title>
+        <description>&lt;h3 id=&quot;函数的taylor公式及其应用&quot;&gt;函数的Taylor公式及其应用&lt;/h3&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{equation} \begin{aligned}  Taylor公式: &amp; f(x)=f(x_0)+f'(x_0)(x-x_0)+\frac 1{2!}f''(x_0)(x-x_0)^2+···+\frac 1{n!}f^{(n)}(x_0)(x-x_0)^n+r_n(x) \\ Maclaurin公式: &amp; f(x)=f(0)+f'(0)x+\frac 1{2!}f''(0)x^2+···+\frac 1{n!}f^{(n)}(0)x^n+r_n(x)  \qquad 即当x_0=0时\end{aligned} \end{equation} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;$求f在x_0的Taylor公式，令x-x_0=t,x=t+x_0$&lt;/p&gt;
+
+&lt;p&gt;$f(x)=f(t+x_0)=g(t),即转换为求g(t)在t=0时的Taylor公式$&lt;/p&gt;
+
+&lt;h4 id=&quot;maclaurin公式计算&quot;&gt;Maclaurin公式计算&lt;/h4&gt;
+
+&lt;h5 id=&quot;example&quot;&gt;Example&lt;/h5&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/mathemathical-analysis/例题-函数的Taylor公式及其应用1.png&quot; alt=&quot;例题-函数的Taylor公式及其应用1&quot; /&gt;&lt;/p&gt;
+
+&lt;h5 id=&quot;example2&quot;&gt;Example2&lt;/h5&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/mathemathical-analysis/例题-函数的Taylor公式及其应用2.png&quot; alt=&quot;例题-函数的Taylor公式及其应用2&quot; /&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;不同阶taylor公式之间的关系&quot;&gt;不同阶Taylor公式之间的关系&lt;/h4&gt;
+
+&lt;p&gt;$设f(x)在x_0有n+2阶导数，则它的n+1次Taylor多项式的导数就是f’(x)的n次Taylor多项式$&lt;/p&gt;
+
+&lt;h5 id=&quot;example3&quot;&gt;Example3&lt;/h5&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/mathemathical-analysis/例题-函数的Taylor公式及其应用3.png&quot; alt=&quot;例题-函数的Taylor公式及其应用3&quot; /&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;taylor公式的应用&quot;&gt;Taylor公式的应用&lt;/h4&gt;
+
+&lt;h5 id=&quot;一近似计算&quot;&gt;一、近似计算&lt;/h5&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/mathemathical-analysis/例题-Taylor公式的应用1-近似计算.png&quot; alt=&quot;例题-Taylor公式的应用1-近似计算&quot; /&gt;&lt;/p&gt;
+
+&lt;h5 id=&quot;二求极限&quot;&gt;二、求极限&lt;/h5&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/mathemathical-analysis/例题-Taylor公式的应用2-求极限.png&quot; alt=&quot;例题-Taylor公式的应用2-求极限&quot; /&gt;&lt;/p&gt;
+
+&lt;h5 id=&quot;三证明不等式&quot;&gt;三、证明不等式&lt;/h5&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/mathemathical-analysis/例题-Taylor公式的应用3-证明不等式.png&quot; alt=&quot;例题-Taylor公式的应用3-证明不等式&quot; /&gt;&lt;/p&gt;
+
+&lt;h5 id=&quot;四求曲线的渐近线&quot;&gt;四、求曲线的渐近线&lt;/h5&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/mathemathical-analysis/例题-Taylor公式的应用4-求曲线的渐近线.png&quot; alt=&quot;例题-Taylor公式的应用4-求曲线的渐近线&quot; /&gt;&lt;/p&gt;
+
+&lt;h5 id=&quot;其他应用&quot;&gt;其他应用&lt;/h5&gt;
+
+&lt;h6 id=&quot;利用taylor公式证明e不是有理数&quot;&gt;利用Taylor公式证明e不是有理数&lt;/h6&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/mathemathical-analysis/证-利用Taylor证明e不是有理数.png&quot; alt=&quot;证-利用Taylor证明e不是有理数&quot; /&gt;&lt;/p&gt;
+</description>
+        <pubDate>Fri, 06 Dec 2019 00:00:00 -0600</pubDate>
+        <link>//mathematical-analysis/%E5%87%BD%E6%95%B0%E7%9A%84Taylor%E5%85%AC%E5%BC%8F%E5%8F%8A%E5%85%B6%E5%BA%94%E7%94%A8</link>
+        <link href="/mathematical-analysis/%E5%87%BD%E6%95%B0%E7%9A%84Taylor%E5%85%AC%E5%BC%8F%E5%8F%8A%E5%85%B6%E5%BA%94%E7%94%A8"/>
+        <guid isPermaLink="true">/mathematical-analysis/%E5%87%BD%E6%95%B0%E7%9A%84Taylor%E5%85%AC%E5%BC%8F%E5%8F%8A%E5%85%B6%E5%BA%94%E7%94%A8</guid>
+      </item>
+    
+      <item>
+        <title>数学分析-Taylor多项式与插值多项式</title>
+        <description>&lt;h3 id=&quot;taylor多项式与插值多项式&quot;&gt;Taylor多项式与插值多项式&lt;/h3&gt;
+
+&lt;h4 id=&quot;带peano余项的taylor公式&quot;&gt;带Peano余项的Taylor公式&lt;/h4&gt;
+
+&lt;p&gt;$设f(x)在x_0有n阶导数，则在x_0的领域，成立:$&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{equation} \begin{aligned} &amp; f(x)=f(x_0)+f'(x_0)(x-x_0)+\frac 1{2!}f''(x_0)(x-x_0)^2+···+\frac 1{n!}f^{(n)}(x_0)(x-x_0)^n+r_n(x) \\ &amp; P_n(x)=f(x_0)+f'(x_0)(x-x_0)+\frac 1{2!}f''(x_0)(x-x_0)^2+···+\frac 1{n!}f^{(n)}(x_0)(x-x_0)^n \\ &amp; r_n(x)=o((x-x_0)^n)\qquad (x\rightarrow x_0)  \end{aligned} \end{equation} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;$P_n(x)称为f在x=x_0处的n次Taylor多项式。(用来近似地代替f(x))$&lt;/p&gt;
+
+&lt;p&gt;$r_n(x)称为f在x=x_0处的Peano余项$&lt;/p&gt;
+
+&lt;h5 id=&quot;证明&quot;&gt;证明&lt;/h5&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/mathemathical-analysis/证-带Peano余项的Taylor公式.png&quot; alt=&quot;证-带Peano余项的Taylor公式&quot; /&gt;&lt;/p&gt;
+
+&lt;h5 id=&quot;注意&quot;&gt;注意&lt;/h5&gt;
+
+&lt;p&gt;$带Peano余项的Taylor公式是当x\rightarrow x_0时的近似，属于一种局部性的近似结果$&lt;/p&gt;
+
+&lt;h4 id=&quot;带lagrange余项的taylor公式&quot;&gt;带Lagrange余项的Taylor公式&lt;/h4&gt;
+
+&lt;p&gt;$f(x)在[a,b]上有n阶连续导数，在(a,b)上有n+1阶导数，设x_0\in [a,b]为一定点，则对任意x\in [a,b]$&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{equation} \begin{aligned} &amp; f(x)=f(x_0)+f'(x_0)(x-x_0)+\frac 1{2!}f''(x_0)(x-x_0)^2+···+\frac 1{n!}f^{(n)}(x_0)(x-x_0)^n+r_n(x) \\ &amp; r_n(x)= \frac {f^{(n+1)}(\xi)}{(n+1)!}(x-x_0)^{n+1} \qquad \xi 在x与x_0之间  \end{aligned} \end{equation} %]]&gt;&lt;/script&gt;
+
+&lt;h5 id=&quot;证明-1&quot;&gt;证明&lt;/h5&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/mathemathical-analysis/证-带Lagrange余项的Taylor公式.png&quot; alt=&quot;证-带Lagrange余项的Taylor公式&quot; /&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;插值多项式&quot;&gt;插值多项式&lt;/h4&gt;
+
+&lt;h5 id=&quot;插值多项式介绍&quot;&gt;插值多项式介绍&lt;/h5&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/mathemathical-analysis/插值多项式介绍.png&quot; alt=&quot;插值多项式介绍&quot; /&gt;&lt;/p&gt;
+
+&lt;h5 id=&quot;插值多项式定理带余项的埃尔米特插值公式&quot;&gt;插值多项式定理(带余项的埃尔米特插值公式)&lt;/h5&gt;
+
+&lt;p&gt;$f(x)在[a,b]上有n阶连续导数，在(a,b)上有n+1阶导数，x_0,x_1,···,x_n\in [a,b].设P_n(x)是满足插值条件:$&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;P_n^{(j)}(x_i)=f^{(j)}(x_i)\qquad (i=0,1,2,···,m;j=0,1,2,···,n_i-1)&lt;/script&gt;
+
+&lt;p&gt;$的n次插值多项式，则:$&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;r_n(x)=f(x)-P_n(x)=\frac {f^{(n+1)}(\xi)}{(n+1!)}\prod_{i=0}^m(x-x_i)^{n_i}&lt;/script&gt;
+
+&lt;p&gt;$\xi \in (x_\min,x_\max),x_\min = \min\lbrace x_0, x_1,x_2,···,x_m \rbrace,x_\max = \max\lbrace x_0, x_1,x_2,···,x_m \rbrace$&lt;/p&gt;
+
+&lt;p&gt;$插值结点:\lbrace x_0, x_1,x_2,···,x_m \rbrace$&lt;/p&gt;
+
+&lt;h6 id=&quot;证明-2&quot;&gt;证明&lt;/h6&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/mathemathical-analysis/证-带余项的埃尔米特插值公式.png&quot; alt=&quot;证-带余项的埃尔米特插值公式&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/mathemathical-analysis/两个简单类型的插值多项式.png&quot; alt=&quot;两个简单类型的插值多项式&quot; /&gt;&lt;/p&gt;
+
+</description>
+        <pubDate>Thu, 05 Dec 2019 00:00:00 -0600</pubDate>
+        <link>//mathematical-analysis/Taylor%E5%A4%9A%E9%A1%B9%E5%BC%8F%E4%B8%8E%E6%8F%92%E5%80%BC%E5%A4%9A%E9%A1%B9%E5%BC%8F</link>
+        <link href="/mathematical-analysis/Taylor%E5%A4%9A%E9%A1%B9%E5%BC%8F%E4%B8%8E%E6%8F%92%E5%80%BC%E5%A4%9A%E9%A1%B9%E5%BC%8F"/>
+        <guid isPermaLink="true">/mathematical-analysis/Taylor%E5%A4%9A%E9%A1%B9%E5%BC%8F%E4%B8%8E%E6%8F%92%E5%80%BC%E5%A4%9A%E9%A1%B9%E5%BC%8F</guid>
+      </item>
+    
+      <item>
+        <title>数学分析-洛必达法则</title>
+        <description>&lt;h3 id=&quot;洛必达法则l-hospital法则&quot;&gt;洛必达法则(L-Hospital法则)&lt;/h3&gt;
+
+&lt;p&gt;(求带定型极限的法则)&lt;/p&gt;
+
+&lt;p&gt;$f(x),g(x)在(a,a+d]上可导，g’(x)\neq 0,若这时有:$&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\lim_{x\rightarrow a^+}f(x)=\lim_{x\rightarrow a^+}g(x)=0&lt;/script&gt;
+
+&lt;p&gt;或&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\lim_{x\rightarrow a^+}g(x)=\infty&lt;/script&gt;
+
+&lt;p&gt;$且\lim_{x\rightarrow a^+}\frac {f’(x)}{g’(x)}=A(或\infty)，则$&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\lim_{x\rightarrow a^+}\frac {f(x)}{g(x)}=\lim_{x\rightarrow a^+}\frac {f'(x)}{g'(x)}&lt;/script&gt;
+
+&lt;h4 id=&quot;说明&quot;&gt;说明：&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;目的求$\lim_{x\rightarrow a^+}\frac {f(x)}{g(x)},利用\lim_{x\rightarrow a^+}\frac {f’(x)}{g’(x)}$&lt;/p&gt;
+
+    &lt;p&gt;$x\rightarrow a^+,也适用于x\rightarrow x_0,x\rightarrow a^-,x\rightarrow \pm \infty,x\rightarrow \infty$&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;$\lim_{x\rightarrow a^+}\frac {f’(x)}{g’(x)}=A,也适用于\frac {f’(x)}{g’(x)}\rightarrow \infty,\pm \infty$&lt;/li&gt;
+  &lt;li&gt;$\lim_{x\rightarrow a^+}\frac {f’(x)}{g’(x)}是\frac 00型,\frac *{\infty}型$&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;证明&quot;&gt;证明&lt;/h4&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/mathemathical-analysis/证-L-Hospital法则.png&quot; alt=&quot;证-L-Hospital法则&quot; /&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;example&quot;&gt;Example&lt;/h4&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/mathemathical-analysis/例题-L-Hospital法则.png&quot; alt=&quot;例题-L-Hospital法则&quot; /&gt;&lt;/p&gt;
+
+&lt;h5 id=&quot;注意非待定型不能用洛必达法则&quot;&gt;注意非待定型不能用洛必达法则&lt;/h5&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;不能用洛必达法则：$\lim_{x\rightarrow \frac \pi{2}^+}\frac {1+\sin x}{1-\cos x}$&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&quot;注意导数向比的极限不存在不能得出原函数的极限不存在&quot;&gt;注意导数向比的极限不存在不能得出原函数的极限不存在&lt;/h5&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;不能用洛必达法则：$\lim_{x\rightarrow \infty}\frac {x+\cos x}{x}$&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        <pubDate>Wed, 04 Dec 2019 00:00:00 -0600</pubDate>
+        <link>//mathematical-analysis/%E6%B4%9B%E5%BF%85%E8%BE%BE%E6%B3%95%E5%88%99</link>
+        <link href="/mathematical-analysis/%E6%B4%9B%E5%BF%85%E8%BE%BE%E6%B3%95%E5%88%99"/>
+        <guid isPermaLink="true">/mathematical-analysis/%E6%B4%9B%E5%BF%85%E8%BE%BE%E6%B3%95%E5%88%99</guid>
+      </item>
+    
   </channel>
 </rss>

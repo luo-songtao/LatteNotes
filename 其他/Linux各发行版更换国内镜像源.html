@@ -1,0 +1,1330 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+  <meta name="generator" content="Jekyll">
+
+  <title>Linux各发行版更换国内镜像源</title>
+  <link rel="stylesheet" href="/css/main.css">
+
+  <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="ATOM Feed" /> <!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Linux各发行版更换国内镜像源 | MicroNotes</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="Linux各发行版更换国内镜像源" />
+<meta name="author" content="LuoSongtao" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Ubuntu" />
+<meta property="og:description" content="Ubuntu" />
+<meta property="og:site_name" content="MicroNotes" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2019-01-26T00:00:00-06:00" />
+<script type="application/ld+json">
+{"author":{"@type":"Person","name":"LuoSongtao"},"mainEntityOfPage":{"@type":"WebPage","@id":"/%E5%85%B6%E4%BB%96/Linux%E5%90%84%E5%8F%91%E8%A1%8C%E7%89%88%E6%9B%B4%E6%8D%A2%E5%9B%BD%E5%86%85%E9%95%9C%E5%83%8F%E6%BA%90"},"description":"Ubuntu","@type":"BlogPosting","headline":"Linux各发行版更换国内镜像源","dateModified":"2019-01-26T00:00:00-06:00","url":"/%E5%85%B6%E4%BB%96/Linux%E5%90%84%E5%8F%91%E8%A1%8C%E7%89%88%E6%9B%B4%E6%8D%A2%E5%9B%BD%E5%86%85%E9%95%9C%E5%83%8F%E6%BA%90","datePublished":"2019-01-26T00:00:00-06:00","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+        inlineMath: [['$','$']]
+      }
+    });
+  </script>
+
+</head>
+
+<body>
+  <div id="wrapper">
+    <header>
+  <div style="text-align: center;">
+    <div>
+      <a id="username" href="/">
+      
+      <span style="font-size: x-large; color: #00C2C4;">luosongtao</span>
+      <span style="font-size: x-large; color: #7E7E7C;">@</span>
+      <span style="font-size: x-large; color: #76E87B;">home:</span>
+      <span style="font-size: x-large; color: #FF7F7A;">~$</span>
+      </a>
+      
+<div id="search">
+	<input type="text" id="search-input" placeholder="Command.." style="vertical-align:middle;">
+	<ul id="results-container"></ul>
+</div>
+
+<!-- script pointing to jekyll-search.js -->
+<script src="/assets/js/simple-jekyll-search.min.js"></script>
+<script async src="/searchdata.js"></script>
+
+    </div>
+  </div>
+  <div class="header-links">
+      <a href="/archive"><h2 class="header-link">时间轴</h2></a>
+<a href="/about"><h2 class="header-link">关于</h2></a>
+<!--<a href="/atom.xml"><h2 class="header-link">RSS</h2></a>-->
+  </div>
+
+</header>
+    <div class="container">
+        <article>
+  <h1>Linux各发行版更换国内镜像源</h1>
+  <time datetime="2019-01-26T00:00:00-06:00" class="by-line">26 Jan 2019</time>
+  <h4 id="ubuntu">Ubuntu</h4>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>lsb_release -a
+</code></pre></div></div>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>echo "deb http://mirrors.aliyun.com/ubuntu/ xenial main restricted universe " &gt;&gt; /etc/apt/sources.list &amp;&amp; \
+echo "deb http://mirrors.aliyun.com/ubuntu/ xenial-security main restricted universe " &gt;&gt; /etc/apt/sources.list &amp;&amp; \
+echo "deb http://mirrors.aliyun.com/ubuntu/ xenial-updates main restricted universe " &gt;&gt; /etc/apt/sources.list &amp;&amp; \
+echo "deb http://mirrors.aliyun.com/ubuntu/ xenial-proposed main restricted universe " &gt;&gt; /etc/apt/sources.list &amp;&amp; \
+echo "deb http://mirrors.aliyun.com/ubuntu/ xenial-backports main restricted universe " &gt;&gt; /etc/apt/sources.list &amp;&amp; \
+echo "deb-src http://mirrors.aliyun.com/ubuntu/ xenial main restricted universe " &gt;&gt; /etc/apt/sources.list &amp;&amp; \
+echo "deb-src http://mirrors.aliyun.com/ubuntu/ xenial-security main restricted universe " &gt;&gt; /etc/apt/sources.list &amp;&amp; \
+echo "deb-src http://mirrors.aliyun.com/ubuntu/ xenial-updates main restricted universe " &gt;&gt; /etc/apt/sources.list &amp;&amp; \
+echo "deb-src http://mirrors.aliyun.com/ubuntu/ xenial-proposed main restricted universe " &gt;&gt; /etc/apt/sources.list &amp;&amp; \
+echo "deb-src http://mirrors.aliyun.com/ubuntu/ xenial-backports main restricted universe " &gt;&gt; /etc/apt/sources.list
+</code></pre></div></div>
+
+<h4 id="debian">Debian</h4>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>echo "deb http://mirrors.aliyun.com/debian stretch main contrib non-free" &gt; /etc/apt/sources.list &amp;&amp; \
+echo "deb-src http://mirrors.aliyun.com/debian stretch main contrib non-free" &gt;&gt; /etc/apt/sources.list  &amp;&amp; \
+echo "deb http://mirrors.aliyun.com/debian stretch-updates main contrib non-free" &gt;&gt; /etc/apt/sources.list &amp;&amp; \
+echo "deb-src http://mirrors.aliyun.com/debian stretch-updates main contrib non-free" &gt;&gt; /etc/apt/sources.list &amp;&amp; \
+echo "deb http://mirrors.aliyun.com/debian-security stretch/updates main contrib non-free" &gt;&gt; /etc/apt/sources.list &amp;&amp; \
+echo "deb-src http://mirrors.aliyun.com/debian-security stretch/updates main contrib non-free" &gt;&gt; /etc/apt/sources.list &amp;&amp; \
+</code></pre></div></div>
+
+<h4 id="版本代号概览">版本代号概览</h4>
+
+<h6 id="ubuntu各版本代号一览">Ubuntu各版本代号一览</h6>
+
+<table class="wikitable sortable jquery-tablesorter" style="text-align:center">
+
+<thead><tr>
+<th rowspan="2" class="headerSort" tabindex="0" role="columnheader button" title="升序排列">版本
+</th>
+<th rowspan="2" class="headerSort" tabindex="0" role="columnheader button" title="升序排列">开发代号
+</th>
+<th rowspan="2" class="headerSort" tabindex="0" role="columnheader button" title="升序排列">中译
+</th>
+<th rowspan="2" class="headerSort" tabindex="0" role="columnheader button" title="升序排列">发布日期
+</th>
+<th colspan="2">支援结束时间
+</th>
+<th rowspan="2" class="headerSort" tabindex="0" role="columnheader button" title="升序排列"><a href="/wiki/Linux%E5%85%A7%E6%A0%B8" class="mw-redirect" title="Linux内核">内核</a>版本
+</th></tr><tr>
+<th class="headerSort" tabindex="0" role="columnheader button" title="升序排列">桌面版
+</th>
+<th class="headerSort" tabindex="0" role="columnheader button" title="升序排列">服务器版
+</th></tr></thead><tbody>
+
+<tr>
+<td>4.10
+</td>
+<td>Warty Warthog
+</td>
+<td>多疣的<a href="/wiki/%E7%96%A3%E8%B1%AC" title="疣猪">疣猪</a>
+</td>
+<td>2004-10-20
+</td>
+<td colspan="2" style="background-color: #FDB3AB;" title="旧版本，不再支援" data-sort-value="2006-04-30"><span style="display: none;">旧版本，不再支援：</span> 2006-04-30
+</td>
+<td>2.6.8
+</td></tr>
+<tr>
+<td>5.04
+</td>
+<td>Hoary Hedgehog
+</td>
+<td>白发的<a href="/wiki/%E5%88%BA%E7%8C%AC" title="刺猬">刺猬</a>
+</td>
+<td>2005-04-08
+</td>
+<td colspan="2" style="background-color: #FDB3AB;" title="旧版本，不再支援" data-sort-value="2006-10-31"><span style="display: none;">旧版本，不再支援：</span> 2006-10-31
+</td>
+<td>2.6.10
+</td></tr>
+<tr>
+<td>5.10
+</td>
+<td>Breezy Badger
+</td>
+<td>活泼的<a href="/wiki/%E7%8D%BE" title="獾">獾</a>
+</td>
+<td>2005-10-13
+</td>
+<td colspan="2" style="background-color: #FDB3AB;" title="旧版本，不再支援" data-sort-value="2007-04-13"><span style="display: none;">旧版本，不再支援：</span> 2007-04-13
+</td>
+<td>2.6.12
+</td></tr>
+<tr>
+<td>6.06 LTS
+</td>
+<td>Dapper Drake
+</td>
+<td>整洁的公<a href="/wiki/%E9%B8%AD" title="鸭">鸭</a>
+</td>
+<td>2006-06-01
+</td>
+<td style="background-color: #FDB3AB;" title="旧版本，不再支援" data-sort-value="2009-07-14"><span style="display: none;">旧版本，不再支援：</span> 2009-07-14
+</td>
+<td style="background-color: #FDB3AB;" title="旧版本，不再支援" data-sort-value="2011-06-01"><span style="display: none;">旧版本，不再支援：</span> 2011-06-01
+</td>
+<td>2.6.15
+</td></tr>
+<tr>
+<td>6.10
+</td>
+<td>Edgy Eft
+</td>
+<td>尖利的小<a href="/wiki/%E8%9C%A5%E8%9C%B4" title="蜥蜴">蜥蜴</a>
+</td>
+<td>2006-10-26
+</td>
+<td colspan="2" style="background-color: #FDB3AB;" title="旧版本，不再支援" data-sort-value="2008-04-25"><span style="display: none;">旧版本，不再支援：</span> 2008-04-25
+</td>
+<td>2.6.17
+</td></tr>
+<tr>
+<td>7.04
+</td>
+<td>Feisty Fawn
+</td>
+<td>烦躁不安的<a href="/wiki/%E9%B9%BF%E7%A7%91" title="鹿科">鹿</a>
+</td>
+<td>2007-04-19
+</td>
+<td colspan="2" style="background-color: #FDB3AB;" title="旧版本，不再支援" data-sort-value="2008-10-19"><span style="display: none;">旧版本，不再支援：</span> 2008-10-19
+</td>
+<td>2.6.20
+</td></tr>
+<tr>
+<td>7.10
+</td>
+<td>Gutsy Gibbon
+</td>
+<td>胆大的<a href="/wiki/%E9%95%BF%E8%87%82%E7%8C%BF" title="长臂猿">长臂猿</a>
+</td>
+<td>2007-10-18
+</td>
+<td colspan="2" style="background-color: #FDB3AB;" title="旧版本，不再支援" data-sort-value="2009-04-18"><span style="display: none;">旧版本，不再支援：</span> 2009-04-18
+</td>
+<td>2.6.22
+</td></tr>
+<tr>
+<td>8.04 LTS
+</td>
+<td>Hardy Heron
+</td>
+<td>坚强的<a href="/wiki/%E9%B9%AD%E7%A7%91" title="鹭科">鹭</a>
+</td>
+<td>2008-04-24
+</td>
+<td style="background-color: #FDB3AB;" title="旧版本，不再支援" data-sort-value="2011-05-12"><span style="display: none;">旧版本，不再支援：</span> 2011-05-12
+</td>
+<td style="background-color: #FDB3AB;" title="旧版本，不再支援" data-sort-value="2013-05-09"><span style="display: none;">旧版本，不再支援：</span> 2013-05-09
+</td>
+<td>2.6.24
+</td></tr>
+<tr>
+<td>8.10
+</td>
+<td>Intrepid Ibex
+</td>
+<td>无畏的<a href="/wiki/%E7%BE%B1%E7%BE%8A" title="羱羊">羱羊</a>
+</td>
+<td>2008-10-30
+</td>
+<td colspan="2" style="background-color: #FDB3AB;" title="旧版本，不再支援" data-sort-value="2010-04-30"><span style="display: none;">旧版本，不再支援：</span> 2010-04-30
+</td>
+<td>2.6.27
+</td></tr>
+<tr>
+<td>9.04
+</td>
+<td>Jaunty Jackalope
+</td>
+<td>活泼的<a href="/wiki/%E9%B9%BF%E8%A7%92%E5%85%94" class="mw-disambig" title="鹿角兔">鹿角兔</a>
+</td>
+<td>2009-04-23
+</td>
+<td colspan="2" style="background-color: #FDB3AB;" title="旧版本，不再支援" data-sort-value="2010-10-23"><span style="display: none;">旧版本，不再支援：</span> 2010-10-23
+</td>
+<td>2.6.28
+</td></tr>
+<tr>
+<td>9.10
+</td>
+<td>Karmic Koala
+</td>
+<td>幸运的<a href="/wiki/%E6%A0%91%E8%A2%8B%E7%86%8A" class="mw-redirect" title="树袋熊">树袋熊</a>
+</td>
+<td>2009-10-29
+</td>
+<td colspan="2" style="background-color: #FDB3AB;" title="旧版本，不再支援" data-sort-value="2011-04-30"><span style="display: none;">旧版本，不再支援：</span> 2011-04-30
+</td>
+<td>2.6.31
+</td></tr>
+<tr>
+<td>10.04 LTS
+</td>
+<td>Lucid Lynx
+</td>
+<td>清醒的<a href="/wiki/%E5%B1%B1%E8%B2%93" class="mw-disambig" title="山猫">山猫</a>
+</td>
+<td>2010-04-29
+</td>
+<td style="background-color: #FDB3AB;" title="旧版本，不再支援" data-sort-value="2013-05-09"><span style="display: none;">旧版本，不再支援：</span> 2013-05-09
+</td>
+<td style="background-color: #FDB3AB;" title="旧版本，不再支援" data-sort-value="2015-04-30"><span style="display: none;">旧版本，不再支援：</span> 2015-04-30
+</td>
+<td>2.6.32
+</td></tr>
+<tr>
+<td>10.10
+</td>
+<td>Maverick Meerkat
+</td>
+<td>标新立异的<a href="/wiki/%E7%8B%90%E7%8D%B4" title="狐獴">狐獴</a>
+</td>
+<td>2010-10-10
+</td>
+<td colspan="2" style="background-color: #FDB3AB;" title="旧版本，不再支援" data-sort-value="2012-04-10"><span style="display: none;">旧版本，不再支援：</span> 2012-04-10
+</td>
+<td>2.6.35
+</td></tr>
+<tr>
+<td>11.04
+</td>
+<td>Natty Narwhal
+</td>
+<td>敏捷的<a href="/wiki/%E7%8B%AC%E8%A7%92%E9%B2%B8" class="mw-redirect" title="独角鲸">独角鲸</a>
+</td>
+<td>2011-04-28
+</td>
+<td colspan="2" style="background-color: #FDB3AB;" title="旧版本，不再支援" data-sort-value="2012-10-28"><span style="display: none;">旧版本，不再支援：</span> 2012-10-28
+</td>
+<td>2.6.38
+</td></tr>
+<tr>
+<td>11.10
+</td>
+<td>Oneiric Ocelot
+</td>
+<td>有梦的<a href="/wiki/%E8%99%8E%E7%8C%AB" class="mw-redirect" title="虎猫">虎猫</a>
+</td>
+<td>2011-10-13
+</td>
+<td colspan="2" style="background-color: #FDB3AB;" title="旧版本，不再支援" data-sort-value="2013-05-09"><span style="display: none;">旧版本，不再支援：</span> 2013-05-09
+</td>
+<td>3.0
+</td></tr>
+<tr>
+<td>12.04 LTS
+</td>
+<td>Precise Pangolin
+</td>
+<td>精准的<a href="/wiki/%E7%A9%BF%E5%B1%B1%E7%94%B2" title="穿山甲">穿山甲</a>
+</td>
+<td>2012-04-26<sup id="cite_ref-4" class="reference"><a href="#cite_note-4">[4]</a></sup>
+</td>
+<td colspan="2" style="background-color: #FDB3AB;" title="旧版本，不再支援" data-sort-value="2017-04-28&lt;sup id=" class="reference"><span style="display: none;">旧版本，不再支援：</span> 2017-04-28<sup id="cite_ref-5" class="reference"><a href="#cite_note-5">[5]</a></sup>
+</td>
+<td>3.2<sup id="cite_ref-6" class="reference"><a href="#cite_note-6">[6]</a></sup>
+</td></tr>
+<tr>
+<td>12.10
+</td>
+<td>Quantal Quetzal
+</td>
+<td>量子的<a href="/wiki/%E6%A0%BC%E6%9F%A5%E5%B0%94%E9%B8%9F" title="格查尔鸟">格查尔鸟</a>
+</td>
+<td>2012-10-18
+</td>
+<td colspan="2" style="background-color: #FDB3AB;" title="旧版本，不再支援" data-sort-value="2014-05-16&lt;sup id=" class="reference"><span style="display: none;">旧版本，不再支援：</span> 2014-05-16<sup id="cite_ref-7" class="reference"><a href="#cite_note-7">[7]</a></sup>
+</td>
+<td>3.5<sup id="cite_ref-8" class="reference"><a href="#cite_note-8">[8]</a></sup>
+</td></tr>
+<tr>
+<td>13.04
+</td>
+<td>Raring Ringtail
+</td>
+<td>铆足了劲的<a href="/w/index.php?title=%E7%92%B0%E5%B0%BE%E8%B2%93%E7%86%8A&amp;action=edit&amp;redlink=1" class="new" title="环尾猫熊（页面不存在）">环尾猫熊</a>
+</td>
+<td>2013-04-25
+</td>
+<td colspan="2" style="background-color: #FDB3AB;" title="旧版本，不再支援" data-sort-value="2014-01-27"><span style="display: none;">旧版本，不再支援：</span> 2014-01-27<sup id="cite_ref-fridge032013_9-0" class="reference"><a href="#cite_note-fridge032013-9">[9]</a></sup>
+</td>
+<td>3.8<sup id="cite_ref-10" class="reference"><a href="#cite_note-10">[10]</a></sup>
+</td></tr>
+<tr>
+<td>13.10
+</td>
+<td>Saucy Salamander
+</td>
+<td>活泼的<a href="/wiki/%E8%A0%91%E8%9E%88" class="mw-redirect" title="蝾螈">蝾螈</a>
+</td>
+<td>2013-10-17<sup id="cite_ref-SaucyRelease_11-0" class="reference"><a href="#cite_note-SaucyRelease-11">[11]</a></sup>
+</td>
+<td colspan="2" style="background-color: #FDB3AB;" title="旧版本，不再支援" data-sort-value="2014-07-17"><span style="display: none;">旧版本，不再支援：</span> 2014-07-17<sup id="cite_ref-saucyenddate_12-0" class="reference"><a href="#cite_note-saucyenddate-12">[12]</a></sup>
+</td>
+<td>3.11
+</td></tr>
+<tr>
+<td>14.04 LTS
+</td>
+<td>Trusty Tahr
+</td>
+<td>可靠的<a href="/wiki/%E5%A1%94%E7%88%BE%E7%BE%8A" class="mw-redirect" title="塔尔羊">塔尔羊</a>
+</td>
+<td>2014-04-17<sup id="cite_ref-ubuntuwikiTrustyTahrRelease_13-0" class="reference"><a href="#cite_note-ubuntuwikiTrustyTahrRelease-13">[13]</a></sup>
+</td>
+<td colspan="2" style="background-color: #FDB3AB;" title="旧版本，不再支援" data-sort-value="2019-04"><span style="display: none;">旧版本，不再支援：</span> 2019-04
+</td>
+<td>3.13
+</td></tr>
+<tr>
+<td>14.10
+</td>
+<td>Utopic Unicorn
+</td>
+<td>乌托邦的<a href="/wiki/%E7%8D%A8%E8%A7%92%E7%8D%B8" class="mw-redirect" title="独角兽">独角兽</a>
+</td>
+<td>2014-10-23<sup id="cite_ref-UtopicRelease_14-0" class="reference"><a href="#cite_note-UtopicRelease-14">[14]</a></sup>
+</td>
+<td colspan="2" style="background-color: #FDB3AB;" title="旧版本，不再支援" data-sort-value="2015-07-23"><span style="display: none;">旧版本，不再支援：</span> 2015-07-23<sup id="cite_ref-15" class="reference"><a href="#cite_note-15">[15]</a></sup>
+</td>
+<td>3.16<sup id="cite_ref-16" class="reference"><a href="#cite_note-16">[16]</a></sup>
+</td></tr>
+<tr>
+<td>15.04
+</td>
+<td>Vivid Vervet
+</td>
+<td>活泼的<span class="ilh-all" data-orig-title="長尾黑顎猴" data-lang-code="en" data-lang-name="英语" data-foreign-title="Vervet monkey"><span class="ilh-page"><a href="/w/index.php?title=%E9%95%B7%E5%B0%BE%E9%BB%91%E9%A1%8E%E7%8C%B4&amp;action=edit&amp;redlink=1" class="new" original-title="长尾黑颚猴（页面不存在）">长尾黑颚猴</a></span><span class="noprint ilh-comment">（<span class="ilh-lang">英语</span><span class="ilh-colon">：</span><span class="ilh-link"><a href="https://en.wikipedia.org/wiki/Vervet_monkey" class="extiw" title="en:Vervet monkey"><span lang="en" dir="auto">Vervet monkey</span></a></span>）</span></span>
+</td>
+<td>2015-04-23<sup id="cite_ref-Sneddon18Nov14_17-0" class="reference"><a href="#cite_note-Sneddon18Nov14-17">[17]</a></sup>
+</td>
+<td colspan="2" style="background-color: #FDB3AB;" title="旧版本，不再支援" data-sort-value="2016-02-04"><span style="display: none;">旧版本，不再支援：</span> 2016-02-04<sup id="cite_ref-18" class="reference"><a href="#cite_note-18">[18]</a></sup>
+</td>
+<td>3.19<sup id="cite_ref-Stahie08Apr15_19-0" class="reference"><a href="#cite_note-Stahie08Apr15-19">[19]</a></sup>
+</td></tr>
+<tr>
+<td>15.10
+</td>
+<td>Wily Werewolf
+</td>
+<td>老谋深算的<a href="/wiki/%E7%8B%BC%E4%BA%BA" title="狼人">狼人</a>
+</td>
+<td>2015-10-22<sup id="cite_ref-ubuntu.com_20-0" class="reference"><a href="#cite_note-ubuntu.com-20">[20]</a></sup>
+</td>
+<td colspan="2" style="background-color: #FDB3AB;" title="旧版本，不再支援" data-sort-value="2016-07-28"><span style="display: none;">旧版本，不再支援：</span> 2016-07-28<sup id="cite_ref-21" class="reference"><a href="#cite_note-21">[21]</a></sup>
+</td>
+<td>4.2<sup id="cite_ref-22" class="reference"><a href="#cite_note-22">[22]</a></sup>
+</td></tr>
+<tr>
+<td>16.04 LTS
+</td>
+<td>Xenial Xerus
+</td>
+<td>好客的<a href="/wiki/%E9%9D%9E%E6%B4%B2%E5%9C%B0%E6%9D%BE%E9%BC%A0" title="非洲地松鼠">非洲地松鼠</a>
+</td>
+<td>2016-04-21<sup id="cite_ref-ubuntu_insights_2016_04_21_23-0" class="reference"><a href="#cite_note-ubuntu_insights_2016_04_21-23">[23]</a></sup>
+</td>
+<td colspan="2" class="templateVersion co" style="background-color: #FEF8C6;" title="旧版本，仍被支援" data-sort-value="2021-04"><span style="display: none;"> 旧版本，仍被支援：</span> 2021-04
+</td>
+<td>4.4<sup id="cite_ref-24" class="reference"><a href="#cite_note-24">[24]</a></sup>
+</td></tr>
+<tr>
+<td>16.10
+</td>
+<td>Yakkety Yak
+</td>
+<td>喋喋不休的<a href="/wiki/%E6%B0%82%E7%89%9B" class="mw-redirect" title="牦牛">牦牛</a>
+</td>
+<td>2016-10-13<sup id="cite_ref-yakkety_release_schedule_25-0" class="reference"><a href="#cite_note-yakkety_release_schedule-25">[25]</a></sup>
+</td>
+<td colspan="2" style="background-color: #FDB3AB;" title="旧版本，不再支援" data-sort-value="2017-07-20"><span style="display: none;">旧版本，不再支援：</span> 2017-07-20
+</td>
+<td>4.8
+</td></tr>
+<tr>
+<td>17.04
+</td>
+<td>Zesty Zapus
+</td>
+<td>热情的<a href="/wiki/%E7%BE%8E%E6%B4%B2%E6%9E%97%E8%B7%B3%E9%BC%A0" class="mw-redirect" title="美洲林跳鼠">美洲林跳鼠</a>
+</td>
+<td>2017-04-13<sup id="cite_ref-ZestyRelease_26-0" class="reference"><a href="#cite_note-ZestyRelease-26">[26]</a></sup>
+</td>
+<td colspan="2" style="background-color: #FDB3AB;" title="旧版本，不再支援" data-sort-value="2018-01-13"><span style="display: none;">旧版本，不再支援：</span> 2018-01-13
+</td>
+<td>4.10<sup id="cite_ref-27" class="reference"><a href="#cite_note-27">[27]</a></sup>
+</td></tr>
+<tr>
+<td>17.10
+</td>
+<td>Artful Aardvark
+</td>
+<td>巧妙的<a href="/wiki/%E5%9C%9F%E8%B1%9A" title="土豚">土豚</a>
+</td>
+<td>2017-10-19<sup id="cite_ref-28" class="reference"><a href="#cite_note-28">[28]</a></sup>
+</td>
+<td colspan="2" class="templateVersion co" style="background-color: #FEF8C6;" title="旧版本，仍被支援" data-sort-value="2018-07"><span style="display: none;"> 旧版本，仍被支援：</span> 2018-07
+</td>
+<td>4.13<sup id="cite_ref-29" class="reference"><a href="#cite_note-29">[29]</a></sup>
+</td></tr>
+<tr>
+<td>18.04 LTS
+</td>
+<td>Bionic Beaver<sup id="cite_ref-30" class="reference"><a href="#cite_note-30">[30]</a></sup><sup id="cite_ref-31" class="reference"><a href="#cite_note-31">[31]</a></sup>
+</td>
+<td>仿生的<a href="/wiki/%E6%B5%B7%E7%8B%B8" class="mw-redirect" title="海狸">海狸</a>
+</td>
+<td>2018-04-26<sup id="cite_ref-32" class="reference"><a href="#cite_note-32">[32]</a></sup>
+</td>
+<td colspan="2" class="templateVersion c" style="background-color: #D4F4B4;" title="当前版本" data-sort-value="2028-04"><span style="display: none;"> 当前版本：</span> <b>2028-04</b><sup id="cite_ref-33" class="reference"><a href="#cite_note-33">[33]</a></sup>
+</td>
+<td>4.15
+</td></tr>
+<tr>
+<td>18.10
+</td>
+<td>Cosmic Cuttlefish
+</td>
+<td>宇宙的<a href="/wiki/%E5%A2%A8%E9%AD%9A" class="mw-redirect" title="墨鱼">墨鱼</a>
+</td>
+<td>2018-10-18
+</td>
+<td colspan="2" class="templateVersion co" style="background-color: #FEF8C6;" title="旧版本，仍被支援" data-sort-value="2019-07"><span style="display: none;"> 旧版本，仍被支援：</span> 2019-07
+</td>
+<td>4.18
+</td></tr>
+<tr>
+<td>19.04
+</td>
+<td>Disco Dingo
+</td>
+<td>摇滚的<a href="/wiki/%E9%87%8E%E7%8B%97" class="mw-redirect mw-disambig" title="野狗">野狗</a>
+</td>
+<td>2019-04-18
+</td>
+<td colspan="2" class="templateVersion co" style="background-color: #FEF8C6;" title="旧版本，仍被支援" data-sort-value="2020-01-30"><span style="display: none;"> 旧版本，仍被支援：</span> 2020-01-30
+</td>
+<td>5.0
+</td>
+<td colspan="99"><small><div class="templateVersion l" style="margin-left: -1em;"><div style="float: left; margin-left: 1em;"><span style="white-space: nowrap;"><b>格式：</b></span></div><div style="float: left; margin-left: 1em;"><span style="border-left: 1.2em solid #FDB3AB; padding-left: 0.3em; white-space: nowrap;" title="旧版本，不再支援">旧版本</span></div><div style="float: left; margin-left: 1em;"><span style="border-left: 1.2em solid #FEF8C6; padding-left: 0.3em; white-space: nowrap;" title="旧版本，仍被支援">旧版本，仍被支援</span></div><div style="float: left; margin-left: 1em;"><span style="border-left: 1.2em solid #D4F4B4; padding-left: 0.3em; white-space: nowrap;" title="当前版本"><b>当前版本</b></span></div><div style="float: left; margin-left: 1em;"><span style="border-left: 1.2em solid #FED1A0; padding-left: 0.3em; white-space: nowrap;" title="最新的预览版">最新的预览版</span></div><div style="float: left; margin-left: 1em;"><span style="border-left: 1.2em solid #C1E6F5; padding-left: 0.3em; white-space: nowrap;" title="未来版本">未来版本</span></div><div style="clear: left;"></div></div></small>
+</td></tr></tbody><tfoot></tfoot></table>
+
+<p><img src="/IdeaSpread/assets/images_posts/ubuntu发行时间表.png" alt="ubuntu发行时间表" /></p>
+
+<h6 id="debian发行版一览">Debian发行版一览</h6>
+
+<table class="wikitable">
+
+
+<tbody><tr>
+<td><div style="text-align: center;"><b>版本</b></div></td>
+<td><div style="text-align: center;"><b>代号</b></div></td>
+<td><div style="text-align: center;"><b>发布日期</b></div></td>
+<td><div style="text-align: center;"><b><a href="/wiki/%E7%8E%A9%E5%85%B7%E6%80%BB%E5%8A%A8%E5%91%98" title="玩具总动员">玩具总动员</a></b>的对应角色</div></td>
+<td><div style="text-align: center;"><b>脚注</b></div>
+</td></tr>
+<tr>
+<td>1.1</td>
+<td>Buzz</td>
+<td>1996年6月17日</td>
+<td><a href="/wiki/%E5%B7%B4%E6%96%AF%E5%85%89%E5%B9%B4" title="巴斯光年">巴斯光年</a>，电影主角之一的太空人</td>
+<td>使用Linux内核2.0
+</td></tr>
+<tr>
+<td>1.2</td>
+<td>Rex</td>
+<td>1996年12月12日</td>
+<td>抱抱龙</td>
+<td>
+</td></tr>
+<tr>
+<td>1.3</td>
+<td>Bo</td>
+<td>1997年6月2日</td>
+<td>放羊的女孩“宝贝”</td>
+<td>
+</td></tr>
+<tr>
+<td>2.0</td>
+<td><a rel="nofollow" class="external text" href="http://www.debian.org/releases/hamm/">Hamm</a></td>
+<td>1998年7月24日</td>
+<td>小猪储蓄罐“火腿”</td>
+<td>
+</td></tr>
+<tr>
+<td>2.1</td>
+<td><a rel="nofollow" class="external text" href="http://www.debian.org/releases/slink/">Slink</a></td>
+<td>1999年3月9日</td>
+<td>弹簧狗</td>
+<td>APT面世
+</td></tr>
+<tr>
+<td>2.2</td>
+<td><a rel="nofollow" class="external text" href="http://www.debian.org/releases/potato/">Potato</a></td>
+<td>2000年8月15日</td>
+<td>蛋头先生</td>
+<td>
+</td></tr>
+<tr>
+<td>3.0</td>
+<td><a rel="nofollow" class="external text" href="http://www.debian.org/releases/woody/">Woody</a></td>
+<td>2002年7月19日</td>
+<td>胡迪，电影主角之一的牛仔</td>
+<td>
+</td></tr>
+<tr>
+<td>3.1</td>
+<td><a rel="nofollow" class="external text" href="http://www.debian.org/releases/sarge/">Sarge</a></td>
+<td>2005年6月6日</td>
+<td>绿色塑胶玩具士兵的首领“队长”</td>
+<td>
+</td></tr>
+<tr>
+<td>4.0</td>
+<td><a rel="nofollow" class="external text" href="http://www.debian.org/releases/etch/">Etch</a></td>
+<td>2007年4月8日</td>
+<td>画板</td>
+<td>
+</td></tr>
+<tr>
+<td>5.0</td>
+<td><a rel="nofollow" class="external text" href="http://www.debian.org/releases/lenny/">Lenny</a></td>
+<td>2009年2月14日</td>
+<td>望远镜</td>
+<td>
+</td></tr>
+<tr>
+<td>6.0</td>
+<td><a rel="nofollow" class="external text" href="http://www.debian.org/releases/squeeze/">Squeeze</a></td>
+<td>2011年2月6日</td>
+<td>三只眼的外星人</td>
+<td>其<a href="/wiki/I386" class="mw-redirect" title="I386">i386</a>及<a href="/wiki/Amd64" class="mw-redirect" title="Amd64">amd64</a>架构为<a href="/wiki/%E9%95%B7%E6%9C%9F%E6%94%AF%E6%8F%B4" title="长期支持">长期支持</a>版本，是第一个包含长期支持的Debian版本，支持到2016年2月<sup id="cite_ref-21" class="reference"><a href="#cite_note-21">[21]</a></sup> 。
+</td></tr>
+<tr>
+<td>7</td>
+<td><a rel="nofollow" class="external text" href="http://www.debian.org/releases/wheezy/">Wheezy</a></td>
+<td>2013年5月5日</td>
+<td>吱吱（第二部玩具总动员的一个角色，是一只带着领结的玩具企鹅）</td>
+<td>
+</td></tr>
+<tr>
+<td>8</td>
+<td><a rel="nofollow" class="external text" href="http://www.debian.org/releases/jessie/">Jessie</a></td>
+<td>2015年4月25日</td>
+<td><a href="/wiki/%E7%BF%A0%E4%B8%9D_(%E7%8E%A9%E5%85%B7%E6%80%BB%E5%8A%A8%E5%91%98)" class="mw-redirect" title="翠丝 (玩具总动员)">翠丝</a>（第二部玩具总动员的一个角色，是一个为虚拟的电视剧 Woody's Roundup 而塑造的女牛仔人物）</td>
+<td>上一个稳定版本，默认<a href="/wiki/Init" title="Init">init</a>系统切换为<a href="/wiki/Systemd" title="Systemd">systemd</a>
+</td></tr>
+<tr>
+<td>9</td>
+<td><a rel="nofollow" class="external text" href="https://www.debian.org/releases/stretch/">Stretch</a></td>
+<td>2017年6月17日</td>
+<td>在第三部玩具总动员中的一只紫色章鱼</td>
+<td>当前稳定版本，移除对<a href="/wiki/I686" class="mw-redirect" title="I686">i686</a>之前的<a href="/wiki/X86" title="X86">x86</a>处理器支持，另外也移除了对32位<a href="/wiki/PowerPC" title="PowerPC">PowerPC</a>架构的支持
+</td></tr>
+<tr>
+<td>10</td>
+<td><a rel="nofollow" class="external text" href="https://www.debian.org/releases/buster/">Buster</a></td>
+<td></td>
+<td>安弟一家养的小狗</td>
+<td>当前测试版本
+</td></tr>
+<tr>
+<td>11</td>
+<td>Bullseye</td>
+<td></td>
+<td>胡迪骑的马</td>
+<td>
+</td></tr>
+<tr>
+<td>12</td>
+<td>Bookworm</td>
+<td></td>
+<td>熊抱哥的手下</td>
+<td>
+</td></tr>
+<tr>
+<td></td>
+<td><a rel="nofollow" class="external text" href="http://www.debian.org/releases/sid/">Sid</a></td>
+<td data-sort-value="" style="background: #ececec; color: #2C2C2C; vertical-align: middle; font-size: smaller; text-align: center;" class="table-na">不适用</td>
+<td>阿薛（第二部里译为“席德”），隔壁的男孩，玩具终结者</td>
+<td>Sid常被误认为是<a href="/wiki/%E8%8B%B1%E8%AA%9E" class="mw-redirect" title="英语">英语</a><span lang="en">Still In Development</span>（仍在开发）的缩写
+</td></tr></tbody></table>
+
+<h6 id="centos发行版一览">CentOS发行版一览</h6>
+
+<table class="wikitable">
+
+<tbody><tr>
+<th>版本
+</th>
+<th>平台
+</th>
+<th>RHEL 版本
+</th>
+<th>发布日期
+</th>
+<th>RHEL 发布日期
+</th></tr>
+<tr>
+<th>2
+</th>
+<td>i386
+</td>
+<td>2.1
+</td>
+<td>2004-05-14<sup id="cite_ref-10" class="reference"><a href="#cite_note-10">[10]</a></sup>
+</td>
+<td>2002-05-17<sup id="cite_ref-rhel-errata_11-0" class="reference"><a href="#cite_note-rhel-errata-11">[11]</a></sup>
+</td></tr>
+<tr>
+<th>3.1
+</th>
+<td>i386, x86_64, ia64, s390, s390x
+</td>
+<td>3
+</td>
+<td>2004-03-19<sup id="cite_ref-12" class="reference"><a href="#cite_note-12">[12]</a></sup>
+</td>
+<td>2003-10-23<sup id="cite_ref-rhel-errata_11-1" class="reference"><a href="#cite_note-rhel-errata-11">[11]</a></sup>
+</td></tr>
+<tr>
+<th>3.4 - Server CD
+</th>
+<td>i386, x86_64, ia64, s390, s390x
+</td>
+<td>3.4
+</td>
+<td>2005-01-23
+</td>
+<td>-
+</td></tr>
+<tr>
+<th>3.7
+</th>
+<td>i386, x86_64, ia64, s390, s390x
+</td>
+<td>3.7
+</td>
+<td>2006-04-11<sup id="cite_ref-13" class="reference"><a href="#cite_note-13">[13]</a></sup>
+</td>
+<td>-
+</td></tr>
+<tr>
+<th>3.8
+</th>
+<td>i386, x86_64
+</td>
+<td>3.8
+</td>
+<td>2006-08-25<sup id="cite_ref-14" class="reference"><a href="#cite_note-14">[14]</a></sup>
+</td>
+<td>2006-07-20
+</td></tr>
+<tr>
+<th>3.9
+</th>
+<td>i386, x86_64, ia64, s390, s390x
+</td>
+<td>3.9
+</td>
+<td>2007-07-26<sup id="cite_ref-15" class="reference"><a href="#cite_note-15">[15]</a></sup>
+</td>
+<td>2007-06-15
+</td></tr>
+<tr>
+<th>4
+</th>
+<td>i386, x86_64, various
+</td>
+<td>4
+</td>
+<td>2005-03-09<sup id="cite_ref-16" class="reference"><a href="#cite_note-16">[16]</a></sup>
+</td>
+<td>2005-02-14<sup id="cite_ref-17" class="reference"><a href="#cite_note-17">[17]</a></sup>
+</td></tr>
+<tr>
+<th>4.6
+</th>
+<td>i386, x86_64, ia64, alpha, s390, s390x, ppc (beta), sparc (beta)
+</td>
+<td>4.6
+</td>
+<td>2007-12-16<sup id="cite_ref-18" class="reference"><a href="#cite_note-18">[18]</a></sup>
+</td>
+<td>2007-11-16<sup id="cite_ref-19" class="reference"><a href="#cite_note-19">[19]</a></sup>
+</td></tr>
+<tr>
+<th>4.7
+</th>
+<td>i386, x86_64
+</td>
+<td>4.7
+</td>
+<td>2008-09-13<sup id="cite_ref-20" class="reference"><a href="#cite_note-20">[20]</a></sup>
+</td>
+<td>2008-07-24<sup id="cite_ref-21" class="reference"><a href="#cite_note-21">[21]</a></sup>
+</td></tr>
+<tr>
+<th>4.7 - Server CD
+</th>
+<td>i386, x86_64
+</td>
+<td>4.7
+</td>
+<td>2008-10-17<sup id="cite_ref-22" class="reference"><a href="#cite_note-22">[22]</a></sup>
+</td>
+<td>-
+</td></tr>
+<tr>
+<th>4.8
+</th>
+<td>i386, x86-64
+</td>
+<td>4.8
+</td>
+<td>2009-08-21<sup id="cite_ref-23" class="reference"><a href="#cite_note-23">[23]</a></sup>
+</td>
+<td>2009-05-18<sup id="cite_ref-24" class="reference"><a href="#cite_note-24">[24]</a></sup>
+</td></tr>
+<tr>
+<th>4.9
+</th>
+<td>i386, x86-64
+</td>
+<td>4.9
+</td>
+<td>2011-03-02<sup id="cite_ref-25" class="reference"><a href="#cite_note-25">[25]</a></sup>
+</td>
+<td>2011-02-16<sup id="cite_ref-26" class="reference"><a href="#cite_note-26">[26]</a></sup>
+</td></tr>
+
+<tr>
+<th>5
+</th>
+<td>i386, x86_64
+</td>
+<td>5
+</td>
+<td>2007-04-12<sup id="cite_ref-27" class="reference"><a href="#cite_note-27">[27]</a></sup>
+</td>
+<td>2007-03-14<sup id="cite_ref-28" class="reference"><a href="#cite_note-28">[28]</a></sup>
+</td></tr>
+<tr>
+<th>5.1
+</th>
+<td>i386, x86_64
+</td>
+<td>5.1
+</td>
+<td>2007-12-02<sup id="cite_ref-29" class="reference"><a href="#cite_note-29">[29]</a></sup>
+</td>
+<td>2007-11-07<sup id="cite_ref-30" class="reference"><a href="#cite_note-30">[30]</a></sup>
+</td></tr>
+<tr>
+<th>5.1 - LiveCD
+</th>
+<td>i386
+</td>
+<td>5.1
+</td>
+<td>2008-02-18<sup id="cite_ref-31" class="reference"><a href="#cite_note-31">[31]</a></sup>
+</td>
+<td>-
+</td></tr>
+<tr>
+<th>5.2
+</th>
+<td>i386, x86_64
+</td>
+<td>5.2
+</td>
+<td>2008-06-24<sup id="cite_ref-32" class="reference"><a href="#cite_note-32">[32]</a></sup>
+</td>
+<td>2008-05-21<sup id="cite_ref-33" class="reference"><a href="#cite_note-33">[33]</a></sup>
+</td></tr>
+<tr>
+<th>5.2 - LiveCD
+</th>
+<td>i386
+</td>
+<td>5.2
+</td>
+<td>2008-07-17<sup id="cite_ref-34" class="reference"><a href="#cite_note-34">[34]</a></sup>
+</td>
+<td>-
+</td></tr>
+<tr>
+<th>5.3
+</th>
+<td>i386, x86_64
+</td>
+<td>5.3
+</td>
+<td>2009-03-31<sup id="cite_ref-35" class="reference"><a href="#cite_note-35">[35]</a></sup>
+</td>
+<td>2009-01-20<sup id="cite_ref-36" class="reference"><a href="#cite_note-36">[36]</a></sup>
+</td></tr>
+<tr>
+<th>5.3 - Live CD
+</th>
+<td>i386
+</td>
+<td>5.3
+</td>
+<td>2009-05-27<sup id="cite_ref-5.3_live_37-0" class="reference"><a href="#cite_note-5.3_live-37">[37]</a></sup>
+</td>
+<td>-
+</td></tr>
+<tr>
+<th>5.4
+</th>
+<td>i386, x86_64
+</td>
+<td>5.4
+</td>
+<td>2009-10-21<sup id="cite_ref-MLKS_38-0" class="reference"><a href="#cite_note-MLKS-38">[38]</a></sup>
+</td>
+<td>2009-09-02<sup id="cite_ref-39" class="reference"><a href="#cite_note-39">[39]</a></sup>
+</td></tr>
+<tr>
+<th>5.5
+</th>
+<td>i386, x86_64
+</td>
+<td>5.5
+</td>
+<td>2010-05-14<sup id="cite_ref-CentOS5.5Announcement_40-0" class="reference"><a href="#cite_note-CentOS5.5Announcement-40">[40]</a></sup>
+</td>
+<td>2010-03-31<sup id="cite_ref-RHEL5.5Announcement_41-0" class="reference"><a href="#cite_note-RHEL5.5Announcement-41">[41]</a></sup>
+</td></tr>
+<tr>
+<th>5.5 - LiveCD
+</th>
+<td>i386, x86-64
+</td>
+<td>5.5
+</td>
+<td>2010-05-14<sup id="cite_ref-CentOS5.5Announcement_40-1" class="reference"><a href="#cite_note-CentOS5.5Announcement-40">[40]</a></sup>
+</td>
+<td>-
+</td></tr>
+<tr>
+<th>5.6
+</th>
+<td>i386, x86-64
+</td>
+<td>5.6
+</td>
+<td>2011-04-08<sup id="cite_ref-42" class="reference"><a href="#cite_note-42">[42]</a></sup>
+</td>
+<td>2011-01-13<sup id="cite_ref-Red_Hat_Enterprise_Linux_5.6_Now_Available_43-0" class="reference"><a href="#cite_note-Red_Hat_Enterprise_Linux_5.6_Now_Available-43">[43]</a></sup>
+</td></tr>
+<tr>
+<th>5.7
+</th>
+<td>i386, x86-64
+</td>
+<td>5.7
+</td>
+<td>2011-09-13<sup id="cite_ref-CentOS5.7Announcemement_44-0" class="reference"><a href="#cite_note-CentOS5.7Announcemement-44">[44]</a></sup>
+</td>
+<td>2011-07-21<sup id="cite_ref-Red_Hat_Enterprise_Linux_5.7_Release_Notes_45-0" class="reference"><a href="#cite_note-Red_Hat_Enterprise_Linux_5.7_Release_Notes-45">[45]</a></sup>
+</td></tr>
+<tr>
+<th>5.8
+</th>
+<td>i386, x86-64
+</td>
+<td>5.8
+</td>
+<td>2012-03-07<sup id="cite_ref-CentOS5.8Announcemement_46-0" class="reference"><a href="#cite_note-CentOS5.8Announcemement-46">[46]</a></sup>
+</td>
+<td>2012-02-21<sup id="cite_ref-Red_Hat_Enterprise_Linux_5.8_Release_Notes_47-0" class="reference"><a href="#cite_note-Red_Hat_Enterprise_Linux_5.8_Release_Notes-47">[47]</a></sup>
+</td></tr>
+<tr>
+<th>5.9
+</th>
+<td>i386, x86-64
+</td>
+<td>5.9
+</td>
+<td>2013-01-17<sup id="cite_ref-CentOS5.9Announcemement_48-0" class="reference"><a href="#cite_note-CentOS5.9Announcemement-48">[48]</a></sup>
+</td>
+<td>2013-01-07<sup id="cite_ref-Red_Hat_Enterprise_Linux_5.9_Release_Notes_49-0" class="reference"><a href="#cite_note-Red_Hat_Enterprise_Linux_5.9_Release_Notes-49">[49]</a></sup>
+</td></tr>
+<tr>
+<th>5.10
+</th>
+<td>i386, x86-64
+</td>
+<td>5.10
+</td>
+<td>2013-10-19<sup id="cite_ref-CentOS5.10Announcemement_50-0" class="reference"><a href="#cite_note-CentOS5.10Announcemement-50">[50]</a></sup>
+</td>
+<td>2013-10-01<sup id="cite_ref-Red_Hat_Enterprise_Linux_5.10_Release_Notes_51-0" class="reference"><a href="#cite_note-Red_Hat_Enterprise_Linux_5.10_Release_Notes-51">[51]</a></sup>
+</td></tr>
+<tr>
+<th>5.11
+</th>
+<td>i386, x86-64
+</td>
+<td>5.11
+</td>
+<td>2014-09-30<sup id="cite_ref-CentOS5.11Announcemement_52-0" class="reference"><a href="#cite_note-CentOS5.11Announcemement-52">[52]</a></sup>
+</td>
+<td>2014-09-16<sup id="cite_ref-Red_Hat_Enterprise_Linux_5.11_Release_Notes_53-0" class="reference"><a href="#cite_note-Red_Hat_Enterprise_Linux_5.11_Release_Notes-53">[53]</a></sup>
+</td></tr>
+<tr>
+<th>6
+</th>
+<td>i386, x86-64
+</td>
+<td>6
+</td>
+<td>2011-07-10<sup id="cite_ref-CentOS6.0Announcement_54-0" class="reference"><a href="#cite_note-CentOS6.0Announcement-54">[54]</a></sup>
+</td>
+<td>2010-11-10<sup id="cite_ref-55" class="reference"><a href="#cite_note-55">[55]</a></sup>
+</td></tr>
+<tr>
+<th>6.0 - LiveCD
+</th>
+<td>i386, x86-64
+</td>
+<td>6.0
+</td>
+<td>2011-07-25<sup id="cite_ref-56" class="reference"><a href="#cite_note-56">[56]</a></sup>
+</td>
+<td>-
+</td></tr>
+<tr>
+<th>6.0 - LiveDVD
+</th>
+<td>i386, x86-64
+</td>
+<td>6.0
+</td>
+<td>2011-07-27<sup id="cite_ref-57" class="reference"><a href="#cite_note-57">[57]</a></sup>
+</td>
+<td>-
+</td></tr>
+<tr>
+<th>6.0 - MinimalCD
+</th>
+<td>i386, x86-64
+</td>
+<td>6.0
+</td>
+<td>2011-07-28<sup id="cite_ref-58" class="reference"><a href="#cite_note-58">[58]</a></sup>
+</td>
+<td>-
+</td></tr>
+<tr>
+<th>6.1
+</th>
+<td>i386, x86-64
+</td>
+<td>6.1
+</td>
+<td>2011-12-09<sup id="cite_ref-59" class="reference"><a href="#cite_note-59">[59]</a></sup>
+</td>
+<td>2011-05-19<sup id="cite_ref-60" class="reference"><a href="#cite_note-60">[60]</a></sup>
+</td></tr>
+<tr>
+<th>6.1 - LiveCD
+</th>
+<td>i386, x86-64
+</td>
+<td>6.1
+</td>
+<td>2011-12-09<sup id="cite_ref-61" class="reference"><a href="#cite_note-61">[61]</a></sup>
+</td>
+<td>-
+</td></tr>
+<tr>
+<th>6.1 - LiveDVD
+</th>
+<td>i386, x86-64
+</td>
+<td>6.1
+</td>
+<td>2011-12-09<sup id="cite_ref-62" class="reference"><a href="#cite_note-62">[62]</a></sup>
+</td>
+<td>-
+</td></tr>
+<tr>
+<th>6.1 - MinimalCD
+</th>
+<td>i386, x86-64
+</td>
+<td>6.1
+</td>
+<td>2011-12-09<sup id="cite_ref-63" class="reference"><a href="#cite_note-63">[63]</a></sup>
+</td>
+<td>-
+</td></tr>
+<tr>
+<th>6.2
+</th>
+<td>i386, x86-64
+</td>
+<td>6.2
+</td>
+<td>2011-12-20<sup id="cite_ref-CentOS6.2Announcement_64-0" class="reference"><a href="#cite_note-CentOS6.2Announcement-64">[64]</a></sup>
+</td>
+<td>2011-12-06<sup id="cite_ref-65" class="reference"><a href="#cite_note-65">[65]</a></sup>
+</td></tr>
+<tr>
+<th>6.2 - LiveCD
+</th>
+<td>i386, x86-64
+</td>
+<td>6.2
+</td>
+<td>2011-12-20<sup id="cite_ref-CentOS6.2ReleaseNotes_66-0" class="reference"><a href="#cite_note-CentOS6.2ReleaseNotes-66">[66]</a></sup>
+</td>
+<td>-
+</td></tr>
+<tr>
+<th>6.2 - LiveDVD
+</th>
+<td>i386, x86-64
+</td>
+<td>6.2
+</td>
+<td>2011-12-20<sup id="cite_ref-CentOS6.2ReleaseNotes_66-1" class="reference"><a href="#cite_note-CentOS6.2ReleaseNotes-66">[66]</a></sup>
+</td>
+<td>-
+</td></tr>
+<tr>
+<th>6.2 - MinimalCD
+</th>
+<td>i386, x86-64
+</td>
+<td>6.2
+</td>
+<td>2011-12-20<sup id="cite_ref-CentOS6.2Announcement_64-1" class="reference"><a href="#cite_note-CentOS6.2Announcement-64">[64]</a></sup>
+</td>
+<td>-
+</td></tr>
+<tr>
+<th>6.3
+</th>
+<td>i386, x86-64
+</td>
+<td>6.3
+</td>
+<td>2012-07-09<sup id="cite_ref-CentOS6.3Announcemement_67-0" class="reference"><a href="#cite_note-CentOS6.3Announcemement-67">[67]</a></sup>
+</td>
+<td>2012-06-21<sup id="cite_ref-68" class="reference"><a href="#cite_note-68">[68]</a></sup>
+</td></tr>
+<tr>
+<th>6.4
+</th>
+<td>i386, x86-64
+</td>
+<td>6.4
+</td>
+<td>2013-03-09<sup id="cite_ref-CentOS6.4Announcemement_69-0" class="reference"><a href="#cite_note-CentOS6.4Announcemement-69">[69]</a></sup>
+</td>
+<td>2013-02-21<sup id="cite_ref-70" class="reference"><a href="#cite_note-70">[70]</a></sup>
+</td></tr>
+<tr>
+<th>6.5
+</th>
+<td>i386, x86-64
+</td>
+<td>6.5
+</td>
+<td>2013-12-01<sup id="cite_ref-CentOS6.5Announcemement_71-0" class="reference"><a href="#cite_note-CentOS6.5Announcemement-71">[71]</a></sup>
+</td>
+<td>2013-11-21<sup id="cite_ref-72" class="reference"><a href="#cite_note-72">[72]</a></sup>
+</td></tr>
+<tr>
+<th>6.6
+</th>
+<td>i386, x86-64
+</td>
+<td>6.6
+</td>
+<td>2014-10-28<sup id="cite_ref-CentOS6.6Announcemement_73-0" class="reference"><a href="#cite_note-CentOS6.6Announcemement-73">[73]</a></sup>
+</td>
+<td>2014-10-14<sup id="cite_ref-74" class="reference"><a href="#cite_note-74">[74]</a></sup>
+</td></tr>
+<tr>
+<th>6.7
+</th>
+<td>i386, x86-64
+</td>
+<td>6.7
+</td>
+<td>2015-08-07<sup id="cite_ref-CentOS6.7Announcemement_75-0" class="reference"><a href="#cite_note-CentOS6.7Announcemement-75">[75]</a></sup>
+</td>
+<td>2015-07-22<sup id="cite_ref-76" class="reference"><a href="#cite_note-76">[76]</a></sup>
+</td></tr>
+<tr>
+<th>6.8
+</th>
+<td>i386, x86-64
+</td>
+<td>6.8
+</td>
+<td>2016-05-25<sup id="cite_ref-CentOS6.8Announcemement_77-0" class="reference"><a href="#cite_note-CentOS6.8Announcemement-77">[77]</a></sup>
+</td>
+<td>2016-05-09<sup id="cite_ref-78" class="reference"><a href="#cite_note-78">[78]</a></sup>
+</td></tr>
+<tr>
+<th>6.9
+</th>
+<td>i386, x86-64
+</td>
+<td>6.9
+</td>
+<td>2017-04-05<sup id="cite_ref-CentOS6.9Announcemement_79-0" class="reference"><a href="#cite_note-CentOS6.9Announcemement-79">[79]</a></sup>
+</td>
+<td>2017-03-21<sup id="cite_ref-80" class="reference"><a href="#cite_note-80">[80]</a></sup>
+</td></tr>
+<tr>
+<th>6.10
+</th>
+<td>i386, x86-64
+</td>
+<td>6.10
+</td>
+<td>2018-07-03<sup id="cite_ref-CentOS6.10Announcemement_81-0" class="reference"><a href="#cite_note-CentOS6.10Announcemement-81">[81]</a></sup>
+</td>
+<td>2018-06-19<sup id="cite_ref-82" class="reference"><a href="#cite_note-82">[82]</a></sup>
+</td></tr>
+<tr>
+<th>7-1406
+</th>
+<td>x86-64
+</td>
+<td>7.0
+</td>
+<td>2014-07-07<sup id="cite_ref-CentOS7.0Announcemement_83-0" class="reference"><a href="#cite_note-CentOS7.0Announcemement-83">[83]</a></sup>
+</td>
+<td>2014-06-10<sup id="cite_ref-84" class="reference"><a href="#cite_note-84">[84]</a></sup>
+</td></tr>
+<tr>
+<th>7-1503
+</th>
+<td>x86-64
+</td>
+<td>7.1
+</td>
+<td>2015-03-31<sup id="cite_ref-CentOS7.1Announcemement_85-0" class="reference"><a href="#cite_note-CentOS7.1Announcemement-85">[85]</a></sup>
+</td>
+<td>2015-03-06<sup id="cite_ref-86" class="reference"><a href="#cite_note-86">[86]</a></sup>
+</td></tr>
+<tr>
+<th>7-1503-AArch64
+</th>
+<td>AArch64
+</td>
+<td>7.1
+</td>
+<td>2015-08-04<sup id="cite_ref-CentOS7.1Announcemement_for_AArch64_87-0" class="reference"><a href="#cite_note-CentOS7.1Announcemement_for_AArch64-87">[87]</a></sup>
+</td>
+<td>2015-03-06<sup id="cite_ref-88" class="reference"><a href="#cite_note-88">[88]</a></sup>
+</td></tr>
+<tr>
+<th>7-1503-i386
+</th>
+<td>i386
+</td>
+<td>7.1
+</td>
+<td>2015-10-12<sup id="cite_ref-CentOS7.1Announcemement_for_x86_89-0" class="reference"><a href="#cite_note-CentOS7.1Announcemement_for_x86-89">[89]</a></sup>
+</td>
+<td>2015-03-06<sup id="cite_ref-90" class="reference"><a href="#cite_note-90">[90]</a></sup>
+</td></tr>
+<tr>
+<th>7-1511
+</th>
+<td>x86-64
+</td>
+<td>7.2
+</td>
+<td>2015-12-14<sup id="cite_ref-CentOS7.2Announcemement_91-0" class="reference"><a href="#cite_note-CentOS7.2Announcemement-91">[91]</a></sup>
+</td>
+<td>2015-11-19<sup id="cite_ref-92" class="reference"><a href="#cite_note-92">[92]</a></sup>
+</td></tr>
+<tr>
+<th>7-1611
+</th>
+<td>x86-64
+</td>
+<td>7.3
+</td>
+<td>2016-12-12<sup id="cite_ref-CentOS7.3Announcemement_93-0" class="reference"><a href="#cite_note-CentOS7.3Announcemement-93">[93]</a></sup>
+</td>
+<td>2016-11-03<sup id="cite_ref-94" class="reference"><a href="#cite_note-94">[94]</a></sup>
+</td></tr>
+<tr>
+<th>7-1708
+</th>
+<td>x86-64
+</td>
+<td>7.4
+</td>
+<td>2017-09-13<sup id="cite_ref-CentOS7.4Announcemement_95-0" class="reference"><a href="#cite_note-CentOS7.4Announcemement-95">[95]</a></sup>
+</td>
+<td>2017-08-01<sup id="cite_ref-96" class="reference"><a href="#cite_note-96">[96]</a></sup>
+</td></tr>
+<tr>
+<th>7-1804
+</th>
+<td>x86-64
+</td>
+<td>7.5
+</td>
+<td>2018-05-10<sup id="cite_ref-CentOS7.5Announcemement_97-0" class="reference"><a href="#cite_note-CentOS7.5Announcemement-97">[97]</a></sup>
+</td>
+<td>2018-04-10<sup id="cite_ref-98" class="reference"><a href="#cite_note-98">[98]</a></sup>
+</td></tr>
+<tr>
+<th>7-1810
+</th>
+<td>x86-64
+</td>
+<td>7.6
+</td>
+<td>2018-12-03<sup id="cite_ref-CentOS7.6Announcement_99-0" class="reference"><a href="#cite_note-CentOS7.6Announcement-99">[99]</a></sup>
+</td>
+<td>2018-10-30<sup id="cite_ref-100" class="reference"><a href="#cite_note-100">[100]</a></sup>
+</td></tr></tbody></table>
+
+</article>
+      <section id="main_content">
+        <ul>
+            
+        </ul>
+      </section>
+    </div>
+  </div>
+   <footer>
+  <a href="/">
+    <span>
+        <b>LuoSongtao</b>
+    </span>
+    
+    <span>© 2020</span>
+  </a>
+</footer>
+
+  
+</body>
+
+</html>

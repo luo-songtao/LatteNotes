@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+  <meta name="generator" content="Jekyll">
+
+  <title>数学分析-不定积分</title>
+  <link rel="stylesheet" href="/css/main.css">
+
+  <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="ATOM Feed" /> <!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>数学分析-不定积分 | MicroNotes</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="数学分析-不定积分" />
+<meta name="author" content="LuoSongtao" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="不定积分" />
+<meta property="og:description" content="不定积分" />
+<meta property="og:site_name" content="MicroNotes" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2019-12-09T00:00:00-06:00" />
+<script type="application/ld+json">
+{"author":{"@type":"Person","name":"LuoSongtao"},"mainEntityOfPage":{"@type":"WebPage","@id":"/mathematical-analysis/%E4%B8%8D%E5%AE%9A%E7%A7%AF%E5%88%86"},"description":"不定积分","@type":"BlogPosting","headline":"数学分析-不定积分","dateModified":"2019-12-09T00:00:00-06:00","url":"/mathematical-analysis/%E4%B8%8D%E5%AE%9A%E7%A7%AF%E5%88%86","datePublished":"2019-12-09T00:00:00-06:00","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+        inlineMath: [['$','$']]
+      }
+    });
+  </script>
+
+</head>
+
+<body>
+  <div id="wrapper">
+    <header>
+  <div style="text-align: center;">
+    <div>
+      <a id="username" href="/">
+      
+      <span style="font-size: x-large; color: #00C2C4;">luosongtao</span>
+      <span style="font-size: x-large; color: #7E7E7C;">@</span>
+      <span style="font-size: x-large; color: #76E87B;">home:</span>
+      <span style="font-size: x-large; color: #FF7F7A;">~$</span>
+      </a>
+      
+<div id="search">
+	<input type="text" id="search-input" placeholder="Command.." style="vertical-align:middle;">
+	<ul id="results-container"></ul>
+</div>
+
+<!-- script pointing to jekyll-search.js -->
+<script src="/assets/js/simple-jekyll-search.min.js"></script>
+<script async src="/searchdata.js"></script>
+
+    </div>
+  </div>
+  <div class="header-links">
+      <a href="/archive"><h2 class="header-link">时间轴</h2></a>
+<a href="/about"><h2 class="header-link">关于</h2></a>
+<!--<a href="/atom.xml"><h2 class="header-link">RSS</h2></a>-->
+  </div>
+
+</header>
+    <div class="container">
+        <article>
+  <h1>数学分析-不定积分</h1>
+  <time datetime="2019-12-09T00:00:00-06:00" class="by-line">09 Dec 2019</time>
+  <ul class="section-nav">
+<li class="toc-entry toc-h3"><a href="#不定积分">不定积分</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#不定积分定义">不定积分定义</a></li>
+<li class="toc-entry toc-h4"><a href="#不定积分与微分的关系">不定积分与微分的关系</a></li>
+<li class="toc-entry toc-h4"><a href="#不定积分的线性性质">不定积分的线性性质</a></li>
+<li class="toc-entry toc-h4"><a href="#example">Example</a></li>
+</ul>
+</li>
+</ul><h3 id="不定积分">
+<a class="anchor" href="#%E4%B8%8D%E5%AE%9A%E7%A7%AF%E5%88%86" aria-hidden="true"><span class="octicon octicon-link"></span></a>不定积分</h3>
+
+<p>$在某个区间上，F’(x)=f(x),则称F(x)是f(x)的一个原函数$</p>
+
+<p>$设G(x)是该区间上f(x)的另一个原函数，则:$</p>
+
+<script type="math/tex; mode=display">(F(x)-G(x))'=f(x)-f(x)=0\Rightarrow F(x)-G(x) = c</script>
+
+<h4 id="不定积分定义">
+<a class="anchor" href="#%E4%B8%8D%E5%AE%9A%E7%A7%AF%E5%88%86%E5%AE%9A%E4%B9%89" aria-hidden="true"><span class="octicon octicon-link"></span></a>不定积分定义</h4>
+
+<p>一个函数$f(x)$的原函数的全体称为这个函数的不定积分，记作$\int f(x)dx$</p>
+
+<ul>
+  <li>$\int$——积分号</li>
+  <li>$f(x)$——被积函数</li>
+  <li>$x$——积分变量</li>
+</ul>
+
+<p>不定积分表示的是一个函数族</p>
+
+<script type="math/tex; mode=display">\int f(x)dx=F(x)+c</script>
+
+<script type="math/tex; mode=display">\int f(u)du=F(u)+c</script>
+
+<h4 id="不定积分与微分的关系">
+<a class="anchor" href="#%E4%B8%8D%E5%AE%9A%E7%A7%AF%E5%88%86%E4%B8%8E%E5%BE%AE%E5%88%86%E7%9A%84%E5%85%B3%E7%B3%BB" aria-hidden="true"><span class="octicon octicon-link"></span></a>不定积分与微分的关系</h4>
+
+<p>不定积分与微分互为逆运算</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{equation} \begin{aligned} F(x)\overset{d}{\longrightarrow} &f(x)dx \\ F(x)+c\underset{\int}{\longleftarrow} &f(x)dx\end{aligned} \end{equation} %]]></script>
+
+<script type="math/tex; mode=display">d(\int f(x)dx)=d(F(x)+c)=f(x)dx</script>
+
+<script type="math/tex; mode=display">\int f(x)dx=\int dF(x)=F(x)+c</script>
+
+<h4 id="不定积分的线性性质">
+<a class="anchor" href="#%E4%B8%8D%E5%AE%9A%E7%A7%AF%E5%88%86%E7%9A%84%E7%BA%BF%E6%80%A7%E6%80%A7%E8%B4%A8" aria-hidden="true"><span class="octicon octicon-link"></span></a>不定积分的线性性质</h4>
+
+<p>$设有f(x),g(x)的原函数都存在，k_1,k_2是任意常数,则:$</p>
+
+<script type="math/tex; mode=display">\int [k_1f(x)+k_2g(x)]dx=k_1\int f(x)dx+k_2\int g(x)dx</script>
+
+<h4 id="example">
+<a class="anchor" href="#example" aria-hidden="true"><span class="octicon octicon-link"></span></a>Example</h4>
+
+<p><img src="/assets/images/mathemathical-analysis/%E4%BE%8B%E9%A2%98-%E4%B8%8D%E5%AE%9A%E7%A7%AF%E5%88%86.png" alt="例题-不定积分"></p>
+
+</article>
+      <section id="main_content">
+        <ul>
+            
+        </ul>
+      </section>
+    </div>
+  </div>
+   <footer>
+  <a href="/">
+    <span>
+        <b>LuoSongtao</b>
+    </span>
+    
+    <span>© 2020</span>
+  </a>
+</footer>
+
+  
+</body>
+
+</html>

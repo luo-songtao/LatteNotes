@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+  <meta name="generator" content="Jekyll">
+
+  <title>数学分析-函数的Taylor公式及其应用</title>
+  <link rel="stylesheet" href="/css/main.css">
+
+  <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="ATOM Feed" /> <!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>数学分析-函数的Taylor公式及其应用 | MicroNotes</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="数学分析-函数的Taylor公式及其应用" />
+<meta name="author" content="LuoSongtao" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="函数的Taylor公式及其应用" />
+<meta property="og:description" content="函数的Taylor公式及其应用" />
+<meta property="og:site_name" content="MicroNotes" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2019-12-06T00:00:00-06:00" />
+<script type="application/ld+json">
+{"author":{"@type":"Person","name":"LuoSongtao"},"mainEntityOfPage":{"@type":"WebPage","@id":"/mathematical-analysis/%E5%87%BD%E6%95%B0%E7%9A%84Taylor%E5%85%AC%E5%BC%8F%E5%8F%8A%E5%85%B6%E5%BA%94%E7%94%A8"},"description":"函数的Taylor公式及其应用","@type":"BlogPosting","headline":"数学分析-函数的Taylor公式及其应用","dateModified":"2019-12-06T00:00:00-06:00","url":"/mathematical-analysis/%E5%87%BD%E6%95%B0%E7%9A%84Taylor%E5%85%AC%E5%BC%8F%E5%8F%8A%E5%85%B6%E5%BA%94%E7%94%A8","datePublished":"2019-12-06T00:00:00-06:00","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+        inlineMath: [['$','$']]
+      }
+    });
+  </script>
+
+</head>
+
+<body>
+  <div id="wrapper">
+    <header>
+  <div style="text-align: center;">
+    <div>
+      <a id="username" href="/">
+      
+      <span style="font-size: x-large; color: #00C2C4;">luosongtao</span>
+      <span style="font-size: x-large; color: #7E7E7C;">@</span>
+      <span style="font-size: x-large; color: #76E87B;">home:</span>
+      <span style="font-size: x-large; color: #FF7F7A;">~$</span>
+      </a>
+      
+<div id="search">
+	<input type="text" id="search-input" placeholder="Command.." style="vertical-align:middle;">
+	<ul id="results-container"></ul>
+</div>
+
+<!-- script pointing to jekyll-search.js -->
+<script src="/assets/js/simple-jekyll-search.min.js"></script>
+<script async src="/searchdata.js"></script>
+
+    </div>
+  </div>
+  <div class="header-links">
+      <a href="/archive"><h2 class="header-link">时间轴</h2></a>
+<a href="/about"><h2 class="header-link">关于</h2></a>
+<!--<a href="/atom.xml"><h2 class="header-link">RSS</h2></a>-->
+  </div>
+
+</header>
+    <div class="container">
+        <article>
+  <h1>数学分析-函数的Taylor公式及其应用</h1>
+  <time datetime="2019-12-06T00:00:00-06:00" class="by-line">06 Dec 2019</time>
+  <ul class="section-nav">
+<li class="toc-entry toc-h3"><a href="#函数的taylor公式及其应用">函数的Taylor公式及其应用</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#maclaurin公式计算">Maclaurin公式计算</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#example">Example</a></li>
+<li class="toc-entry toc-h5"><a href="#example2">Example2</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#不同阶taylor公式之间的关系">不同阶Taylor公式之间的关系</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#example3">Example3</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#taylor公式的应用">Taylor公式的应用</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#一近似计算">一、近似计算</a></li>
+<li class="toc-entry toc-h5"><a href="#二求极限">二、求极限</a></li>
+<li class="toc-entry toc-h5"><a href="#三证明不等式">三、证明不等式</a></li>
+<li class="toc-entry toc-h5"><a href="#四求曲线的渐近线">四、求曲线的渐近线</a></li>
+<li class="toc-entry toc-h5"><a href="#其他应用">其他应用</a>
+<ul>
+<li class="toc-entry toc-h6"><a href="#利用taylor公式证明e不是有理数">利用Taylor公式证明e不是有理数</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul><h3 id="函数的taylor公式及其应用">
+<a class="anchor" href="#%E5%87%BD%E6%95%B0%E7%9A%84taylor%E5%85%AC%E5%BC%8F%E5%8F%8A%E5%85%B6%E5%BA%94%E7%94%A8" aria-hidden="true"><span class="octicon octicon-link"></span></a>函数的Taylor公式及其应用</h3>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{equation} \begin{aligned}  Taylor公式: & f(x)=f(x_0)+f'(x_0)(x-x_0)+\frac 1{2!}f''(x_0)(x-x_0)^2+···+\frac 1{n!}f^{(n)}(x_0)(x-x_0)^n+r_n(x) \\ Maclaurin公式: & f(x)=f(0)+f'(0)x+\frac 1{2!}f''(0)x^2+···+\frac 1{n!}f^{(n)}(0)x^n+r_n(x)  \qquad 即当x_0=0时\end{aligned} \end{equation} %]]></script>
+
+<p>$求f在x_0的Taylor公式，令x-x_0=t,x=t+x_0$</p>
+
+<p>$f(x)=f(t+x_0)=g(t),即转换为求g(t)在t=0时的Taylor公式$</p>
+
+<h4 id="maclaurin公式计算">
+<a class="anchor" href="#maclaurin%E5%85%AC%E5%BC%8F%E8%AE%A1%E7%AE%97" aria-hidden="true"><span class="octicon octicon-link"></span></a>Maclaurin公式计算</h4>
+
+<h5 id="example">
+<a class="anchor" href="#example" aria-hidden="true"><span class="octicon octicon-link"></span></a>Example</h5>
+
+<p><img src="/assets/images/mathemathical-analysis/%E4%BE%8B%E9%A2%98-%E5%87%BD%E6%95%B0%E7%9A%84Taylor%E5%85%AC%E5%BC%8F%E5%8F%8A%E5%85%B6%E5%BA%94%E7%94%A81.png" alt="例题-函数的Taylor公式及其应用1"></p>
+
+<h5 id="example2">
+<a class="anchor" href="#example2" aria-hidden="true"><span class="octicon octicon-link"></span></a>Example2</h5>
+
+<p><img src="/assets/images/mathemathical-analysis/%E4%BE%8B%E9%A2%98-%E5%87%BD%E6%95%B0%E7%9A%84Taylor%E5%85%AC%E5%BC%8F%E5%8F%8A%E5%85%B6%E5%BA%94%E7%94%A82.png" alt="例题-函数的Taylor公式及其应用2"></p>
+
+<h4 id="不同阶taylor公式之间的关系">
+<a class="anchor" href="#%E4%B8%8D%E5%90%8C%E9%98%B6taylor%E5%85%AC%E5%BC%8F%E4%B9%8B%E9%97%B4%E7%9A%84%E5%85%B3%E7%B3%BB" aria-hidden="true"><span class="octicon octicon-link"></span></a>不同阶Taylor公式之间的关系</h4>
+
+<p>$设f(x)在x_0有n+2阶导数，则它的n+1次Taylor多项式的导数就是f’(x)的n次Taylor多项式$</p>
+
+<h5 id="example3">
+<a class="anchor" href="#example3" aria-hidden="true"><span class="octicon octicon-link"></span></a>Example3</h5>
+
+<p><img src="/assets/images/mathemathical-analysis/%E4%BE%8B%E9%A2%98-%E5%87%BD%E6%95%B0%E7%9A%84Taylor%E5%85%AC%E5%BC%8F%E5%8F%8A%E5%85%B6%E5%BA%94%E7%94%A83.png" alt="例题-函数的Taylor公式及其应用3"></p>
+
+<h4 id="taylor公式的应用">
+<a class="anchor" href="#taylor%E5%85%AC%E5%BC%8F%E7%9A%84%E5%BA%94%E7%94%A8" aria-hidden="true"><span class="octicon octicon-link"></span></a>Taylor公式的应用</h4>
+
+<h5 id="一近似计算">
+<a class="anchor" href="#%E4%B8%80%E8%BF%91%E4%BC%BC%E8%AE%A1%E7%AE%97" aria-hidden="true"><span class="octicon octicon-link"></span></a>一、近似计算</h5>
+
+<p><img src="/assets/images/mathemathical-analysis/%E4%BE%8B%E9%A2%98-Taylor%E5%85%AC%E5%BC%8F%E7%9A%84%E5%BA%94%E7%94%A81-%E8%BF%91%E4%BC%BC%E8%AE%A1%E7%AE%97.png" alt="例题-Taylor公式的应用1-近似计算"></p>
+
+<h5 id="二求极限">
+<a class="anchor" href="#%E4%BA%8C%E6%B1%82%E6%9E%81%E9%99%90" aria-hidden="true"><span class="octicon octicon-link"></span></a>二、求极限</h5>
+
+<p><img src="/assets/images/mathemathical-analysis/%E4%BE%8B%E9%A2%98-Taylor%E5%85%AC%E5%BC%8F%E7%9A%84%E5%BA%94%E7%94%A82-%E6%B1%82%E6%9E%81%E9%99%90.png" alt="例题-Taylor公式的应用2-求极限"></p>
+
+<h5 id="三证明不等式">
+<a class="anchor" href="#%E4%B8%89%E8%AF%81%E6%98%8E%E4%B8%8D%E7%AD%89%E5%BC%8F" aria-hidden="true"><span class="octicon octicon-link"></span></a>三、证明不等式</h5>
+
+<p><img src="/assets/images/mathemathical-analysis/%E4%BE%8B%E9%A2%98-Taylor%E5%85%AC%E5%BC%8F%E7%9A%84%E5%BA%94%E7%94%A83-%E8%AF%81%E6%98%8E%E4%B8%8D%E7%AD%89%E5%BC%8F.png" alt="例题-Taylor公式的应用3-证明不等式"></p>
+
+<h5 id="四求曲线的渐近线">
+<a class="anchor" href="#%E5%9B%9B%E6%B1%82%E6%9B%B2%E7%BA%BF%E7%9A%84%E6%B8%90%E8%BF%91%E7%BA%BF" aria-hidden="true"><span class="octicon octicon-link"></span></a>四、求曲线的渐近线</h5>
+
+<p><img src="/assets/images/mathemathical-analysis/%E4%BE%8B%E9%A2%98-Taylor%E5%85%AC%E5%BC%8F%E7%9A%84%E5%BA%94%E7%94%A84-%E6%B1%82%E6%9B%B2%E7%BA%BF%E7%9A%84%E6%B8%90%E8%BF%91%E7%BA%BF.png" alt="例题-Taylor公式的应用4-求曲线的渐近线"></p>
+
+<h5 id="其他应用">
+<a class="anchor" href="#%E5%85%B6%E4%BB%96%E5%BA%94%E7%94%A8" aria-hidden="true"><span class="octicon octicon-link"></span></a>其他应用</h5>
+
+<h6 id="利用taylor公式证明e不是有理数">
+<a class="anchor" href="#%E5%88%A9%E7%94%A8taylor%E5%85%AC%E5%BC%8F%E8%AF%81%E6%98%8Ee%E4%B8%8D%E6%98%AF%E6%9C%89%E7%90%86%E6%95%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>利用Taylor公式证明e不是有理数</h6>
+
+<p><img src="/assets/images/mathemathical-analysis/%E8%AF%81-%E5%88%A9%E7%94%A8Taylor%E8%AF%81%E6%98%8Ee%E4%B8%8D%E6%98%AF%E6%9C%89%E7%90%86%E6%95%B0.png" alt="证-利用Taylor证明e不是有理数"></p>
+
+</article>
+      <section id="main_content">
+        <ul>
+            
+        </ul>
+      </section>
+    </div>
+  </div>
+   <footer>
+  <a href="/">
+    <span>
+        <b>LuoSongtao</b>
+    </span>
+    
+    <span>© 2020</span>
+  </a>
+</footer>
+
+  
+</body>
+
+</html>

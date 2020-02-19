@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+  <meta name="generator" content="Jekyll">
+
+  <title>数学分析-无穷大量与无穷小量的阶(1)</title>
+  <link rel="stylesheet" href="/css/main.css">
+
+  <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="ATOM Feed" /> <!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>数学分析-无穷大量与无穷小量的阶(1) | MicroNotes</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="数学分析-无穷大量与无穷小量的阶(1)" />
+<meta name="author" content="LuoSongtao" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="无穷小量的阶" />
+<meta property="og:description" content="无穷小量的阶" />
+<meta property="og:site_name" content="MicroNotes" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2019-11-26T00:00:00-06:00" />
+<script type="application/ld+json">
+{"author":{"@type":"Person","name":"LuoSongtao"},"mainEntityOfPage":{"@type":"WebPage","@id":"/mathematical-analysis/%E6%97%A0%E7%A9%B7%E5%A4%A7%E9%87%8F%E4%B8%8E%E6%97%A0%E7%A9%B7%E5%B0%8F%E9%87%8F%E7%9A%84%E9%98%B6(1)"},"description":"无穷小量的阶","@type":"BlogPosting","headline":"数学分析-无穷大量与无穷小量的阶(1)","dateModified":"2019-11-26T00:00:00-06:00","url":"/mathematical-analysis/%E6%97%A0%E7%A9%B7%E5%A4%A7%E9%87%8F%E4%B8%8E%E6%97%A0%E7%A9%B7%E5%B0%8F%E9%87%8F%E7%9A%84%E9%98%B6(1)","datePublished":"2019-11-26T00:00:00-06:00","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+        inlineMath: [['$','$']]
+      }
+    });
+  </script>
+
+</head>
+
+<body>
+  <div id="wrapper">
+    <header>
+  <div style="text-align: center;">
+    <div>
+      <a id="username" href="/">
+      
+      <span style="font-size: x-large; color: #00C2C4;">luosongtao</span>
+      <span style="font-size: x-large; color: #7E7E7C;">@</span>
+      <span style="font-size: x-large; color: #76E87B;">home:</span>
+      <span style="font-size: x-large; color: #FF7F7A;">~$</span>
+      </a>
+      
+<div id="search">
+	<input type="text" id="search-input" placeholder="Command.." style="vertical-align:middle;">
+	<ul id="results-container"></ul>
+</div>
+
+<!-- script pointing to jekyll-search.js -->
+<script src="/assets/js/simple-jekyll-search.min.js"></script>
+<script async src="/searchdata.js"></script>
+
+    </div>
+  </div>
+  <div class="header-links">
+      <a href="/archive"><h2 class="header-link">时间轴</h2></a>
+<a href="/about"><h2 class="header-link">关于</h2></a>
+<!--<a href="/atom.xml"><h2 class="header-link">RSS</h2></a>-->
+  </div>
+
+</header>
+    <div class="container">
+        <article>
+  <h1>数学分析-无穷大量与无穷小量的阶(1)</h1>
+  <time datetime="2019-11-26T00:00:00-06:00" class="by-line">26 Nov 2019</time>
+  <ul class="section-nav">
+<li class="toc-entry toc-h3"><a href="#无穷小量的阶">无穷小量的阶</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#1-高阶无穷小量">1. 高阶无穷小量</a></li>
+<li class="toc-entry toc-h4"><a href="#2-同阶无穷小量">2. 同阶无穷小量</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#有界量">有界量</a></li>
+<li class="toc-entry toc-h5"><a href="#同阶无穷小量定义">同阶无穷小量定义</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#3-等价无穷小量">3. 等价无穷小量</a>
+<ul>
+<li class="toc-entry toc-h6"><a href="#注">注</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#无穷大量的阶">无穷大量的阶</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#高阶无穷大量">高阶无穷大量</a></li>
+<li class="toc-entry toc-h4"><a href="#同阶无穷大量">同阶无穷大量</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#同阶无穷大量定义">同阶无穷大量定义</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#等价无穷大量">等价无穷大量</a></li>
+</ul>
+</li>
+</ul><h3 id="无穷小量的阶">
+<a class="anchor" href="#%E6%97%A0%E7%A9%B7%E5%B0%8F%E9%87%8F%E7%9A%84%E9%98%B6" aria-hidden="true"><span class="octicon octicon-link"></span></a>无穷小量的阶</h3>
+
+<p>$\lim_{n\rightarrow \infty}x_n=0$，则称$\lbrace x_n \rbrace$是无穷小量</p>
+
+<p>$\lim_{x\rightarrow x_0}f(x)=0$，则称当$x\rightarrow x_0$时，$f(x)$是无穷小量</p>
+
+<h4 id="1-高阶无穷小量">
+<a class="anchor" href="#1-%E9%AB%98%E9%98%B6%E6%97%A0%E7%A9%B7%E5%B0%8F%E9%87%8F" aria-hidden="true"><span class="octicon octicon-link"></span></a>1. 高阶无穷小量</h4>
+
+<p>$当x\rightarrow x_0时,u(x),v(x)都是无穷小量$</p>
+
+<p>$若\lim_{x\rightarrow x_0}\frac {u(x)}{v(x)}=0,则称当x\rightarrow x_0时,u(x)是v(x)的高阶无穷小量，记为:$</p>
+
+<script type="math/tex; mode=display">u(x) = o(v(x)) \qquad (x\rightarrow x_0)</script>
+
+<p>例题</p>
+
+<ul>
+  <li>$\lim_{x\rightarrow 0}\frac {1-\cos x}{ x}=\lim_{x\rightarrow 0}\frac {2\sin^2{\frac x2}}{({\frac x2})^2·4}x=0$
+    <ul>
+      <li>$1-\cos x = o(x)$</li>
+    </ul>
+  </li>
+  <li>$\lim_{x\rightarrow 0}\frac {\tan x-\sin x}{x^2}=\lim_{x\rightarrow 0}\frac {\sin x}{x\cos x}·\frac {1-\cos x}{x}=0$
+    <ul>
+      <li>$\tan x -\sin x = o(x^2)$</li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="2-同阶无穷小量">
+<a class="anchor" href="#2-%E5%90%8C%E9%98%B6%E6%97%A0%E7%A9%B7%E5%B0%8F%E9%87%8F" aria-hidden="true"><span class="octicon octicon-link"></span></a>2. 同阶无穷小量</h4>
+
+<h5 id="有界量">
+<a class="anchor" href="#%E6%9C%89%E7%95%8C%E9%87%8F" aria-hidden="true"><span class="octicon octicon-link"></span></a>有界量</h5>
+
+<p>$若存在A&gt;0,当x在x_0的某一去心领域中\lbrace x\vert 0&lt; \vert x-x_0 \vert &lt;\delta \rbrace$</p>
+
+<p>$成立\qquad \vert \frac {u(x)}{v(x)} \vert \le A$</p>
+
+<p>$则称当x\rightarrow x_0, \vert \frac {u(x)}{v(x)} \vert是有界量,记为：$</p>
+
+<script type="math/tex; mode=display">u(x) = O(v(x)) \qquad (x\rightarrow x_0)</script>
+
+<h5 id="同阶无穷小量定义">
+<a class="anchor" href="#%E5%90%8C%E9%98%B6%E6%97%A0%E7%A9%B7%E5%B0%8F%E9%87%8F%E5%AE%9A%E4%B9%89" aria-hidden="true"><span class="octicon octicon-link"></span></a>同阶无穷小量定义</h5>
+
+<p>$若\exists 0&lt;a \le A&lt;+\infty,在\lbrace x \vert 0&lt;\vert x-x_0\vert&lt;\delta \rbrace$</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+0< a \le \vert \frac {u(x)}{v(x)} \vert \le A <+\infty %]]></script>
+
+<p>$则称u(x), v(x),(当x\rightarrow x_0时)是同阶无穷小量$</p>
+
+<h4 id="3-等价无穷小量">
+<a class="anchor" href="#3-%E7%AD%89%E4%BB%B7%E6%97%A0%E7%A9%B7%E5%B0%8F%E9%87%8F" aria-hidden="true"><span class="octicon octicon-link"></span></a>3. 等价无穷小量</h4>
+
+<p>$若\lim_{x\rightarrow x_0}\frac {u(x)}{v(x)} =1,则称当x\rightarrow x_0时,u(x)与v(x)是等价无穷小量,记为:$</p>
+
+<script type="math/tex; mode=display">u(x) \sim v(x) \qquad (x\rightarrow x_0)</script>
+
+<ul>
+  <li>$\lim (x\rightarrow 0)\frac {\sin x}{x} = 1$
+    <ul>
+      <li>$\sin x \sim x \qquad (x\rightarrow 0)$</li>
+      <li>$\sin x = x + o(x) \qquad (x\rightarrow 0)$</li>
+    </ul>
+  </li>
+  <li>$\lim_{x\rightarrow 0}\frac {1-\cos x}{\frac 12 x^2}=\lim_{x\rightarrow 0}\frac {2\sin^2{\frac x2}}{\frac 12·({\frac x2})^2·4}=1$
+    <ul>
+      <li>$1-\cos x \sim \frac {x^2}2 \qquad (x\rightarrow 0)$</li>
+      <li>$1-\cos x = \frac {x^2}2 + o(x^2) \qquad (x\rightarrow 0)$</li>
+    </ul>
+  </li>
+  <li>$\lim_{x\rightarrow 0}\frac {\tan x-\sin x}{\frac 12 x^3}=\lim_{x\rightarrow 0}\frac {\sin x}{x\cos x}·\frac {1-\cos x}{\frac 12x^2}=1$
+    <ul>
+      <li>$\tan x -\sin x \sim \frac {x^3}{2} \qquad (x\rightarrow 0)$</li>
+      <li>$\tan x -\sin x = \frac {x^3}{2} +o(x^3) \qquad (x\rightarrow 0)$</li>
+      <li>$\tan x \sim x \qquad (x\rightarrow 0)$</li>
+      <li>$\sin x \sim x \qquad (x\rightarrow 0)$</li>
+    </ul>
+  </li>
+</ul>
+
+<h6 id="注">
+<a class="anchor" href="#%E6%B3%A8" aria-hidden="true"><span class="octicon octicon-link"></span></a>注</h6>
+
+<ul>
+  <li>
+    <p>$通常:v(x)=(x-x_0)^k,可知u(x)是几阶的无穷小量$</p>
+  </li>
+  <li>
+    <p>$x\rightarrow 0^+,\frac {-1}{\ln x}是无穷小量$</p>
+
+    <ul>
+      <li>
+        <p>$但发现对任意的\alpha&gt;0,\frac {-1}{\ln x}是x^\alpha的低阶无穷小量，即$</p>
+
+        <script type="math/tex; mode=display">\lim_{x\rightarrow 0^+}\frac {\frac {-1}{\ln x}}{x^\alpha}=+\infty</script>
+
+        <p>$记为: \frac {-1}{\ln x} = o(1) \qquad (x\rightarrow 0)$</p>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p>总结：</p>
+
+<ul>
+  <li>
+    <script type="math/tex; mode=display">u(x) = o(v(x)) \qquad (x\rightarrow x_0)</script>
+  </li>
+  <li>
+    <script type="math/tex; mode=display">u(x) = O(v(x)) \qquad (x\rightarrow x_0)</script>
+  </li>
+  <li>
+    <script type="math/tex; mode=display">u(x) \sim v(x) \qquad (x\rightarrow x_0)</script>
+  </li>
+</ul>
+
+<h3 id="无穷大量的阶">
+<a class="anchor" href="#%E6%97%A0%E7%A9%B7%E5%A4%A7%E9%87%8F%E7%9A%84%E9%98%B6" aria-hidden="true"><span class="octicon octicon-link"></span></a>无穷大量的阶</h3>
+
+<p>$\lim_{x_\rightarrow x_0} f(x)=\infty(\pm \infty),则称当x\rightarrow x_0时,f(x)是(正、负)无穷大量$</p>
+
+<p>$u(x),v(x),当x\rightarrow x_0时，都是无穷大量$</p>
+
+<h4 id="高阶无穷大量">
+<a class="anchor" href="#%E9%AB%98%E9%98%B6%E6%97%A0%E7%A9%B7%E5%A4%A7%E9%87%8F" aria-hidden="true"><span class="octicon octicon-link"></span></a>高阶无穷大量</h4>
+
+<p>$\lim_{x_\rightarrow x_0}\frac {u(x)}{v(x)}=\infty,则称x\rightarrow x_0时,u(x)是(x)的高阶无穷大量$</p>
+
+<p>数列的无穷大比较:</p>
+
+<script type="math/tex; mode=display">n^n \gg n! \gg a^n\space (a>1) \gg n^\alpha \space (\alpha>0) \gg \ln^\beta n\space (\beta > 0)</script>
+
+<p>也有：</p>
+
+<script type="math/tex; mode=display">a^x\space (a>1) \gg x^\alpha \space (\alpha>0) \gg \ln^\beta x\space (\beta > 0)</script>
+
+<ul>
+  <li>$设a&gt;1,k是正整数,\lim_{x\rightarrow +\infty}\frac {a^x}{x^k}=+\infty$
+    <ul>
+      <li>$\frac {a^x}{x^k}&gt;\frac {a^{[x]}}{([x]+1)^k},等同于求数列极限$</li>
+    </ul>
+  </li>
+  <li>$\lim_{x\rightarrow +\infty}\frac {\ln^k x}{x}=0$</li>
+</ul>
+
+<h4 id="同阶无穷大量">
+<a class="anchor" href="#%E5%90%8C%E9%98%B6%E6%97%A0%E7%A9%B7%E5%A4%A7%E9%87%8F" aria-hidden="true"><span class="octicon octicon-link"></span></a>同阶无穷大量</h4>
+
+<p>$若存在A&gt;0,在\lbrace x \vert 0&lt;\vert x-x_0 \vert &lt;\delta \rbrace, 成立:$</p>
+
+<p>$成立\qquad \vert \frac {u(x)}{v(x)} \vert \le A$</p>
+
+<p>$则称当x\rightarrow x_0, \vert \frac {u(x)}{v(x)} \vert是有界量,记为：$</p>
+
+<script type="math/tex; mode=display">u(x) = O(v(x)) \qquad (x\rightarrow x_0)</script>
+
+<h5 id="同阶无穷大量定义">
+<a class="anchor" href="#%E5%90%8C%E9%98%B6%E6%97%A0%E7%A9%B7%E5%A4%A7%E9%87%8F%E5%AE%9A%E4%B9%89" aria-hidden="true"><span class="octicon octicon-link"></span></a>同阶无穷大量定义</h5>
+
+<p>$若\exists 0&lt;a \le A&lt;+\infty,在\lbrace x \vert 0&lt;\vert x-x_0\vert&lt;\delta \rbrace$</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+0< a \le \vert \frac {u(x)}{v(x)} \vert \le A <+\infty %]]></script>
+
+<p>$则称u(x), v(x),(当x\rightarrow x_0时)是同阶无穷大量$</p>
+
+<ul>
+  <li>$\lim_{x\rightarrow +\infty}\frac {u(x)}{v(x)}=0, \qquad x\rightarrow x_0,u(x)是v(x)的低阶无穷大量$</li>
+  <li>$\lim_{x\rightarrow +\infty}\frac {u(x)}{v(x)}=\infty, \qquad x\rightarrow x_0,u(x)是v(x)的高阶无穷大量$</li>
+  <li>$\lim_{x\rightarrow +\infty}\frac {u(x)}{v(x)}\neq 0, \qquad x\rightarrow x_0,u(x)是v(x)的同阶无穷大量$</li>
+</ul>
+
+<h4 id="等价无穷大量">
+<a class="anchor" href="#%E7%AD%89%E4%BB%B7%E6%97%A0%E7%A9%B7%E5%A4%A7%E9%87%8F" aria-hidden="true"><span class="octicon octicon-link"></span></a>等价无穷大量</h4>
+
+<p>$若\lim_{x\rightarrow x_0}\frac {u(x)}{v(x)} =1,则称当x\rightarrow x_0时,u(x)与v(x)是等价无穷大量,记为:$</p>
+
+<script type="math/tex; mode=display">u(x) \sim v(x) \qquad (x\rightarrow x_0)</script>
+
+<ul>
+  <li>$u(x) = x^3\sin \frac 1x, v(x)=x^2,x\rightarrow +\infty$
+    <ul>
+      <li>$\lim_{x\rightarrow +\infty}\frac {u(x)}{v(x)}=\lim_{x\rightarrow +\infty} \frac {x^2\sin \frac 1x}{x^2·\frac 1x}=1,x^3\sin \frac 1x \sim x^2 \qquad x\rightarrow +\infty$</li>
+    </ul>
+  </li>
+  <li>$\lim_{x\rightarrow {\frac {\pi}{2}}^-}(\frac \pi2-x)\tan x$
+    <ul>
+      <li>$令y=\frac \pi2-x$
+        <ul>
+          <li>$\lim_{x\rightarrow {\frac {\pi}{2}}^-}(\frac \pi2-x)\tan x=\lim_{x\rightarrow 0^+}y\frac {\cos y}{\sin y}=1$</li>
+          <li>$\tan x \sim \frac 1{\frac \pi2-x} \qquad (x\rightarrow {\frac \pi2}^-)$</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p>$当x\rightarrow 0^+,k为任意正整数,(\frac {-1}{\ln x})^k是关于x的低阶无穷小量:\lim_{x\rightarrow 0^+}\frac {(\frac {-1}{\ln x})^k}{x} =+\infty$</p>
+
+<ul>
+  <li>$令y=-k\ln x \qquad x=e^{-y}$</li>
+  <li>$\lim_{x\rightarrow 0^+}\frac x{(\frac {-1}{\ln x})^k}=\lim_{x\rightarrow 0^+}\frac {y^k}{e^y}=0$</li>
+</ul>
+
+<p>$当x\rightarrow 0+,e^{-\frac 1x}是关于x^k的高阶无穷小量:\lim_{x\rightarrow 0^+}\frac {e^{-\frac 1x}}{x^k}=0$</p>
+
+<ul>
+  <li>$令y=\frac 1x$</li>
+  <li>$\lim_{x\rightarrow 0^+}\frac {e^{-\frac 1x}}{x^k}=\lim_{x\rightarrow 0^+}\frac {y^k}{e^y}=0$</li>
+</ul>
+
+
+</article>
+      <section id="main_content">
+        <ul>
+            
+        </ul>
+      </section>
+    </div>
+  </div>
+   <footer>
+  <a href="/">
+    <span>
+        <b>LuoSongtao</b>
+    </span>
+    
+    <span>© 2020</span>
+  </a>
+</footer>
+
+  
+</body>
+
+</html>

@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+  <meta name="generator" content="Jekyll">
+
+  <title>数学分析-函数极限(1)</title>
+  <link rel="stylesheet" href="/css/main.css">
+
+  <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="ATOM Feed" /> <!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>数学分析-函数极限(1) | MicroNotes</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="数学分析-函数极限(1)" />
+<meta name="author" content="LuoSongtao" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="函数极限" />
+<meta property="og:description" content="函数极限" />
+<meta property="og:site_name" content="MicroNotes" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2019-11-23T00:00:00-06:00" />
+<script type="application/ld+json">
+{"author":{"@type":"Person","name":"LuoSongtao"},"mainEntityOfPage":{"@type":"WebPage","@id":"/mathematical-analysis/%E5%87%BD%E6%95%B0%E6%9E%81%E9%99%90(1)"},"description":"函数极限","@type":"BlogPosting","headline":"数学分析-函数极限(1)","dateModified":"2019-11-23T00:00:00-06:00","url":"/mathematical-analysis/%E5%87%BD%E6%95%B0%E6%9E%81%E9%99%90(1)","datePublished":"2019-11-23T00:00:00-06:00","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+        inlineMath: [['$','$']]
+      }
+    });
+  </script>
+
+</head>
+
+<body>
+  <div id="wrapper">
+    <header>
+  <div style="text-align: center;">
+    <div>
+      <a id="username" href="/">
+      
+      <span style="font-size: x-large; color: #00C2C4;">luosongtao</span>
+      <span style="font-size: x-large; color: #7E7E7C;">@</span>
+      <span style="font-size: x-large; color: #76E87B;">home:</span>
+      <span style="font-size: x-large; color: #FF7F7A;">~$</span>
+      </a>
+      
+<div id="search">
+	<input type="text" id="search-input" placeholder="Command.." style="vertical-align:middle;">
+	<ul id="results-container"></ul>
+</div>
+
+<!-- script pointing to jekyll-search.js -->
+<script src="/assets/js/simple-jekyll-search.min.js"></script>
+<script async src="/searchdata.js"></script>
+
+    </div>
+  </div>
+  <div class="header-links">
+      <a href="/archive"><h2 class="header-link">时间轴</h2></a>
+<a href="/about"><h2 class="header-link">关于</h2></a>
+<!--<a href="/atom.xml"><h2 class="header-link">RSS</h2></a>-->
+  </div>
+
+</header>
+    <div class="container">
+        <article>
+  <h1>数学分析-函数极限(1)</h1>
+  <time datetime="2019-11-23T00:00:00-06:00" class="by-line">23 Nov 2019</time>
+  <ul class="section-nav">
+<li class="toc-entry toc-h3"><a href="#函数极限">函数极限</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#函数极限定义">函数极限定义</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#数学表述">数学表述</a></li>
+<li class="toc-entry toc-h5"><a href="#例题">例题</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#函数极限的性质">函数极限的性质</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#1-极限唯一性">(1). 极限唯一性</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#定理">定理</a>
+<ul>
+<li class="toc-entry toc-h6"><a href="#证明">证明</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#2-局部保序性">(2). 局部保序性</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#定理-1">定理</a>
+<ul>
+<li class="toc-entry toc-h6"><a href="#证明-1">证明</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h5"><a href="#推论1">推论1</a>
+<ul>
+<li class="toc-entry toc-h6"><a href="#证明-2">证明</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h5"><a href="#推论2">推论2</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#3-局部有界性">(3). 局部有界性</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#定理-2">定理</a>
+<ul>
+<li class="toc-entry toc-h6"><a href="#证明-3">证明</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#4-夹逼性定理">(4). 夹逼性定理</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#定理-3">定理</a>
+<ul>
+<li class="toc-entry toc-h6"><a href="#证明-4">证明</a></li>
+<li class="toc-entry toc-h6"><a href="#例题-1">例题</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#函数极限的四则远算">函数极限的四则远算</a></li>
+</ul><h3 id="函数极限">
+<a class="anchor" href="#%E5%87%BD%E6%95%B0%E6%9E%81%E9%99%90" aria-hidden="true"><span class="octicon octicon-link"></span></a>函数极限</h3>
+
+<p><img src="/assets/images/mathemathical-analysis/%E7%8C%9C%E6%83%B3-%E5%87%BD%E6%95%B0%E6%9E%81%E9%99%90.png" alt="猜想-函数极限"></p>
+
+<h4 id="函数极限定义">
+<a class="anchor" href="#%E5%87%BD%E6%95%B0%E6%9E%81%E9%99%90%E5%AE%9A%E4%B9%89" aria-hidden="true"><span class="octicon octicon-link"></span></a>函数极限定义</h4>
+
+<p>$y=f(x)在O(x_0,\rho)\backslash \lbrace x_0\rbrace（去心领域）上有定义$</p>
+
+<p>$如果存在A，使得对任意给定的\varepsilon &gt;0，可以找到\delta &gt;0，当0&lt;\vert x-x_0\vert&lt;\delta时，成立\vert f(x)-A \vert&lt;\varepsilon，则称f(x)在x_0点的极限，记为：$</p>
+
+<script type="math/tex; mode=display">\lim_{x\rightarrow x_0}=A或者f(x)\rightarrow A (x\rightarrow x_0)</script>
+
+<p>$如果不存在满足上述性质的A，则称f(x)在x_0点极限不存在$</p>
+
+<h5 id="数学表述">
+<a class="anchor" href="#%E6%95%B0%E5%AD%A6%E8%A1%A8%E8%BF%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>数学表述</h5>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\forall \varepsilon>0,\exists \delta >0,\forall x(0<\vert x-x_0\vert<\delta):\vert f(x)-f(x_0)\vert < \varepsilon %]]></script>
+
+<h5 id="例题">
+<a class="anchor" href="#%E4%BE%8B%E9%A2%98" aria-hidden="true"><span class="octicon octicon-link"></span></a>例题</h5>
+
+<p><img src="/assets/images/mathemathical-analysis/%E4%BE%8B%E9%A2%98-%E5%87%BD%E6%95%B0%E6%9E%81%E9%99%90%E5%AE%9A%E4%B9%89.png" alt="例题-函数极限定义"></p>
+
+<h3 id="函数极限的性质">
+<a class="anchor" href="#%E5%87%BD%E6%95%B0%E6%9E%81%E9%99%90%E7%9A%84%E6%80%A7%E8%B4%A8" aria-hidden="true"><span class="octicon octicon-link"></span></a>函数极限的性质</h3>
+
+<h4 id="1-极限唯一性">
+<a class="anchor" href="#1-%E6%9E%81%E9%99%90%E5%94%AF%E4%B8%80%E6%80%A7" aria-hidden="true"><span class="octicon octicon-link"></span></a>(1). 极限唯一性</h4>
+
+<h5 id="定理">
+<a class="anchor" href="#%E5%AE%9A%E7%90%86" aria-hidden="true"><span class="octicon octicon-link"></span></a>定理</h5>
+
+<p>$设A、B都是f(x)在x_0的极限，则A=B$</p>
+
+<h6 id="证明">
+<a class="anchor" href="#%E8%AF%81%E6%98%8E" aria-hidden="true"><span class="octicon octicon-link"></span></a>证明</h6>
+
+<p>$\forall \varepsilon &gt;0$</p>
+
+<p>$\exists \delta_1,\forall (0&lt;\vert x-x_0 \vert &lt;\delta_1): \vert f(x)-A \vert &lt; \frac \varepsilon 2$</p>
+
+<p>$\exists \delta_2,\forall (0&lt;\vert x-x_0 \vert &lt;\delta_2): \vert f(x)-B \vert &lt; \frac \varepsilon 2$</p>
+
+<p>$取\delta = \min (\delta_1,\delta_2)，\forall (0&lt;\vert x-x_0 \vert &lt;\delta):$</p>
+
+<script type="math/tex; mode=display">\vert A-B \vert\le \vert f(x)-A \vert + \vert f(x)-B \vert\lt \varepsilon</script>
+
+<p>$由\varepsilon 的任意性，A=B$</p>
+
+<h4 id="2-局部保序性">
+<a class="anchor" href="#2-%E5%B1%80%E9%83%A8%E4%BF%9D%E5%BA%8F%E6%80%A7" aria-hidden="true"><span class="octicon octicon-link"></span></a>(2). 局部保序性</h4>
+
+<h5 id="定理-1">
+<a class="anchor" href="#%E5%AE%9A%E7%90%86-1" aria-hidden="true"><span class="octicon octicon-link"></span></a>定理</h5>
+
+<p>$若\lim_{x\rightarrow x_0}f(x)=A,\lim_{x\rightarrow x_0}g(x)=B,A&gt;B$</p>
+
+<p>$则\exists \delta &gt;0,当0&lt;\vert x-x_0 \vert &lt;\delta,f(x) &gt; g(x)$</p>
+
+<h6 id="证明-1">
+<a class="anchor" href="#%E8%AF%81%E6%98%8E-1" aria-hidden="true"><span class="octicon octicon-link"></span></a>证明</h6>
+
+<p>$取\varepsilon_0 = \frac {A-B}{2} &gt;0$</p>
+
+<p>$\lim_{x\rightarrow x_0}f(x)=A,\exists \delta_1,\forall x(0&lt;\vert x-x_0 \vert&lt;\delta1):\vert f(x)-A \vert&lt;\varepsilon_0$</p>
+
+<script type="math/tex; mode=display">\Rightarrow f(x)>A-\varepsilon_0 = \frac {A+B}{2}</script>
+
+<p>$\lim_{x\rightarrow x_0}g(x)=B,\exists \delta_2,\forall x(0&lt;\vert x-x_0 \vert&lt;\delta2):\vert f(x)-B \vert&lt;\varepsilon_0$</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\Rightarrow g(x)<B+\varepsilon_0 = \frac {A+B}{2} %]]></script>
+
+<p>$\therefore 取\delta = min(\delta_1, \delta_2)&gt;0,\forall x(0&lt;\vert x-x_0 \vert&lt;\delta):$</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+g(x)<\frac {A+B}{2}<f(x) \Rightarrow f(x)>g(x) %]]></script>
+
+<h5 id="推论1">
+<a class="anchor" href="#%E6%8E%A8%E8%AE%BA1" aria-hidden="true"><span class="octicon octicon-link"></span></a>推论1</h5>
+
+<p>$\lim_{x\rightarrow x_0}=A\neq 0，则\exists \delta &gt;0,\forall x(0&lt;\vert x-x_0 \vert&lt;\delta):$</p>
+
+<script type="math/tex; mode=display">\vert f(x) \vert>\frac {\vert A \vert }{a}>0(a\ge2)</script>
+
+<h6 id="证明-2">
+<a class="anchor" href="#%E8%AF%81%E6%98%8E-2" aria-hidden="true"><span class="octicon octicon-link"></span></a>证明</h6>
+
+<p>$\forall \varepsilon &gt;0,\exists \delta &gt;0, \forall x(0&lt;\vert x-x_0 \vert&lt;\delta):$</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\vert \vert f(x) \vert - \vert A \vert \vert \le \vert f(x)-A \vert < \varepsilon %]]></script>
+
+<p>$\therefore \lim_{x\rightarrow x_0}\vert f(x) \vert=\vert A \vert$</p>
+
+<p>$取\vert f(x) \vert,g(x)=\frac {\vert A \vert}{a},\vert A \vert&gt;\frac {\vert A \vert}{a}(a\ge2)$</p>
+
+<p>$由局部保序性,\exists \delta &gt;0,\forall x(0&lt;\vert x-x_0 \vert&lt;\delta):$</p>
+
+<script type="math/tex; mode=display">f(x)>g(x)=\frac {\vert A \vert}{a}</script>
+
+<h5 id="推论2">
+<a class="anchor" href="#%E6%8E%A8%E8%AE%BA2" aria-hidden="true"><span class="octicon octicon-link"></span></a>推论2</h5>
+
+<p>保序性定理逆命题是否成立：</p>
+
+<p>$若\lim_{x\rightarrow x_0}f(x)=A,\lim_{x\rightarrow x_0}g(x)=B,f(x)&gt;g(x)，则A\ge B$</p>
+
+<ul>
+  <li>$f(x)=2x^2,g(x)=x^2,x=0$</li>
+</ul>
+
+<h4 id="3-局部有界性">
+<a class="anchor" href="#3-%E5%B1%80%E9%83%A8%E6%9C%89%E7%95%8C%E6%80%A7" aria-hidden="true"><span class="octicon octicon-link"></span></a>(3). 局部有界性</h4>
+
+<h5 id="定理-2">
+<a class="anchor" href="#%E5%AE%9A%E7%90%86-2" aria-hidden="true"><span class="octicon octicon-link"></span></a>定理</h5>
+
+<p>$若\lim_{x\rightarrow x_0}f(x)=A,则\exists \delta &gt;0,\forall x(0&lt;\vert x-x_0 \vert&lt;\delta):$</p>
+
+<script type="math/tex; mode=display">m\le f(x) \le M,M、m是两个固定的实数</script>
+
+<h6 id="证明-3">
+<a class="anchor" href="#%E8%AF%81%E6%98%8E-3" aria-hidden="true"><span class="octicon octicon-link"></span></a>证明</h6>
+
+<p>$取m&lt;A&lt;M,令g(x)=m,h(x)=M$</p>
+
+<p>$则\exists \delta &gt;0,\forall x(0&lt;\vert x-x_0 \vert&lt;\delta):$</p>
+
+<script type="math/tex; mode=display">m=g(x)\le f(x) \le h(x)=M</script>
+
+<p>$若f(x)在x_0有定义，则在x满足\vert x-x_0 \vert&lt;\delta的条件下$</p>
+
+<script type="math/tex; mode=display">\min \lbrace m,f(x_0) \rbrace \le f(x) \le \max \lbrace M,f(x_0) \rbrace</script>
+
+<h4 id="4-夹逼性定理">
+<a class="anchor" href="#4-%E5%A4%B9%E9%80%BC%E6%80%A7%E5%AE%9A%E7%90%86" aria-hidden="true"><span class="octicon octicon-link"></span></a>(4). 夹逼性定理</h4>
+
+<h5 id="定理-3">
+<a class="anchor" href="#%E5%AE%9A%E7%90%86-3" aria-hidden="true"><span class="octicon octicon-link"></span></a>定理</h5>
+
+<p>$若\lim_{x\rightarrow x_0}f(x)=A,则\exists \delta &gt;0,\forall x(0&lt;\vert x-x_0 \vert&lt;\delta):$</p>
+
+<script type="math/tex; mode=display">g(x)\le f(x) \le h(x)</script>
+
+<p>$\lim_{x\rightarrow x_0}g(x)=\lim_{x\rightarrow x_0}h(x)=A,则\lim_{x\rightarrow x_0}f(x)=A$</p>
+
+<h6 id="证明-4">
+<a class="anchor" href="#%E8%AF%81%E6%98%8E-4" aria-hidden="true"><span class="octicon octicon-link"></span></a>证明</h6>
+
+<p>$\forall \varepsilon &gt;0,\exists \delta_1 &gt;0,\forall x(0&lt;\vert x-x_0 \vert&lt;\delta_1):\vert g(x)-A \vert &lt; \varepsilon \Rightarrow g(x)\gt A-\varepsilon$</p>
+
+<p>$\forall \varepsilon &gt;0,\exists \delta_2 &gt;0,\forall x(0&lt;\vert x-x_0 \vert&lt;\delta_2):\vert h(x)-A \vert &lt; \varepsilon \Rightarrow h(x)\lt A+\varepsilon$</p>
+
+<p>$取\delta = \min \lbrace \delta_1, \delta_2 \rbrace,\forall x(0&lt;\vert x-x_0 \vert&lt;\delta):A-\varepsilon \lt f(x) \lt A+\varepsilon,即\vert g(x)-A \vert&lt;\varepsilon$</p>
+
+<h6 id="例题-1">
+<a class="anchor" href="#%E4%BE%8B%E9%A2%98-1" aria-hidden="true"><span class="octicon octicon-link"></span></a>例题</h6>
+
+<p><img src="/assets/images/mathemathical-analysis/%E4%BE%8B%E9%A2%98-%E5%87%BD%E6%95%B0%E6%9E%81%E9%99%90%E5%A4%B9%E9%80%BC%E6%80%A7%E5%AE%9A%E7%90%86.png" alt="例题-函数极限夹逼性定理"></p>
+
+<h3 id="函数极限的四则远算">
+<a class="anchor" href="#%E5%87%BD%E6%95%B0%E6%9E%81%E9%99%90%E7%9A%84%E5%9B%9B%E5%88%99%E8%BF%9C%E7%AE%97" aria-hidden="true"><span class="octicon octicon-link"></span></a>函数极限的四则远算</h3>
+
+<script type="math/tex; mode=display">\lim_{x\rightarrow x_0}f(x)=A,\lim_{x\rightarrow x_0}g(x)=B</script>
+
+<p>$(1). \lim_{x\rightarrow x_0}(\alpha f(x)+\beta g(x))=\alpha A + \beta B$</p>
+
+<p>$(2). \lim_{x\rightarrow x_0}( f(x)g(x))=AB$</p>
+
+<p>$(3). \lim_{x\rightarrow x_0}(\frac {f(x)}{g(x)})=\frac AB(b\neq 0)$</p>
+
+<ul>
+  <li>
+    <p>$\lim_{x\rightarrow 0}\frac {\sin \alpha x}{x}=\lim_{x\rightarrow 0}\alpha\frac {\sin \alpha x}{\alpha x}=\alpha (\alpha\neq 0)$</p>
+  </li>
+  <li>
+    <p>$\lim_{x\rightarrow 0}\frac {\sin \alpha x}{\sin \beta x}=\lim_{x\rightarrow 0}\frac \alpha \beta \frac {\frac {\sin \alpha x}{\alpha x}} {\frac {\sin \beta x}{\beta x}}=\frac \alpha \beta (\alpha\neq 0、\beta\neq 0)$</p>
+  </li>
+</ul>
+
+
+</article>
+      <section id="main_content">
+        <ul>
+            
+        </ul>
+      </section>
+    </div>
+  </div>
+   <footer>
+  <a href="/">
+    <span>
+        <b>LuoSongtao</b>
+    </span>
+    
+    <span>© 2020</span>
+  </a>
+</footer>
+
+  
+</body>
+
+</html>

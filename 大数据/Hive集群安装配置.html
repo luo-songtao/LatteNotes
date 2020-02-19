@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+  <meta name="generator" content="Jekyll">
+
+  <title>Hive集群安装配置</title>
+  <link rel="stylesheet" href="/css/main.css">
+
+  <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="ATOM Feed" /> <!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Hive集群安装配置 | MicroNotes</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="Hive集群安装配置" />
+<meta name="author" content="LuoSongtao" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="基于HADOOP分布式集群安装HIVE" />
+<meta property="og:description" content="基于HADOOP分布式集群安装HIVE" />
+<meta property="og:site_name" content="MicroNotes" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2018-09-30T00:00:00-05:00" />
+<script type="application/ld+json">
+{"author":{"@type":"Person","name":"LuoSongtao"},"mainEntityOfPage":{"@type":"WebPage","@id":"/%E5%A4%A7%E6%95%B0%E6%8D%AE/Hive%E9%9B%86%E7%BE%A4%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE"},"description":"基于HADOOP分布式集群安装HIVE","@type":"BlogPosting","headline":"Hive集群安装配置","dateModified":"2018-09-30T00:00:00-05:00","url":"/%E5%A4%A7%E6%95%B0%E6%8D%AE/Hive%E9%9B%86%E7%BE%A4%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE","datePublished":"2018-09-30T00:00:00-05:00","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+        inlineMath: [['$','$']]
+      }
+    });
+  </script>
+
+</head>
+
+<body>
+  <div id="wrapper">
+    <header>
+  <div style="text-align: center;">
+    <div>
+      <a id="username" href="/">
+      
+      <span style="font-size: x-large; color: #00C2C4;">luosongtao</span>
+      <span style="font-size: x-large; color: #7E7E7C;">@</span>
+      <span style="font-size: x-large; color: #76E87B;">home:</span>
+      <span style="font-size: x-large; color: #FF7F7A;">~$</span>
+      </a>
+      
+<div id="search">
+	<input type="text" id="search-input" placeholder="Command.." style="vertical-align:middle;">
+	<ul id="results-container"></ul>
+</div>
+
+<!-- script pointing to jekyll-search.js -->
+<script src="/assets/js/simple-jekyll-search.min.js"></script>
+<script async src="/searchdata.js"></script>
+
+    </div>
+  </div>
+  <div class="header-links">
+      <a href="/archive"><h2 class="header-link">时间轴</h2></a>
+<a href="/about"><h2 class="header-link">关于</h2></a>
+<!--<a href="/atom.xml"><h2 class="header-link">RSS</h2></a>-->
+  </div>
+
+</header>
+    <div class="container">
+        <article>
+  <h1>Hive集群安装配置</h1>
+  <time datetime="2018-09-30T00:00:00-05:00" class="by-line">30 Sep 2018</time>
+  <h2 id="基于hadoop分布式集群安装hive">基于HADOOP分布式集群安装HIVE</h2>
+
+<h4 id="环境准备">环境准备</h4>
+
+<h4 id="hive安装与配置">Hive安装与配置</h4>
+
+<p>注意：hive的配置相对比较复杂,缺少任何一步都会带来一系列问题，需要耐心，另外以下配置均已CentOS7为例</p>
+
+<p>这里使用当前稳定版：2.3.4</p>
+
+<p>下载：<a href="https://mirrors.tuna.tsinghua.edu.cn/apache/hive/">https://mirrors.tuna.tsinghua.edu.cn/apache/hive/</a></p>
+
+<p>解压放到<code class="highlighter-rouge">/root/bigdata/</code>，并建立软链接<code class="highlighter-rouge">ln -s /root/bigdata/apache-hive-2.3.4-bin /root/bigdata/hive</code></p>
+
+<p>环境变量：</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># .bash_profile
+export HIVE_HOME=$HOME/bigdata/bin
+export PATH=$PATH:$HIVE_HOME/bin
+</code></pre></div></div>
+
+<p>使用source命令使其生效</p>
+
+<h4 id="安装启动">安装启动</h4>
+
+<p><code class="highlighter-rouge">cd /root/bigdata/hive</code></p>
+
+<ol>
+  <li>
+    <p>拷贝默认配置文件：<code class="highlighter-rouge">cp hive/conf/hive-default.xml.template hive/conf/hive-site.xml</code></p>
+  </li>
+  <li>
+    <p>修改默认配置文件：<code class="highlighter-rouge">vi hive/conf/hive-site.xml</code></p>
+
+    <ul>
+      <li>
+        <p>hive相关路径配置</p>
+
+        <ul>
+          <li>找到
+            <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;name&gt;hive.metastore.warehouse.dir&lt;/name&gt;
+&lt;value&gt;/user/hive/warehouse&lt;/value&gt;
+&lt;name&gt;hive.exec.scratchdir&lt;/name&gt;
+&lt;value&gt;/tmp/hive&lt;/value&gt;
+</code></pre></div>            </div>
+          </li>
+          <li>这里的两个路径指的是hdfs里的路径，因此需要在hdfs中手动创建这两个目录，并修改权限，如果更改为其他路径，那么相应的创建也需要变更
+            <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  hadoop fs -mkdir -p  /user/hive/warehouse
+  hadoop fs -chmod -R 777 /user/hive/warehouse
+  hadoop fs -mkdir -p /tmp/hive/
+  hadoop fs -chmod -R 777 /tmp/hive
+</code></pre></div>            </div>
+          </li>
+          <li>
+            <p>匹配出所有的<code class="highlighter-rouge">${system:java.io.tmpdir}</code>替换为指定目录：如<code class="highlighter-rouge">/root/bigdata/hive/tmp</code>,该目录如果不存在则要自己手工创建，并且赋予读写权限</p>
+          </li>
+          <li>匹配出所有的<code class="highlighter-rouge">${system:user.name}</code>替换为root</li>
+        </ul>
+      </li>
+      <li>
+        <p>hive元数据*存储配置：利用mysql数据库存储hive元数据</p>
+
+        <ul>
+          <li>修改：javax.jdo.option.ConnectionDriverName
+            <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  &lt;property&gt;
+    &lt;name&gt;javax.jdo.option.ConnectionDriverName&lt;/name&gt;
+    &lt;value&gt;com.mysql.jdbc.Driver&lt;/value&gt;
+  &lt;/property&gt;
+</code></pre></div>            </div>
+          </li>
+          <li>修改： javax.jdo.option.ConnectionURL, 对应mysql的地址（后面我们的mysql安装在了hadoop-master机器上，因此这里使用hadoop-master地址）
+            <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  &lt;name&gt;javax.jdo.option.ConnectionURL&lt;/name&gt;
+   &lt;value&gt;jdbc:mysql://hadoop-master:3306/hive?createDatabaseIfNotExist=true&lt;/value&gt;
+</code></pre></div>            </div>
+          </li>
+          <li>修改：javax.jdo.option.ConnectionUserName, 对应mysql用户名
+            <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  &lt;name&gt;javax.jdo.option.ConnectionUserName&lt;/name&gt;
+  &lt;value&gt;hive&lt;/value&gt;
+</code></pre></div>            </div>
+          </li>
+          <li>修改：javax.jdo.option.ConnectionPassword, 对应mysql密码
+            <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  &lt;name&gt;javax.jdo.option.ConnectionPassword&lt;/name&gt;
+  &lt;value&gt;hive&lt;/value&gt;
+</code></pre></div>            </div>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>拷贝hive变量文件：<code class="highlighter-rouge">cp hive/conf/hive-env.sh.template hive/conf/hive-env.sh</code></p>
+  </li>
+  <li>
+    <p>编辑hive变量文件<code class="highlighter-rouge">vi hive/conf/hive-env.sh</code>, 设置相应环境变量，如下</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> # Set HADOOP_HOME to point to a specific hadoop install directory
+ export HADOOP_HOME=/root/bigdata/hadoop
+
+ # Hive Configuration Directory can be controlled by:
+ export HIVE_CONF_DIR=/root/bigdata/hive/conf
+
+ # Folder containing extra libraries required for hive compilation/execution can be controlled by:
+ export HIVE_AUX_JARS_PATH=/root/bigdata/hive/lib
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>将MySQL连接的驱动包<a href="http://ftp.ntu.edu.tw/MySQL/Downloads/Connector-J/"><code class="highlighter-rouge">mysql-connector-java-5.1.47.jar</code></a>拷贝到<code class="highlighter-rouge">/root/bigdata/hive/lib</code>下</p>
+  </li>
+  <li>
+    <p>安装并启动MySQL数据库（在hadoop-master机器上安装并启动）：</p>
+
+    <p>这里使用docker安装MySQL数据库</p>
+
+    <p>安装docker：https://www.alibabacloud.com/help/zh/doc-detail/60742.htm</p>
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> # step 1: 安装必要的一些系统工具
+ sudo yum install -y yum-utils device-mapper-persistent-data lvm2
+ # Step 2: 添加软件源信息
+ sudo yum-config-manager --add-repo http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
+ # Step 3: 更新并安装Docker-CE
+ sudo yum makecache fast
+ sudo yum -y install docker-ce
+ # Step 4: 开启Docker服务
+ sudo service docker start
+</code></pre></div>    </div>
+
+    <p>下载docker镜像：<code class="highlighter-rouge">docker pull mysql:5.7</code></p>
+
+    <p>创建MySQL配置文件：’vi /root/scripts/my.cnf’</p>
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> [client]
+ default-character-set=utf8mb4
+
+ [mysqld]
+ character-set-server=utf8mb4
+
+ [mysql]
+ default-character-set=utf8mb4
+</code></pre></div>    </div>
+
+    <p>启动MySQL：</p>
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> docker run -dti --name mysql \
+ --network=host \
+ -v /root/scripts/my.cnf:/etc/mysql/my.cnf  \
+ -v mysql-data:/var/lib/mysql \
+ -e MYSQL_ROOT_PASSWORD=password \
+ -e MYSQL_USER=hive \
+ -e MYSQL_PASSWORD=hive \
+ -e MYSQL_DATABASE=hive \
+ mysql:5.7 \
+ --character-set-server=utf8mb4 \
+ --collation-server=utf8mb4_unicode_ci
+</code></pre></div>    </div>
+  </li>
+  <li>初始化hive数据库（只用执行一次，除非建立新的hive元数据）
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> schematool -initSchema -dbType mysql
+</code></pre></div>    </div>
+
+    <p>执行成功后，在mysql的hive数据库里就已生成相应的metadata数据表</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> docker exec -ti mysql mysql -u hive -p
+ # 输入密码：hive
+ # use hive
+ # show tables;
+ # 查看是否有表自动创建出来
+</code></pre></div>    </div>
+  </li>
+  <li>再次修改<code class="highlighter-rouge">vi hive/conf/hive-site.xml</code>,由于使用mysql来进行元数据存储，因此需要
+    <ul>
+      <li>新增（如果有则修改）：把元数据本地存储关闭，否则使用hive进入hive客户端时，会使用本地的元数据
+        <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  &lt;property&gt;
+    &lt;name&gt;hive.metastore.local&lt;/name&gt;
+    &lt;value&gt;false&lt;/value&gt;
+  &lt;/property&gt;
+</code></pre></div>        </div>
+      </li>
+      <li>修改以下配置：开启元数据访问服务，否则启动hive客户端时将无法读取hive的元数据，注意地址，这里我们是在hadoop-master启动该服务，且为分布式集群模式，因此不要把它设置为localhost
+        <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  &lt;property&gt;
+      &lt;name&gt;hive.metastore.uris&lt;/name&gt;
+      &lt;value&gt;thrift://hadoop-master:9083&lt;/value&gt;
+      &lt;description&gt;Thrift URI for the remote metastore. Used by metastore client to connect to remote metastore.&lt;/description&gt;
+  &lt;/property&gt;
+</code></pre></div>        </div>
+      </li>
+      <li>启动hive的metastore访问服务：
+        <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  hive --service metastore &amp;
+</code></pre></div>        </div>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>连接测试：</p>
+
+    <p>hadoop-master上使用：hive命令进入hive客户端，测试如show databases、show tables等命令是否能使用</p>
+
+    <p>将hadoop-master的hive目录全部拷贝到从服务器上，并配置环境变量，随后连接测试</p>
+  </li>
+</ol>
+
+<p>* hive元数据：记录着hive中存储着哪些数据库，哪些表等信息，通常是使用mysql数据库来存储hive的元数据</p>
+
+<p>* 可能出现问题：hadoop的namenode可能进入safe mode导致无法修改hdfs文件，可用命令：<code class="highlighter-rouge">hadoop dfsadmin -safemode leave</code>解除</p>
+
+</article>
+      <section id="main_content">
+        <ul>
+            
+        </ul>
+      </section>
+    </div>
+  </div>
+   <footer>
+  <a href="/">
+    <span>
+        <b>LuoSongtao</b>
+    </span>
+    
+    <span>© 2020</span>
+  </a>
+</footer>
+
+  
+</body>
+
+</html>
