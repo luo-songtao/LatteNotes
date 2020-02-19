@@ -17,7 +17,7 @@ jobs:
         git config user.email "ryomawithlst@gmail.com"
         docker-compose build
         docker run --rm --privileged -v `pwd`:/srv/jekyll jekyll-build bundle exec jekyll clean
-        t git subtree add --prefix=docs origin gh-pages
+        git subtree add --prefix=docs origin gh-pages
         rm -rf docs/*
         chmod 777 docs
         docker run --rm --privileged -v `pwd`:/srv/jekyll jekyll-build bundle exec jekyll build
