@@ -13,12 +13,14 @@ jobs:
       uses: crazy-max/ghaction-docker-buildx@v1.0.5
     - name: Deploy Html To Branch "gh-pages"
       run: |
-        docker-compose up -d
+        docker-compose build
+        docker run --rm --privileged -v `pwd`:/srv/jekyll jekyll-build bundle exec jekyll clean
+        git subtree add --prefix=docs origin gh-pages
+        rm -rf docs/*
+        chmod 777 docs
+        docker run --rm --privileged -v `pwd`:/srv/jekyll jekyll-build bundle exec jekyll build
         git config user.name "luo-songtao"
         git config user.email "ryomawithlst@gmail.com"
-        git subtree add --prefix=docs origin gh-pages
-        rm -rf dev/*
-        mv docs/ docs/docs/
         git add docs
         git commit -m "${{ github.sha }}"
         git subtree push --prefix=docs origin gh-pages

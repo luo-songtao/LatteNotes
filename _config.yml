@@ -1,5 +1,5 @@
 baseurl: /
-title: LuoSongtao-学习笔记
+title: MicroNotes
 description: "千里之行始于足下；不积跬步无以致千里"
 author:
   name: "LuoSongtao"
@@ -7,7 +7,7 @@ author:
   url: ""
 
 source: .
-destination: ./new_docs
+destination: ./
 permalink: /:categories/:title
 
 pagination:
