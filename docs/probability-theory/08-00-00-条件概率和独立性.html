@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+  <meta name="generator" content="Jekyll">
+
+  <title>概率论-条件概率和独立性</title>
+  <link rel="stylesheet" href="/css/main.css">
+
+  <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="ATOM Feed" /> <!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>概率论-条件概率和独立性 | MicroNotes</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="概率论-条件概率和独立性" />
+<meta name="author" content="LuoSongtao" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="条件概率" />
+<meta property="og:description" content="条件概率" />
+<link rel="canonical" href="http://0.0.0.0:4000/probability-theory/08-00-00-%E6%9D%A1%E4%BB%B6%E6%A6%82%E7%8E%87%E5%92%8C%E7%8B%AC%E7%AB%8B%E6%80%A7" />
+<meta property="og:url" content="http://0.0.0.0:4000/probability-theory/08-00-00-%E6%9D%A1%E4%BB%B6%E6%A6%82%E7%8E%87%E5%92%8C%E7%8B%AC%E7%AB%8B%E6%80%A7" />
+<meta property="og:site_name" content="MicroNotes" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-01-01T02:00:00-06:00" />
+<script type="application/ld+json">
+{"author":{"@type":"Person","name":"LuoSongtao"},"mainEntityOfPage":{"@type":"WebPage","@id":"http://0.0.0.0:4000/probability-theory/08-00-00-%E6%9D%A1%E4%BB%B6%E6%A6%82%E7%8E%87%E5%92%8C%E7%8B%AC%E7%AB%8B%E6%80%A7"},"description":"条件概率","@type":"BlogPosting","headline":"概率论-条件概率和独立性","dateModified":"2020-01-01T02:00:00-06:00","url":"http://0.0.0.0:4000/probability-theory/08-00-00-%E6%9D%A1%E4%BB%B6%E6%A6%82%E7%8E%87%E5%92%8C%E7%8B%AC%E7%AB%8B%E6%80%A7","datePublished":"2020-01-01T02:00:00-06:00","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+        inlineMath: [['$','$']]
+      }
+    });
+  </script>
+
+</head>
+
+<body>
+  <div id="wrapper">
+    <header>
+  
+  
+  <div class="container">
+      
+
+      <div style="padding-left: 42px;">
+        <a id="username" href="/">
+        
+        <span style="font-size: x-large; color: #6a9fb5;"># </span>
+        <span style="font-size: x-large; color: #aa759f;">luosongtao</span>
+        <span style="font-size: x-large; color: #6a9fb5;">@</span>
+        <span style="font-size: x-large; color: #83a;">home:</span>
+        <span style="font-size: x-large; color: #cc0000;">~$</span>
+        </a>
+        
+<div id="search">
+	<input type="text" id="search-input" placeholder=" find / -name " style="vertical-align:middle;">
+	<ul id="results-container"></ul>
+</div>
+
+<!-- script pointing to jekyll-search.js -->
+<script src="/assets/js/simple-jekyll-search.min.js"></script>
+<script async src="/searchdata.js"></script>
+
+
+      </div>
+
+      <ul id="results-container"></ul>
+
+      <nav class="nav">
+    
+    
+        
+        <h3><a href="/">最新</a></h3>
+        
+    
+        
+        <h3><a href="/algorithms">Algorithms</a></h3>
+        
+    
+        
+        <h3><a href="/optimization">Optimization</a></h3>
+        
+    
+        
+        <h3><a href="/algebra">代数论</a></h3>
+        
+    
+        
+        <h3><a href="/docker">Docker</a></h3>
+        
+    
+        
+        <h3><a href="/bigdata">大数据</a></h3>
+        
+    
+        
+        <h3><a href="/mathematical-analysis">数学分析</a></h3>
+        
+    
+        
+        <h3><a href="/probability-theory">概率论</a></h3>
+        
+    
+        
+        <h3><a href="/others">其他</a></h3>
+        
+    
+</nav>
+      <div class="header-links">
+        
+        <a href="/archive"><h2 class="header-link">时间轴</h2></a>
+<a href="/about"><h2 class="header-link">关于</h2></a>
+<!--<a href="/atom.xml"><h2 class="header-link">RSS</h2></a>-->
+      </div>
+  <div>
+
+</header>
+    
+    <div class="container">
+      <article>
+  <h1>概率论-条件概率和独立性</h1>
+  <time datetime="2020-01-01T02:00:00-06:00" class="by-line">01 Jan 2020</time>
+  <ul class="section-nav">
+<li class="toc-entry toc-h2"><a href="#条件概率">条件概率</a></li>
+<li class="toc-entry toc-h2"><a href="#贝叶斯公式">贝叶斯公式</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#优势比">优势比</a></li>
+<li class="toc-entry toc-h4"><a href="#全概率公式">全概率公式</a></li>
+<li class="toc-entry toc-h4"><a href="#贝叶斯公式-1">贝叶斯公式</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#独立事件">独立事件</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#无限个事件的独立性">无限个事件的独立性</a>
+<ul>
+<li class="toc-entry toc-h6"><a href="#重复试验">重复试验</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul><h2 id="条件概率">
+<a class="anchor" href="#%E6%9D%A1%E4%BB%B6%E6%A6%82%E7%8E%87" aria-hidden="true"><span class="octicon octicon-link"></span></a>条件概率</h2>
+
+<p>如果$P(F)&gt;0$，那么</p>
+
+<script type="math/tex; mode=display">P(E\vert F) = P(EF)/P(F)</script>
+
+<p>$P(E\vert F)$表示F发生的条件下，E发生的条件概率</p>
+
+<p>可推得：</p>
+
+<script type="math/tex; mode=display">P(EF) = P(E\vert F)P(F)</script>
+
+<p>根据上式又能推出概率的<strong>乘法法则</strong>：</p>
+
+<script type="math/tex; mode=display">P(E_1E_2E_3···E_n=P(E_1)P(E_2\vert E_1)P(E_3\vert E_1E_2)···P(E_n\vert E_1E_2···E_{n-1})</script>
+
+<h2 id="贝叶斯公式">
+<a class="anchor" href="#%E8%B4%9D%E5%8F%B6%E6%96%AF%E5%85%AC%E5%BC%8F" aria-hidden="true"><span class="octicon octicon-link"></span></a>贝叶斯公式</h2>
+
+<p>设E和F为两个事件，那么将E表示为</p>
+
+<script type="math/tex; mode=display">E = EF \cup EF^c</script>
+
+<p>这样$E$中的结果，要么同时属于$E$和$F$，那么只属于$E$但不属于$F$。显然$EF$和$EF^c$是互不相容的，因此</p>
+
+<script type="math/tex; mode=display">P(E) = P(EF)+ P(EF^c) = P(E\vert F)P(F) + P(E\vert F^c)P(F^c) \\ = P(E\vert F)P(F) + P(E\vert F^c)(1-P(F))</script>
+
+<h4 id="优势比">
+<a class="anchor" href="#%E4%BC%98%E5%8A%BF%E6%AF%94" aria-hidden="true"><span class="octicon octicon-link"></span></a>优势比</h4>
+
+<script type="math/tex; mode=display">\frac {P(A)}{P(A^c)} = \frac {P(A)}{1-P(A)}</script>
+
+<p>优势比指的是该事件发生的可能性是不发生的可能性的倍数</p>
+
+<p>现在假设H以概率P(H)成立，如果新发现了事件E，那么在E成立的条件下，H成立和不成立的条件概率分别为</p>
+
+<script type="math/tex; mode=display">P(H\vert E) = \frac {P(E\vert H)P(H)}{P(E)} \qquad P(H^c\vert E) = \frac {P(E\vert H^c)P(H^c)}{P(E)}</script>
+
+<p>则：</p>
+
+<script type="math/tex; mode=display">\frac {P(H\vert E)}{P(H^c\vert E)} = \frac {P(E\vert H)P(H)}{P(E\vert H^c)P(H^c)}</script>
+
+<p>即新的优势比等于原来的优势比的值乘上新的事件$E$在$H$和$H^c$之下的条件概率</p>
+
+<h4 id="全概率公式">
+<a class="anchor" href="#%E5%85%A8%E6%A6%82%E7%8E%87%E5%85%AC%E5%BC%8F" aria-hidden="true"><span class="octicon octicon-link"></span></a>全概率公式</h4>
+
+<p>根据贝叶斯公式可进行如下推广：假设$F_1,F_2,···,F_n$是互不相容的事件，且</p>
+
+<script type="math/tex; mode=display">\cup_{i=1}^nF_i = S</script>
+
+<p>记：</p>
+
+<script type="math/tex; mode=display">E = \cup_{i=1}^nEF_i</script>
+
+<p>则有如下的全概率公式：</p>
+
+<script type="math/tex; mode=display">P(E) = \sum_{i=1}^nP(EF_i) = \sum_{i=1}^nP(E\vert F_i)P(F_i)</script>
+
+<p>该公式叙述了$P(E)$等于$P(E\vert F_i)$的加权平均</p>
+
+<h4 id="贝叶斯公式-1">
+<a class="anchor" href="#%E8%B4%9D%E5%8F%B6%E6%96%AF%E5%85%AC%E5%BC%8F-1" aria-hidden="true"><span class="octicon octicon-link"></span></a>贝叶斯公式</h4>
+<p>根据全概率公式，可得：</p>
+
+<script type="math/tex; mode=display">P(F_j\vert E) = \frac {P(EF_j)}{P(E)} = \frac {P(E\vert F_j)P(F_j)}{\sum_{i=1}^nP(E\vert F_i)P(F_i)}</script>
+
+<p>如果我们把事件$F_j$设想为关于某个问题的各个可能的”假设条件”，那么贝叶斯公式可以这样理解：</p>
+
+<script type="math/tex; mode=display">它告诉我们，在试验之前对这些假设条件所做的判断[即P(F_j)]，可以如何根据试验的结果来进行修正</script>
+
+<h2 id="独立事件">
+<a class="anchor" href="#%E7%8B%AC%E7%AB%8B%E4%BA%8B%E4%BB%B6" aria-hidden="true"><span class="octicon octicon-link"></span></a>独立事件</h2>
+
+<p>一般情况下: $P(E\vert F) \neq P(E)$。但当</p>
+
+<script type="math/tex; mode=display">P(E\vert F) = P(E) \qquad P(F\vert E) = P(F)</script>
+
+<p>说明E和F是独立事件，且有</p>
+
+<script type="math/tex; mode=display">P(EF) = P(E)P(F) \qquad</script>
+
+<p>如果事件$E$和事件$F$独立，那么$E$和$F^c$也独立</p>
+
+<h4 id="无限个事件的独立性">
+<a class="anchor" href="#%E6%97%A0%E9%99%90%E4%B8%AA%E4%BA%8B%E4%BB%B6%E7%9A%84%E7%8B%AC%E7%AB%8B%E6%80%A7" aria-hidden="true"><span class="octicon octicon-link"></span></a>无限个事件的独立性</h4>
+
+<script type="math/tex; mode=display">如果无限个事件的任意有限个子集都是独立的，那么称这无限个事件是独立的</script>
+
+<h6 id="重复试验">
+<a class="anchor" href="#%E9%87%8D%E5%A4%8D%E8%AF%95%E9%AA%8C" aria-hidden="true"><span class="octicon octicon-link"></span></a>重复试验</h6>
+
+<p>如果各个子试验彼此相同，即各个子试验有相同的(子)样本空间及相同的事件概率函数，那么称这些试验为重复试验</p>
+
+</article>
+      <section id="main_content">
+        <ul>
+            
+        </ul>
+      </section>
+    </div>
+  </div>
+   <footer>
+  <a href="/">
+    <span>
+        <b>LuoSongtao</b>
+    </span>
+    
+    <span>© 2020</span>
+  </a>
+</footer>
+
+  
+</body>
+
+</html>

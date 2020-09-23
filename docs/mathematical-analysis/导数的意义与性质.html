@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+  <meta name="generator" content="Jekyll">
+
+  <title>数学分析-导数的意义与性质</title>
+  <link rel="stylesheet" href="/css/main.css">
+
+  <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="ATOM Feed" /> <!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>数学分析-导数的意义与性质 | MicroNotes</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="数学分析-导数的意义与性质" />
+<meta name="author" content="LuoSongtao" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="导数的几何意义" />
+<meta property="og:description" content="导数的几何意义" />
+<link rel="canonical" href="http://0.0.0.0:4000/mathematical-analysis/%E5%AF%BC%E6%95%B0%E7%9A%84%E6%84%8F%E4%B9%89%E4%B8%8E%E6%80%A7%E8%B4%A8" />
+<meta property="og:url" content="http://0.0.0.0:4000/mathematical-analysis/%E5%AF%BC%E6%95%B0%E7%9A%84%E6%84%8F%E4%B9%89%E4%B8%8E%E6%80%A7%E8%B4%A8" />
+<meta property="og:site_name" content="MicroNotes" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2019-11-29T00:00:00-06:00" />
+<script type="application/ld+json">
+{"author":{"@type":"Person","name":"LuoSongtao"},"mainEntityOfPage":{"@type":"WebPage","@id":"http://0.0.0.0:4000/mathematical-analysis/%E5%AF%BC%E6%95%B0%E7%9A%84%E6%84%8F%E4%B9%89%E4%B8%8E%E6%80%A7%E8%B4%A8"},"description":"导数的几何意义","@type":"BlogPosting","headline":"数学分析-导数的意义与性质","dateModified":"2019-11-29T00:00:00-06:00","url":"http://0.0.0.0:4000/mathematical-analysis/%E5%AF%BC%E6%95%B0%E7%9A%84%E6%84%8F%E4%B9%89%E4%B8%8E%E6%80%A7%E8%B4%A8","datePublished":"2019-11-29T00:00:00-06:00","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+        inlineMath: [['$','$']]
+      }
+    });
+  </script>
+
+</head>
+
+<body>
+  <div id="wrapper">
+    <header>
+  
+  
+  <div class="container">
+      
+
+      <div style="padding-left: 42px;">
+        <a id="username" href="/">
+        
+        <span style="font-size: x-large; color: #6a9fb5;"># </span>
+        <span style="font-size: x-large; color: #aa759f;">luosongtao</span>
+        <span style="font-size: x-large; color: #6a9fb5;">@</span>
+        <span style="font-size: x-large; color: #83a;">home:</span>
+        <span style="font-size: x-large; color: #cc0000;">~$</span>
+        </a>
+        
+<div id="search">
+	<input type="text" id="search-input" placeholder=" find / -name " style="vertical-align:middle;">
+	<ul id="results-container"></ul>
+</div>
+
+<!-- script pointing to jekyll-search.js -->
+<script src="/assets/js/simple-jekyll-search.min.js"></script>
+<script async src="/searchdata.js"></script>
+
+
+      </div>
+
+      <ul id="results-container"></ul>
+
+      <nav class="nav">
+    
+    
+        
+        <h3><a href="/">最新</a></h3>
+        
+    
+        
+        <h3><a href="/algorithms">Algorithms</a></h3>
+        
+    
+        
+        <h3><a href="/optimization">Optimization</a></h3>
+        
+    
+        
+        <h3><a href="/algebra">代数论</a></h3>
+        
+    
+        
+        <h3><a href="/docker">Docker</a></h3>
+        
+    
+        
+        <h3><a href="/bigdata">大数据</a></h3>
+        
+    
+        
+        <h3><a href="/mathematical-analysis">数学分析</a></h3>
+        
+    
+        
+        <h3><a href="/probability-theory">概率论</a></h3>
+        
+    
+        
+        <h3><a href="/others">其他</a></h3>
+        
+    
+</nav>
+      <div class="header-links">
+        
+        <a href="/archive"><h2 class="header-link">时间轴</h2></a>
+<a href="/about"><h2 class="header-link">关于</h2></a>
+<!--<a href="/atom.xml"><h2 class="header-link">RSS</h2></a>-->
+      </div>
+  <div>
+
+</header>
+    
+    <div class="container">
+      <article>
+  <h1>数学分析-导数的意义与性质</h1>
+  <time datetime="2019-11-29T00:00:00-06:00" class="by-line">29 Nov 2019</time>
+  <ul class="section-nav">
+<li class="toc-entry toc-h3"><a href="#导数的几何意义">导数的几何意义</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#example">Example</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#左右导数">左右导数</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#example-1">Example</a></li>
+<li class="toc-entry toc-h4"><a href="#归纳">归纳</a></li>
+</ul>
+</li>
+</ul><h3 id="导数的几何意义">
+<a class="anchor" href="#%E5%AF%BC%E6%95%B0%E7%9A%84%E5%87%A0%E4%BD%95%E6%84%8F%E4%B9%89" aria-hidden="true"><span class="octicon octicon-link"></span></a>导数的几何意义</h3>
+
+<p>切线：割线的极限位置</p>
+
+<p>切线的斜率,记为$k$</p>
+
+<p>割线斜率为$\frac {\Delta y }{\Delta x}$</p>
+
+<script type="math/tex; mode=display">k=\lim_{\Delta x \rightarrow 0}\frac {\Delta y }{\Delta x}=\lim_{\Delta x \rightarrow 0}\frac {f(x+\Delta x)-f(x) }{\Delta x}=f'(x)</script>
+
+<p>$f(x)过(x_0, f(x_0))的切线(导数存在):$</p>
+
+<script type="math/tex; mode=display">y-f(x_0)=f'(x_0)(x-x_0)</script>
+
+<p>$法线:$</p>
+
+<script type="math/tex; mode=display">y-f(x_0)=-\frac 1{f'(x_0)}(x-x_0)</script>
+
+<h4 id="example">
+<a class="anchor" href="#example" aria-hidden="true"><span class="octicon octicon-link"></span></a>Example</h4>
+
+<p><img src="/assets/images/mathemathical-analysis/%E4%BE%8B%E9%A2%98-%E5%AF%BC%E6%95%B0%E7%9A%84%E5%87%A0%E4%BD%95%E6%84%8F%E4%B9%89.png" alt="导数的几何意义"></p>
+
+<h3 id="左右导数">
+<a class="anchor" href="#%E5%B7%A6%E5%8F%B3%E5%AF%BC%E6%95%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>左右导数</h3>
+
+<p>$f’(x_0) = \lim_{\Delta \rightarrow 0}\frac {f(x_0+\Delta x)-f(x_0)}{\Delta x}$</p>
+
+<script type="math/tex; mode=display">f在x_0的右导数:f'_+(x_0) = \lim_{\Delta x \rightarrow 0^+}\frac {f(x_0+\Delta x)-f(x_0)}{\Delta x}</script>
+
+<script type="math/tex; mode=display">f在x_0的左导数:f'_-(x_0) = \lim_{\Delta  \rightarrow 0^-}\frac {f(x_0+\Delta x)-f(x_0)}{\Delta x}</script>
+
+<p>$f在x_0可导\Longleftrightarrow f在x_0的左右导数存在且相等$</p>
+
+<p>$注意：f’_+(x_0)与f’(x_0^+)的区别:$</p>
+
+<ul>
+  <li>$f’_+(x_0)是f在x_0的右导数$</li>
+  <li>$f’(x_0^+)是f的导函数f在x_0的右极限$</li>
+</ul>
+
+<h4 id="example-1">
+<a class="anchor" href="#example-1" aria-hidden="true"><span class="octicon octicon-link"></span></a>Example</h4>
+
+<p><img src="/assets/images/mathemathical-analysis/%E4%BE%8B%E9%A2%98-%E5%B7%A6%E5%8F%B3%E5%AF%BC%E6%95%B0.png" alt="例题-左右导数"></p>
+
+<h4 id="归纳">
+<a class="anchor" href="#%E5%BD%92%E7%BA%B3" aria-hidden="true"><span class="octicon octicon-link"></span></a>归纳</h4>
+
+<p>$若f(x)在(a,b)上每一点可导，则称f在(a,b)上可导$</p>
+
+<p>$若f(x)在(a,b)上每一点可导，在x=a有右导数，在x=b有左导数，则称f在[a,b]上可导$</p>
+
+
+</article>
+      <section id="main_content">
+        <ul>
+            
+        </ul>
+      </section>
+    </div>
+  </div>
+   <footer>
+  <a href="/">
+    <span>
+        <b>LuoSongtao</b>
+    </span>
+    
+    <span>© 2020</span>
+  </a>
+</footer>
+
+  
+</body>
+
+</html>

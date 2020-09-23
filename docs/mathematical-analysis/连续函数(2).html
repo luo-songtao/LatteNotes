@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+  <meta name="generator" content="Jekyll">
+
+  <title>数学分析-连续函数(2)</title>
+  <link rel="stylesheet" href="/css/main.css">
+
+  <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="ATOM Feed" /> <!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>数学分析-连续函数(2) | MicroNotes</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="数学分析-连续函数(2)" />
+<meta name="author" content="LuoSongtao" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="连续函数与单调函数" />
+<meta property="og:description" content="连续函数与单调函数" />
+<link rel="canonical" href="http://0.0.0.0:4000/mathematical-analysis/%E8%BF%9E%E7%BB%AD%E5%87%BD%E6%95%B0(2)" />
+<meta property="og:url" content="http://0.0.0.0:4000/mathematical-analysis/%E8%BF%9E%E7%BB%AD%E5%87%BD%E6%95%B0(2)" />
+<meta property="og:site_name" content="MicroNotes" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2019-11-25T00:00:00-06:00" />
+<script type="application/ld+json">
+{"author":{"@type":"Person","name":"LuoSongtao"},"mainEntityOfPage":{"@type":"WebPage","@id":"http://0.0.0.0:4000/mathematical-analysis/%E8%BF%9E%E7%BB%AD%E5%87%BD%E6%95%B0(2)"},"description":"连续函数与单调函数","@type":"BlogPosting","headline":"数学分析-连续函数(2)","dateModified":"2019-11-25T00:00:00-06:00","url":"http://0.0.0.0:4000/mathematical-analysis/%E8%BF%9E%E7%BB%AD%E5%87%BD%E6%95%B0(2)","datePublished":"2019-11-25T00:00:00-06:00","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+        inlineMath: [['$','$']]
+      }
+    });
+  </script>
+
+</head>
+
+<body>
+  <div id="wrapper">
+    <header>
+  
+  
+  <div class="container">
+      
+
+      <div style="padding-left: 42px;">
+        <a id="username" href="/">
+        
+        <span style="font-size: x-large; color: #6a9fb5;"># </span>
+        <span style="font-size: x-large; color: #aa759f;">luosongtao</span>
+        <span style="font-size: x-large; color: #6a9fb5;">@</span>
+        <span style="font-size: x-large; color: #83a;">home:</span>
+        <span style="font-size: x-large; color: #cc0000;">~$</span>
+        </a>
+        
+<div id="search">
+	<input type="text" id="search-input" placeholder=" find / -name " style="vertical-align:middle;">
+	<ul id="results-container"></ul>
+</div>
+
+<!-- script pointing to jekyll-search.js -->
+<script src="/assets/js/simple-jekyll-search.min.js"></script>
+<script async src="/searchdata.js"></script>
+
+
+      </div>
+
+      <ul id="results-container"></ul>
+
+      <nav class="nav">
+    
+    
+        
+        <h3><a href="/">最新</a></h3>
+        
+    
+        
+        <h3><a href="/algorithms">Algorithms</a></h3>
+        
+    
+        
+        <h3><a href="/optimization">Optimization</a></h3>
+        
+    
+        
+        <h3><a href="/algebra">代数论</a></h3>
+        
+    
+        
+        <h3><a href="/docker">Docker</a></h3>
+        
+    
+        
+        <h3><a href="/bigdata">大数据</a></h3>
+        
+    
+        
+        <h3><a href="/mathematical-analysis">数学分析</a></h3>
+        
+    
+        
+        <h3><a href="/probability-theory">概率论</a></h3>
+        
+    
+        
+        <h3><a href="/others">其他</a></h3>
+        
+    
+</nav>
+      <div class="header-links">
+        
+        <a href="/archive"><h2 class="header-link">时间轴</h2></a>
+<a href="/about"><h2 class="header-link">关于</h2></a>
+<!--<a href="/atom.xml"><h2 class="header-link">RSS</h2></a>-->
+      </div>
+  <div>
+
+</header>
+    
+    <div class="container">
+      <article>
+  <h1>数学分析-连续函数(2)</h1>
+  <time datetime="2019-11-25T00:00:00-06:00" class="by-line">25 Nov 2019</time>
+  <ul class="section-nav">
+<li class="toc-entry toc-h3"><a href="#连续函数与单调函数">连续函数与单调函数</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#区间ab上的单调函数的不连续点类型必为第一类即必为跳跃点">区间(a,b)上的单调函数的不连续点类型必为第一类，即必为跳跃点​</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#证明">证明</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#连续函数与反函数">连续函数与反函数</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#反函数">反函数</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#反函数存在定理">反函数存在定理</a>
+<ul>
+<li class="toc-entry toc-h6"><a href="#证明-1">证明</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h5"><a href="#反函数连续性定理">反函数连续性定理</a>
+<ul>
+<li class="toc-entry toc-h6"><a href="#证明-2">证明</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#连续函数与复合函数">连续函数与复合函数</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#定理">定理</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#证明-3">证明</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#连续函数与初等函数">连续函数与初等函数</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#定理-1">定理</a></li>
+</ul>
+</li>
+</ul><h3 id="连续函数与单调函数">
+<a class="anchor" href="#%E8%BF%9E%E7%BB%AD%E5%87%BD%E6%95%B0%E4%B8%8E%E5%8D%95%E8%B0%83%E5%87%BD%E6%95%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>连续函数与单调函数</h3>
+
+<h4 id="区间ab上的单调函数的不连续点类型必为第一类即必为跳跃点">
+<a class="anchor" href="#%E5%8C%BA%E9%97%B4ab%E4%B8%8A%E7%9A%84%E5%8D%95%E8%B0%83%E5%87%BD%E6%95%B0%E7%9A%84%E4%B8%8D%E8%BF%9E%E7%BB%AD%E7%82%B9%E7%B1%BB%E5%9E%8B%E5%BF%85%E4%B8%BA%E7%AC%AC%E4%B8%80%E7%B1%BB%E5%8D%B3%E5%BF%85%E4%B8%BA%E8%B7%B3%E8%B7%83%E7%82%B9" aria-hidden="true"><span class="octicon octicon-link"></span></a>区间(a,b)上的单调函数的不连续点类型必为第一类，即必为跳跃点​</h4>
+
+<h5 id="证明">
+<a class="anchor" href="#%E8%AF%81%E6%98%8E" aria-hidden="true"><span class="octicon octicon-link"></span></a>证明</h5>
+
+<p><img src="/assets/images/mathemathical-analysis/%E8%AF%81-%E8%BF%9E%E7%BB%AD%E5%87%BD%E6%95%B0%E4%B8%8E%E5%8D%95%E8%B0%83%E5%87%BD%E6%95%B0.png" alt="证-连续函数与单调函数"></p>
+
+<h3 id="连续函数与反函数">
+<a class="anchor" href="#%E8%BF%9E%E7%BB%AD%E5%87%BD%E6%95%B0%E4%B8%8E%E5%8F%8D%E5%87%BD%E6%95%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>连续函数与反函数</h3>
+
+<h4 id="反函数">
+<a class="anchor" href="#%E5%8F%8D%E5%87%BD%E6%95%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>反函数</h4>
+
+<ul>
+  <li>存在性</li>
+  <li>连续性</li>
+  <li>可导性</li>
+</ul>
+
+<h5 id="反函数存在定理">
+<a class="anchor" href="#%E5%8F%8D%E5%87%BD%E6%95%B0%E5%AD%98%E5%9C%A8%E5%AE%9A%E7%90%86" aria-hidden="true"><span class="octicon octicon-link"></span></a>反函数存在定理</h5>
+
+<p>$若f(x)在定义域上严格单调增加(减少),则存在f的反函数x=f^-1(y),y\in R_f,且f^{-1}也严格单调增加(减少)$</p>
+
+<h6 id="证明-1">
+<a class="anchor" href="#%E8%AF%81%E6%98%8E-1" aria-hidden="true"><span class="octicon octicon-link"></span></a>证明</h6>
+
+<p><img src="/assets/images/mathemathical-analysis/%E8%AF%81-%E5%8F%8D%E5%87%BD%E6%95%B0%E5%AD%98%E5%9C%A8%E5%AE%9A%E7%90%86.png" alt="证-反函数存在定理"></p>
+
+<h5 id="反函数连续性定理">
+<a class="anchor" href="#%E5%8F%8D%E5%87%BD%E6%95%B0%E8%BF%9E%E7%BB%AD%E6%80%A7%E5%AE%9A%E7%90%86" aria-hidden="true"><span class="octicon octicon-link"></span></a>反函数连续性定理</h5>
+
+<p>$若y=f(x)在[a,b]上连续且严格单调增加$</p>
+
+<p>$设f(a)=\alpha, f(b)=\beta,\alpha&lt;\beta,则反函数f^{-1}(y)在[\alpha,\beta]上连续$</p>
+
+<h6 id="证明-2">
+<a class="anchor" href="#%E8%AF%81%E6%98%8E-2" aria-hidden="true"><span class="octicon octicon-link"></span></a>证明</h6>
+
+<p><img src="/assets/images/mathemathical-analysis/%E8%AF%81-%E5%8F%8D%E5%87%BD%E6%95%B0%E8%BF%9E%E7%BB%AD%E6%80%A7%E5%AE%9A%E7%90%86.png" alt="证-反函数连续性定理"></p>
+
+<ul>
+  <li>三角函数与反三角函数</li>
+  <li>指数函数与对数函数</li>
+</ul>
+
+<h3 id="连续函数与复合函数">
+<a class="anchor" href="#%E8%BF%9E%E7%BB%AD%E5%87%BD%E6%95%B0%E4%B8%8E%E5%A4%8D%E5%90%88%E5%87%BD%E6%95%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>连续函数与复合函数</h3>
+
+<p>问题：</p>
+
+<script type="math/tex; mode=display">\lim_{u\rightarrow u_0}f(u)=A,\lim_{x\rightarrow x_0}g(x)=u_0</script>
+
+<script type="math/tex; mode=display">\lim_{x\rightarrow x_0}f\circ g(x) =A是不确定的,除非A=f(u_0)</script>
+
+<p>反例</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{equation} f(u)=\left\lbrace \begin{aligned}  & 0 &u=0\\ & 1 & u\neq 0 \end{aligned} \right. \qquad g(x)=x\sin \frac 1x \end{equation} %]]></script>
+
+<p>$\lim_{u\rightarrow 0}f(u)=1,\lim_{x\rightarrow 0}f(g)=0$</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{equation} x\rightarrow 0 \qquad f\circ g(x)=\left\lbrace \begin{aligned}  & 0 &x=\frac {1}{n\pi}\\ & 1 & x\neq \frac {1}{n\pi}\end{aligned} \right. \end{equation} %]]></script>
+
+<h4 id="定理">
+<a class="anchor" href="#%E5%AE%9A%E7%90%86" aria-hidden="true"><span class="octicon octicon-link"></span></a>定理</h4>
+
+<p>$u=g(x)在x_0连续,g(x_0)=u_0,f(u)在u_0连续,则f\circ g在x_0连续$</p>
+
+<script type="math/tex; mode=display">\lim_{x\rightarrow x_0}g(x)=g(x_0)=u_0,\lim_{u\rightarrow u_0}f(u)=f(u_0) \Longrightarrow \lim_{x\rightarrow x_0}f\circ g(x)=f\circ g(x_0)=f(u_0)</script>
+
+<h5 id="证明-3">
+<a class="anchor" href="#%E8%AF%81%E6%98%8E-3" aria-hidden="true"><span class="octicon octicon-link"></span></a>证明</h5>
+
+<p><img src="/assets/images/mathemathical-analysis/%E8%AF%81-%E8%BF%9E%E7%BB%AD%E5%87%BD%E6%95%B0%E4%B8%8E%E5%A4%8D%E5%90%88%E5%87%BD%E6%95%B0.png" alt="证-连续函数与复合函数"></p>
+
+<p>例题</p>
+
+<ol>
+  <li>双曲函数：$\sinh x = \frac {e^x-e^{-x}}{2},\cosh x = \frac {e^x+e^{-x}}{2}$</li>
+</ol>
+
+<ul>
+  <li>$\sinh x : y=\frac {u-u^{-1}}{2},u=e^x,u在(-\infty,+\infty)连续,值大于0,y在(0,+\infty)连续,所以\sinh x连续$</li>
+  <li>$\cosh x同理$</li>
+</ul>
+
+<ol>
+  <li>对任意实数$\alpha,f(x)=x^\alpha$,在$(0,+\infty)$上连续</li>
+</ol>
+
+<p>证明</p>
+
+<p>$f(x)=x^\alpha=e^{\alpha \ln x} : y(u)=e^u,u(x)=\alpha \ln x$</p>
+
+<p>tips:</p>
+
+<ul>
+  <li>$若\alpha 是正整数,f(x)在(-\infty,+\infty)上连续$</li>
+  <li>$若\alpha 是负整数,f(x)在(-\infty,0)\cup (0,+\infty)上连续$</li>
+  <li>$若\alpha 是正有理数\frac qp,p奇,f(x)在(-\infty,+\infty)上连续$</li>
+  <li>$若\alpha 是正有理数\frac qp,p偶,f(x)在(0,+\infty)上连续$</li>
+</ul>
+
+<h3 id="连续函数与初等函数">
+<a class="anchor" href="#%E8%BF%9E%E7%BB%AD%E5%87%BD%E6%95%B0%E4%B8%8E%E5%88%9D%E7%AD%89%E5%87%BD%E6%95%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>连续函数与初等函数</h3>
+
+<p>基本初等函数在定义域内都是连续的</p>
+
+<h4 id="定理-1">
+<a class="anchor" href="#%E5%AE%9A%E7%90%86-1" aria-hidden="true"><span class="octicon octicon-link"></span></a>定理</h4>
+
+<p>一切初等函数在它的定义域上连续</p>
+
+<p>(应用它的概念可以利用初等函数求极限)</p>
+
+<p><img src="/assets/images/mathemathical-analysis/%E4%BE%8B%E9%A2%98-%E8%BF%9E%E7%BB%AD%E5%87%BD%E6%95%B0%E4%B8%8E%E5%88%9D%E7%AD%89%E5%87%BD%E6%95%B0.png" alt="例题-连续函数与初等函数"></p>
+
+</article>
+      <section id="main_content">
+        <ul>
+            
+        </ul>
+      </section>
+    </div>
+  </div>
+   <footer>
+  <a href="/">
+    <span>
+        <b>LuoSongtao</b>
+    </span>
+    
+    <span>© 2020</span>
+  </a>
+</footer>
+
+  
+</body>
+
+</html>

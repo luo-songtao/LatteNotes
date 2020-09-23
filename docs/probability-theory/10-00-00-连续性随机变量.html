@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+  <meta name="generator" content="Jekyll">
+
+  <title>概率论-连续型随机变量</title>
+  <link rel="stylesheet" href="/css/main.css">
+
+  <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="ATOM Feed" /> <!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>概率论-连续型随机变量 | MicroNotes</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="概率论-连续型随机变量" />
+<meta name="author" content="LuoSongtao" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="连续型随机变量" />
+<meta property="og:description" content="连续型随机变量" />
+<link rel="canonical" href="http://0.0.0.0:4000/probability-theory/10-00-00-%E8%BF%9E%E7%BB%AD%E6%80%A7%E9%9A%8F%E6%9C%BA%E5%8F%98%E9%87%8F" />
+<meta property="og:url" content="http://0.0.0.0:4000/probability-theory/10-00-00-%E8%BF%9E%E7%BB%AD%E6%80%A7%E9%9A%8F%E6%9C%BA%E5%8F%98%E9%87%8F" />
+<meta property="og:site_name" content="MicroNotes" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-01-01T04:00:00-06:00" />
+<script type="application/ld+json">
+{"author":{"@type":"Person","name":"LuoSongtao"},"mainEntityOfPage":{"@type":"WebPage","@id":"http://0.0.0.0:4000/probability-theory/10-00-00-%E8%BF%9E%E7%BB%AD%E6%80%A7%E9%9A%8F%E6%9C%BA%E5%8F%98%E9%87%8F"},"description":"连续型随机变量","@type":"BlogPosting","headline":"概率论-连续型随机变量","dateModified":"2020-01-01T04:00:00-06:00","url":"http://0.0.0.0:4000/probability-theory/10-00-00-%E8%BF%9E%E7%BB%AD%E6%80%A7%E9%9A%8F%E6%9C%BA%E5%8F%98%E9%87%8F","datePublished":"2020-01-01T04:00:00-06:00","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+        inlineMath: [['$','$']]
+      }
+    });
+  </script>
+
+</head>
+
+<body>
+  <div id="wrapper">
+    <header>
+  
+  
+  <div class="container">
+      
+
+      <div style="padding-left: 42px;">
+        <a id="username" href="/">
+        
+        <span style="font-size: x-large; color: #6a9fb5;"># </span>
+        <span style="font-size: x-large; color: #aa759f;">luosongtao</span>
+        <span style="font-size: x-large; color: #6a9fb5;">@</span>
+        <span style="font-size: x-large; color: #83a;">home:</span>
+        <span style="font-size: x-large; color: #cc0000;">~$</span>
+        </a>
+        
+<div id="search">
+	<input type="text" id="search-input" placeholder=" find / -name " style="vertical-align:middle;">
+	<ul id="results-container"></ul>
+</div>
+
+<!-- script pointing to jekyll-search.js -->
+<script src="/assets/js/simple-jekyll-search.min.js"></script>
+<script async src="/searchdata.js"></script>
+
+
+      </div>
+
+      <ul id="results-container"></ul>
+
+      <nav class="nav">
+    
+    
+        
+        <h3><a href="/">最新</a></h3>
+        
+    
+        
+        <h3><a href="/algorithms">Algorithms</a></h3>
+        
+    
+        
+        <h3><a href="/optimization">Optimization</a></h3>
+        
+    
+        
+        <h3><a href="/algebra">代数论</a></h3>
+        
+    
+        
+        <h3><a href="/docker">Docker</a></h3>
+        
+    
+        
+        <h3><a href="/bigdata">大数据</a></h3>
+        
+    
+        
+        <h3><a href="/mathematical-analysis">数学分析</a></h3>
+        
+    
+        
+        <h3><a href="/probability-theory">概率论</a></h3>
+        
+    
+        
+        <h3><a href="/others">其他</a></h3>
+        
+    
+</nav>
+      <div class="header-links">
+        
+        <a href="/archive"><h2 class="header-link">时间轴</h2></a>
+<a href="/about"><h2 class="header-link">关于</h2></a>
+<!--<a href="/atom.xml"><h2 class="header-link">RSS</h2></a>-->
+      </div>
+  <div>
+
+</header>
+    
+    <div class="container">
+      <article>
+  <h1>概率论-连续型随机变量</h1>
+  <time datetime="2020-01-01T04:00:00-06:00" class="by-line">01 Jan 2020</time>
+  <ul class="section-nav">
+<li class="toc-entry toc-h2"><a href="#连续型随机变量">连续型随机变量</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#连续型随机变量的期望">连续型随机变量的期望</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#均匀随机变量-uniformly">均匀随机变量 (Uniformly)</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#01区间上">(0,1)区间上</a></li>
+<li class="toc-entry toc-h4"><a href="#alpha-beta区间上">$(\alpha, \beta)$区间上</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#正态随机变量">正态随机变量</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#标准正太随机变量">标准正太随机变量</a></li>
+<li class="toc-entry toc-h4"><a href="#二项分布的正太近似">二项分布的正太近似</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#指数随机变量">指数随机变量</a></li>
+<li class="toc-entry toc-h2"><a href="#gamma-分布">$\Gamma$ 分布</a></li>
+<li class="toc-entry toc-h2"><a href="#威布尔分布">威布尔分布</a></li>
+<li class="toc-entry toc-h2"><a href="#柯西分布">柯西分布</a></li>
+<li class="toc-entry toc-h2"><a href="#beta分布">$\beta$分布</a></li>
+<li class="toc-entry toc-h2"><a href="#对数正太分布">对数正太分布</a></li>
+</ul><h2 id="连续型随机变量">
+<a class="anchor" href="#%E8%BF%9E%E7%BB%AD%E5%9E%8B%E9%9A%8F%E6%9C%BA%E5%8F%98%E9%87%8F" aria-hidden="true"><span class="octicon octicon-link"></span></a>连续型随机变量</h2>
+
+<p>设X是一个随机变量，如果存在一个实数轴上的非负函数f，使得对于任一个实数集B，满足：</p>
+
+<script type="math/tex; mode=display">P\{ X\in B \} = \int_B f(x)dx</script>
+
+<p>则称X为连续型随机变量。</p>
+
+<p>函数f称为随机变量X的概率密度函数(Probability Density Function)</p>
+
+<p>也就是说X属于B的概率可以由概率密度函数f(x)在集合B上的积分得到</p>
+
+<script type="math/tex; mode=display">P\{X\in (-\infty, \infty)\} = \int_{-\infty}^{\infty}f(x)dx = 1</script>
+
+<script type="math/tex; mode=display">P\{ a\le X \le b \} = \int_a^b f(x)dx</script>
+
+<p>注意：连续型随机变量取任何固定值的概率都等于0</p>
+
+<script type="math/tex; mode=display">P\{ X=a \} = \int_a^a f(x)dx = 0</script>
+
+<p>也因此，则有：</p>
+
+<script type="math/tex; mode=display">P\{ X \lt  a\} = P\{ X \le  a\} = F(a) = \int_{-\infty}^b f(x)dx</script>
+
+<h3 id="连续型随机变量的期望">
+<a class="anchor" href="#%E8%BF%9E%E7%BB%AD%E5%9E%8B%E9%9A%8F%E6%9C%BA%E5%8F%98%E9%87%8F%E7%9A%84%E6%9C%9F%E6%9C%9B" aria-hidden="true"><span class="octicon octicon-link"></span></a>连续型随机变量的期望</h3>
+
+<p>对于离散型有以下定义：</p>
+
+<script type="math/tex; mode=display">E[X] = \sum_x xP\{ X=x \}</script>
+
+<p>而如果是X是一个连续型随机变量，密度函数为f(x)，那么因为对于很小的dx有：</p>
+
+<script type="math/tex; mode=display">f(x)dx \approx P \{ x\le X \le x+dx \}</script>
+
+<p>因此类似地可定义连续型随机变量的期望值为:</p>
+
+<script type="math/tex; mode=display">E[X] = \int_{-\infty}^{\infty} xf(x)dx</script>
+
+<p>设X是一个连续型随机变量，其概率密度函数为f(x)，那么对于任一实值函数g，有：</p>
+
+<script type="math/tex; mode=display">E[g(X)] = \int_{-\infty}^{\infty}g(x)f(x)dx</script>
+
+<p>对于一个非负随机变量Y，有</p>
+
+<script type="math/tex; mode=display">E[Y] = \int_0^{\infty} P\{ Y>y \}dy</script>
+
+<script type="math/tex; mode=display">Var(X) = E[X^2]-(E[X])^2</script>
+
+<h2 id="均匀随机变量-uniformly">
+<a class="anchor" href="#%E5%9D%87%E5%8C%80%E9%9A%8F%E6%9C%BA%E5%8F%98%E9%87%8F-uniformly" aria-hidden="true"><span class="octicon octicon-link"></span></a>均匀随机变量 (Uniformly)</h2>
+
+<h4 id="01区间上">
+<a class="anchor" href="#01%E5%8C%BA%E9%97%B4%E4%B8%8A" aria-hidden="true"><span class="octicon octicon-link"></span></a>(0,1)区间上</h4>
+
+<p>如果一个随机变量X的密度函数为：</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+f(x) = \left \{ \begin{matrix} &1 \qquad & 0<x<1 \\ &0  \qquad & 其他\end{matrix} \right. %]]></script>
+
+<p>则称随机变量X在(0,1)区间上均匀分布</p>
+
+<script type="math/tex; mode=display">\int_{-\infty}^{\infty}f(x)dx = \inf_0^1dx = 1</script>
+
+<p>且仅当$x\in (0,1)$时，才有$f(x)&gt;0$，所以X必然取值在(0,1)之间</p>
+
+<p>对于任意$0&lt;a&lt;b&lt;1$，有</p>
+
+<script type="math/tex; mode=display">P\{ a \le X \le b \} = \int_a^b f(x)dx = b-a</script>
+
+<h4 id="alpha-beta区间上">
+<a class="anchor" href="#alpha-beta%E5%8C%BA%E9%97%B4%E4%B8%8A" aria-hidden="true"><span class="octicon octicon-link"></span></a>$(\alpha, \beta)$区间上</h4>
+
+<p>在区间$(\alpha, \beta)$上，随机变量X的密度函数若为：</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+f(x) = \left \{ \begin{matrix} &\frac 1{\beta-\alpha} \qquad &\alpha<x<\beta \\ &0 \qquad & 其他 \end{matrix} \right. %]]></script>
+
+<p>则称X在区间$(\alpha, \beta)$上服从均匀分布</p>
+
+<p>均匀随机变量的分布函数：</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+F(a) = \left \{ \begin{matrix} &0 \qquad &a \le \alpha \\ &\frac {a-\alpha}{\beta-\alpha} \qquad & \alpha<a<\beta \\ &1 \qquad & a \ge \beta \end{matrix} \right. %]]></script>
+
+<script type="math/tex; mode=display">E[X] = \frac {\beta + \alpha}2</script>
+
+<script type="math/tex; mode=display">Var(X) = \frac {(\beta-\alpha)^2}{12}</script>
+
+<h2 id="正态随机变量">
+<a class="anchor" href="#%E6%AD%A3%E6%80%81%E9%9A%8F%E6%9C%BA%E5%8F%98%E9%87%8F" aria-hidden="true"><span class="octicon octicon-link"></span></a>正态随机变量</h2>
+
+<p>如果随机变量X的密度函数为:</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+f(x) = \frac 1{\sqrt{2\pi}\sigma}e^{-{(x-\mu)^2/{2\sigma^2}}} \qquad -\infty < x < \infty %]]></script>
+
+<p>则称X是服从参数为$\mu$和$\sigma^2$的正态分布的随机变量。其中$\mu$和$\sigma^2$分别是正态随机变量的期望和方差。</p>
+
+<h4 id="标准正太随机变量">
+<a class="anchor" href="#%E6%A0%87%E5%87%86%E6%AD%A3%E5%A4%AA%E9%9A%8F%E6%9C%BA%E5%8F%98%E9%87%8F" aria-hidden="true"><span class="octicon octicon-link"></span></a>标准正太随机变量</h4>
+
+<p>当$\mu=0$和$\sigma=1$时，正太随机变量被称为标准正太分布</p>
+
+<h4 id="二项分布的正太近似">
+<a class="anchor" href="#%E4%BA%8C%E9%A1%B9%E5%88%86%E5%B8%83%E7%9A%84%E6%AD%A3%E5%A4%AA%E8%BF%91%E4%BC%BC" aria-hidden="true"><span class="octicon octicon-link"></span></a>二项分布的正太近似</h4>
+
+<p>在$n$次独立重复试验中，设每次成功的概率为$p$，继成功的总次数为$S_n$，那么对任意$a&lt;b$有：当$n\rightarrow \infty$时，</p>
+
+<script type="math/tex; mode=display">P\{ a \le \frac {S_n - np}{\sqrt{np(1-p)}} \le b\} \rightarrow \phi(b)—\phi(a)</script>
+
+<h2 id="指数随机变量">
+<a class="anchor" href="#%E6%8C%87%E6%95%B0%E9%9A%8F%E6%9C%BA%E5%8F%98%E9%87%8F" aria-hidden="true"><span class="octicon octicon-link"></span></a>指数随机变量</h2>
+
+<p>如果一个连续型随机变量的密度函数如下：对于$\lambda&gt;0$，有</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+f(x) = \left \{ \begin{matrix} &\lambda e^{-\lambda x} \qquad &x\ge 0 \\ &0 \qquad &x < 0 \end{matrix} \right. %]]></script>
+
+<p>指数随机变量的分布函数F(a)：</p>
+
+<script type="math/tex; mode=display">F(a) = P \{ X\le a \} = \int_0^a \lambda e^{-\lambda x}dx = -e^{-\lambda x}|_0^a = 1-e^{-\lambda x} \qquad a\ge 0</script>
+
+<script type="math/tex; mode=display">E[X] = \frac 1\lambda</script>
+
+<script type="math/tex; mode=display">Var(X) = \frac 1{\lambda^2}</script>
+
+<h2 id="gamma-分布">
+<a class="anchor" href="#gamma-%E5%88%86%E5%B8%83" aria-hidden="true"><span class="octicon octicon-link"></span></a>$\Gamma$ 分布</h2>
+
+<p>如果一个随机变量具有密度函数：</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+f(x) = \left \{ \begin{matrix} &\frac {\lambda e^{-\lambda x}(\lambda x)^{\alpha-1}}{\Gamma(\alpha)} \qquad &x\ge 0 \\ &0 \qquad &x < 0 \end{matrix} \right. %]]></script>
+
+<p>其中$\Gamma(\alpha)$称为$\Gamma$函数，则称该随机变量具有$\Gamma$分布，其参数为$(\alpha, \lambda), \alpha&gt;0,\lambda&gt;0$</p>
+
+<h2 id="威布尔分布">
+<a class="anchor" href="#%E5%A8%81%E5%B8%83%E5%B0%94%E5%88%86%E5%B8%83" aria-hidden="true"><span class="octicon octicon-link"></span></a>威布尔分布</h2>
+
+<h2 id="柯西分布">
+<a class="anchor" href="#%E6%9F%AF%E8%A5%BF%E5%88%86%E5%B8%83" aria-hidden="true"><span class="octicon octicon-link"></span></a>柯西分布</h2>
+
+<h2 id="beta分布">
+<a class="anchor" href="#beta%E5%88%86%E5%B8%83" aria-hidden="true"><span class="octicon octicon-link"></span></a>$\beta$分布</h2>
+
+<h2 id="对数正太分布">
+<a class="anchor" href="#%E5%AF%B9%E6%95%B0%E6%AD%A3%E5%A4%AA%E5%88%86%E5%B8%83" aria-hidden="true"><span class="octicon octicon-link"></span></a>对数正太分布</h2>
+
+
+</article>
+      <section id="main_content">
+        <ul>
+            
+        </ul>
+      </section>
+    </div>
+  </div>
+   <footer>
+  <a href="/">
+    <span>
+        <b>LuoSongtao</b>
+    </span>
+    
+    <span>© 2020</span>
+  </a>
+</footer>
+
+  
+</body>
+
+</html>

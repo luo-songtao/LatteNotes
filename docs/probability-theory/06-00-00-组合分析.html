@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+  <meta name="generator" content="Jekyll">
+
+  <title>概率论-组合分析</title>
+  <link rel="stylesheet" href="/css/main.css">
+
+  <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="ATOM Feed" /> <!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>概率论-组合分析 | MicroNotes</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="概率论-组合分析" />
+<meta name="author" content="LuoSongtao" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="排列" />
+<meta property="og:description" content="排列" />
+<link rel="canonical" href="http://0.0.0.0:4000/probability-theory/06-00-00-%E7%BB%84%E5%90%88%E5%88%86%E6%9E%90" />
+<meta property="og:url" content="http://0.0.0.0:4000/probability-theory/06-00-00-%E7%BB%84%E5%90%88%E5%88%86%E6%9E%90" />
+<meta property="og:site_name" content="MicroNotes" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-01-01T00:00:00-06:00" />
+<script type="application/ld+json">
+{"author":{"@type":"Person","name":"LuoSongtao"},"mainEntityOfPage":{"@type":"WebPage","@id":"http://0.0.0.0:4000/probability-theory/06-00-00-%E7%BB%84%E5%90%88%E5%88%86%E6%9E%90"},"description":"排列","@type":"BlogPosting","headline":"概率论-组合分析","dateModified":"2020-01-01T00:00:00-06:00","url":"http://0.0.0.0:4000/probability-theory/06-00-00-%E7%BB%84%E5%90%88%E5%88%86%E6%9E%90","datePublished":"2020-01-01T00:00:00-06:00","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+        inlineMath: [['$','$']]
+      }
+    });
+  </script>
+
+</head>
+
+<body>
+  <div id="wrapper">
+    <header>
+  
+  
+  <div class="container">
+      
+
+      <div style="padding-left: 42px;">
+        <a id="username" href="/">
+        
+        <span style="font-size: x-large; color: #6a9fb5;"># </span>
+        <span style="font-size: x-large; color: #aa759f;">luosongtao</span>
+        <span style="font-size: x-large; color: #6a9fb5;">@</span>
+        <span style="font-size: x-large; color: #83a;">home:</span>
+        <span style="font-size: x-large; color: #cc0000;">~$</span>
+        </a>
+        
+<div id="search">
+	<input type="text" id="search-input" placeholder=" find / -name " style="vertical-align:middle;">
+	<ul id="results-container"></ul>
+</div>
+
+<!-- script pointing to jekyll-search.js -->
+<script src="/assets/js/simple-jekyll-search.min.js"></script>
+<script async src="/searchdata.js"></script>
+
+
+      </div>
+
+      <ul id="results-container"></ul>
+
+      <nav class="nav">
+    
+    
+        
+        <h3><a href="/">最新</a></h3>
+        
+    
+        
+        <h3><a href="/algorithms">Algorithms</a></h3>
+        
+    
+        
+        <h3><a href="/optimization">Optimization</a></h3>
+        
+    
+        
+        <h3><a href="/algebra">代数论</a></h3>
+        
+    
+        
+        <h3><a href="/docker">Docker</a></h3>
+        
+    
+        
+        <h3><a href="/bigdata">大数据</a></h3>
+        
+    
+        
+        <h3><a href="/mathematical-analysis">数学分析</a></h3>
+        
+    
+        
+        <h3><a href="/probability-theory">概率论</a></h3>
+        
+    
+        
+        <h3><a href="/others">其他</a></h3>
+        
+    
+</nav>
+      <div class="header-links">
+        
+        <a href="/archive"><h2 class="header-link">时间轴</h2></a>
+<a href="/about"><h2 class="header-link">关于</h2></a>
+<!--<a href="/atom.xml"><h2 class="header-link">RSS</h2></a>-->
+      </div>
+  <div>
+
+</header>
+    
+    <div class="container">
+      <article>
+  <h1>概率论-组合分析</h1>
+  <time datetime="2020-01-01T00:00:00-06:00" class="by-line">01 Jan 2020</time>
+  <ul class="section-nav">
+<li class="toc-entry toc-h2"><a href="#排列">排列</a></li>
+<li class="toc-entry toc-h2"><a href="#组合">组合</a></li>
+<li class="toc-entry toc-h2"><a href="#多项式系数">多项式系数</a></li>
+<li class="toc-entry toc-h2"><a href="#方程整数解的个数">方程整数解的个数</a></li>
+</ul><h2 id="排列">
+<a class="anchor" href="#%E6%8E%92%E5%88%97" aria-hidden="true"><span class="octicon octicon-link"></span></a>排列</h2>
+
+<p><strong>n个不同元素排列方式：</strong></p>
+
+<script type="math/tex; mode=display">n!</script>
+
+<p><strong>n个元素。其中$n_1$个元素彼此相同，另外$n_2$个元素彼此相同， …,$n_r$个元素彼此相同，那么总共的排列方式：</strong></p>
+
+<script type="math/tex; mode=display">\frac {n!}{n_1!n_2!···n_r!}</script>
+
+<h2 id="组合">
+<a class="anchor" href="#%E7%BB%84%E5%90%88" aria-hidden="true"><span class="octicon octicon-link"></span></a>组合</h2>
+
+<p><strong>n个元素中取r个排成一组的组合数：</strong>
+<script type="math/tex">(_r^n) = \frac {n!}{r!(n-r)!}</script></p>
+
+<p><strong>$(_r^n)$经常称为二项式系数。</strong></p>
+
+<p><strong>二项式定理：</strong></p>
+
+<script type="math/tex; mode=display">(x+y)^n = \sum_{k=0}^n$(_k^n)x^ky^{n-k}</script>
+
+<h2 id="多项式系数">
+<a class="anchor" href="#%E5%A4%9A%E9%A1%B9%E5%BC%8F%E7%B3%BB%E6%95%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>多项式系数</h2>
+
+<p><strong>如果$n_1+n_2+···+n_r=n$,则定义</strong></p>
+
+<script type="math/tex; mode=display">(_{n_1,n_2,···,n_r}^{n}) = \frac {n!}{n_1!n_2!···n_r!}</script>
+
+<p>它表示把n个不同的元素分成大小分别为$n_1,n_2,···,n_r$的r个不同组的组合数。它也称为多项式系数。</p>
+
+<p><strong>多项式定理：</strong></p>
+
+<script type="math/tex; mode=display">(x_1+x_2+···+x_r)^n = \sum_{(n_1,n_2,···,n_r):n_1+n_2+···+n_r=n}(_{n_1,n_2,···,n_r}^{n})x_1^{n_1}x_2^{n_2}···x_r^{n_r}</script>
+
+<h2 id="方程整数解的个数">
+<a class="anchor" href="#%E6%96%B9%E7%A8%8B%E6%95%B4%E6%95%B0%E8%A7%A3%E7%9A%84%E4%B8%AA%E6%95%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>方程整数解的个数</h2>
+
+<ul>
+  <li>
+    <p>对于方程$x_1+x_2+···+x_r=n$，共有$(_{r-1}^{n-1})$个不同的正整数向量$(x_1, x_2, ···, x_r)$满足。$(x_i&gt;0, i=1,···,r)$</p>
+  </li>
+  <li>
+    <p>对于方程$x_1+x_2+···+x_r=n$，共有$(_{r-1}^{n+r-1})$个不同的非负整数向量$(x_1, x_2, ···, x_r)$满足。$(x_i&gt;0, i=1,···,r)$</p>
+  </li>
+</ul>
+
+
+</article>
+      <section id="main_content">
+        <ul>
+            
+        </ul>
+      </section>
+    </div>
+  </div>
+   <footer>
+  <a href="/">
+    <span>
+        <b>LuoSongtao</b>
+    </span>
+    
+    <span>© 2020</span>
+  </a>
+</footer>
+
+  
+</body>
+
+</html>

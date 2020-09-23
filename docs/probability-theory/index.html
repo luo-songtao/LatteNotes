@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+  <meta name="generator" content="Jekyll">
+
+  <title>概率论</title>
+  <link rel="stylesheet" href="/css/main.css">
+
+  <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="ATOM Feed" /> <!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>概率论 | MicroNotes</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="概率论" />
+<meta name="author" content="LuoSongtao" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="千里之行始于足下；不积跬步无以致千里" />
+<meta property="og:description" content="千里之行始于足下；不积跬步无以致千里" />
+<link rel="canonical" href="http://0.0.0.0:4000/probability-theory/" />
+<meta property="og:url" content="http://0.0.0.0:4000/probability-theory/" />
+<meta property="og:site_name" content="MicroNotes" />
+<script type="application/ld+json">
+{"author":{"@type":"Person","name":"LuoSongtao"},"description":"千里之行始于足下；不积跬步无以致千里","@type":"WebPage","headline":"概率论","url":"http://0.0.0.0:4000/probability-theory/","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+        inlineMath: [['$','$']]
+      }
+    });
+  </script>
+
+</head>
+
+<body>
+  <div id="wrapper">
+    <header>
+  
+  
+  <div class="container">
+      
+
+      <div style="padding-left: 42px;">
+        <a id="username" href="/">
+        
+        <span style="font-size: x-large; color: #6a9fb5;"># </span>
+        <span style="font-size: x-large; color: #aa759f;">luosongtao</span>
+        <span style="font-size: x-large; color: #6a9fb5;">@</span>
+        <span style="font-size: x-large; color: #83a;">home:</span>
+        <span style="font-size: x-large; color: #cc0000;">~$</span>
+        </a>
+        
+<div id="search">
+	<input type="text" id="search-input" placeholder=" find / -name " style="vertical-align:middle;">
+	<ul id="results-container"></ul>
+</div>
+
+<!-- script pointing to jekyll-search.js -->
+<script src="/assets/js/simple-jekyll-search.min.js"></script>
+<script async src="/searchdata.js"></script>
+
+
+      </div>
+
+      <ul id="results-container"></ul>
+
+      <nav class="nav">
+    
+    
+        
+        <h3><a href="/">最新</a></h3>
+        
+    
+        
+        <h3><a href="/algorithms">Algorithms</a></h3>
+        
+    
+        
+        <h3><a href="/optimization">Optimization</a></h3>
+        
+    
+        
+        <h3><a href="/algebra">代数论</a></h3>
+        
+    
+        
+        <h3><a href="/docker">Docker</a></h3>
+        
+    
+        
+        <h3><a href="/bigdata">大数据</a></h3>
+        
+    
+        
+        <h3><a href="/mathematical-analysis">数学分析</a></h3>
+        
+    
+        
+        <h3 class="active"><a>概率论</a></h3>
+        
+    
+        
+        <h3><a href="/others">其他</a></h3>
+        
+    
+</nav>
+      <div class="header-links">
+        
+        <a href="/archive"><h2 class="header-link">时间轴</h2></a>
+<a href="/about"><h2 class="header-link">关于</h2></a>
+<!--<a href="/atom.xml"><h2 class="header-link">RSS</h2></a>-->
+      </div>
+  <div>
+
+</header>
+    
+    <div class="container">
+      
+
+      <section id="main_content">
+        <ul>
+            
+              <li>
+                  <h2><a href="/probability-theory/10-00-00-%E8%BF%9E%E7%BB%AD%E6%80%A7%E9%9A%8F%E6%9C%BA%E5%8F%98%E9%87%8F">概率论-连续型随机变量</a></h2>
+                  
+                  <time >连续型随机变量</time>
+                  <p>连续型随机变量 设X是一个随机变量，如果存在一个实数轴上的非负函数f，使得对于任一个实数集B，满足： 则称X为连续型随机变量。 函数f称为随机变量X的概率密度函数(Probability Density Function) 也就是说X属于B的概率可以由概率密度函数f(x)在集合B上的积分得到 注意：连续型随机变量取任何固定值的概率都等于0 也因此，则有： 连续型随机变量的期望 对于离散型有以下定义： 而如果是X是一个连续型随机变量，密度函数为f(x)，那么因为对于很小的dx有： 因此类似地可定义连续型随机变量的期望值为: 设X是一个连续型随机变量，其概率密度函数为f(x)，那么对于任一实值函数g，有： 对于一个非负随机变量Y，有 均匀随机变量 (Uniformly) (0,1)区间上 如果一个随机变量X的密度函数为： 则称随机变量X在(0,1)区间上均匀分布 且仅当$x\in (0,1)$时，才有$f(x)&gt;0$，所以X必然取值在(0,1)之间 对于任意$0&lt;a&lt;b&lt;1$，有 $(\alpha, \beta)$区间上 在区间$(\alpha, \beta)$上，随机变量X的密度函数若为： 则称X在区间$(\alpha, \beta)$上服从均匀分布 均匀随机变量的分布函数： 正态随机变量 如果随机变量X的密度函数为: 则称X是服从参数为$\mu$和$\sigma^2$的正态分布的随机变量。其中$\mu$和$\sigma^2$分别是正态随机变量的期望和方差。 标准正太随机变量 当$\mu=0$和$\sigma=1$时，正太随机变量被称为标准正太分布 二项分布的正太近似 在$n$次独立重复试验中，设每次成功的概率为$p$，继成功的总次数为$S_n$，那么对任意$a&lt;b$有：当$n\rightarrow \infty$时， 指数随机变量 如果一个连续型随机变量的密度函数如下：对于$\lambda&gt;0$，有 指数随机变量的分布函数F(a)： $\Gamma$ 分布 如果一个随机变量具有密度函数： 其中$\Gamma(\alpha)$称为$\Gamma$函数，则称该随机变量具有$\Gamma$分布，其参数为$(\alpha, \lambda), \alpha&gt;0,\lambda&gt;0$ 威布尔分布 柯西分布 $\beta$分布...</p>
+              </li>
+            
+              <li>
+                  <h2><a href="/probability-theory/09-00-00-%E9%9A%8F%E6%9C%BA%E5%8F%98%E9%87%8F">概率论-随机变量</a></h2>
+                  
+                  <time >随机变量离散型随机变量</time>
+                  <p>随机变量 定义 随机变量在进行试验时，相对于试验的实际结果而言，我们的兴趣往往集中与试验的某些函数。而这些定义在样本空间上的实值函数，称为随机变量(Random Variable)。 分布函数 对于随机变量$X$，如下定义的函数$F$ 称为X的累计分布函数(Cumulative Distribution Function)，简称分布函数 因此对任一给定实数$x$,分布函数为该随机变量$X$小于等于$x$的概率 已知$a\le b$，那么由于事件$\lbrace X \le a\rbrace$ 包含于事件$\lbrace X \le b\rbrace$，可知二者的概率关系为：$F(a)\le F(b)$,即$F(x)$是单调非降函数 离散型随机变量 若一个随机变量最多有可数个可能取值，那么称这个随机变量是离散的。 概率质量函数(PMF) 对于离散随机变量，我们定义$X$的概率函数，离散随机变量中可称为概率质量函数(Probability Mass Function)$P(a)$为 性质 $p(a)$最多在可数个a上取正值。即如果X的可能值为$x_1, x_2, ···$，那么： 由于X必定取值于$\lbrace x_1, x_2, ··· \rbrace$，所以有： 离散型随机变量的分布函数 离散型随机变量的分布函数可通过概率质量函数$p(a)$进行计算： 若X是一个离散型随机变量，其可能取值为$x_1,x_2,···$，其中$x_1&lt;x_2&lt;x_3&lt;···$则它的分布函数是一个阶梯函数 期望 对于离散随机变量$X$，及其概率质量函数$p(x)$，那么$X$的期望(Expectation)或期望值(Expected Value)，记为$E(X)$： $X$的期望值就是X所有可能取值的一个加权平均，每个值的权重就是X中取该值x的概率 如果$X$为离散型的且取无穷个值，那么X的数学期望可定义为级数之和： 并要求该级数必须收敛，且必须是绝对收敛。因为期望的取值不应与人为的排列次数有关。 如果$X$是一个离散型随机变量，其可能取值为$x_i,i\ge 1 $, 相应的取值概率为$p(x_i)$，那么对于任一实值函数g，都有： 若a和b是常数，则 随机变量X的期望$E[X]$，也称为$X$的均值(mean)，或者一阶矩(First...</p>
+              </li>
+            
+              <li>
+                  <h2><a href="/probability-theory/08-00-00-%E6%9D%A1%E4%BB%B6%E6%A6%82%E7%8E%87%E5%92%8C%E7%8B%AC%E7%AB%8B%E6%80%A7">概率论-条件概率和独立性</a></h2>
+                  
+                  <time >条件概率贝叶斯公式独立事件</time>
+                  <p>条件概率
+
+如果$P(F)&gt;0$，那么
+
+
+
+$P(E\vert F)$表示F发生的条件下，E发生的条件概率
+
+可推得：
+
+
+
+根据上式又能推出概率的乘法法则：
+
+
+
+贝叶斯公式
+
+设E和F为两个事件，那么将E表示为
+
+
+
+这样$E$中的结果，要么同时属于$E$和$F$，那么只属于$E$但不属于$F$。显然$EF$和$EF^c$是互不相容的，因此
+
+
+
+优势比
+
+
+
+优势比指的是该事件发生的可能性是不发生的可能性的倍数
+
+现在假设H以概率P(H)成立，如果新发现了事件E，那么在E成立的条件下，H成立和不成立的条件概率分别为
+
+
+
+则：
+
+
+
+即新的优势比等于原来的优势比的值乘上新的事件$E$在$H$和$H^c$之下的条件概率
+
+全概率公式
+
+根据贝叶斯公式可进行如下推广：假设$F_1,F_2,···,F_n$是互不相容的事件，且
+
+
+
+记：
+
+
+
+则有如下的全概率公式：
+
+
+
+该公式叙述了$P(E)$等于$P(E\vert F_i)$的加权平均
+
+贝叶斯公式
+根据全概率公式，可得：
+
+
+
+如果我们把事件$F_j$设想为关于某个问题的各个可能的”假设条件”，那么贝叶斯公式可以这样理解：
+
+
+
+独立事件
+
+一般情况下: $P(E\vert F) \neq P(E)$。但当
+
+
+
+说明E和F是独立事件，且有
+
+
+
+如果事件$E$和事件$F$独立，那么$E$和$F^c$也独立
+
+无限个事件的独立性
+
+
+
+重复试验
+
+如果各个子试验彼此相同，即各个子试验有相同的(子)样本空间及相同的事件概率函数，那么称这些试验为重复试验
+</p>
+              </li>
+            
+              <li>
+                  <h2><a href="/probability-theory/07-00-00-%E6%A6%82%E7%8E%87%E8%AE%BA%E5%85%AC%E7%90%86">概率论-概率论公理</a></h2>
+                  
+                  <time >概率论公理</time>
+                  <p>概率的三个公理
+
+假设某个试验的样本空间为S，对应与其中任一事件，定义一个数$P(E)$，它满足如下三个公理
+
+公理1
+
+
+
+公理2
+
+
+
+公理3
+
+对任一列互不相容的时间$E_1,E_2,···$(即如果$i\neq j$, 则 $E_1E_2= \emptyset$)，有
+
+
+
+我们把满足以上3条公理的$P(E)$称为事件E的概率
+
+几个简单命题
+
+命题1
+
+
+
+命题2
+
+如果$E \subset F$，那么$P(E) \le P(F)$
+
+命题3
+
+
+
+命题4
+
+容斥恒等式：
+
+
+
+等可能结果样本空间
+
+在很多试验中，一个很自然的假设是，样本空间中所有结果发生的可能性都是一样的。
+
+如果假定一次试验的所有结果都是等可能发生的，那么任何事件E发生的概率等于E中所含有的结果数占样本空间中所有结果数的比例。这也常被称为古典概率。
+
+
+</p>
+              </li>
+            
+              <li>
+                  <h2><a href="/probability-theory/06-00-00-%E7%BB%84%E5%90%88%E5%88%86%E6%9E%90">概率论-组合分析</a></h2>
+                  
+                  <time >排列组合</time>
+                  <p>排列
+
+n个不同元素排列方式：
+
+
+
+n个元素。其中$n_1$个元素彼此相同，另外$n_2$个元素彼此相同， …,$n_r$个元素彼此相同，那么总共的排列方式：
+
+
+
+组合
+
+n个元素中取r个排成一组的组合数：
+
+
+$(_r^n)$经常称为二项式系数。
+
+二项式定理：
+
+
+
+多项式系数
+
+如果$n_1+n_2+···+n_r=n$,则定义
+
+
+
+它表示把n个不同的元素分成大小分别为$n_1,n_2,···,n_r$的r个不同组的组合数。它也称为多项式系数。
+
+多项式定理：
+
+
+
+方程整数解的个数
+
+
+  
+    对于方程$x_1+x_2+···+x_r=n$，共有$(_{r-1}^{n-1})$个不同的正整数向量$(x_1, x_2, ···, x_r)$满足。$(x_i&gt;0, i=1,···,r)$
+  
+  
+    对于方程$x_1+x_2+···+x_r=n$，共有$(_{r-1}^{n+r-1})$个不同的非负整数向量$(x_1, x_2, ···, x_r)$满足。$(x_i&gt;0, i=1,···,r)$
+  
+
+
+</p>
+              </li>
+            
+        </ul>
+      </section>
+    </div>
+  </div>
+   <footer>
+  <a href="/">
+    <span>
+        <b>LuoSongtao</b>
+    </span>
+    
+    <span>© 2020</span>
+  </a>
+</footer>
+
+  
+</body>
+
+</html>

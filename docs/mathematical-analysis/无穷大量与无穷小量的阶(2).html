@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+  <meta name="generator" content="Jekyll">
+
+  <title>数学分析-无穷大量与无穷小量的阶(2)</title>
+  <link rel="stylesheet" href="/css/main.css">
+
+  <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="ATOM Feed" /> <!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>数学分析-无穷大量与无穷小量的阶(2) | MicroNotes</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="数学分析-无穷大量与无穷小量的阶(2)" />
+<meta name="author" content="LuoSongtao" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="等价量" />
+<meta property="og:description" content="等价量" />
+<link rel="canonical" href="http://0.0.0.0:4000/mathematical-analysis/%E6%97%A0%E7%A9%B7%E5%A4%A7%E9%87%8F%E4%B8%8E%E6%97%A0%E7%A9%B7%E5%B0%8F%E9%87%8F%E7%9A%84%E9%98%B6(2)" />
+<meta property="og:url" content="http://0.0.0.0:4000/mathematical-analysis/%E6%97%A0%E7%A9%B7%E5%A4%A7%E9%87%8F%E4%B8%8E%E6%97%A0%E7%A9%B7%E5%B0%8F%E9%87%8F%E7%9A%84%E9%98%B6(2)" />
+<meta property="og:site_name" content="MicroNotes" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2019-11-26T01:00:00-06:00" />
+<script type="application/ld+json">
+{"author":{"@type":"Person","name":"LuoSongtao"},"mainEntityOfPage":{"@type":"WebPage","@id":"http://0.0.0.0:4000/mathematical-analysis/%E6%97%A0%E7%A9%B7%E5%A4%A7%E9%87%8F%E4%B8%8E%E6%97%A0%E7%A9%B7%E5%B0%8F%E9%87%8F%E7%9A%84%E9%98%B6(2)"},"description":"等价量","@type":"BlogPosting","headline":"数学分析-无穷大量与无穷小量的阶(2)","dateModified":"2019-11-26T01:00:00-06:00","url":"http://0.0.0.0:4000/mathematical-analysis/%E6%97%A0%E7%A9%B7%E5%A4%A7%E9%87%8F%E4%B8%8E%E6%97%A0%E7%A9%B7%E5%B0%8F%E9%87%8F%E7%9A%84%E9%98%B6(2)","datePublished":"2019-11-26T01:00:00-06:00","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+        inlineMath: [['$','$']]
+      }
+    });
+  </script>
+
+</head>
+
+<body>
+  <div id="wrapper">
+    <header>
+  
+  
+  <div class="container">
+      
+
+      <div style="padding-left: 42px;">
+        <a id="username" href="/">
+        
+        <span style="font-size: x-large; color: #6a9fb5;"># </span>
+        <span style="font-size: x-large; color: #aa759f;">luosongtao</span>
+        <span style="font-size: x-large; color: #6a9fb5;">@</span>
+        <span style="font-size: x-large; color: #83a;">home:</span>
+        <span style="font-size: x-large; color: #cc0000;">~$</span>
+        </a>
+        
+<div id="search">
+	<input type="text" id="search-input" placeholder=" find / -name " style="vertical-align:middle;">
+	<ul id="results-container"></ul>
+</div>
+
+<!-- script pointing to jekyll-search.js -->
+<script src="/assets/js/simple-jekyll-search.min.js"></script>
+<script async src="/searchdata.js"></script>
+
+
+      </div>
+
+      <ul id="results-container"></ul>
+
+      <nav class="nav">
+    
+    
+        
+        <h3><a href="/">最新</a></h3>
+        
+    
+        
+        <h3><a href="/algorithms">Algorithms</a></h3>
+        
+    
+        
+        <h3><a href="/optimization">Optimization</a></h3>
+        
+    
+        
+        <h3><a href="/algebra">代数论</a></h3>
+        
+    
+        
+        <h3><a href="/docker">Docker</a></h3>
+        
+    
+        
+        <h3><a href="/bigdata">大数据</a></h3>
+        
+    
+        
+        <h3><a href="/mathematical-analysis">数学分析</a></h3>
+        
+    
+        
+        <h3><a href="/probability-theory">概率论</a></h3>
+        
+    
+        
+        <h3><a href="/others">其他</a></h3>
+        
+    
+</nav>
+      <div class="header-links">
+        
+        <a href="/archive"><h2 class="header-link">时间轴</h2></a>
+<a href="/about"><h2 class="header-link">关于</h2></a>
+<!--<a href="/atom.xml"><h2 class="header-link">RSS</h2></a>-->
+      </div>
+  <div>
+
+</header>
+    
+    <div class="container">
+      <article>
+  <h1>数学分析-无穷大量与无穷小量的阶(2)</h1>
+  <time datetime="2019-11-26T01:00:00-06:00" class="by-line">26 Nov 2019</time>
+  <ul class="section-nav">
+<li class="toc-entry toc-h3"><a href="#等价量">等价量</a></li>
+<li class="toc-entry toc-h3"><a href="#等价量应用">等价量应用</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#例题">例题</a></li>
+</ul>
+</li>
+</ul><h3 id="等价量">
+<a class="anchor" href="#%E7%AD%89%E4%BB%B7%E9%87%8F" aria-hidden="true"><span class="octicon octicon-link"></span></a>等价量</h3>
+
+<ul>
+  <li>
+    <p>$\sin x \sim x\space (x\rightarrow 0)$</p>
+  </li>
+  <li>$\ln(1+x) \sim x \space (x\rightarrow 0)$
+    <ul>
+      <li>$\lim_{x\rightarrow 0}\frac {\ln(1+x)}{x}=\lim_{x\rightarrow 0}\ln(1+x)^{\frac 1x}=1$</li>
+    </ul>
+  </li>
+  <li>$e^x-1\sim x \space (x\rightarrow 0)$
+    <ul>
+      <li>$令y=e^x-1\Rightarrow x = \ln(1+y) \space (x\rightarrow 0,y\rightarrow 0)$</li>
+      <li>$\lim_{x\rightarrow 0} \frac {e^x-1}x =\lim_{x\rightarrow 0} \frac y{\ln(1+y)}=\lim_{x\rightarrow 0}\ln\frac {1}{(1+y)^y}=1$</li>
+    </ul>
+  </li>
+  <li>$(1+x)^\alpha -1 \sim \alpha x \qquad (x\rightarrow 0) \alpha 为任意实数$
+    <ul>
+      <li>$令y=(1+x)^\alpha -1\Rightarrow 1+y=(1+x)^\alpha, \space (x\rightarrow 0,y\rightarrow 0)$</li>
+      <li>$\Rightarrow \ln (1+y) = \alpha\ln (1+x)$</li>
+      <li>$\lim_{x\rightarrow 0}\frac {(1+x)^\alpha -1}{x}=\lim_{x\rightarrow 0} \frac {y}{\ln (1+y)} \frac {\alpha\ln (1+x)}{x}=\alpha$</li>
+      <li>$\Rightarrow (1+x)^\alpha -1 \sim \alpha x \qquad (x\rightarrow 0) \alpha 为任意实数$</li>
+    </ul>
+  </li>
+  <li>$u(x) = \sqrt {x+\sqrt x}$
+    <ul>
+      <li>$当x\rightarrow +\infty, u(x)是无穷大量$
+        <ul>
+          <li>$\because 此时x占主要地位作用所以\therefore \lim_{x\rightarrow +\infty}\frac {\sqrt{x+\sqrt x}}{\sqrt x}=\lim_{x\rightarrow +\infty}{\sqrt{1+\frac {1}{\sqrt x}}}=1$</li>
+          <li>$\Rightarrow \sqrt {x+\sqrt x} \sim \sqrt x \qquad x\rightarrow +\infty$</li>
+        </ul>
+      </li>
+      <li>$当x\rightarrow 0^+, u(x)是无穷小量$
+        <ul>
+          <li>$同理：\lim_{x\rightarrow 0^+}\frac {\sqrt{x+\sqrt x}}{x^{\frac 14}}=\lim_{x\rightarrow 0^+}\sqrt{\sqrt x + 1}=1$</li>
+          <li>$\Rightarrow \sqrt {x+\sqrt x} \sim x^{\frac 14} \qquad x\rightarrow 0^+$</li>
+        </ul>
+      </li>
+      <li>$v(x)=2x^3+3x^5$
+        <ul>
+          <li>$当x\rightarrow \infty, v(x)是无穷大量$
+            <ul>
+              <li>$\because x^5起主要作用 \therefore \lim_{x\rightarrow \infty}\frac {3x^5}{2x^3+3x^5}=\lim_{x\rightarrow \infty}=1 $</li>
+              <li>$\Rightarrow 2x^3+3x^5 \sim 3x^5 \qquad x\rightarrow \infty$</li>
+            </ul>
+          </li>
+          <li>$当x\rightarrow 0, v(x)是无穷小量$
+            <ul>
+              <li>$同理:2x^3+3x^5 \sim 2x^3 \qquad x\rightarrow 0$</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>$\frac {a_nx^n+a_{n-1}x^{n-1}+···+a_kx^k}{b_mx^m+b_{m-1}x^{m-1}+···+b_jx^j}\qquad a_n,a_k,b_m,b_j\neq 0,n&gt;k,b&gt;j$
+    <ul>
+      <li>$当x\rightarrow \infty, 应关注x^n和x^m$</li>
+      <li>$当x\rightarrow 0, 应关注x^k和x^j$</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="等价量应用">
+<a class="anchor" href="#%E7%AD%89%E4%BB%B7%E9%87%8F%E5%BA%94%E7%94%A8" aria-hidden="true"><span class="octicon octicon-link"></span></a>等价量应用</h3>
+
+<p>$u(x),v(x),w(x)在x_0的某个去心领域上有定义,且\lim_{x\rightarrow x_0}\frac {v(x)}{w(x)}=1,(v(x)\sim w(x),x\rightarrow x_0),则有:$</p>
+
+<ul>
+  <li>
+    <script type="math/tex; mode=display">\lim_{x\rightarrow x_0} u(x)w(x)=A \Longleftrightarrow \lim_{x\rightarrow x_0} u(x)v(x)=A</script>
+  </li>
+  <li>
+    <script type="math/tex; mode=display">\lim_{x\rightarrow x_0} \frac {u(x)}{w(x)}=A \Longleftrightarrow \lim_{x\rightarrow x_0} \frac {u(x)}{v(x)}=A</script>
+  </li>
+</ul>
+
+<h4 id="例题">
+<a class="anchor" href="#%E4%BE%8B%E9%A2%98" aria-hidden="true"><span class="octicon octicon-link"></span></a>例题</h4>
+
+<ul>
+  <li>$计算\lim_{x\rightarrow 0}\frac {\ln(1+x^2)}{(e^{2x}-1)\tan x}$
+    <ul>
+      <li>$\lim_{x\rightarrow 0}\frac {\ln(1+x^2)}{(e^{2x}-1)\tan x} = \lim_{x\rightarrow 0}\frac{x^2}{2x·x}=\frac 12$</li>
+    </ul>
+  </li>
+  <li>$计算\lim_{x\rightarrow 0}\frac {\sqrt {1+x}-e^{\frac x3}}{\ln(1+2x)}$
+    <ul>
+      <li>$\lim_{x\rightarrow 0}\frac {\sqrt {1+x}-e^{\frac x3}}{\ln(1+2x)}=\lim_{x\rightarrow 0}\frac {(1+x)^{\frac 12}-1 - (e^{\frac x3} - 1)}{2x}=\lim_{x\rightarrow 0}\frac {\frac x2+o(x)- (\frac x3+o(x))}{2x}=\lim_{x\rightarrow 0}\frac {\frac x6+o(x)}{2x}=\frac 1{12}$</li>
+    </ul>
+  </li>
+  <li>$计算\lim_{x\rightarrow \infty}x(\sqrt [3]{x^3+x}-\sqrt [3]{x^3-x})$
+    <ul>
+      <li>$\lim_{x\rightarrow \infty}x(\sqrt [3]{x^3+x}-\sqrt [3]{x^3-x})=\lim_{x\rightarrow \infty}x^2(\sqrt [3]{1+\frac 1{x^2}}-\sqrt [3]{1-\frac 1{x^2}})=\lim_{x\rightarrow \infty}x^2(\frac 13 \frac 1{x^2}+o(\frac 1{x^2})-(-\frac 13\frac 1{x^2}+o(\frac 1{x^2})))=\frac 23$</li>
+    </ul>
+  </li>
+  <li>$计算\lim_{x\rightarrow 0}(\cos x)^{\frac 1{x^2}}$
+    <ul>
+      <li>$\lim_{x\rightarrow 0}(\cos x)^{\frac 1{x^2}}=\lim_{x\rightarrow 0}(1-2sin^2\frac x2)^\frac 1{x^2}=\lim_{x\rightarrow 0}((1-\frac {x^2}{2})^\frac 1{\frac {x^2}2})^\frac 12=\frac 1{\sqrt e}$</li>
+    </ul>
+  </li>
+</ul>
+
+<p>注意:</p>
+
+<ul>
+  <li>$\lim_{x\rightarrow 0}\frac {\tan x -\sin x}{x^3}=\lim_{x\rightarrow 0}\frac {x+o(x)-(x+o(x))}{x^3}\lim_{x\rightarrow 0}\frac {o(x)}{x^3}:无法继续，所以不能随便用等价量计算$</li>
+  <li>$\lim_{x\rightarrow 0}\frac {\sqrt {1+x}-1-\frac x2}{x^2}=\lim_{x\rightarrow 0}\frac {o(x)}{x^2}:同样无法继续，只能换方法$
+    <ul>
+      <li>$\lim_{x\rightarrow 0}\frac {\sqrt {1+x}-1-\frac x2}{x^2}=\lim_{x\rightarrow 0}\frac {1+x-(1+\frac x2)^2}{x^2(\sqrt {1+x}+1+\frac x2)}=-\frac 18$</li>
+      <li>$\sqrt {1+x} = 1+\frac x2 - \frac 18 x^2 + o(x2)\qquad Taylor展开式$</li>
+    </ul>
+  </li>
+</ul>
+
+
+</article>
+      <section id="main_content">
+        <ul>
+            
+        </ul>
+      </section>
+    </div>
+  </div>
+   <footer>
+  <a href="/">
+    <span>
+        <b>LuoSongtao</b>
+    </span>
+    
+    <span>© 2020</span>
+  </a>
+</footer>
+
+  
+</body>
+
+</html>

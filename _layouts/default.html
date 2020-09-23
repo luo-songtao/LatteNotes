@@ -5,14 +5,16 @@
 <body>
   <div id="wrapper">
     {% include header.html %}
+    
     <div class="container">
-        {{ content }}
+      {{ content }}
       <section id="main_content">
         <ul>
             {% for post in paginator.posts %}
               <li>
                   <h2><a href="{{ post.url | prepend: site.baseurl | replace: '//', '/' }}">{{ post.title }}</a></h2>
-                  <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date_to_string }}</time>
+                  {% comment %} <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date_to_string }}</time> {% endcomment %}
+                  <time >{{ post.tags }}</time>
                   <p>{{ post.content | strip_html | truncatewords:50 }}</p>
               </li>
             {% endfor %}

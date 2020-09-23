@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+  <meta name="generator" content="Jekyll">
+
+  <title>数学分析-定积分的概念和可积条件</title>
+  <link rel="stylesheet" href="/css/main.css">
+
+  <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="ATOM Feed" /> <!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>数学分析-定积分的概念和可积条件 | MicroNotes</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="数学分析-定积分的概念和可积条件" />
+<meta name="author" content="LuoSongtao" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="定积分的概念和可积条件" />
+<meta property="og:description" content="定积分的概念和可积条件" />
+<link rel="canonical" href="http://0.0.0.0:4000/mathematical-analysis/%E5%AE%9A%E7%A7%AF%E5%88%86%E7%9A%84%E6%A6%82%E5%BF%B5%E5%92%8C%E5%8F%AF%E7%A7%AF%E6%9D%A1%E4%BB%B6" />
+<meta property="og:url" content="http://0.0.0.0:4000/mathematical-analysis/%E5%AE%9A%E7%A7%AF%E5%88%86%E7%9A%84%E6%A6%82%E5%BF%B5%E5%92%8C%E5%8F%AF%E7%A7%AF%E6%9D%A1%E4%BB%B6" />
+<meta property="og:site_name" content="MicroNotes" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2019-12-12T00:00:00-06:00" />
+<script type="application/ld+json">
+{"author":{"@type":"Person","name":"LuoSongtao"},"mainEntityOfPage":{"@type":"WebPage","@id":"http://0.0.0.0:4000/mathematical-analysis/%E5%AE%9A%E7%A7%AF%E5%88%86%E7%9A%84%E6%A6%82%E5%BF%B5%E5%92%8C%E5%8F%AF%E7%A7%AF%E6%9D%A1%E4%BB%B6"},"description":"定积分的概念和可积条件","@type":"BlogPosting","headline":"数学分析-定积分的概念和可积条件","dateModified":"2019-12-12T00:00:00-06:00","url":"http://0.0.0.0:4000/mathematical-analysis/%E5%AE%9A%E7%A7%AF%E5%88%86%E7%9A%84%E6%A6%82%E5%BF%B5%E5%92%8C%E5%8F%AF%E7%A7%AF%E6%9D%A1%E4%BB%B6","datePublished":"2019-12-12T00:00:00-06:00","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+        inlineMath: [['$','$']]
+      }
+    });
+  </script>
+
+</head>
+
+<body>
+  <div id="wrapper">
+    <header>
+  
+  
+  <div class="container">
+      
+
+      <div style="padding-left: 42px;">
+        <a id="username" href="/">
+        
+        <span style="font-size: x-large; color: #6a9fb5;"># </span>
+        <span style="font-size: x-large; color: #aa759f;">luosongtao</span>
+        <span style="font-size: x-large; color: #6a9fb5;">@</span>
+        <span style="font-size: x-large; color: #83a;">home:</span>
+        <span style="font-size: x-large; color: #cc0000;">~$</span>
+        </a>
+        
+<div id="search">
+	<input type="text" id="search-input" placeholder=" find / -name " style="vertical-align:middle;">
+	<ul id="results-container"></ul>
+</div>
+
+<!-- script pointing to jekyll-search.js -->
+<script src="/assets/js/simple-jekyll-search.min.js"></script>
+<script async src="/searchdata.js"></script>
+
+
+      </div>
+
+      <ul id="results-container"></ul>
+
+      <nav class="nav">
+    
+    
+        
+        <h3><a href="/">最新</a></h3>
+        
+    
+        
+        <h3><a href="/algorithms">Algorithms</a></h3>
+        
+    
+        
+        <h3><a href="/optimization">Optimization</a></h3>
+        
+    
+        
+        <h3><a href="/algebra">代数论</a></h3>
+        
+    
+        
+        <h3><a href="/docker">Docker</a></h3>
+        
+    
+        
+        <h3><a href="/bigdata">大数据</a></h3>
+        
+    
+        
+        <h3><a href="/mathematical-analysis">数学分析</a></h3>
+        
+    
+        
+        <h3><a href="/probability-theory">概率论</a></h3>
+        
+    
+        
+        <h3><a href="/others">其他</a></h3>
+        
+    
+</nav>
+      <div class="header-links">
+        
+        <a href="/archive"><h2 class="header-link">时间轴</h2></a>
+<a href="/about"><h2 class="header-link">关于</h2></a>
+<!--<a href="/atom.xml"><h2 class="header-link">RSS</h2></a>-->
+      </div>
+  <div>
+
+</header>
+    
+    <div class="container">
+      <article>
+  <h1>数学分析-定积分的概念和可积条件</h1>
+  <time datetime="2019-12-12T00:00:00-06:00" class="by-line">12 Dec 2019</time>
+  <ul class="section-nav">
+<li class="toc-entry toc-h3"><a href="#定积分的概念和可积条件">定积分的概念和可积条件</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#定积分的定义">定积分的定义</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#前提条件">前提条件</a></li>
+<li class="toc-entry toc-h5"><a href="#定义">定义</a></li>
+<li class="toc-entry toc-h5"><a href="#讨论">讨论</a></li>
+<li class="toc-entry toc-h5"><a href="#定积分的varepsilondelta语言">定积分的$\varepsilon$~$\delta$语言</a></li>
+<li class="toc-entry toc-h5"><a href="#狄利克雷函数dirichlet">狄利克雷函数(Dirichlet)</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#达布和darboux和">达布和(Darboux和)</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#达布上和">达布上和</a></li>
+<li class="toc-entry toc-h5"><a href="#达布下和">达布下和</a></li>
+<li class="toc-entry toc-h5"><a href="#黎曼和与达布和关系">黎曼和与达布和关系</a></li>
+<li class="toc-entry toc-h5"><a href="#引理-大和不增小和不减">引理-“大和不增,小和不减”</a>
+<ul>
+<li class="toc-entry toc-h6"><a href="#证明">证明</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h5"><a href="#引理-任意划分小和不超过任意划分大和">引理-任意划分小和不超过任意划分大和</a>
+<ul>
+<li class="toc-entry toc-h6"><a href="#证明-1">证明</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h5"><a href="#考虑">考虑</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#达布定理">达布定理</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#证明-2">证明</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#可积的充要条件">可积的充要条件</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#可积充要定理10版">可积充要定理1.0版</a></li>
+<li class="toc-entry toc-h5"><a href="#证明-3">证明</a></li>
+<li class="toc-entry toc-h5"><a href="#可积充要定理20版">可积充要定理2.0版</a>
+<ul>
+<li class="toc-entry toc-h6"><a href="#推论1闭区间上的连续函数一定可积">推论1：闭区间上的连续函数一定可积</a></li>
+<li class="toc-entry toc-h6"><a href="#推论2闭区间上的单调函数一定可积">推论2：闭区间上的单调函数一定可积</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h5"><a href="#可积充要定理30版">可积充要定理3.0版</a>
+<ul>
+<li class="toc-entry toc-h6"><a href="#推论3闭区间上只有有限个不连续点的有界函数一定可积">推论3：闭区间上只有有限个不连续点的有界函数一定可积</a></li>
+<li class="toc-entry toc-h6"><a href="#推论振幅不能任意小的但小区间长度之和可以任意小的话则fx也是可以可积的">推论*：振幅不能任意小的，但小区间长度之和可以任意小的话，则$f(x)$也是可以可积的</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul><h3 id="定积分的概念和可积条件">
+<a class="anchor" href="#%E5%AE%9A%E7%A7%AF%E5%88%86%E7%9A%84%E6%A6%82%E5%BF%B5%E5%92%8C%E5%8F%AF%E7%A7%AF%E6%9D%A1%E4%BB%B6" aria-hidden="true"><span class="octicon octicon-link"></span></a>定积分的概念和可积条件</h3>
+
+<p>古希腊-“穷竭法”-阿基米德</p>
+
+<p>中国古代-刘徽-“割圆术”</p>
+
+<p>十七世纪-Kepler-天体运动三大定理</p>
+
+<h4 id="定积分的定义">
+<a class="anchor" href="#%E5%AE%9A%E7%A7%AF%E5%88%86%E7%9A%84%E5%AE%9A%E4%B9%89" aria-hidden="true"><span class="octicon octicon-link"></span></a>定积分的定义</h4>
+
+<h5 id="前提条件">
+<a class="anchor" href="#%E5%89%8D%E6%8F%90%E6%9D%A1%E4%BB%B6" aria-hidden="true"><span class="octicon octicon-link"></span></a>前提条件</h5>
+
+<p>$设f(x)定义在[a,b]上讨论f(x)在[a,b]上的定积分。首先必须要求f(x)有界$</p>
+
+<h5 id="定义">
+<a class="anchor" href="#%E5%AE%9A%E4%B9%89" aria-hidden="true"><span class="octicon octicon-link"></span></a>定义</h5>
+
+<p>$设f(x)在[a,b]上有界，对[a,b]做划分:$</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+P:a=x_0<x_1<x_2<···<x_n=b,\Delta x_i = x_i - x_{n-1} %]]></script>
+
+<p>$任取\xi_i\in [x_{i-1},x_i]，，取\lambda = max \lbrace \Delta x_i \rbrace ,若$</p>
+
+<script type="math/tex; mode=display">\lim_{\lambda \rightarrow 0}\sum_{i=1}^nf(\xi_i)\Delta x_i</script>
+
+<p>$且极限值与划分P及取点\xi_i无关，则称f(x)在[a,b]上Riemann可积(可积)$</p>
+
+<p>$极限值I称为f(x)在[a,b]上的定积分，记为$</p>
+
+<script type="math/tex; mode=display">I=\int_a^bf(x)dx\qquad (I=\lim_{\lambda \rightarrow 0}\sum_{i=1}^nf(\xi_i)\Delta x_i)</script>
+
+<h5 id="讨论">
+<a class="anchor" href="#%E8%AE%A8%E8%AE%BA" aria-hidden="true"><span class="octicon octicon-link"></span></a>讨论</h5>
+
+<p>$在定义中，a&lt;b,假若a\ge b,规定:$</p>
+
+<script type="math/tex; mode=display">\int_a^bf(x)dx = -\int_b^af(x)dx \qquad (相当于\Delta xi 为负值)</script>
+
+<script type="math/tex; mode=display">\Longrightarrow \int_a^af(x)dx = -\int_a^af(x)dx \Longrightarrow \int_a^af(x)dx = 0</script>
+
+<h5 id="定积分的varepsilondelta语言">
+<a class="anchor" href="#%E5%AE%9A%E7%A7%AF%E5%88%86%E7%9A%84varepsilondelta%E8%AF%AD%E8%A8%80" aria-hidden="true"><span class="octicon octicon-link"></span></a>定积分的$\varepsilon$~$\delta$语言</h5>
+
+<p>$\exists I,\forall \varepsilon &gt;0,\exists \delta &gt;0,使得\forall P:a=x_0&lt;x_1&lt;x_2&lt;···&lt;x_n=b,\Delta x_i = x_i - x_{n-1}$</p>
+
+<p>$\qquad \forall \xi_i \in [x_{i-1},x_i],只需\lambda = \max \lbrace \Delta x_i \rbrace \lt \delta,成立$</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\vert \lim_{\lambda \rightarrow 0}\sum_{i=1}^nf(\xi_i)\Delta x_i)-I \vert < \varepsilon %]]></script>
+
+<script type="math/tex; mode=display">\Longleftrightarrow \lim_{\lambda \rightarrow 0}\sum_{i=1}^nf(\xi_i)\Delta x_i) = I</script>
+
+<h5 id="狄利克雷函数dirichlet">
+<a class="anchor" href="#%E7%8B%84%E5%88%A9%E5%85%8B%E9%9B%B7%E5%87%BD%E6%95%B0dirichlet" aria-hidden="true"><span class="octicon octicon-link"></span></a>狄利克雷函数(Dirichlet)</h5>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{equation} D(x)=\left\lbrace \begin{aligned}  & 0 &x \in R-Q\\ & 1 & x\in Q \end{aligned} \right. \end{equation} %]]></script>
+
+<p>$[a,b]=[0,1]$</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{equation} \lim_{\lambda \rightarrow 0}\sum_{i=1}^nD(\xi_i)\Delta x_i)=\left\lbrace \begin{aligned}  & 0 &\xi_i 取有理数\\ & 1 & \xi_i取无理数 \end{aligned} \right. \end{equation} %]]></script>
+
+<h4 id="达布和darboux和">
+<a class="anchor" href="#%E8%BE%BE%E5%B8%83%E5%92%8Cdarboux%E5%92%8C" aria-hidden="true"><span class="octicon octicon-link"></span></a>达布和(Darboux和)</h4>
+
+<p>$f(x)在[a,b]有界.$</p>
+
+<script type="math/tex; mode=display">M=\sup_{x\in [a,b]} f(x)</script>
+
+<script type="math/tex; mode=display">m=\inf_{x\in [a,b]} f(x)</script>
+
+<p>$区间划分P:a=x_0&lt;x_1&lt;x_2&lt;···&lt;x_n=b,\Delta x_i = x_i - x_{n-1}$</p>
+
+<p>$在[x_{i-1},x_i]上:$</p>
+
+<script type="math/tex; mode=display">M_i=\sup_{x\in [x_{i-1},x_i]} f(x)</script>
+
+<script type="math/tex; mode=display">m_i=\inf_{x\in [x_{i-1},x_i]} f(x)</script>
+
+<h5 id="达布上和">
+<a class="anchor" href="#%E8%BE%BE%E5%B8%83%E4%B8%8A%E5%92%8C" aria-hidden="true"><span class="octicon octicon-link"></span></a>达布上和</h5>
+
+<script type="math/tex; mode=display">\overline{S}(P)=\sum_{i=1}^nM_i\Delta x_i</script>
+
+<h5 id="达布下和">
+<a class="anchor" href="#%E8%BE%BE%E5%B8%83%E4%B8%8B%E5%92%8C" aria-hidden="true"><span class="octicon octicon-link"></span></a>达布下和</h5>
+
+<script type="math/tex; mode=display">\underline{S}(P)=\sum_{i=1}^nm_i\Delta x_i</script>
+
+<h5 id="黎曼和与达布和关系">
+<a class="anchor" href="#%E9%BB%8E%E6%9B%BC%E5%92%8C%E4%B8%8E%E8%BE%BE%E5%B8%83%E5%92%8C%E5%85%B3%E7%B3%BB" aria-hidden="true"><span class="octicon octicon-link"></span></a>黎曼和与达布和关系</h5>
+
+<script type="math/tex; mode=display">\overline{S}\le S \le \underline{S}</script>
+
+<h5 id="引理-大和不增小和不减">
+<a class="anchor" href="#%E5%BC%95%E7%90%86-%E5%A4%A7%E5%92%8C%E4%B8%8D%E5%A2%9E%E5%B0%8F%E5%92%8C%E4%B8%8D%E5%87%8F" aria-hidden="true"><span class="octicon octicon-link"></span></a>引理-“大和不增,小和不减”</h5>
+
+<p>$若在原划分中增加分点，则大和不增，小和不减$</p>
+
+<h6 id="证明">
+<a class="anchor" href="#%E8%AF%81%E6%98%8E" aria-hidden="true"><span class="octicon octicon-link"></span></a>证明</h6>
+
+<p><img src="/assets/images/mathemathical-analysis/%E8%AF%81-%E8%BE%BE%E5%B8%83%E5%92%8C-%E5%A4%A7%E5%92%8C%E4%B8%8D%E5%A2%9E%E5%B0%8F%E5%92%8C%E4%B8%8D%E5%87%8F.png" alt="证-达布和-大和不增小和不减"></p>
+
+<h5 id="引理-任意划分小和不超过任意划分大和">
+<a class="anchor" href="#%E5%BC%95%E7%90%86-%E4%BB%BB%E6%84%8F%E5%88%92%E5%88%86%E5%B0%8F%E5%92%8C%E4%B8%8D%E8%B6%85%E8%BF%87%E4%BB%BB%E6%84%8F%E5%88%92%E5%88%86%E5%A4%A7%E5%92%8C" aria-hidden="true"><span class="octicon octicon-link"></span></a>引理-任意划分小和不超过任意划分大和</h5>
+
+<p>$对任意划分P_1,P_2,恒有$</p>
+
+<script type="math/tex; mode=display">\underline{S}(P_1) \le \overline{S}(P_2)</script>
+
+<p>且</p>
+
+<script type="math/tex; mode=display">m(b-a)\le \underline{S}(P_1) \le \overline{S}(P_2)\le M(b-a)</script>
+
+<h6 id="证明-1">
+<a class="anchor" href="#%E8%AF%81%E6%98%8E-1" aria-hidden="true"><span class="octicon octicon-link"></span></a>证明</h6>
+
+<p><img src="/assets/images/mathemathical-analysis/%E8%AF%81-%E8%BE%BE%E5%B8%83%E5%92%8C-%E4%BB%BB%E6%84%8F%E5%88%92%E5%88%86%E5%B0%8F%E5%92%8C%E4%B8%8D%E8%B6%85%E8%BF%87%E4%BB%BB%E6%84%8F%E5%88%92%E5%88%86%E5%A4%A7%E5%92%8C.png" alt="证-达布和-任意划分小和不超过任意划分大和"></p>
+
+<h5 id="考虑">
+<a class="anchor" href="#%E8%80%83%E8%99%91" aria-hidden="true"><span class="octicon octicon-link"></span></a>考虑</h5>
+
+<p>$\overline{S} 表示对一切划分的达布大和构成的集合$</p>
+
+<p>$\underline{S} 表示对一切划分的达布小和构成的集合$</p>
+
+<p>定义：</p>
+
+<script type="math/tex; mode=display">L = \inf \lbrace \overline{S}(P) \vert  \overline{S}(P) \in  \overline{S} \rbrace</script>
+
+<script type="math/tex; mode=display">l = \sup \lbrace \underline{S}(P) \vert  \underline{S}(P) \in  \underline{S} \rbrace</script>
+
+<p>$根据前一引理$</p>
+
+<script type="math/tex; mode=display">\underline{S}(P_i) \le l \le L\le \overline{S}(P_j)</script>
+
+<h4 id="达布定理">
+<a class="anchor" href="#%E8%BE%BE%E5%B8%83%E5%AE%9A%E7%90%86" aria-hidden="true"><span class="octicon octicon-link"></span></a>达布定理</h4>
+
+<p>$f(x)在[a,b]有界，则有(相关符号参考上文)：$</p>
+
+<script type="math/tex; mode=display">\lim_{\lambda \rightarrow 0}\overline{S}(P)=L</script>
+
+<script type="math/tex; mode=display">\lim_{\lambda \rightarrow 0}\underline{S}(P)=l</script>
+
+<p>符号表示：</p>
+
+<p>$\forall \varepsilon &gt; 0,\exists P’,\vert \overline(S)(P’)-L \vert &lt; \frac \varepsilon 2$</p>
+
+<p>$\Rightarrow \forall \varepsilon &gt; 0,\exists \delta &gt;0, \forall P，只要\lambda &lt; \delta : \vert \overline(S)(P)-L \vert &lt; \varepsilon$</p>
+
+<h5 id="证明-2">
+<a class="anchor" href="#%E8%AF%81%E6%98%8E-2" aria-hidden="true"><span class="octicon octicon-link"></span></a>证明</h5>
+
+<p><img src="/assets/images/mathemathical-analysis/%E8%AF%81-%E8%BE%BE%E5%B8%83%E5%AE%9A%E7%90%86.png" alt="证-达布定理"></p>
+
+<h4 id="可积的充要条件">
+<a class="anchor" href="#%E5%8F%AF%E7%A7%AF%E7%9A%84%E5%85%85%E8%A6%81%E6%9D%A1%E4%BB%B6" aria-hidden="true"><span class="octicon octicon-link"></span></a>可积的充要条件</h4>
+
+<h5 id="可积充要定理10版">
+<a class="anchor" href="#%E5%8F%AF%E7%A7%AF%E5%85%85%E8%A6%81%E5%AE%9A%E7%90%8610%E7%89%88" aria-hidden="true"><span class="octicon octicon-link"></span></a>可积充要定理1.0版</h5>
+
+<p>$f(x)在[a,b]上可积的充要条件是:$</p>
+
+<script type="math/tex; mode=display">\lim_{\lambda \rightarrow 0}\overline{S}(P)=\lim_{\lambda \rightarrow 0}\underline{S}(P)</script>
+
+<h5 id="证明-3">
+<a class="anchor" href="#%E8%AF%81%E6%98%8E-3" aria-hidden="true"><span class="octicon octicon-link"></span></a>证明</h5>
+
+<p><img src="/assets/images/mathemathical-analysis/%E8%AF%81-%E5%8F%AF%E7%A7%AF%E7%9A%84%E5%85%85%E8%A6%81%E6%9D%A1%E4%BB%B6.png" alt="证-可积的充要条件"></p>
+
+<h5 id="可积充要定理20版">
+<a class="anchor" href="#%E5%8F%AF%E7%A7%AF%E5%85%85%E8%A6%81%E5%AE%9A%E7%90%8620%E7%89%88" aria-hidden="true"><span class="octicon octicon-link"></span></a>可积充要定理2.0版</h5>
+
+<p>$M_i-m_i表示f(x)在[x_{i-1},x_i]上的振幅，记为\omega_i$</p>
+
+<script type="math/tex; mode=display">\lim_{\lambda \rightarrow 0}\overline{S}(P)=\lim_{\lambda \rightarrow 0}\underline{S}(P) \Longleftrightarrow \lim_{\lambda \rightarrow 0}\sum_{i=1}^n\omega_i\Delta x_i = 0</script>
+
+<p>$则f(x)在[a,b]上可积的充要条件是:$</p>
+
+<script type="math/tex; mode=display">\lim_{\lambda \rightarrow 0}\sum_{i=1}^n\omega_i\Delta x_i = 0</script>
+
+<p>符号表示：</p>
+
+<p>$\forall \varepsilon &gt; 0, \exists \delta &gt;0, \forall P,只要\lambda &lt; \delta$</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\sum_{i=1}^n\omega_i\Delta x_i< \varepsilon %]]></script>
+
+<h6 id="推论1闭区间上的连续函数一定可积">
+<a class="anchor" href="#%E6%8E%A8%E8%AE%BA1%E9%97%AD%E5%8C%BA%E9%97%B4%E4%B8%8A%E7%9A%84%E8%BF%9E%E7%BB%AD%E5%87%BD%E6%95%B0%E4%B8%80%E5%AE%9A%E5%8F%AF%E7%A7%AF" aria-hidden="true"><span class="octicon octicon-link"></span></a>推论1：闭区间上的连续函数一定可积</h6>
+
+<h6 id="推论2闭区间上的单调函数一定可积">
+<a class="anchor" href="#%E6%8E%A8%E8%AE%BA2%E9%97%AD%E5%8C%BA%E9%97%B4%E4%B8%8A%E7%9A%84%E5%8D%95%E8%B0%83%E5%87%BD%E6%95%B0%E4%B8%80%E5%AE%9A%E5%8F%AF%E7%A7%AF" aria-hidden="true"><span class="octicon octicon-link"></span></a>推论2：闭区间上的单调函数一定可积</h6>
+
+<h5 id="可积充要定理30版">
+<a class="anchor" href="#%E5%8F%AF%E7%A7%AF%E5%85%85%E8%A6%81%E5%AE%9A%E7%90%8630%E7%89%88" aria-hidden="true"><span class="octicon octicon-link"></span></a>可积充要定理3.0版</h5>
+
+<p>$在[a,b]上有界的函数f(x)可积的充分必要条件是：$</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\forall \varepsilon >0, \exists P, 使\sum_{i=1}^n\omega_i\Delta x_i < \varepsilon %]]></script>
+
+<h6 id="推论3闭区间上只有有限个不连续点的有界函数一定可积">
+<a class="anchor" href="#%E6%8E%A8%E8%AE%BA3%E9%97%AD%E5%8C%BA%E9%97%B4%E4%B8%8A%E5%8F%AA%E6%9C%89%E6%9C%89%E9%99%90%E4%B8%AA%E4%B8%8D%E8%BF%9E%E7%BB%AD%E7%82%B9%E7%9A%84%E6%9C%89%E7%95%8C%E5%87%BD%E6%95%B0%E4%B8%80%E5%AE%9A%E5%8F%AF%E7%A7%AF" aria-hidden="true"><span class="octicon octicon-link"></span></a>推论3：闭区间上只有有限个不连续点的有界函数一定可积</h6>
+
+<p><img src="/assets/images/mathemathical-analysis/%E8%AF%81-%E5%8F%AF%E7%A7%AF%E6%9D%A1%E4%BB%B6%E6%8E%A8%E8%AE%BA.png" alt="证-可积条件推论"></p>
+
+<h6 id="推论振幅不能任意小的但小区间长度之和可以任意小的话则fx也是可以可积的">
+<a class="anchor" href="#%E6%8E%A8%E8%AE%BA%E6%8C%AF%E5%B9%85%E4%B8%8D%E8%83%BD%E4%BB%BB%E6%84%8F%E5%B0%8F%E7%9A%84%E4%BD%86%E5%B0%8F%E5%8C%BA%E9%97%B4%E9%95%BF%E5%BA%A6%E4%B9%8B%E5%92%8C%E5%8F%AF%E4%BB%A5%E4%BB%BB%E6%84%8F%E5%B0%8F%E7%9A%84%E8%AF%9D%E5%88%99fx%E4%B9%9F%E6%98%AF%E5%8F%AF%E4%BB%A5%E5%8F%AF%E7%A7%AF%E7%9A%84" aria-hidden="true"><span class="octicon octicon-link"></span></a>推论*：振幅不能任意小的，但小区间长度之和可以任意小的话，则$f(x)$也是可以可积的</h6>
+
+</article>
+      <section id="main_content">
+        <ul>
+            
+        </ul>
+      </section>
+    </div>
+  </div>
+   <footer>
+  <a href="/">
+    <span>
+        <b>LuoSongtao</b>
+    </span>
+    
+    <span>© 2020</span>
+  </a>
+</footer>
+
+  
+</body>
+
+</html>

@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+  <meta name="generator" content="Jekyll">
+
+  <title>概率论-随机变量</title>
+  <link rel="stylesheet" href="/css/main.css">
+
+  <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="ATOM Feed" /> <!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>概率论-随机变量 | MicroNotes</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="概率论-随机变量" />
+<meta name="author" content="LuoSongtao" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="随机变量" />
+<meta property="og:description" content="随机变量" />
+<link rel="canonical" href="http://0.0.0.0:4000/probability-theory/09-00-00-%E9%9A%8F%E6%9C%BA%E5%8F%98%E9%87%8F" />
+<meta property="og:url" content="http://0.0.0.0:4000/probability-theory/09-00-00-%E9%9A%8F%E6%9C%BA%E5%8F%98%E9%87%8F" />
+<meta property="og:site_name" content="MicroNotes" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-01-01T03:00:00-06:00" />
+<script type="application/ld+json">
+{"author":{"@type":"Person","name":"LuoSongtao"},"mainEntityOfPage":{"@type":"WebPage","@id":"http://0.0.0.0:4000/probability-theory/09-00-00-%E9%9A%8F%E6%9C%BA%E5%8F%98%E9%87%8F"},"description":"随机变量","@type":"BlogPosting","headline":"概率论-随机变量","dateModified":"2020-01-01T03:00:00-06:00","url":"http://0.0.0.0:4000/probability-theory/09-00-00-%E9%9A%8F%E6%9C%BA%E5%8F%98%E9%87%8F","datePublished":"2020-01-01T03:00:00-06:00","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+        inlineMath: [['$','$']]
+      }
+    });
+  </script>
+
+</head>
+
+<body>
+  <div id="wrapper">
+    <header>
+  
+  
+  <div class="container">
+      
+
+      <div style="padding-left: 42px;">
+        <a id="username" href="/">
+        
+        <span style="font-size: x-large; color: #6a9fb5;"># </span>
+        <span style="font-size: x-large; color: #aa759f;">luosongtao</span>
+        <span style="font-size: x-large; color: #6a9fb5;">@</span>
+        <span style="font-size: x-large; color: #83a;">home:</span>
+        <span style="font-size: x-large; color: #cc0000;">~$</span>
+        </a>
+        
+<div id="search">
+	<input type="text" id="search-input" placeholder=" find / -name " style="vertical-align:middle;">
+	<ul id="results-container"></ul>
+</div>
+
+<!-- script pointing to jekyll-search.js -->
+<script src="/assets/js/simple-jekyll-search.min.js"></script>
+<script async src="/searchdata.js"></script>
+
+
+      </div>
+
+      <ul id="results-container"></ul>
+
+      <nav class="nav">
+    
+    
+        
+        <h3><a href="/">最新</a></h3>
+        
+    
+        
+        <h3><a href="/algorithms">Algorithms</a></h3>
+        
+    
+        
+        <h3><a href="/optimization">Optimization</a></h3>
+        
+    
+        
+        <h3><a href="/algebra">代数论</a></h3>
+        
+    
+        
+        <h3><a href="/docker">Docker</a></h3>
+        
+    
+        
+        <h3><a href="/bigdata">大数据</a></h3>
+        
+    
+        
+        <h3><a href="/mathematical-analysis">数学分析</a></h3>
+        
+    
+        
+        <h3><a href="/probability-theory">概率论</a></h3>
+        
+    
+        
+        <h3><a href="/others">其他</a></h3>
+        
+    
+</nav>
+      <div class="header-links">
+        
+        <a href="/archive"><h2 class="header-link">时间轴</h2></a>
+<a href="/about"><h2 class="header-link">关于</h2></a>
+<!--<a href="/atom.xml"><h2 class="header-link">RSS</h2></a>-->
+      </div>
+  <div>
+
+</header>
+    
+    <div class="container">
+      <article>
+  <h1>概率论-随机变量</h1>
+  <time datetime="2020-01-01T03:00:00-06:00" class="by-line">01 Jan 2020</time>
+  <ul class="section-nav">
+<li class="toc-entry toc-h2"><a href="#随机变量">随机变量</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#定义">定义</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#分布函数">分布函数</a></li>
+<li class="toc-entry toc-h2"><a href="#离散型随机变量">离散型随机变量</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#概率质量函数pmf">概率质量函数(PMF)</a></li>
+<li class="toc-entry toc-h4"><a href="#离散型随机变量的分布函数">离散型随机变量的分布函数</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#期望">期望</a></li>
+<li class="toc-entry toc-h2"><a href="#方差">方差</a></li>
+<li class="toc-entry toc-h2"><a href="#伯努利随机变量">伯努利随机变量</a></li>
+<li class="toc-entry toc-h2"><a href="#二项随机变量-binomial">二项随机变量 (Binomial)</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#二项随机变量的性质">二项随机变量的性质</a>
+<ul>
+<li class="toc-entry toc-h6"><a href="#期望与方差">期望与方差</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#二项随机变量分布函数的计算">二项随机变量分布函数的计算</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#泊松随机变量-poisson">泊松随机变量 (Poisson)</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#泊松范例">泊松范例</a></li>
+<li class="toc-entry toc-h4"><a href="#泊松随机变量分布函数的计算">泊松随机变量分布函数的计算</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#几何随机变量-geometric">几何随机变量 (Geometric)</a></li>
+<li class="toc-entry toc-h2"><a href="#负二项随机变量-negative-binomial">负二项随机变量 (Negative Binomial)</a></li>
+<li class="toc-entry toc-h2"><a href="#超几何随机变量-hyper-geometirc">超几何随机变量 (Hyper Geometirc)</a></li>
+<li class="toc-entry toc-h2"><a href="#zeta-分布">$\zeta 分布$</a></li>
+<li class="toc-entry toc-h2"><a href="#随机变量和的期望">随机变量和的期望</a></li>
+<li class="toc-entry toc-h2"><a href="#分布函数的性质">分布函数的性质</a></li>
+</ul><h2 id="随机变量">
+<a class="anchor" href="#%E9%9A%8F%E6%9C%BA%E5%8F%98%E9%87%8F" aria-hidden="true"><span class="octicon octicon-link"></span></a>随机变量</h2>
+
+<h4 id="定义">
+<a class="anchor" href="#%E5%AE%9A%E4%B9%89" aria-hidden="true"><span class="octicon octicon-link"></span></a>定义</h4>
+
+<p>随机变量在进行试验时，相对于试验的实际结果而言，我们的兴趣往往集中与试验的某些函数。而这些定义在样本空间上的实值函数，称为随机变量(Random Variable)。</p>
+
+<h2 id="分布函数">
+<a class="anchor" href="#%E5%88%86%E5%B8%83%E5%87%BD%E6%95%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>分布函数</h2>
+
+<p>对于随机变量$X$，如下定义的函数$F$</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+F(x) = P\lbrace X\le x\rbrace \qquad -\infty < x< \infty %]]></script>
+
+<p>称为X的累计分布函数(Cumulative Distribution Function)，简称分布函数</p>
+
+<p>因此对任一给定实数$x$,分布函数为该随机变量$X$小于等于$x$的概率</p>
+
+<p>已知$a\le b$，那么由于事件$\lbrace X \le a\rbrace$ 包含于事件$\lbrace X \le b\rbrace$，可知二者的概率关系为：$F(a)\le F(b)$,即<strong>$F(x)$是单调非降函数</strong></p>
+
+<h2 id="离散型随机变量">
+<a class="anchor" href="#%E7%A6%BB%E6%95%A3%E5%9E%8B%E9%9A%8F%E6%9C%BA%E5%8F%98%E9%87%8F" aria-hidden="true"><span class="octicon octicon-link"></span></a>离散型随机变量</h2>
+
+<p>若一个随机变量<strong>最多有可数个</strong>可能取值，那么称这个随机变量是离散的。</p>
+
+<h4 id="概率质量函数pmf">
+<a class="anchor" href="#%E6%A6%82%E7%8E%87%E8%B4%A8%E9%87%8F%E5%87%BD%E6%95%B0pmf" aria-hidden="true"><span class="octicon octicon-link"></span></a>概率质量函数(PMF)</h4>
+
+<p>对于离散随机变量，我们定义$X$的概率函数，离散随机变量中可称为概率质量函数(Probability Mass Function)$P(a)$为</p>
+
+<script type="math/tex; mode=display">p(a) = P(X=a)</script>
+
+<p><strong>性质</strong></p>
+<ul>
+  <li>$p(a)$最多在可数个a上取正值。即如果X的可能值为$x_1, x_2, ···$，那么：</li>
+</ul>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{aligned} p(x_i) &\ge 0 \qquad i=1,2,··· \\ p(x) &= 0 \qquad 其他x \end{aligned} %]]></script>
+
+<ul>
+  <li>由于X必定取值于$\lbrace x_1, x_2, ··· \rbrace$，所以有：</li>
+</ul>
+
+<script type="math/tex; mode=display">\sum_{i=1}^{\infty}p(x_i)=1</script>
+
+<h4 id="离散型随机变量的分布函数">
+<a class="anchor" href="#%E7%A6%BB%E6%95%A3%E5%9E%8B%E9%9A%8F%E6%9C%BA%E5%8F%98%E9%87%8F%E7%9A%84%E5%88%86%E5%B8%83%E5%87%BD%E6%95%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>离散型随机变量的分布函数</h4>
+
+<p>离散型随机变量的分布函数可通过概率质量函数$p(a)$进行计算：</p>
+
+<script type="math/tex; mode=display">F(x) = \sum_{x\le a}p(x)</script>
+
+<p>若X是一个离散型随机变量，其可能取值为$x_1,x_2,···$，其中$x_1&lt;x_2&lt;x_3&lt;···$则它的分布函数是一个<strong>阶梯函数</strong></p>
+
+<h2 id="期望">
+<a class="anchor" href="#%E6%9C%9F%E6%9C%9B" aria-hidden="true"><span class="octicon octicon-link"></span></a>期望</h2>
+
+<p>对于离散随机变量$X$，及其概率质量函数$p(x)$，那么$X$的期望(Expectation)或期望值(Expected Value)，记为$E(X)$：</p>
+
+<script type="math/tex; mode=display">E(x) = \sum_{x:p(x)>0}xp(x)</script>
+
+<p>$X$的期望值就是X所有可能取值的一个加权平均，每个值的权重就是X中取该值x的概率</p>
+
+<p>如果$X$为离散型的且取无穷个值，那么X的数学期望可定义为级数之和：</p>
+
+<script type="math/tex; mode=display">E(X) = \sum_{i=1}^{\infty}a_ip_i</script>
+
+<p>并要求该级数必须收敛，且必须是绝对收敛。因为期望的取值不应与人为的排列次数有关。</p>
+
+<p>如果$X$是一个离散型随机变量，其可能取值为$x_i,i\ge 1 $, 相应的取值概率为$p(x_i)$，那么对于任一实值函数g，都有：</p>
+
+<script type="math/tex; mode=display">E[g(X)] = \sum_ig(x_i)p(x_i)</script>
+
+<p>若a和b是常数，则</p>
+
+<script type="math/tex; mode=display">E[aX+b] = aE[X] + b</script>
+
+<p>随机变量X的期望$E[X]$，也称为$X$的均值(mean)，或者一阶矩(First Moment)，$E[X^n](n\ge 1)$称为$X$的$n$阶矩，且：</p>
+
+<script type="math/tex; mode=display">E[x^n] = \sum_{x:p(x)>0}x^np(x)</script>
+
+<h2 id="方差">
+<a class="anchor" href="#%E6%96%B9%E5%B7%AE" aria-hidden="true"><span class="octicon octicon-link"></span></a>方差</h2>
+
+<p>如果随机变量$X$的期望为$u$，那么$X$的方差记为$Var(X)$，其定义为：</p>
+
+<script type="math/tex; mode=display">Var(X) = E[(x-u)^2]</script>
+
+<p>方程的另一表达式：</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{aligned} Var(X) = E[(X-u)^2] &= \sum_x(x-u)^2p(x)  \\ &= \sum_x(x^2-2ux+u^2)p(x) \\ &=\sum_xx^2p(x)-2u\sum_xxp(x) + u^2\sum_xp(x) \\ &= E[x^2] - u^2 \\ &= E[X^2] - (E[X])^2 \end{aligned} %]]></script>
+
+<p>方差可以描述随机变量取值与均值的偏离程度或离散程度。</p>
+
+<p>对于任意常数a和b，有下面的恒等式:</p>
+
+<script type="math/tex; mode=display">Var(aX+b) = a^2Var(X)</script>
+
+<p>证明：</p>
+
+<p>令$u = E[X]$</p>
+
+<script type="math/tex; mode=display">\begin{aligned} Var(aX+b) = E[(aX+b-au-b)] = E[a^2(X-u)^2] = a^2E[(X-u)^2] = a^2Var(X) \end{aligned}</script>
+
+<h2 id="伯努利随机变量">
+<a class="anchor" href="#%E4%BC%AF%E5%8A%AA%E5%88%A9%E9%9A%8F%E6%9C%BA%E5%8F%98%E9%87%8F" aria-hidden="true"><span class="octicon octicon-link"></span></a>伯努利随机变量</h2>
+
+<p>对于：</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+X = \left \lbrace \begin{matrix} &1 \qquad & 当试验结果为成功时 \\ &0 \qquad & 当试验结果为失败时  \end{matrix}  \right. %]]></script>
+
+<p>其中$p\in [0,1]$，是每次试验成功的概率。对于X的概率质量函数:</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{aligned} p(0) &= P(X=0) = 1-p \\ p(1) &= P(X=1) = p \end{aligned} %]]></script>
+
+<p>这样的随机变量$X$称为<strong>伯努利随机变量</strong></p>
+
+<h2 id="二项随机变量-binomial">
+<a class="anchor" href="#%E4%BA%8C%E9%A1%B9%E9%9A%8F%E6%9C%BA%E5%8F%98%E9%87%8F-binomial" aria-hidden="true"><span class="octicon octicon-link"></span></a>二项随机变量 (Binomial)</h2>
+
+<p>假设现在进行$n$次<strong>独立重复</strong>试验，每次试验成功的概率是<strong>p</strong>，失败的概率是<strong>1-p</strong>。</p>
+
+<p>如果$X$表示$n$次试验中成功的次数，那么称$X$为参数是$(n,p)$的<strong>二项随机变量</strong>。可见伯努利随机变量是参数$(1,p)$的二项随机变量。</p>
+
+<p>二项随机变量的概率分布为：</p>
+
+<script type="math/tex; mode=display">p(i) = \left ( \begin{matrix} n \\ r \end{matrix}\right )p^i(1-p)^{n-i} \qquad i=0,1,2,···,n</script>
+
+<h4 id="二项随机变量的性质">
+<a class="anchor" href="#%E4%BA%8C%E9%A1%B9%E9%9A%8F%E6%9C%BA%E5%8F%98%E9%87%8F%E7%9A%84%E6%80%A7%E8%B4%A8" aria-hidden="true"><span class="octicon octicon-link"></span></a>二项随机变量的性质</h4>
+
+<h6 id="期望与方差">
+<a class="anchor" href="#%E6%9C%9F%E6%9C%9B%E4%B8%8E%E6%96%B9%E5%B7%AE" aria-hidden="true"><span class="octicon octicon-link"></span></a>期望与方差</h6>
+
+<p>首先：</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{aligned}E[X^k] &= \sum_i i^k p(i) \\ &= \sum_{i=0}^n i^k \left ( \begin{matrix} n \\ i \end{matrix}\right ) p^i (1-p)^{n-i} \\ &= \sum_{i=1}^n i^k \left ( \begin{matrix} n \\ i \end{matrix}\right ) p^i (1-p)^{n-i} \end{aligned} %]]></script>
+
+<p>根据恒等式：</p>
+
+<script type="math/tex; mode=display">i\left ( \begin{matrix} n \\ i \end{matrix}\right ) = n\left ( \begin{matrix} n-1 \\ i-1 \end{matrix}\right )</script>
+
+<p>可得：</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{aligned}E[X^k] &= np\sum_{i=1}^n i^{k-1} \left ( \begin{matrix} n-1 \\ i-1 \end{matrix}\right ) p^{i-1} (1-p)^{n-i} \\ &= np\sum_{j=0}^{n-1} (j+1)^{k-1} \left ( \begin{matrix} n-1 \\ j \end{matrix}\right ) p^j (1-p)^{n-1-j} \qquad 令j=i-1 \\ &= npE[(Y+1)^{k+1}]\end{aligned} %]]></script>
+
+<p>其中Y是参数为(n-1, p)的二项随机变量。</p>
+
+<p>令k=1，可得期望：</p>
+
+<script type="math/tex; mode=display">E(X) = np</script>
+
+<p>再令k=2，可得：</p>
+
+<script type="math/tex; mode=display">E(X^2) = npE[(Y+1)] = np[(n-1)p+1]</script>
+
+<p>因此可推出，方差：</p>
+
+<script type="math/tex; mode=display">Var(X) = E[X^2] - (E[X])^2 = np[(n-1)p+1] - (np)^2 = np(1-p)</script>
+
+<p>如果X是一个参数为$(n,p)$的二项随机变量，其中$0&lt;p&lt;1$。那么当$k$从$0$到$n$时，$P(X=k)$单调递增，然后单调递减，当$k=[(n+1)p]$时取最大值。(这里表示小于等于$(n+1)p$的最大整数)</p>
+
+<p>可通过对$P\lbrace X=k \rbrace/P\lbrace X=k-1 \rbrace $与1的大小关系推出</p>
+
+<h4 id="二项随机变量分布函数的计算">
+<a class="anchor" href="#%E4%BA%8C%E9%A1%B9%E9%9A%8F%E6%9C%BA%E5%8F%98%E9%87%8F%E5%88%86%E5%B8%83%E5%87%BD%E6%95%B0%E7%9A%84%E8%AE%A1%E7%AE%97" aria-hidden="true"><span class="octicon octicon-link"></span></a>二项随机变量分布函数的计算</h4>
+
+<script type="math/tex; mode=display">P\lbrace X=k+1 \rbrace = \frac {p}{1-p} \frac {n-k}{k+1} P\lbrace X=k \rbrace</script>
+
+<h2 id="泊松随机变量-poisson">
+<a class="anchor" href="#%E6%B3%8A%E6%9D%BE%E9%9A%8F%E6%9C%BA%E5%8F%98%E9%87%8F-poisson" aria-hidden="true"><span class="octicon octicon-link"></span></a>泊松随机变量 (Poisson)</h2>
+
+<p>如果一个取值是0,1,2,···的随机变量对某一个$\lambda &gt; 0$，其概率分布为：</p>
+
+<script type="math/tex; mode=display">p(i) = P\lbrace X = i \rbrace = e^{-\lambda}\frac {\lambda^i}{i!}</script>
+
+<p>则称该随机变量为服从参数是$\lambda$的泊松随机变量。</p>
+
+<script type="math/tex; mode=display">\sum_{i=0}^{\infty}p(i) = e^{-\lambda}\sum_{i=0}^{\infty}\frac {\lambda^i}{i!} = e^{-\lambda} e^{\lambda} = 1</script>
+
+<p>当$n$足够大，$p$充分小，从而使得$np$保持适当的大小时，参数为$(n,p)$的二项随机变量可近似地看作是参数是$\lambda=np$的泊松随机变量</p>
+
+<script type="math/tex; mode=display">E[X] = \lambda</script>
+
+<script type="math/tex; mode=display">Var(X) = \lambda</script>
+
+<h4 id="泊松范例">
+<a class="anchor" href="#%E6%B3%8A%E6%9D%BE%E8%8C%83%E4%BE%8B" aria-hidden="true"><span class="octicon octicon-link"></span></a>泊松范例</h4>
+
+<p>考虑n个事件，第i个事件发生的概率为$p_i，i=1,2,···,n$。如果所有$p_i$都很小，其试验或者独立或者弱相依，那么事件发生次数近似地服从参数为<script type="math/tex">\sum_{i=1}^np_i</script>的泊松分布</p>
+
+<h4 id="泊松随机变量分布函数的计算">
+<a class="anchor" href="#%E6%B3%8A%E6%9D%BE%E9%9A%8F%E6%9C%BA%E5%8F%98%E9%87%8F%E5%88%86%E5%B8%83%E5%87%BD%E6%95%B0%E7%9A%84%E8%AE%A1%E7%AE%97" aria-hidden="true"><span class="octicon octicon-link"></span></a>泊松随机变量分布函数的计算</h4>
+
+<script type="math/tex; mode=display">\frac {P\lbrace X=i+1 \rbrace}{P\lbrace X=i \rbrace } = \frac {\lambda}{i+1}</script>
+
+<h2 id="几何随机变量-geometric">
+<a class="anchor" href="#%E5%87%A0%E4%BD%95%E9%9A%8F%E6%9C%BA%E5%8F%98%E9%87%8F-geometric" aria-hidden="true"><span class="octicon octicon-link"></span></a>几何随机变量 (Geometric)</h2>
+
+<p>考虑在独立重复试验中，每次成功的概率为$p,(0&lt;p&lt;1)$，重复试验直到试验首次成功为止。</p>
+
+<p>如果令$X$表示需要试验的次数，X若满足</p>
+
+<script type="math/tex; mode=display">{P\lbrace X=n \rbrace} = (1-p)^{n-1}p \qquad n=1,2,···</script>
+
+<p>则表示X是参数为p的几何随机变量</p>
+
+<script type="math/tex; mode=display">E[X] = \frac 1p</script>
+
+<script type="math/tex; mode=display">Var(x)= \frac {1-p}{p^2}</script>
+
+<script type="math/tex; mode=display">\sum_{n=1}^{\infty}P(X=n) = p\sum_{n=1}^{\infty}(1-p)^{n-1} = \frac {p}{1-(1-p)} = 1</script>
+
+<h2 id="负二项随机变量-negative-binomial">
+<a class="anchor" href="#%E8%B4%9F%E4%BA%8C%E9%A1%B9%E9%9A%8F%E6%9C%BA%E5%8F%98%E9%87%8F-negative-binomial" aria-hidden="true"><span class="octicon octicon-link"></span></a>负二项随机变量 (Negative Binomial)</h2>
+
+<p>假定独立重复试验中， 每次成功的概率为$p,(0&lt;p&lt;1)$，试验持续进行直到试验累计成功r次为止。</p>
+
+<p>如果令$X$表示试验的总次数，X若满足</p>
+
+<script type="math/tex; mode=display">{P\lbrace X=n \rbrace} = \left ( \begin{matrix} n-1 \\ r-1 \end{matrix} \right ) p^r(1-p)^{n-r} \qquad n=r, r+1,···</script>
+
+<p>则表示X是参数为(r,p)的负二次随机变量。</p>
+
+<p>注意：几何随机变量恰好是参数为(1,p)的负二项随机变量</p>
+
+<script type="math/tex; mode=display">E[X] = \frac rp</script>
+
+<script type="math/tex; mode=display">Var(X) = \frac {r(1-p)}{p^2}</script>
+
+<script type="math/tex; mode=display">\sum_{n=r}^{\infty}P\{ X=n\} = \sum_{n=r}^{\infty}\left ( \begin{matrix} n-1 \\ r-1 \end{matrix} \right ) p^r(1-p)^{n-r} = 1</script>
+
+<h2 id="超几何随机变量-hyper-geometirc">
+<a class="anchor" href="#%E8%B6%85%E5%87%A0%E4%BD%95%E9%9A%8F%E6%9C%BA%E5%8F%98%E9%87%8F-hyper-geometirc" aria-hidden="true"><span class="octicon octicon-link"></span></a>超几何随机变量 (Hyper Geometirc)</h2>
+
+<p>设一个坛子里共有N个球，其中m个白球，N-m个黑球，从中随机地(无放回)取出n个球，令X表示取出来的白球数，若X满足</p>
+
+<script type="math/tex; mode=display">P\{ X=i \} = \frac {\left ( \begin{matrix} m \\ i \end{matrix} \right ) \left ( \begin{matrix} N-m \\ n-i \end{matrix} \right )}{\left ( \begin{matrix} N \\ n \end{matrix} \right )} \qquad i=0,1,2,···,n</script>
+
+<p>则表示X是超几何随机变量</p>
+
+<script type="math/tex; mode=display">E(X) = \frac {nm}{N}</script>
+
+<script type="math/tex; mode=display">Var(X) = np(1-p)(1-\frac{n-1}{N-1})</script>
+
+<h2 id="zeta-分布">
+<a class="anchor" href="#zeta-%E5%88%86%E5%B8%83" aria-hidden="true"><span class="octicon octicon-link"></span></a>$\zeta 分布$</h2>
+
+<p>如果一个随机变量有如下概率分布：</p>
+
+<script type="math/tex; mode=display">P\{ X=k \} = \frac {C}{k^{\alpha+1}} \qquad k=1,2,···</script>
+
+<p>其中$\alpha &gt; 0$，则称该随机变量服从$\zeta$分布(也称为Zipf分布)</p>
+
+<p>因为概率必等于1:</p>
+
+<script type="math/tex; mode=display">C = [\sum_{k=1}^{\infty}(\frac 1k)^{\alpha+1}]^{-1}</script>
+
+<p>$\zeta 分布$ 名字由来（黎曼$\zeta$函数）：</p>
+
+<script type="math/tex; mode=display">\zeta(s) = 1 + (\frac 12)^s + (\frac 13)^s+ ···+ (\frac 1k)^s+···</script>
+
+<h2 id="随机变量和的期望">
+<a class="anchor" href="#%E9%9A%8F%E6%9C%BA%E5%8F%98%E9%87%8F%E5%92%8C%E7%9A%84%E6%9C%9F%E6%9C%9B" aria-hidden="true"><span class="octicon octicon-link"></span></a>随机变量和的期望</h2>
+
+<p>期望的一个重要性质是一组随机变量的和的期望与这组随机变量各自期望的和相等。</p>
+
+<script type="math/tex; mode=display">E(X) = \sum_{s\in S}X(s)p(s)</script>
+
+<h2 id="分布函数的性质">
+<a class="anchor" href="#%E5%88%86%E5%B8%83%E5%87%BD%E6%95%B0%E7%9A%84%E6%80%A7%E8%B4%A8" aria-hidden="true"><span class="octicon octicon-link"></span></a>分布函数的性质</h2>
+
+<p>$F(b)$表示随机变量取值小于或等于b的概率</p>
+
+<ul>
+  <li>$F$是一个单调非降函数</li>
+  <li>$\lim_{b\rightarrow \infty} F(b) = 1$</li>
+  <li>$\lim_{b\rightarrow -\infty} F(b) = 0$</li>
+  <li>$F$是右连续的，对于任意$b$和一个单调递减收敛于$b$的序列$b_n，n\ge 1$，有$\lim_{n\rightarrow \infty}F(b_n) = F(b)$</li>
+</ul>
+
+</article>
+      <section id="main_content">
+        <ul>
+            
+        </ul>
+      </section>
+    </div>
+  </div>
+   <footer>
+  <a href="/">
+    <span>
+        <b>LuoSongtao</b>
+    </span>
+    
+    <span>© 2020</span>
+  </a>
+</footer>
+
+  
+</body>
+
+</html>

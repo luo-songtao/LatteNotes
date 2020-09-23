@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+  <meta name="generator" content="Jekyll">
+
+  <title>数学分析-导数的四则运算及反函数求导法则</title>
+  <link rel="stylesheet" href="/css/main.css">
+
+  <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="ATOM Feed" /> <!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>数学分析-导数的四则运算及反函数求导法则 | MicroNotes</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="数学分析-导数的四则运算及反函数求导法则" />
+<meta name="author" content="LuoSongtao" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="导数计算Example" />
+<meta property="og:description" content="导数计算Example" />
+<link rel="canonical" href="http://0.0.0.0:4000/mathematical-analysis/%E5%AF%BC%E6%95%B0%E7%9A%84%E5%9B%9B%E5%88%99%E8%BF%90%E7%AE%97%E5%8F%8A%E5%8F%8D%E5%87%BD%E6%95%B0%E6%B1%82%E5%AF%BC%E6%B3%95%E5%88%99" />
+<meta property="og:url" content="http://0.0.0.0:4000/mathematical-analysis/%E5%AF%BC%E6%95%B0%E7%9A%84%E5%9B%9B%E5%88%99%E8%BF%90%E7%AE%97%E5%8F%8A%E5%8F%8D%E5%87%BD%E6%95%B0%E6%B1%82%E5%AF%BC%E6%B3%95%E5%88%99" />
+<meta property="og:site_name" content="MicroNotes" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2019-11-30T00:00:00-06:00" />
+<script type="application/ld+json">
+{"author":{"@type":"Person","name":"LuoSongtao"},"mainEntityOfPage":{"@type":"WebPage","@id":"http://0.0.0.0:4000/mathematical-analysis/%E5%AF%BC%E6%95%B0%E7%9A%84%E5%9B%9B%E5%88%99%E8%BF%90%E7%AE%97%E5%8F%8A%E5%8F%8D%E5%87%BD%E6%95%B0%E6%B1%82%E5%AF%BC%E6%B3%95%E5%88%99"},"description":"导数计算Example","@type":"BlogPosting","headline":"数学分析-导数的四则运算及反函数求导法则","dateModified":"2019-11-30T00:00:00-06:00","url":"http://0.0.0.0:4000/mathematical-analysis/%E5%AF%BC%E6%95%B0%E7%9A%84%E5%9B%9B%E5%88%99%E8%BF%90%E7%AE%97%E5%8F%8A%E5%8F%8D%E5%87%BD%E6%95%B0%E6%B1%82%E5%AF%BC%E6%B3%95%E5%88%99","datePublished":"2019-11-30T00:00:00-06:00","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+        inlineMath: [['$','$']]
+      }
+    });
+  </script>
+
+</head>
+
+<body>
+  <div id="wrapper">
+    <header>
+  
+  
+  <div class="container">
+      
+
+      <div style="padding-left: 42px;">
+        <a id="username" href="/">
+        
+        <span style="font-size: x-large; color: #6a9fb5;"># </span>
+        <span style="font-size: x-large; color: #aa759f;">luosongtao</span>
+        <span style="font-size: x-large; color: #6a9fb5;">@</span>
+        <span style="font-size: x-large; color: #83a;">home:</span>
+        <span style="font-size: x-large; color: #cc0000;">~$</span>
+        </a>
+        
+<div id="search">
+	<input type="text" id="search-input" placeholder=" find / -name " style="vertical-align:middle;">
+	<ul id="results-container"></ul>
+</div>
+
+<!-- script pointing to jekyll-search.js -->
+<script src="/assets/js/simple-jekyll-search.min.js"></script>
+<script async src="/searchdata.js"></script>
+
+
+      </div>
+
+      <ul id="results-container"></ul>
+
+      <nav class="nav">
+    
+    
+        
+        <h3><a href="/">最新</a></h3>
+        
+    
+        
+        <h3><a href="/algorithms">Algorithms</a></h3>
+        
+    
+        
+        <h3><a href="/optimization">Optimization</a></h3>
+        
+    
+        
+        <h3><a href="/algebra">代数论</a></h3>
+        
+    
+        
+        <h3><a href="/docker">Docker</a></h3>
+        
+    
+        
+        <h3><a href="/bigdata">大数据</a></h3>
+        
+    
+        
+        <h3><a href="/mathematical-analysis">数学分析</a></h3>
+        
+    
+        
+        <h3><a href="/probability-theory">概率论</a></h3>
+        
+    
+        
+        <h3><a href="/others">其他</a></h3>
+        
+    
+</nav>
+      <div class="header-links">
+        
+        <a href="/archive"><h2 class="header-link">时间轴</h2></a>
+<a href="/about"><h2 class="header-link">关于</h2></a>
+<!--<a href="/atom.xml"><h2 class="header-link">RSS</h2></a>-->
+      </div>
+  <div>
+
+</header>
+    
+    <div class="container">
+      <article>
+  <h1>数学分析-导数的四则运算及反函数求导法则</h1>
+  <time datetime="2019-11-30T00:00:00-06:00" class="by-line">30 Nov 2019</time>
+  <ul class="section-nav">
+<li class="toc-entry toc-h3"><a href="#导数计算example">导数计算Example</a></li>
+<li class="toc-entry toc-h3"><a href="#导数的四则运算">导数的四则运算</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#定理1">定理1</a></li>
+<li class="toc-entry toc-h4"><a href="#定理2">定理2</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#证明example">证明&amp;Example</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#定理3">定理3</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#推论">推论</a></li>
+<li class="toc-entry toc-h5"><a href="#证明">证明</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#反函数求导定理">反函数求导定理</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#证明-1">证明</a></li>
+<li class="toc-entry toc-h4"><a href="#反三角函数的导数">反三角函数的导数</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#双曲函数">双曲函数</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#双曲函数的导数">双曲函数的导数</a></li>
+<li class="toc-entry toc-h4"><a href="#反双曲函数的导数">反双曲函数的导数</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#归纳">归纳</a></li>
+</ul><h3 id="导数计算example">
+<a class="anchor" href="#%E5%AF%BC%E6%95%B0%E8%AE%A1%E7%AE%97example" aria-hidden="true"><span class="octicon octicon-link"></span></a>导数计算Example</h3>
+
+<p><img src="/assets/images/mathemathical-analysis/%E4%BE%8B%E9%A2%98-%E5%AF%BC%E6%95%B0%E8%AE%A1%E7%AE%97Example.png" alt="例题-导数计算Example"></p>
+
+<h3 id="导数的四则运算">
+<a class="anchor" href="#%E5%AF%BC%E6%95%B0%E7%9A%84%E5%9B%9B%E5%88%99%E8%BF%90%E7%AE%97" aria-hidden="true"><span class="octicon octicon-link"></span></a>导数的四则运算</h3>
+
+<h4 id="定理1">
+<a class="anchor" href="#%E5%AE%9A%E7%90%861" aria-hidden="true"><span class="octicon octicon-link"></span></a>定理1</h4>
+
+<p>$f,g在同一区间可导，则c_1f(x)+c_2g(x)也在该区间可导，且有:$</p>
+
+<script type="math/tex; mode=display">(c_1f(x)+c_2g(x))' = c_1f'(x)+c_2g'(x)</script>
+
+<ul>
+  <li>$(e^x)=e^x$</li>
+  <li>$(a^x)’=a^x·\ln a$</li>
+  <li>$(\ln x)’=\frac 1x$</li>
+  <li>$(\log _a x)’=(\frac {\ln x}{\ln a})’=\frac 1{x\ln a}$</li>
+</ul>
+
+<h4 id="定理2">
+<a class="anchor" href="#%E5%AE%9A%E7%90%862" aria-hidden="true"><span class="octicon octicon-link"></span></a>定理2</h4>
+
+<p>$f,g在同一区间可导，则f·g也在该区间可导，且有:$</p>
+
+<script type="math/tex; mode=display">(f(x)·g(x))' = f'(x)g(x)+f(x)g'(x)</script>
+
+<h5 id="证明example">
+<a class="anchor" href="#%E8%AF%81%E6%98%8Eexample" aria-hidden="true"><span class="octicon octicon-link"></span></a>证明&amp;Example</h5>
+
+<p><img src="/assets/images/mathemathical-analysis/%E4%BE%8B%E9%A2%98-%E5%AF%BC%E6%95%B0%E4%B9%98%E6%B3%95%E8%BF%90%E7%AE%97.png" alt="例题-导数乘法运算"></p>
+
+<h4 id="定理3">
+<a class="anchor" href="#%E5%AE%9A%E7%90%863" aria-hidden="true"><span class="octicon octicon-link"></span></a>定理3</h4>
+
+<p>$g(x)在某一区间可导，g(x)\neq 0,则\frac 1{g(x)}也在该区间可导，且有:$</p>
+
+<script type="math/tex; mode=display">(\frac 1{g(x)})' = \frac {-g'(x)}{g^2(x)}</script>
+
+<script type="math/tex; mode=display">d(\frac 1{g(x)}) = -\frac {g'(x)dx}{g^2(x)}=-\frac {dg}{g^2(x)}\qquad dg = g'(x)·dx</script>
+
+<ul>
+  <li>$(\sec x)’ = (\frac 1{\cos x})’=\frac {\sin x}{\cos ^2 x}=\tan x \sec x$</li>
+  <li>$(\csc x)’ = (\frac 1{\sin x})’=-\frac {\cos x}{\sin ^2 x}=-\cot x \csc x$</li>
+</ul>
+
+<h5 id="推论">
+<a class="anchor" href="#%E6%8E%A8%E8%AE%BA" aria-hidden="true"><span class="octicon octicon-link"></span></a>推论</h5>
+
+<p>$f,g在同一区间可导，则\frac fg也在该区间可导，且有:$</p>
+
+<script type="math/tex; mode=display">(\frac {f(x)}{g(x)})' = \frac {f'(x)g(x)-f(x)g'(x)}{g^2(x)}</script>
+
+<ul>
+  <li>$(\tan x)’=\frac {\cos^2x+\sin^2 x}{\cos^2x}=\frac {1}{\cos^2x}=\sec^2 x$</li>
+  <li>$(\cot x)’= -\frac {1}{\sin^2 x}=-\csc^2 x$</li>
+</ul>
+
+<h5 id="证明">
+<a class="anchor" href="#%E8%AF%81%E6%98%8E" aria-hidden="true"><span class="octicon octicon-link"></span></a>证明</h5>
+
+<p><img src="/assets/images/mathemathical-analysis/%E8%AF%81-%E5%AF%BC%E6%95%B0%E7%9A%84%E5%9B%9B%E5%88%99%E8%BF%90%E7%AE%97%E4%B9%8B%E4%B8%80.png" alt="证-导数的四则运算之一"></p>
+
+<h3 id="反函数求导定理">
+<a class="anchor" href="#%E5%8F%8D%E5%87%BD%E6%95%B0%E6%B1%82%E5%AF%BC%E5%AE%9A%E7%90%86" aria-hidden="true"><span class="octicon octicon-link"></span></a>反函数求导定理</h3>
+
+<p>$f(x)在(a,b)连续且严格单调，可导(f’(x)\neq 0),\alpha = \min \lbrace f(a^+),f(b^-) \rbrace,\beta = \min \lbrace f(a^-),f(b^+) \rbrace,则f^{-1}(y)在(\alpha,\beta)上可导,且:$</p>
+
+<script type="math/tex; mode=display">(f^{-1}(y))'=\frac 1{f'(x)}</script>
+
+<h4 id="证明-1">
+<a class="anchor" href="#%E8%AF%81%E6%98%8E-1" aria-hidden="true"><span class="octicon octicon-link"></span></a>证明</h4>
+
+<p><img src="/assets/images/mathemathical-analysis/%E8%AF%81-%E5%8F%8D%E5%87%BD%E6%95%B0%E6%B1%82%E5%AF%BC%E5%AE%9A%E7%90%86.png" alt="证-反函数求导定理"></p>
+
+<h4 id="反三角函数的导数">
+<a class="anchor" href="#%E5%8F%8D%E4%B8%89%E8%A7%92%E5%87%BD%E6%95%B0%E7%9A%84%E5%AF%BC%E6%95%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>反三角函数的导数</h4>
+
+<ul>
+  <li>$(\arctan x)’=\frac 1{\tan’ y}=\frac 1{\sec^2 y}=\frac 1{1+\tan^2 y}=\frac 1{1+x^2}\qquad y=\arctan x\Rightarrow x=\tan y$</li>
+  <li>$(arc\cot x)’=\frac 1{\cot’ y}=\frac 1{\csc^2 y}=\frac 1{1+\cot^2 y}=\frac 1{1+x^2}\qquad y=arc\cot x\Rightarrow x=\cot y$</li>
+  <li>$(\arcsin x)’=\frac 1{\sin’ y}=\frac 1{\cos y}=\frac {1}{\sqrt {1-x^2}} \qquad x=\sin y$</li>
+  <li>$(\arccos x)’=\frac 1{\cos’ y}=\frac 1{-\sin y}=-\frac {1}{\sqrt {1-x^2}} \qquad x=\cos y$</li>
+</ul>
+
+<h3 id="双曲函数">
+<a class="anchor" href="#%E5%8F%8C%E6%9B%B2%E5%87%BD%E6%95%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>双曲函数</h3>
+
+<h4 id="双曲函数的导数">
+<a class="anchor" href="#%E5%8F%8C%E6%9B%B2%E5%87%BD%E6%95%B0%E7%9A%84%E5%AF%BC%E6%95%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>双曲函数的导数</h4>
+
+<p>$双曲正弦:\sinh x = \frac {e^x-e^{-x}}{2}$</p>
+
+<p>$双曲余弦:\cosh x = \frac {e^x+e^{-x}}{2}$</p>
+
+<script type="math/tex; mode=display">\cosh^2 x-\sinh^2 x=1</script>
+
+<p>$(e^{-x})’=\frac {-e^x}{e^{2x}}=-e^{-x}$</p>
+
+<script type="math/tex; mode=display">(\sinh x)' = \frac {e^x - (-e^{-x})}2=\cosh x</script>
+
+<script type="math/tex; mode=display">(\cosh x)' = \frac {e^x + (-e^{-x})}2=\sinh x</script>
+
+<script type="math/tex; mode=display">(\tanh x)' = (\frac {\sinh x}{\cosh x})'=\frac {\cosh^2 x-\sinh^2x}{\cosh^2 x}=\frac 1{\cosh^2 x}=\frac {e^{2x}-2+e^{-2x}}4</script>
+
+<script type="math/tex; mode=display">(\coth x)' = (\frac {\cosh x}{\sinh x})'=\frac {\sinh^2 x-\cosh^2x}{\sinh^2 x}=-\frac 1{\sinh^2 x}=-\frac {e^{2x}+2+e^{-2x}}4</script>
+
+<h4 id="反双曲函数的导数">
+<a class="anchor" href="#%E5%8F%8D%E5%8F%8C%E6%9B%B2%E5%87%BD%E6%95%B0%E7%9A%84%E5%AF%BC%E6%95%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>反双曲函数的导数</h4>
+
+<script type="math/tex; mode=display">(\sinh^{-1} x)'=\frac 1{(\sinh y)'}=\frac 1{\cosh y}=\frac 1{\sqrt{1+\sinh^2 y}}=\frac 1{\sqrt {1+x^2}}</script>
+
+<script type="math/tex; mode=display">(\cosh^{-1} x)'=\frac 1{(\cosh y)'}=\frac 1{\sinh y}=\frac 1{\sqrt{\cosh^2 y-1}}=\frac 1{\sqrt {x^2-1}}</script>
+
+<script type="math/tex; mode=display">(\tanh^{-1} x)'=\frac 1{(\tanh y)'}=\cosh^2 y=\frac 1{1-\tanh^2 y}=\frac 1{1-x^2}</script>
+
+<script type="math/tex; mode=display">(\coth^{-1} x)'=\frac 1{(\coth y)'}=-\sinh^2 y=-\frac 1{\coth^2 y-1}=\frac 1{1-x^2}</script>
+
+<h3 id="归纳">
+<a class="anchor" href="#%E5%BD%92%E7%BA%B3" aria-hidden="true"><span class="octicon octicon-link"></span></a>归纳</h3>
+
+<script type="math/tex; mode=display">\begin{equation*} (\sum_{i=1}^n c_if_i(x))'= \sum_{i=1}^n c_if_i'(x)   \\ (\prod_{i=1}^nf_i(x))'= \sum_{j=1}^nf_j'·\prod_{i=1,i\neq j}^{n-1}f_i(x)
+\end{equation*}</script>
+
+<ul>
+  <li>
+    <script type="math/tex; mode=display">y=a_nx^n+a_{n-1}x^{n-1}+···+a_1x+a_0=\sum_{i=0}^na_nx^n</script>
+    <ul>
+      <li>
+        <script type="math/tex; mode=display">y'=\sum_{i=0}^na_n(x^n)'=\sum_{i=0}^nna_nx^{n-1}</script>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <script type="math/tex; mode=display">y=e^x(x^2+3x-1)\arcsin x</script>
+    <ul>
+      <li>
+        <script type="math/tex; mode=display">y' = e^x(x^2+3x-1)\arcsin x+e^x(2x+3)\arcsin x+e^x(x^2+3x-1)\frac {1}{\sqrt{1-x^2}}</script>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+</article>
+      <section id="main_content">
+        <ul>
+            
+        </ul>
+      </section>
+    </div>
+  </div>
+   <footer>
+  <a href="/">
+    <span>
+        <b>LuoSongtao</b>
+    </span>
+    
+    <span>© 2020</span>
+  </a>
+</footer>
+
+  
+</body>
+
+</html>

@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+  <meta name="generator" content="Jekyll">
+
+  <title>数学分析-闭区间上的连续函数(2)</title>
+  <link rel="stylesheet" href="/css/main.css">
+
+  <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="ATOM Feed" /> <!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>数学分析-闭区间上的连续函数(2) | MicroNotes</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="数学分析-闭区间上的连续函数(2)" />
+<meta name="author" content="LuoSongtao" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="一致连续概念" />
+<meta property="og:description" content="一致连续概念" />
+<link rel="canonical" href="http://0.0.0.0:4000/mathematical-analysis/%E9%97%AD%E5%8C%BA%E9%97%B4%E4%B8%8A%E7%9A%84%E8%BF%9E%E7%BB%AD%E5%87%BD%E6%95%B0(2)" />
+<meta property="og:url" content="http://0.0.0.0:4000/mathematical-analysis/%E9%97%AD%E5%8C%BA%E9%97%B4%E4%B8%8A%E7%9A%84%E8%BF%9E%E7%BB%AD%E5%87%BD%E6%95%B0(2)" />
+<meta property="og:site_name" content="MicroNotes" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2019-11-27T01:00:00-06:00" />
+<script type="application/ld+json">
+{"author":{"@type":"Person","name":"LuoSongtao"},"mainEntityOfPage":{"@type":"WebPage","@id":"http://0.0.0.0:4000/mathematical-analysis/%E9%97%AD%E5%8C%BA%E9%97%B4%E4%B8%8A%E7%9A%84%E8%BF%9E%E7%BB%AD%E5%87%BD%E6%95%B0(2)"},"description":"一致连续概念","@type":"BlogPosting","headline":"数学分析-闭区间上的连续函数(2)","dateModified":"2019-11-27T01:00:00-06:00","url":"http://0.0.0.0:4000/mathematical-analysis/%E9%97%AD%E5%8C%BA%E9%97%B4%E4%B8%8A%E7%9A%84%E8%BF%9E%E7%BB%AD%E5%87%BD%E6%95%B0(2)","datePublished":"2019-11-27T01:00:00-06:00","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+        inlineMath: [['$','$']]
+      }
+    });
+  </script>
+
+</head>
+
+<body>
+  <div id="wrapper">
+    <header>
+  
+  
+  <div class="container">
+      
+
+      <div style="padding-left: 42px;">
+        <a id="username" href="/">
+        
+        <span style="font-size: x-large; color: #6a9fb5;"># </span>
+        <span style="font-size: x-large; color: #aa759f;">luosongtao</span>
+        <span style="font-size: x-large; color: #6a9fb5;">@</span>
+        <span style="font-size: x-large; color: #83a;">home:</span>
+        <span style="font-size: x-large; color: #cc0000;">~$</span>
+        </a>
+        
+<div id="search">
+	<input type="text" id="search-input" placeholder=" find / -name " style="vertical-align:middle;">
+	<ul id="results-container"></ul>
+</div>
+
+<!-- script pointing to jekyll-search.js -->
+<script src="/assets/js/simple-jekyll-search.min.js"></script>
+<script async src="/searchdata.js"></script>
+
+
+      </div>
+
+      <ul id="results-container"></ul>
+
+      <nav class="nav">
+    
+    
+        
+        <h3><a href="/">最新</a></h3>
+        
+    
+        
+        <h3><a href="/algorithms">Algorithms</a></h3>
+        
+    
+        
+        <h3><a href="/optimization">Optimization</a></h3>
+        
+    
+        
+        <h3><a href="/algebra">代数论</a></h3>
+        
+    
+        
+        <h3><a href="/docker">Docker</a></h3>
+        
+    
+        
+        <h3><a href="/bigdata">大数据</a></h3>
+        
+    
+        
+        <h3><a href="/mathematical-analysis">数学分析</a></h3>
+        
+    
+        
+        <h3><a href="/probability-theory">概率论</a></h3>
+        
+    
+        
+        <h3><a href="/others">其他</a></h3>
+        
+    
+</nav>
+      <div class="header-links">
+        
+        <a href="/archive"><h2 class="header-link">时间轴</h2></a>
+<a href="/about"><h2 class="header-link">关于</h2></a>
+<!--<a href="/atom.xml"><h2 class="header-link">RSS</h2></a>-->
+      </div>
+  <div>
+
+</header>
+    
+    <div class="container">
+      <article>
+  <h1>数学分析-闭区间上的连续函数(2)</h1>
+  <time datetime="2019-11-27T01:00:00-06:00" class="by-line">27 Nov 2019</time>
+  <ul class="section-nav">
+<li class="toc-entry toc-h3"><a href="#一致连续概念">一致连续概念</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#一致连续">一致连续</a></li>
+<li class="toc-entry toc-h4"><a href="#一致连续判断定理">一致连续判断定理</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#证明">证明</a>
+<ul>
+<li class="toc-entry toc-h6"><a href="#必要性">必要性</a></li>
+<li class="toc-entry toc-h6"><a href="#充分性">充分性</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#cantor定理康托定理">Cantor定理(康托定理)</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#证明-1">证明</a></li>
+<li class="toc-entry toc-h4"><a href="#开区间上的类康托定理">开区间上的类康托定理</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#证明-2">证明</a>
+<ul>
+<li class="toc-entry toc-h6"><a href="#充分性-1">充分性</a></li>
+<li class="toc-entry toc-h6"><a href="#必要性-1">必要性</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul><h3 id="一致连续概念">
+<a class="anchor" href="#%E4%B8%80%E8%87%B4%E8%BF%9E%E7%BB%AD%E6%A6%82%E5%BF%B5" aria-hidden="true"><span class="octicon octicon-link"></span></a>一致连续概念</h3>
+
+<p>$X是某一区间，f(x)在X上连续，是指f(x)在X的每一点连续(在端点指左、右连续):$</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\forall x_0 \in X,\forall \varepsilon >0,\exists \delta >0, \forall x\in X(\vert x-x_0\vert > \delta):\vert f(x)-f(x_0) \vert < \varepsilon %]]></script>
+
+<p>$\delta=\delta(x_0,\varepsilon),问能否找到对一切x_0运用的\delta&gt;0$</p>
+
+<p>$若能找打这样的\delta&gt;0,则有:$</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\forall \varepsilon >0,\exists \delta = \delta(\varepsilon),\forall x',x''\in X(\vert x'-x'' \vert < \delta):\vert f(x')-f(x'') \vert < \varepsilon %]]></script>
+
+<p>问题：$这样的\delta(\varepsilon)&gt;0是否一定能找到？不一定！$</p>
+
+<script type="math/tex; mode=display">存在\delta(\varepsilon)>0 \Longleftrightarrow \inf \delta_{x_0\in X}\delta(x_0,\varepsilon)>0</script>
+
+<h4 id="一致连续">
+<a class="anchor" href="#%E4%B8%80%E8%87%B4%E8%BF%9E%E7%BB%AD" aria-hidden="true"><span class="octicon octicon-link"></span></a>一致连续</h4>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\forall \varepsilon >0,\exists \delta >0,\forall x',x''\in X(\vert x'-x'' \vert < \delta):\vert f(x')-f(x'') \vert < \varepsilon %]]></script>
+
+<p>$则称f(x)在X上一致连续$</p>
+
+<ul>
+  <li>$y=\sin x,在(-\infty,+\infty)上一致连续$
+    <ul>
+      <li>$\vert \sin x’ - \sin x’’ \vert = 2\vert \cos\frac {x’+x’’}{2}\sin\frac {x’-x’’}{2}\vert&lt;\vert x’-x’‘\vert(放大法)$</li>
+      <li>$\forall \varepsilon &gt;0,取\delta = \varepsilon,\forall x,’,x’’(\vert x,’-x’‘\vert&lt;\delta):\vert \sin x’-\sin x’’ \vert&lt;\delta$</li>
+    </ul>
+  </li>
+  <li>$f(x)=\frac 1x,x\in(0,1)$
+    <ul>
+      <li>$\vert \frac 1x - \frac 1{x_0}\vert &lt; \varepsilon \Leftrightarrow -\frac {x_0^2\varepsilon}{1+x_0\varepsilon}&lt;x-x_0&lt;\frac {x_0^2\varepsilon}{1-x_0\varepsilon}$</li>
+      <li>$\delta(x_0,\varepsilon) = min\lbrace \frac {x_0^2\varepsilon}{1+x_0\varepsilon},\frac {x_0^2\varepsilon}{1-x_0\varepsilon}\rbrace =\frac {x_0^2\varepsilon}{1+x_0\varepsilon}$</li>
+      <li>$\inf \delta_{x_0\in (0,1)}\frac {x_0^2\varepsilon}{1+x_0\varepsilon}=0,即不能找到与x_0无关的\delta$</li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="一致连续判断定理">
+<a class="anchor" href="#%E4%B8%80%E8%87%B4%E8%BF%9E%E7%BB%AD%E5%88%A4%E6%96%AD%E5%AE%9A%E7%90%86" aria-hidden="true"><span class="octicon octicon-link"></span></a>一致连续判断定理</h4>
+
+<p>$设f(x)在区间X上定义,则f(x)在X上一致连续的充要条件是:$</p>
+
+<script type="math/tex; mode=display">对任意数列\lbrace x_n' \rbrace,\lbrace x_n'' \rbrace,x_n',x_n''\in X</script>
+
+<script type="math/tex; mode=display">只要\lim_{n\rightarrow \infty}(x_n'-x_n'')=0,有\lim_{n\rightarrow \infty}(f(x_n')-f(x_n''))=0</script>
+
+<h5 id="证明">
+<a class="anchor" href="#%E8%AF%81%E6%98%8E" aria-hidden="true"><span class="octicon octicon-link"></span></a>证明</h5>
+
+<h6 id="必要性">
+<a class="anchor" href="#%E5%BF%85%E8%A6%81%E6%80%A7" aria-hidden="true"><span class="octicon octicon-link"></span></a>必要性</h6>
+
+<p>$由于在X上一致连续，可知:$</p>
+
+<p>$\forall \varepsilon&gt;0,\exists \delta &gt;0,\forall x’,x’‘\in X(\vert x’-x’’ \vert &lt;\delta):\vert f(x’)-f(x’’)\vert &lt;\varepsilon$</p>
+
+<p>$由\lim_{n\rightarrow \infty}(x_n’-x_n’’)=0，对上述\delta&gt;0,\exists N,\forall n&gt;N:\vert x_n’-x_n’’ \vert &lt;\delta$</p>
+
+<p>$\therefore \vert f(x_n’)- f(x_n’’)\vert &lt; \varepsilon$</p>
+
+<p>$\therefore \lim_{n\rightarrow \infty}(f(x_n’)-f(x_n’’))=0$</p>
+
+<h6 id="充分性">
+<a class="anchor" href="#%E5%85%85%E5%88%86%E6%80%A7" aria-hidden="true"><span class="octicon octicon-link"></span></a>充分性</h6>
+
+<p>反证法.$即证f(x)在X上非一致连续,$</p>
+
+<p>$则可找到\lbrace x_n’ \rbrace,\lbrace x_n’’ \rbrace,x_n’,x_n’‘\in X,但\lim_{n\rightarrow \infty}(f(x_n’)-f(x_n’’))\neq 0$</p>
+
+<p>$f(x)在X上非一致连续：\exists \varepsilon&gt;0,\forall \delta &gt;0,\exists x’,x’‘\in X(\vert x’-x’’ \vert &lt;\delta):\vert f(x’)-f(x’’)\vert \ge \varepsilon$</p>
+
+<p>$取\delta = \delta_n=\frac 1n,\exists x’,x’‘\in X(\vert x’-x’’ \vert &lt;\frac 1n):\vert f(x’)-f(x’’)\vert \ge \varepsilon$</p>
+
+<p>$成立\lim_{n\rightarrow \infty}(x_n’-x_n’’)=0,但\lim_{n\rightarrow \infty}(f(x_n’)-f(x_n’’))\neq 0$</p>
+
+<ul>
+  <li>$f(x)=\frac 1x,x\in(0,1),f(x)不是一致连续$
+    <ul>
+      <li>$x_n’=\frac 1n,x_n’’=\frac 1{2n}$</li>
+      <li>$\lim_{n\rightarrow \infty}(x_n’-x_n’’)=\lim_{n\rightarrow \infty}\frac 1{2n}=0$</li>
+      <li>$\lim_{n\rightarrow \infty}(f(x_n’)-f(x_n’’))=\lim_{n\rightarrow \infty}(-n)\neq 0$</li>
+    </ul>
+  </li>
+  <li>
+    <p>$f(x)=\frac 1x,x\in(\eta,1),f(x)是一致连续$</p>
+
+    <ul>
+      <li>
+        <p>$\forall \varepsilon &gt;0,\vert \frac 1{x’}-\frac 1{x’’} \vert = \frac {\vert x’-x’’ \vert}{\vert x’x’’ \vert}\le\frac {\vert x’-x’’ \vert}{\eta^2}$</p>
+      </li>
+      <li>
+        <p>$取\delta = \eta^2\varepsilon,\forall x’,x’‘\in(\eta,1),\vert x’-x’’ \vert &lt; \delta:$</p>
+
+        <script type="math/tex; mode=display">% <![CDATA[
+\vert \frac 1{x'}-\frac 1{x''} \vert = \frac {\vert x'-x'' \vert}{\vert x'x'' \vert}\le\frac {\vert x'-x'' \vert}{\eta^2}<\varepsilon %]]></script>
+      </li>
+    </ul>
+  </li>
+  <li>$f(x)=x^2在[0,+\infty)上非一致连续$
+    <ul>
+      <li>$取x_n’=\sqrt {n+1},x_n’’=\sqrt n,\sqrt {n+1}-\sqrt n \rightarrow 0$</li>
+      <li>$但f(x_n’)-f(x_n’’)=1$</li>
+      <li>$但f(x)=x^2在[0,A]上一致连续,(取\delta=\frac \varepsilon {2A}即可满足)$</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="cantor定理康托定理">
+<a class="anchor" href="#cantor%E5%AE%9A%E7%90%86%E5%BA%B7%E6%89%98%E5%AE%9A%E7%90%86" aria-hidden="true"><span class="octicon octicon-link"></span></a>Cantor定理(康托定理)</h3>
+
+<p>$若函数f(x)是在闭区间[a,b]内定义着而且连续，则它在这区间内也是一致连续的 $</p>
+
+<h4 id="证明-1">
+<a class="anchor" href="#%E8%AF%81%E6%98%8E-1" aria-hidden="true"><span class="octicon octicon-link"></span></a>证明</h4>
+
+<p>反证法</p>
+
+<p>$设f(x)在[a,b]连续，但非一致连续(\Rightarrow 矛盾)$</p>
+
+<p>$则\exists x_n’,x_n’‘\in[a,b],\vert x_n’-x_n’‘\vert &lt;\frac 1n,但f(x_n’)-f(x_n’’)\ge \varepsilon_0$</p>
+
+<p>$\lbrace x_n’ \rbrace 有界数列，必有收敛子列，设\lim_{k\rightarrow \infty}x_{n_k}’=\xi\in[a,b]$</p>
+
+<p>$由\vert x_{n_k}’-x_{n_k}’‘\vert &lt; \frac 1{n_k} \Rightarrow  \lim_{k\rightarrow \infty}x_{n_k}’’=\xi$</p>
+
+<p>$由f(x)在\xi连续:\lim_{k\rightarrow \infty}x_{n_k}’=\lim_{k\rightarrow \infty}x_{n_k}’‘=f(\xi)$</p>
+
+<p>$\Rightarrow f(x_{n_k}’)- f(x_{n_k}’’) \rightarrow 0(矛盾)$</p>
+
+<h4 id="开区间上的类康托定理">
+<a class="anchor" href="#%E5%BC%80%E5%8C%BA%E9%97%B4%E4%B8%8A%E7%9A%84%E7%B1%BB%E5%BA%B7%E6%89%98%E5%AE%9A%E7%90%86" aria-hidden="true"><span class="octicon octicon-link"></span></a>开区间上的类康托定理</h4>
+
+<p>$f(x)在有限开区区间(a,b)连续，则f(x)在(a,b)上一致连续的充分必要条件是x\rightarrow a^+和x\rightarrow b^-时，极限都存在$</p>
+
+<h5 id="证明-2">
+<a class="anchor" href="#%E8%AF%81%E6%98%8E-2" aria-hidden="true"><span class="octicon octicon-link"></span></a>证明</h5>
+
+<h6 id="充分性-1">
+<a class="anchor" href="#%E5%85%85%E5%88%86%E6%80%A7-1" aria-hidden="true"><span class="octicon octicon-link"></span></a>充分性</h6>
+
+<p>$设\lim_{x\rightarrow a^+}f(x)=A,\lim_{x\rightarrow b^-}f(x)=B，定义:$</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{equation} \varphi(x)=\left\lbrace \begin{aligned}  & A &x = a\\ & f(x) & x\in (a,b) \\ & B &x=b \end{aligned} \right. \end{equation} %]]></script>
+
+<p>$根据康托定理，\varphi(x)在[a,b]上连续$</p>
+
+<p>$所以\varphi(x)在(a,b)上连续，即f(x)在(a,b)上连续$</p>
+
+<h6 id="必要性-1">
+<a class="anchor" href="#%E5%BF%85%E8%A6%81%E6%80%A7-1" aria-hidden="true"><span class="octicon octicon-link"></span></a>必要性</h6>
+
+<p>$设f(x)在(a,b)上一致连续$</p>
+
+<p>$\forall \varepsilon&gt;0, \exists \delta&gt;0,\forall x’,x’‘\in (a,b)(\vert x’-x’‘\vert &lt;\delta):\vert f(x’)-f(x’’)\vert &lt; \varepsilon$</p>
+
+<p>$在(a,b)中任取\lbrace x_n \rbrace(x_n\rightarrow a)，则\lbrace x_n \rbrace$是基本数列</p>
+
+<p>$对上述\delta&gt;0,\exists N，\forall n,m&gt;N:\vert x_n-x_m \vert &lt;\delta$</p>
+
+<p>$\therefore \vert f(x_n)-f(x_m)\vert &lt; \varepsilon$</p>
+
+<p>$\therefore \lbrace f(x_n) \rbrace是基本数列，所以收敛$</p>
+
+<p>$由海涅定理,\lim_{x\rightarrow a^+}f(x)存在；同理\lim_{x\rightarrow b^-}f(x)也存在$</p>
+
+<ul>
+  <li>$\sin \frac 1x，在(0,1)一致连续，但非一致连续$</li>
+</ul>
+
+</article>
+      <section id="main_content">
+        <ul>
+            
+        </ul>
+      </section>
+    </div>
+  </div>
+   <footer>
+  <a href="/">
+    <span>
+        <b>LuoSongtao</b>
+    </span>
+    
+    <span>© 2020</span>
+  </a>
+</footer>
+
+  
+</body>
+
+</html>

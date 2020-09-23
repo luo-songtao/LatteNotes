@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+  <meta name="generator" content="Jekyll">
+
+  <title>机器学习(三)-Softmax Regression</title>
+  <link rel="stylesheet" href="/css/main.css">
+
+  <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="ATOM Feed" /> <!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>机器学习(三)-Softmax Regression | MicroNotes</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="机器学习(三)-Softmax Regression" />
+<meta name="author" content="LuoSongtao" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Softmax Regression" />
+<meta property="og:description" content="Softmax Regression" />
+<link rel="canonical" href="http://0.0.0.0:4000/algorithms/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0(3)-SoftmaxRegression" />
+<meta property="og:url" content="http://0.0.0.0:4000/algorithms/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0(3)-SoftmaxRegression" />
+<meta property="og:site_name" content="MicroNotes" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-03-30T19:00:03-05:00" />
+<script type="application/ld+json">
+{"author":{"@type":"Person","name":"LuoSongtao"},"mainEntityOfPage":{"@type":"WebPage","@id":"http://0.0.0.0:4000/algorithms/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0(3)-SoftmaxRegression"},"description":"Softmax Regression","@type":"BlogPosting","headline":"机器学习(三)-Softmax Regression","dateModified":"2020-03-30T19:00:03-05:00","url":"http://0.0.0.0:4000/algorithms/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0(3)-SoftmaxRegression","datePublished":"2020-03-30T19:00:03-05:00","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+        inlineMath: [['$','$']]
+      }
+    });
+  </script>
+
+</head>
+
+<body>
+  <div id="wrapper">
+    <header>
+  
+  
+  <div class="container">
+      
+
+      <div style="padding-left: 42px;">
+        <a id="username" href="/">
+        
+        <span style="font-size: x-large; color: #6a9fb5;"># </span>
+        <span style="font-size: x-large; color: #aa759f;">luosongtao</span>
+        <span style="font-size: x-large; color: #6a9fb5;">@</span>
+        <span style="font-size: x-large; color: #83a;">home:</span>
+        <span style="font-size: x-large; color: #cc0000;">~$</span>
+        </a>
+        
+<div id="search">
+	<input type="text" id="search-input" placeholder=" find / -name " style="vertical-align:middle;">
+	<ul id="results-container"></ul>
+</div>
+
+<!-- script pointing to jekyll-search.js -->
+<script src="/assets/js/simple-jekyll-search.min.js"></script>
+<script async src="/searchdata.js"></script>
+
+
+      </div>
+
+      <ul id="results-container"></ul>
+
+      <nav class="nav">
+    
+    
+        
+        <h3><a href="/">最新</a></h3>
+        
+    
+        
+        <h3><a href="/algorithms">Algorithms</a></h3>
+        
+    
+        
+        <h3><a href="/optimization">Optimization</a></h3>
+        
+    
+        
+        <h3><a href="/algebra">代数论</a></h3>
+        
+    
+        
+        <h3><a href="/docker">Docker</a></h3>
+        
+    
+        
+        <h3><a href="/bigdata">大数据</a></h3>
+        
+    
+        
+        <h3><a href="/mathematical-analysis">数学分析</a></h3>
+        
+    
+        
+        <h3><a href="/probability-theory">概率论</a></h3>
+        
+    
+        
+        <h3><a href="/others">其他</a></h3>
+        
+    
+</nav>
+      <div class="header-links">
+        
+        <a href="/archive"><h2 class="header-link">时间轴</h2></a>
+<a href="/about"><h2 class="header-link">关于</h2></a>
+<!--<a href="/atom.xml"><h2 class="header-link">RSS</h2></a>-->
+      </div>
+  <div>
+
+</header>
+    
+    <div class="container">
+      <article>
+  <h1>机器学习(三)-Softmax Regression</h1>
+  <time datetime="2020-03-30T19:00:03-05:00" class="by-line">30 Mar 2020</time>
+  <ul class="section-nav">
+<li class="toc-entry toc-h2"><a href="#softmax-regression">Softmax Regression</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#softmax-regression模型预估公式">Softmax Regression模型预估公式</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#参数矩阵">参数矩阵</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#似然函数">似然函数</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#单样本概率估计公式">单样本概率估计公式</a></li>
+<li class="toc-entry toc-h5"><a href="#训练样本集的似然函数">训练样本集的似然函数</a>
+<ul>
+<li class="toc-entry toc-h6"><a href="#训练样本集的对数似然函数">训练样本集的对数似然函数</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#极大似然估计-参数预估">极大似然估计-参数预估</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#总体损失函数">总体损失函数</a></li>
+<li class="toc-entry toc-h5"><a href="#单样本损失函数">单样本损失函数</a>
+<ul>
+<li class="toc-entry toc-h6"><a href="#梯度">梯度</a></li>
+<li class="toc-entry toc-h6"><a href="#梯度下降法迭代求解">梯度下降法迭代求解</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul><h2 id="softmax-regression">
+<a class="anchor" href="#softmax-regression" aria-hidden="true"><span class="octicon octicon-link"></span></a>Softmax Regression</h2>
+
+<h4 id="softmax-regression模型预估公式">
+<a class="anchor" href="#softmax-regression%E6%A8%A1%E5%9E%8B%E9%A2%84%E4%BC%B0%E5%85%AC%E5%BC%8F" aria-hidden="true"><span class="octicon octicon-link"></span></a>Softmax Regression模型预估公式</h4>
+
+<ul>
+  <li>
+    <p>Logistic Regression 只能用于二分类问题，将它进行推广可以得到处理多类分类问题的Softmax Regression</p>
+
+    <ul>
+      <li>给定m个训练样本$(\boldsymbol{x}_i, y_i)$，其中$\boldsymbol{x}_i$为n维特征向量，$y_i$为类别标签，取值是$1$~$k$的整数</li>
+    </ul>
+
+    <p>softmax回归按照下列公式估计一个样本属于每一类的概率：</p>
+
+    <script type="math/tex; mode=display">\boldsymbol{y}^* = \left [ \begin{matrix} P(Y=y_1\vert \boldsymbol{x}) \\ P(Y=y_2\vert \boldsymbol{x}) \\ ··· \\ P(Y=y_k\vert \boldsymbol{x}) \end{matrix} \right ]  = \frac {1}{\sum_{i=1}^k e^{\boldsymbol{\omega}_i^T \boldsymbol{x}}}  \left [ \begin{matrix} \boldsymbol{\omega}_1^T \boldsymbol{x} \\ \boldsymbol{\omega}_2^T \boldsymbol{x} \\ ··· \\ \boldsymbol{\omega}_k^T \boldsymbol{x} \end{matrix} \right ]</script>
+
+    <ul>
+      <li>模型的输出是一个$k$维的概率向量$\boldsymbol{y}^*$，其元素之和为1，每一个分量为样本属于该类的概率</li>
+      <li>使用指数函数进行变换的原因是指数函数值都大于0，概率值必须是非负的</li>
+    </ul>
+  </li>
+</ul>
+
+<h5 id="参数矩阵">
+<a class="anchor" href="#%E5%8F%82%E6%95%B0%E7%9F%A9%E9%98%B5" aria-hidden="true"><span class="octicon octicon-link"></span></a>参数矩阵</h5>
+
+<ul>
+  <li>
+    <p>可见需要估计的参数为：</p>
+
+    <script type="math/tex; mode=display">\boldsymbol{\omega} = [\boldsymbol{\omega}_1 \space\space \boldsymbol{\omega}_2 \space\space ···  \space\space \boldsymbol{\omega}_k]</script>
+
+    <ul>
+      <li>其中每个$\boldsymbol{\omega}_i$都是一个$n$维列向量(若将偏置项置入$\boldsymbol{\omega}_i$中，则是$n+1$维，此时$\boldsymbol{x}_i = [\boldsymbol{x}_i;1]$)</li>
+      <li>即$\boldsymbol{\omega}$是一个$n \times k$的矩阵。或$(n+1) \times k$</li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="似然函数">
+<a class="anchor" href="#%E4%BC%BC%E7%84%B6%E5%87%BD%E6%95%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>似然函数</h4>
+
+<ul>
+  <li>首先后面都假定对样本的真实标签向量使用$one-hot$编码，并记为向量 $\boldsymbol{y}$</li>
+</ul>
+
+<h5 id="单样本概率估计公式">
+<a class="anchor" href="#%E5%8D%95%E6%A0%B7%E6%9C%AC%E6%A6%82%E7%8E%87%E4%BC%B0%E8%AE%A1%E5%85%AC%E5%BC%8F" aria-hidden="true"><span class="octicon octicon-link"></span></a>单样本概率估计公式</h5>
+
+<ul>
+  <li>
+    <p>参照Logistic Regression的做法，每个样本属于每个类的概率计算公式：</p>
+
+    <script type="math/tex; mode=display">P(Y=y_i\vert \boldsymbol{x}) = \prod_{i=1}^k(\boldsymbol{y}^*[i])^{\boldsymbol{y}[i]} = \prod_{i=1}^k(\frac {e^{\boldsymbol{\omega}_i^T \boldsymbol{x}_j}}{\sum_{t=1}^k e^{\boldsymbol{\omega}_t^T \boldsymbol{x}}})^{\boldsymbol{y}[i]}</script>
+  </li>
+</ul>
+
+<h5 id="训练样本集的似然函数">
+<a class="anchor" href="#%E8%AE%AD%E7%BB%83%E6%A0%B7%E6%9C%AC%E9%9B%86%E7%9A%84%E4%BC%BC%E7%84%B6%E5%87%BD%E6%95%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>训练样本集的似然函数</h5>
+
+<ul>
+  <li>
+    <p>对于给定的一批样本(假设为$m$个)，由于样本之间独立，则与训练样本集的似然函数为：</p>
+
+    <script type="math/tex; mode=display">L(\boldsymbol{\omega}) = \prod_{j=1}^m \prod_{i=1}^k (\frac {e^{\boldsymbol{\omega}_i^T \boldsymbol{x}_j}}{\sum_{t=1}^k e^{\boldsymbol{\omega}_t^T \boldsymbol{x}_j}})^{\boldsymbol{y}[i]}</script>
+  </li>
+</ul>
+
+<h6 id="训练样本集的对数似然函数">
+<a class="anchor" href="#%E8%AE%AD%E7%BB%83%E6%A0%B7%E6%9C%AC%E9%9B%86%E7%9A%84%E5%AF%B9%E6%95%B0%E4%BC%BC%E7%84%B6%E5%87%BD%E6%95%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>训练样本集的对数似然函数</h6>
+
+<ul>
+  <li>
+    <p>则可得对数似然函数：</p>
+
+    <script type="math/tex; mode=display">LL(\boldsymbol{\omega}) = \sum_{j=1}^m \sum_{i=1}^k \boldsymbol{y}[i] \ln (\frac {e^{\boldsymbol{\omega}_i^T \boldsymbol{x}_j}}{\sum_{t=1}^k e^{\boldsymbol{\omega}_t^T \boldsymbol{x}_j}})</script>
+  </li>
+</ul>
+
+<h4 id="极大似然估计-参数预估">
+<a class="anchor" href="#%E6%9E%81%E5%A4%A7%E4%BC%BC%E7%84%B6%E4%BC%B0%E8%AE%A1-%E5%8F%82%E6%95%B0%E9%A2%84%E4%BC%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>极大似然估计-参数预估</h4>
+
+<ul>
+  <li>
+    <p>使用极大似然估计预估参数$\boldsymbol{\omega}^*$</p>
+
+    <script type="math/tex; mode=display">LL(\boldsymbol{\omega}^*) = \max_{\boldsymbol{\omega}} \space LL(\boldsymbol{\omega})</script>
+  </li>
+  <li>
+    <p>也就等价于:</p>
+
+    <script type="math/tex; mode=display">% <![CDATA[
+\begin{aligned}  &\min_{\boldsymbol{\omega}}\space -LL(\boldsymbol{\omega}) \\ 即 &\min_{\boldsymbol{\omega}}\space - \sum_{j=1}^m \sum_{i=1}^k \boldsymbol{y}[i] \ln (\frac {e^{\boldsymbol{\omega}_i^T \boldsymbol{x}_j}}{\sum_{t=1}^k e^{\boldsymbol{\omega}_t^T \boldsymbol{x}_j}}) \end{aligned} %]]></script>
+  </li>
+</ul>
+
+<h5 id="总体损失函数">
+<a class="anchor" href="#%E6%80%BB%E4%BD%93%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>总体损失函数</h5>
+
+<ul>
+  <li>
+    <p>令$E(\boldsymbol{\omega}_1, \boldsymbol{\omega}_2, ···, \boldsymbol{\omega}_k)$表示Softmax Regression对于训练集的总损失函数：</p>
+
+    <script type="math/tex; mode=display">E(\boldsymbol{\omega}_1, \boldsymbol{\omega}_2, ···, \boldsymbol{\omega}_k) = - \sum_{j=1}^m \sum_{i=1}^k \boldsymbol{y}[i] \ln (\frac {e^{\boldsymbol{\omega}_i^T \boldsymbol{x}_j}}{\sum_{t=1}^k e^{\boldsymbol{\omega}_t^T \boldsymbol{x}_j}})</script>
+
+    <p>该式也被称为交叉熵损失函数。可证该式是凸函数。</p>
+  </li>
+</ul>
+
+<h5 id="单样本损失函数">
+<a class="anchor" href="#%E5%8D%95%E6%A0%B7%E6%9C%AC%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>单样本损失函数</h5>
+
+<ul>
+  <li>
+    <p>对于单个样本 $(\boldsymbol{x}, y)$ 的损失函数$e(\boldsymbol{\omega}_1, \boldsymbol{\omega}_2, ···, \boldsymbol{\omega}_k)$：</p>
+
+    <script type="math/tex; mode=display">% <![CDATA[
+\begin{aligned} e(\boldsymbol{\omega}_1, \boldsymbol{\omega}_2, ···, \boldsymbol{\omega}_k) &= - \sum_{i=1}^k \boldsymbol{y}[i] \ln (\frac {e^{\boldsymbol{\omega}_i^T \boldsymbol{x}}}{\sum_{t=1}^k e^{\boldsymbol{\omega}_t^T \boldsymbol{x}}}) \\ &= - \sum_{i=1}^k \boldsymbol{y}[i](\boldsymbol{\omega}_i^T \boldsymbol{x} - \ln (\sum_{t=1}^k e^{\boldsymbol{\omega}_t^T \boldsymbol{x}})) \\ &= \ln (\sum_{t=1}^k e^{\boldsymbol{\omega}_t^T \boldsymbol{x}}) - \boldsymbol{\omega}_i^T \boldsymbol{x} \qquad (因为\boldsymbol{y}是one-hot编码)  \end{aligned} %]]></script>
+  </li>
+</ul>
+
+<h6 id="梯度">
+<a class="anchor" href="#%E6%A2%AF%E5%BA%A6" aria-hidden="true"><span class="octicon octicon-link"></span></a>梯度</h6>
+
+<ul>
+  <li>对$\boldsymbol{\omega}_p$计算一阶导数 $(p = 1,2,···,k)$：
+    <ul>
+      <li>
+        <p>当$i=p$时：</p>
+
+        <script type="math/tex; mode=display">\frac {\partial e(\boldsymbol{\omega})}{\partial \boldsymbol{\omega}_p} = \frac {\boldsymbol{\omega}_p^T \boldsymbol{x}}{\sum_{t=1}^k e^{\boldsymbol{\omega}_t^T \boldsymbol{x}}} \boldsymbol{x} - \boldsymbol{x}</script>
+
+        <p>可以发现，其实此时 $\boldsymbol{y}[p] = 1$</p>
+      </li>
+      <li>
+        <p>当$i\neq p$时：</p>
+
+        <script type="math/tex; mode=display">\frac {\partial e(\boldsymbol{\omega})}{\partial \boldsymbol{\omega}_p} = \frac {\boldsymbol{\omega}_p^T \boldsymbol{x}}{\sum_{t=1}^k e^{\boldsymbol{\omega}_t^T \boldsymbol{x}}} \boldsymbol{x}</script>
+
+        <p>此时 $\boldsymbol{y}[p] = 0$</p>
+      </li>
+      <li>
+        <p>统一写为：</p>
+
+        <script type="math/tex; mode=display">% <![CDATA[
+\begin{aligned} \frac {\partial e(\boldsymbol{\omega})}{\partial \boldsymbol{\omega}_p} &= \frac {\boldsymbol{\omega}_p^T \boldsymbol{x}}{\sum_{t=1}^k e^{\boldsymbol{\omega}_t^T \boldsymbol{x}}} \boldsymbol{x} - \boldsymbol{y}[p]\boldsymbol{x} \\ &= (\boldsymbol{y}^*[p] - \boldsymbol{y}[p])\boldsymbol{x} \end{aligned} %]]></script>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h6 id="梯度下降法迭代求解">
+<a class="anchor" href="#%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D%E6%B3%95%E8%BF%AD%E4%BB%A3%E6%B1%82%E8%A7%A3" aria-hidden="true"><span class="octicon octicon-link"></span></a>梯度下降法迭代求解</h6>
+
+<ul>
+  <li>
+    <p>由于Softmax Regression涉及的参过较多，不方便计算二阶导数，因此这里使用梯度下降法来迭代求解，而不使用牛顿法</p>
+
+    <script type="math/tex; mode=display">\boldsymbol{\omega}_{p+1} = \boldsymbol{\omega}_p - \alpha \frac {\partial e(\boldsymbol{\omega})}{\partial \boldsymbol{\omega}_p}</script>
+  </li>
+</ul>
+
+
+</article>
+      <section id="main_content">
+        <ul>
+            
+        </ul>
+      </section>
+    </div>
+  </div>
+   <footer>
+  <a href="/">
+    <span>
+        <b>LuoSongtao</b>
+    </span>
+    
+    <span>© 2020</span>
+  </a>
+</footer>
+
+  
+</body>
+
+</html>

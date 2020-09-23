@@ -1,18 +1,29 @@
 <header>
-  <div style="text-align: center;">
-    <div>
-      <a id="username" href="{{ "/" | prepend: site.baseurl | replace: '//', '/' }}">
-      {% assign owner_first_name = site.owner | split: " " %}
-      <span style="font-size: x-large; color: #00C2C4;">{{ owner_first_name[0] | downcase }}</span>
-      <span style="font-size: x-large; color: #7E7E7C;">@</span>
-      <span style="font-size: x-large; color: #76E87B;">home:</span>
-      <span style="font-size: x-large; color: #FF7F7A;">~$</span>
-      </a>
-      {% include search.html %}
-    </div>
-  </div>
-  <div class="header-links">
-      {% include links.html %}
-  </div>
+  
+  
+  <div class="container">
+      
+
+      <div style="padding-left: 42px;">
+        <a id="username" href="{{ "/" | prepend: site.baseurl | replace: '//', '/' }}">
+        {% assign owner_first_name = site.owner | split: " " %}
+        <span style="font-size: x-large; color: #6a9fb5;"># </span>
+        <span style="font-size: x-large; color: #aa759f;">{{ owner_first_name[0] | downcase }}</span>
+        <span style="font-size: x-large; color: #6a9fb5;">@</span>
+        <span style="font-size: x-large; color: #83a;">home:</span>
+        <span style="font-size: x-large; color: #cc0000;">~$</span>
+        </a>
+        {% include search.html %}
+
+      </div>
+
+      <ul id="results-container"></ul>
+
+      {% include category.html %}
+      <div class="header-links">
+        
+        {% include links.html %}
+      </div>
+  <div>
 
 </header>

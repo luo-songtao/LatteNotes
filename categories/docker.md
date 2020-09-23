@@ -9,5 +9,3 @@ pagination:
   category: 'docker'
   permalink: /page/:num/
 ---
-
-{% include category.html %}

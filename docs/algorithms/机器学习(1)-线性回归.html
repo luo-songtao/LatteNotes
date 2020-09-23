@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+  <meta name="generator" content="Jekyll">
+
+  <title>机器学习(一)-线性回归</title>
+  <link rel="stylesheet" href="/css/main.css">
+
+  <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="ATOM Feed" /> <!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>机器学习(一)-线性回归 | MicroNotes</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="机器学习(一)-线性回归" />
+<meta name="author" content="LuoSongtao" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="一元线性回归模型" />
+<meta property="og:description" content="一元线性回归模型" />
+<link rel="canonical" href="http://0.0.0.0:4000/algorithms/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0(1)-%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92" />
+<meta property="og:url" content="http://0.0.0.0:4000/algorithms/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0(1)-%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92" />
+<meta property="og:site_name" content="MicroNotes" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-03-30T19:00:01-05:00" />
+<script type="application/ld+json">
+{"author":{"@type":"Person","name":"LuoSongtao"},"mainEntityOfPage":{"@type":"WebPage","@id":"http://0.0.0.0:4000/algorithms/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0(1)-%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92"},"description":"一元线性回归模型","@type":"BlogPosting","headline":"机器学习(一)-线性回归","dateModified":"2020-03-30T19:00:01-05:00","url":"http://0.0.0.0:4000/algorithms/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0(1)-%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92","datePublished":"2020-03-30T19:00:01-05:00","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+        inlineMath: [['$','$']]
+      }
+    });
+  </script>
+
+</head>
+
+<body>
+  <div id="wrapper">
+    <header>
+  
+  
+  <div class="container">
+      
+
+      <div style="padding-left: 42px;">
+        <a id="username" href="/">
+        
+        <span style="font-size: x-large; color: #6a9fb5;"># </span>
+        <span style="font-size: x-large; color: #aa759f;">luosongtao</span>
+        <span style="font-size: x-large; color: #6a9fb5;">@</span>
+        <span style="font-size: x-large; color: #83a;">home:</span>
+        <span style="font-size: x-large; color: #cc0000;">~$</span>
+        </a>
+        
+<div id="search">
+	<input type="text" id="search-input" placeholder=" find / -name " style="vertical-align:middle;">
+	<ul id="results-container"></ul>
+</div>
+
+<!-- script pointing to jekyll-search.js -->
+<script src="/assets/js/simple-jekyll-search.min.js"></script>
+<script async src="/searchdata.js"></script>
+
+
+      </div>
+
+      <ul id="results-container"></ul>
+
+      <nav class="nav">
+    
+    
+        
+        <h3><a href="/">最新</a></h3>
+        
+    
+        
+        <h3><a href="/algorithms">Algorithms</a></h3>
+        
+    
+        
+        <h3><a href="/optimization">Optimization</a></h3>
+        
+    
+        
+        <h3><a href="/algebra">代数论</a></h3>
+        
+    
+        
+        <h3><a href="/docker">Docker</a></h3>
+        
+    
+        
+        <h3><a href="/bigdata">大数据</a></h3>
+        
+    
+        
+        <h3><a href="/mathematical-analysis">数学分析</a></h3>
+        
+    
+        
+        <h3><a href="/probability-theory">概率论</a></h3>
+        
+    
+        
+        <h3><a href="/others">其他</a></h3>
+        
+    
+</nav>
+      <div class="header-links">
+        
+        <a href="/archive"><h2 class="header-link">时间轴</h2></a>
+<a href="/about"><h2 class="header-link">关于</h2></a>
+<!--<a href="/atom.xml"><h2 class="header-link">RSS</h2></a>-->
+      </div>
+  <div>
+
+</header>
+    
+    <div class="container">
+      <article>
+  <h1>机器学习(一)-线性回归</h1>
+  <time datetime="2020-03-30T19:00:01-05:00" class="by-line">30 Mar 2020</time>
+  <ul class="section-nav">
+<li class="toc-entry toc-h2"><a href="#一元线性回归模型">一元线性回归模型</a></li>
+<li class="toc-entry toc-h2"><a href="#多元线性回归">多元线性回归</a></li>
+<li class="toc-entry toc-h2"><a href="#正则化">正则化</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#l2-正则化-ridge-regreesion">L2-正则化： Ridge Regreesion</a></li>
+<li class="toc-entry toc-h4"><a href="#l1-正则化-lasso">L1-正则化： LASSO</a>
+<ul>
+<li class="toc-entry toc-h6"><a href="#l0-正则化">L0-正则化</a></li>
+<li class="toc-entry toc-h6"><a href="#l1与l2对比">L1与L2对比</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul><h2 id="一元线性回归模型">
+<a class="anchor" href="#%E4%B8%80%E5%85%83%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92%E6%A8%A1%E5%9E%8B" aria-hidden="true"><span class="octicon octicon-link"></span></a>一元线性回归模型</h2>
+
+<ul>
+  <li>
+    <p>预测函数</p>
+
+    <script type="math/tex; mode=display">f(x) = \omega x + b</script>
+  </li>
+  <li>损失函数(使用均方误差表示):
+    <ul>
+      <li>
+        <p>单个样本的误差($y$表示真实值)：</p>
+
+        <script type="math/tex; mode=display">e(\omega, b) = (f(x) - y)^2 = (\omega x + b - y)^2</script>
+      </li>
+      <li>
+        <p>全体样本的误差($m$表示样本数)：</p>
+
+        <script type="math/tex; mode=display">E(\omega, b) = \sum_{i=1}^m(f(x_i) - y_i)^2 = \sum_{i=1}^m(\omega x_i + b - y_i)^2</script>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>线性回归的目标就是最小化损失函数，而均方误差最小化，通常可以使用最小二乘法来求解参数</p>
+
+    <script type="math/tex; mode=display">\min_{\omega, b} \space \sum_{i=1}^m(\omega x_i + b - y_i)^2</script>
+  </li>
+  <li>
+    <p>分别对系数和偏置项求偏导：</p>
+
+    <script type="math/tex; mode=display">% <![CDATA[
+\begin{aligned} \frac {\partial E(\omega, b)}{\partial \omega} &= 2x_i\sum_{i=1}^m(\omega x_i + b - y_i) \\ \frac {\partial E(\omega, b)}{\partial b} &= 2\sum_{i=1}^m(\omega x_i + b - y_i) \end{aligned} %]]></script>
+  </li>
+  <li>
+    <p>令上面的偏导为0，可以得到闭式解(损失函数是一个凸函数，令偏导为0时，可以得到最优解):</p>
+
+    <script type="math/tex; mode=display">% <![CDATA[
+\begin{aligned} \omega &= \frac {\sum_{i=1}^m y_i(x_i - \sum_{i=1}^m x_i)}{\sum_{i=1}^m x_i^2 - \frac 1m (\sum_{i=1}^m x_i)^2} \\ b &= \frac 1m \sum_{i=1}^m(y_i - \omega x_i)\end{aligned} %]]></script>
+  </li>
+</ul>
+
+<h2 id="多元线性回归">
+<a class="anchor" href="#%E5%A4%9A%E5%85%83%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92" aria-hidden="true"><span class="octicon octicon-link"></span></a>多元线性回归</h2>
+
+<ul>
+  <li>预测函数
+    <ul>
+      <li>
+        <p>一般形式</p>
+
+        <script type="math/tex; mode=display">f(\boldsymbol{x}) = \omega_1 x_1 + \omega_2 x_2 + ··· + \omega_n x_n + b</script>
+      </li>
+      <li>
+        <p>向量形式(设$\boldsymbol{\omega}和\boldsymbol{x}均是n维向量$)</p>
+
+        <script type="math/tex; mode=display">f(\boldsymbol{x}) = \boldsymbol{\omega}^T\boldsymbol{x} + b</script>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>损失函数</p>
+
+    <p>为了便于分析讨论，计$\boldsymbol{\hat{\omega}} = (\boldsymbol{\omega}; b)$，等价于将$b$看作一个单独的系数项。
+  同时令$X$表示$m \times (n+1)$的数据集矩阵,前n列分别是对应n维的样本特征向量，最后一列置为1，对应偏置项,；
+  令$\boldsymbol{y}$表示每个样本的真实值构成的$m$维向量</p>
+
+    <ul>
+      <li>
+        <p>单个样本：</p>
+
+        <script type="math/tex; mode=display">e(\boldsymbol{\hat{\omega}}) = (\boldsymbol{\hat{\omega}}^T\boldsymbol{x} - y)^2</script>
+      </li>
+      <li>
+        <p>全体样本的误差:</p>
+        <ul>
+          <li>
+            <p>一般形式</p>
+
+            <script type="math/tex; mode=display">E(\boldsymbol{\omega}, b) = \sum_{i=1}^m(y_i - \boldsymbol{\omega}^T\boldsymbol{x}_i)^2</script>
+          </li>
+          <li>
+            <p>向量形式</p>
+
+            <script type="math/tex; mode=display">E(\boldsymbol{\hat{\omega}}) = (\boldsymbol{X}\boldsymbol{\hat{\omega}} - \boldsymbol{y})^T(\boldsymbol{X}\boldsymbol{\hat{\omega}} - \boldsymbol{y})</script>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>我们的目标同样是最小化损失函数</p>
+
+    <script type="math/tex; mode=display">\min_{\boldsymbol{\hat{\omega}}} \space (\boldsymbol{X}\boldsymbol{\hat{\omega}} - \boldsymbol{y})^T(\boldsymbol{X}\boldsymbol{\hat{\omega}} - \boldsymbol{y})</script>
+  </li>
+  <li>
+    <p>分别对系数和偏置求偏导：</p>
+
+    <script type="math/tex; mode=display">\frac {\partial E(\boldsymbol{\hat{\omega}})}{\partial \boldsymbol{\hat{\omega}}} = 2\boldsymbol{X}^T (\boldsymbol{X}\boldsymbol{\hat{\omega}} - \boldsymbol{y})</script>
+  </li>
+  <li>
+    <p>令上面的偏导为0，同样可以得到闭式解</p>
+
+    <script type="math/tex; mode=display">\boldsymbol{\hat{\omega}} = (\boldsymbol{X}^T\boldsymbol{X})^{-1}\boldsymbol{X}^T\boldsymbol{y}</script>
+  </li>
+</ul>
+
+<h2 id="正则化">
+<a class="anchor" href="#%E6%AD%A3%E5%88%99%E5%8C%96" aria-hidden="true"><span class="octicon octicon-link"></span></a>正则化</h2>
+
+<p>当数据集的样本特征很多，而样本数相对较少时，前面的损失函数最小化过程容易陷入过拟合，因此可以考虑对其添加惩罚项，以缓解过拟合的问题</p>
+
+<h4 id="l2-正则化-ridge-regreesion">
+<a class="anchor" href="#l2-%E6%AD%A3%E5%88%99%E5%8C%96-ridge-regreesion" aria-hidden="true"><span class="octicon octicon-link"></span></a>L2-正则化： Ridge Regreesion</h4>
+
+<ul>
+  <li>
+    <p>L2-正则化即使用L2范数正则化</p>
+
+    <script type="math/tex; mode=display">\min_{\boldsymbol{\hat{\omega}}} \space \sum_{i=1}^m(y_i - \boldsymbol{\omega}^T\boldsymbol{x}_i)^2 + \lambda \Vert \boldsymbol{\hat{\omega}} \Vert_2^2</script>
+  </li>
+</ul>
+
+<p>$\lambda&gt;0$称为正则化参数，使用L2正则化的线性回归被称为岭回归(Ridge Regreesion)</p>
+
+<h4 id="l1-正则化-lasso">
+<a class="anchor" href="#l1-%E6%AD%A3%E5%88%99%E5%8C%96-lasso" aria-hidden="true"><span class="octicon octicon-link"></span></a>L1-正则化： LASSO</h4>
+
+<ul>
+  <li>
+    <p>L1-正则化使用L1范数正则化</p>
+
+    <script type="math/tex; mode=display">\min_{\boldsymbol{\hat{\omega}}} \space \sum_{i=1}^m(y_i - \boldsymbol{\omega}^T\boldsymbol{x}_i)^2 + \lambda \Vert \boldsymbol{\hat{\omega}} \Vert_1</script>
+  </li>
+</ul>
+
+<p>使用L1正则化的线性回归被称为LASSO(Least Absolue Shrinkage and Selection Operator)</p>
+
+<h6 id="l0-正则化">
+<a class="anchor" href="#l0-%E6%AD%A3%E5%88%99%E5%8C%96" aria-hidden="true"><span class="octicon octicon-link"></span></a>L0-正则化</h6>
+
+<p>如果需要对$\boldsymbol{\hat{\omega}}$施加稀疏约束条件，最自然的是使用L0范数，但L0范数不连续，难以优化求解，因此常用L1范数来近似</p>
+
+<h6 id="l1与l2对比">
+<a class="anchor" href="#l1%E4%B8%8El2%E5%AF%B9%E6%AF%94" aria-hidden="true"><span class="octicon octicon-link"></span></a>L1与L2对比</h6>
+
+<p>L1与L2都有助于降低过拟合风险，但前者还会带来一个额外的好处，也就是它比后者更易于获得“稀疏”解，即它求得的$\boldsymbol{\hat{\omega}}$会有更少的非零分量</p>
+
+</article>
+      <section id="main_content">
+        <ul>
+            
+        </ul>
+      </section>
+    </div>
+  </div>
+   <footer>
+  <a href="/">
+    <span>
+        <b>LuoSongtao</b>
+    </span>
+    
+    <span>© 2020</span>
+  </a>
+</footer>
+
+  
+</body>
+
+</html>

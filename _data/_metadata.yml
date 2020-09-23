@@ -1,12 +1,28 @@
 categories:
   -
+    name: 最新
+    verbose_name: /
+  -
+    name: Algorithms
+    verbose_name: algorithms
+  - 
+    name: Optimization
+    verbose_name: optimization
+  -
+    name: 代数论
+    verbose_name: algebra
+  -
     name: Docker
     verbose_name: docker
   -
     name: 大数据
     verbose_name: bigdata
-  - name: 数学分析
+  - 
+    name: 数学分析
     verbose_name: mathematical-analysis
+  - 
+    name: 概率论
+    verbose_name: probability-theory
   -
     name: 其他
     verbose_name: others

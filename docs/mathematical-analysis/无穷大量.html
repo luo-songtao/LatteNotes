@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+  <meta name="generator" content="Jekyll">
+
+  <title>数学分析-无穷大量</title>
+  <link rel="stylesheet" href="/css/main.css">
+
+  <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="ATOM Feed" /> <!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>数学分析-无穷大量 | MicroNotes</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="数学分析-无穷大量" />
+<meta name="author" content="LuoSongtao" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="无穷大量" />
+<meta property="og:description" content="无穷大量" />
+<link rel="canonical" href="http://0.0.0.0:4000/mathematical-analysis/%E6%97%A0%E7%A9%B7%E5%A4%A7%E9%87%8F" />
+<meta property="og:url" content="http://0.0.0.0:4000/mathematical-analysis/%E6%97%A0%E7%A9%B7%E5%A4%A7%E9%87%8F" />
+<meta property="og:site_name" content="MicroNotes" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2019-11-19T01:00:00-06:00" />
+<script type="application/ld+json">
+{"author":{"@type":"Person","name":"LuoSongtao"},"mainEntityOfPage":{"@type":"WebPage","@id":"http://0.0.0.0:4000/mathematical-analysis/%E6%97%A0%E7%A9%B7%E5%A4%A7%E9%87%8F"},"description":"无穷大量","@type":"BlogPosting","headline":"数学分析-无穷大量","dateModified":"2019-11-19T01:00:00-06:00","url":"http://0.0.0.0:4000/mathematical-analysis/%E6%97%A0%E7%A9%B7%E5%A4%A7%E9%87%8F","datePublished":"2019-11-19T01:00:00-06:00","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+        inlineMath: [['$','$']]
+      }
+    });
+  </script>
+
+</head>
+
+<body>
+  <div id="wrapper">
+    <header>
+  
+  
+  <div class="container">
+      
+
+      <div style="padding-left: 42px;">
+        <a id="username" href="/">
+        
+        <span style="font-size: x-large; color: #6a9fb5;"># </span>
+        <span style="font-size: x-large; color: #aa759f;">luosongtao</span>
+        <span style="font-size: x-large; color: #6a9fb5;">@</span>
+        <span style="font-size: x-large; color: #83a;">home:</span>
+        <span style="font-size: x-large; color: #cc0000;">~$</span>
+        </a>
+        
+<div id="search">
+	<input type="text" id="search-input" placeholder=" find / -name " style="vertical-align:middle;">
+	<ul id="results-container"></ul>
+</div>
+
+<!-- script pointing to jekyll-search.js -->
+<script src="/assets/js/simple-jekyll-search.min.js"></script>
+<script async src="/searchdata.js"></script>
+
+
+      </div>
+
+      <ul id="results-container"></ul>
+
+      <nav class="nav">
+    
+    
+        
+        <h3><a href="/">最新</a></h3>
+        
+    
+        
+        <h3><a href="/algorithms">Algorithms</a></h3>
+        
+    
+        
+        <h3><a href="/optimization">Optimization</a></h3>
+        
+    
+        
+        <h3><a href="/algebra">代数论</a></h3>
+        
+    
+        
+        <h3><a href="/docker">Docker</a></h3>
+        
+    
+        
+        <h3><a href="/bigdata">大数据</a></h3>
+        
+    
+        
+        <h3><a href="/mathematical-analysis">数学分析</a></h3>
+        
+    
+        
+        <h3><a href="/probability-theory">概率论</a></h3>
+        
+    
+        
+        <h3><a href="/others">其他</a></h3>
+        
+    
+</nav>
+      <div class="header-links">
+        
+        <a href="/archive"><h2 class="header-link">时间轴</h2></a>
+<a href="/about"><h2 class="header-link">关于</h2></a>
+<!--<a href="/atom.xml"><h2 class="header-link">RSS</h2></a>-->
+      </div>
+  <div>
+
+</header>
+    
+    <div class="container">
+      <article>
+  <h1>数学分析-无穷大量</h1>
+  <time datetime="2019-11-19T01:00:00-06:00" class="by-line">19 Nov 2019</time>
+  <ul class="section-nav">
+<li class="toc-entry toc-h3"><a href="#无穷大量">无穷大量</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#定理1">定理1</a></li>
+<li class="toc-entry toc-h5"><a href="#x_nneq-0则lbrace-x_n-rbrace是无穷大量的充要条件是lbrace-frac-1x_n-rbrace是无穷小量">$x_n\neq 0,则\lbrace x_n \rbrace是无穷大量的充要条件是\lbrace \frac {1}{x_n} \rbrace是无穷小量$</a>
+<ul>
+<li class="toc-entry toc-h6"><a href="#证明">证明</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h5"><a href="#定理2">定理2</a></li>
+<li class="toc-entry toc-h5"><a href="#推论">推论</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#无穷大量的运算">无穷大量的运算</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#待定型">待定型</a></li>
+<li class="toc-entry toc-h4"><a href="#stolz定理">Stolz定理</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#定义">定义</a></li>
+<li class="toc-entry toc-h5"><a href="#证明-1">证明</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul><h3 id="无穷大量">
+<a class="anchor" href="#%E6%97%A0%E7%A9%B7%E5%A4%A7%E9%87%8F" aria-hidden="true"><span class="octicon octicon-link"></span></a>无穷大量</h3>
+
+<p>$若对于任意给定的G&gt;0，可以找到正整数N，使当n&gt;N时，成立\vert x_n \vert &gt;G，则称\lbrace x_n \rbrace是无穷大量，记为：$</p>
+
+<script type="math/tex; mode=display">\lim_{n\rightarrow \infty}x_n = \infty</script>
+
+<p>符号表示：$\forall G&gt;0,\exists N, \forall n&gt;N: \vert x_n \vert &gt; G$</p>
+
+<p>正无穷大量：$x_n &gt; G$</p>
+
+<p>负无穷大量：$x_n &lt; -G$</p>
+
+<p>不定号无穷大量：$\vert x_n \vert &gt; G$</p>
+
+<p><img src="/assets/images/mathemathical-analysis/%E6%97%A0%E7%A9%B7%E5%A4%A7%E9%87%8F%E4%BE%8B%E9%A2%98.png" alt="无穷大量例题"></p>
+
+<h5 id="定理1">
+<a class="anchor" href="#%E5%AE%9A%E7%90%861" aria-hidden="true"><span class="octicon octicon-link"></span></a>定理1</h5>
+
+<h5 id="x_nneq-0则lbrace-x_n-rbrace是无穷大量的充要条件是lbrace-frac-1x_n-rbrace是无穷小量">
+<a class="anchor" href="#x_nneq-0%E5%88%99lbrace-x_n-rbrace%E6%98%AF%E6%97%A0%E7%A9%B7%E5%A4%A7%E9%87%8F%E7%9A%84%E5%85%85%E8%A6%81%E6%9D%A1%E4%BB%B6%E6%98%AFlbrace-frac-1x_n-rbrace%E6%98%AF%E6%97%A0%E7%A9%B7%E5%B0%8F%E9%87%8F" aria-hidden="true"><span class="octicon octicon-link"></span></a>$x_n\neq 0,则\lbrace x_n \rbrace是无穷大量的充要条件是\lbrace \frac {1}{x_n} \rbrace是无穷小量$</h5>
+
+<h6 id="证明">
+<a class="anchor" href="#%E8%AF%81%E6%98%8E" aria-hidden="true"><span class="octicon octicon-link"></span></a>证明</h6>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{equation} \begin{aligned} &设\lbrace x_n \rbrace是无穷大量，\forall \varepsilon >0 \\& 令G=\frac {1}{\varepsilon}>0,\exists N,\forall n>N: \vert x_n \vert>G=\frac {1} {\varepsilon}, \Rightarrow \vert \frac 1{x_n} \vert < \varepsilon \end{aligned} \end{equation} %]]></script>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{equation} \begin{aligned} &设\lbrace x_n \rbrace是无穷小量，\forall G >0 \\& 令\varepsilon=\frac {1}{G}>0,\exists N,\forall n>N: \vert \frac 1{x_n} \vert < \varepsilon , \Rightarrow  \vert x_n \vert>G=\frac {1}{\varepsilon} \end{aligned} \end{equation} %]]></script>
+
+<h5 id="定理2">
+<a class="anchor" href="#%E5%AE%9A%E7%90%862" aria-hidden="true"><span class="octicon octicon-link"></span></a>定理2</h5>
+
+<script type="math/tex; mode=display">设\lbrace x_n \rbrace是无穷大量,\lbrace y_n \rbrace满足:\exists N, \forall n>N, 有\vert y_n \vert \ge \delta >0, 则\lbrace x_ny_n \rbrace是无穷大量</script>
+
+<h5 id="推论">
+<a class="anchor" href="#%E6%8E%A8%E8%AE%BA" aria-hidden="true"><span class="octicon octicon-link"></span></a>推论</h5>
+
+<script type="math/tex; mode=display">\lbrace x_n \rbrace是无穷大量,\lim{n\rightarrow \infty}y_n=b\neq 0,则\lbrace x_ny_n \rbrace与\lbrace \frac {x_n}{y_n} \rbrace都是无穷大量</script>
+
+<p><img src="/assets/images/mathemathical-analysis/%E6%97%A0%E7%A9%B7%E5%A4%A7%E9%87%8F%E4%BE%8B%E9%A2%982.png" alt="无穷大量例题2"></p>
+
+<h3 id="无穷大量的运算">
+<a class="anchor" href="#%E6%97%A0%E7%A9%B7%E5%A4%A7%E9%87%8F%E7%9A%84%E8%BF%90%E7%AE%97" aria-hidden="true"><span class="octicon octicon-link"></span></a>无穷大量的运算</h3>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{equation} \begin{aligned} & (+\infty)+(-\infty)=+\infty \\&(+\infty)-(-\infty)=+\infty \\& \infty \pm 有界量 = \infty \\& (+\infty)\times (+\infty) = +\infty  \\& (+\infty)\times (-\infty) = -\infty\\& ······ \end{aligned} \end{equation} %]]></script>
+
+<h5 id="待定型">
+<a class="anchor" href="#%E5%BE%85%E5%AE%9A%E5%9E%8B" aria-hidden="true"><span class="octicon octicon-link"></span></a>待定型</h5>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{equation} \begin{aligned} & (+\infty)-(+\infty)=? \\&(+\infty)+(-\infty)=? \\& \infty + \infty = ? \\& 0\times \infty = ?  \\& \frac 00 = ? \\& \frac {\infty}{\infty} = ? \\& ······ \end{aligned} \end{equation} %]]></script>
+
+<h4 id="stolz定理">
+<a class="anchor" href="#stolz%E5%AE%9A%E7%90%86" aria-hidden="true"><span class="octicon octicon-link"></span></a>Stolz定理</h4>
+
+<h5 id="定义">
+<a class="anchor" href="#%E5%AE%9A%E4%B9%89" aria-hidden="true"><span class="octicon octicon-link"></span></a>定义</h5>
+
+<p>$设\lbrace y_n \rbrace$是严格单调增加数列，且$\lim{n\rightarrow \infty}y_n=+\infty$</p>
+
+<p>若$\lim_{n\rightarrow \infty}\frac {x_n-x_{n-1}}{y_n-y_{n-1}}=a(a为有限数、或\pm \infty)$，则有$\lim_{n\rightarrow \infty}\frac {x_n}{y_n}=a$</p>
+
+<h5 id="证明-1">
+<a class="anchor" href="#%E8%AF%81%E6%98%8E-1" aria-hidden="true"><span class="octicon octicon-link"></span></a>证明</h5>
+
+<p><img src="/assets/images/mathemathical-analysis/%E8%AF%81-Stolz%E5%AE%9A%E7%90%86.png" alt="证-Stolz定理"></p>
+
+
+</article>
+      <section id="main_content">
+        <ul>
+            
+        </ul>
+      </section>
+    </div>
+  </div>
+   <footer>
+  <a href="/">
+    <span>
+        <b>LuoSongtao</b>
+    </span>
+    
+    <span>© 2020</span>
+  </a>
+</footer>
+
+  
+</body>
+
+</html>

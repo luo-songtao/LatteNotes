@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+  <meta name="generator" content="Jekyll">
+
+  <title>最优化问题(五)-梯度方法的收敛结果</title>
+  <link rel="stylesheet" href="/css/main.css">
+
+  <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="ATOM Feed" /> <!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>最优化问题(五)-梯度方法的收敛结果 | MicroNotes</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="最优化问题(五)-梯度方法的收敛结果" />
+<meta name="author" content="LuoSongtao" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="梯度方法的极限点" />
+<meta property="og:description" content="梯度方法的极限点" />
+<link rel="canonical" href="http://0.0.0.0:4000/optimization/%E6%9C%80%E4%BC%98%E5%8C%96%E9%97%AE%E9%A2%98(5)-%E6%A2%AF%E5%BA%A6%E6%96%B9%E6%B3%95%E7%9A%84%E6%94%B6%E6%95%9B%E7%BB%93%E6%9E%9C" />
+<meta property="og:url" content="http://0.0.0.0:4000/optimization/%E6%9C%80%E4%BC%98%E5%8C%96%E9%97%AE%E9%A2%98(5)-%E6%A2%AF%E5%BA%A6%E6%96%B9%E6%B3%95%E7%9A%84%E6%94%B6%E6%95%9B%E7%BB%93%E6%9E%9C" />
+<meta property="og:site_name" content="MicroNotes" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-03-27T01:00:05-05:00" />
+<script type="application/ld+json">
+{"author":{"@type":"Person","name":"LuoSongtao"},"mainEntityOfPage":{"@type":"WebPage","@id":"http://0.0.0.0:4000/optimization/%E6%9C%80%E4%BC%98%E5%8C%96%E9%97%AE%E9%A2%98(5)-%E6%A2%AF%E5%BA%A6%E6%96%B9%E6%B3%95%E7%9A%84%E6%94%B6%E6%95%9B%E7%BB%93%E6%9E%9C"},"description":"梯度方法的极限点","@type":"BlogPosting","headline":"最优化问题(五)-梯度方法的收敛结果","dateModified":"2020-03-27T01:00:05-05:00","url":"http://0.0.0.0:4000/optimization/%E6%9C%80%E4%BC%98%E5%8C%96%E9%97%AE%E9%A2%98(5)-%E6%A2%AF%E5%BA%A6%E6%96%B9%E6%B3%95%E7%9A%84%E6%94%B6%E6%95%9B%E7%BB%93%E6%9E%9C","datePublished":"2020-03-27T01:00:05-05:00","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+        inlineMath: [['$','$']]
+      }
+    });
+  </script>
+
+</head>
+
+<body>
+  <div id="wrapper">
+    <header>
+  
+  
+  <div class="container">
+      
+
+      <div style="padding-left: 42px;">
+        <a id="username" href="/">
+        
+        <span style="font-size: x-large; color: #6a9fb5;"># </span>
+        <span style="font-size: x-large; color: #aa759f;">luosongtao</span>
+        <span style="font-size: x-large; color: #6a9fb5;">@</span>
+        <span style="font-size: x-large; color: #83a;">home:</span>
+        <span style="font-size: x-large; color: #cc0000;">~$</span>
+        </a>
+        
+<div id="search">
+	<input type="text" id="search-input" placeholder=" find / -name " style="vertical-align:middle;">
+	<ul id="results-container"></ul>
+</div>
+
+<!-- script pointing to jekyll-search.js -->
+<script src="/assets/js/simple-jekyll-search.min.js"></script>
+<script async src="/searchdata.js"></script>
+
+
+      </div>
+
+      <ul id="results-container"></ul>
+
+      <nav class="nav">
+    
+    
+        
+        <h3><a href="/">最新</a></h3>
+        
+    
+        
+        <h3><a href="/algorithms">Algorithms</a></h3>
+        
+    
+        
+        <h3><a href="/optimization">Optimization</a></h3>
+        
+    
+        
+        <h3><a href="/algebra">代数论</a></h3>
+        
+    
+        
+        <h3><a href="/docker">Docker</a></h3>
+        
+    
+        
+        <h3><a href="/bigdata">大数据</a></h3>
+        
+    
+        
+        <h3><a href="/mathematical-analysis">数学分析</a></h3>
+        
+    
+        
+        <h3><a href="/probability-theory">概率论</a></h3>
+        
+    
+        
+        <h3><a href="/others">其他</a></h3>
+        
+    
+</nav>
+      <div class="header-links">
+        
+        <a href="/archive"><h2 class="header-link">时间轴</h2></a>
+<a href="/about"><h2 class="header-link">关于</h2></a>
+<!--<a href="/atom.xml"><h2 class="header-link">RSS</h2></a>-->
+      </div>
+  <div>
+
+</header>
+    
+    <div class="container">
+      <article>
+  <h1>最优化问题(五)-梯度方法的收敛结果</h1>
+  <time datetime="2020-03-27T01:00:05-05:00" class="by-line">27 Mar 2020</time>
+  <ul class="section-nav">
+<li class="toc-entry toc-h2"><a href="#梯度方法的极限点">梯度方法的极限点</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#梯度方法的非驻点收敛">梯度方法的非驻点收敛</a></li>
+<li class="toc-entry toc-h4"><a href="#有界特征值条件">有界特征值条件</a></li>
+<li class="toc-entry toc-h4"><a href="#梯度相关条件">梯度相关条件</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#梯度方法的收敛结果">梯度方法的收敛结果</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#梯度方法的收敛结果-1">梯度方法的收敛结果</a></li>
+<li class="toc-entry toc-h4"><a href="#吸引定理">吸引定理</a></li>
+</ul>
+</li>
+</ul><h2 id="梯度方法的极限点">
+<a class="anchor" href="#%E6%A2%AF%E5%BA%A6%E6%96%B9%E6%B3%95%E7%9A%84%E6%9E%81%E9%99%90%E7%82%B9" aria-hidden="true"><span class="octicon octicon-link"></span></a>梯度方法的极限点</h2>
+
+<h4 id="梯度方法的非驻点收敛">
+<a class="anchor" href="#%E6%A2%AF%E5%BA%A6%E6%96%B9%E6%B3%95%E7%9A%84%E9%9D%9E%E9%A9%BB%E7%82%B9%E6%94%B6%E6%95%9B" aria-hidden="true"><span class="octicon octicon-link"></span></a>梯度方法的非驻点收敛</h4>
+<ul>
+  <li>
+    <p><strong>梯度方法的非驻点收敛</strong></p>
+
+    <p><img src="/assets/images/optimization/%E6%A2%AF%E5%BA%A6%E6%96%B9%E6%B3%95%E7%9A%84%E9%9D%9E%E9%A9%BB%E7%82%B9%E6%94%B6%E6%95%9B.png" alt="梯度方法的非驻点收敛"></p>
+  </li>
+</ul>
+
+<h4 id="有界特征值条件">
+<a class="anchor" href="#%E6%9C%89%E7%95%8C%E7%89%B9%E5%BE%81%E5%80%BC%E6%9D%A1%E4%BB%B6" aria-hidden="true"><span class="octicon octicon-link"></span></a>有界特征值条件</h4>
+<ul>
+  <li>
+    <p><strong>有界特征值条件</strong></p>
+
+    <p><img src="/assets/images/optimization/%E6%9C%89%E7%95%8C%E7%89%B9%E5%BE%81%E5%80%BC%E6%9D%A1%E4%BB%B6.png" alt="有界特征值条件"></p>
+  </li>
+</ul>
+
+<h4 id="梯度相关条件">
+<a class="anchor" href="#%E6%A2%AF%E5%BA%A6%E7%9B%B8%E5%85%B3%E6%9D%A1%E4%BB%B6" aria-hidden="true"><span class="octicon octicon-link"></span></a>梯度相关条件</h4>
+<ul>
+  <li>
+    <p><strong>梯度相关条件</strong></p>
+
+    <p><img src="/assets/images/optimization/%E6%A2%AF%E5%BA%A6%E7%9B%B8%E5%85%B3%E6%9D%A1%E4%BB%B6.png" alt="梯度相关条件"></p>
+  </li>
+</ul>
+
+<h2 id="梯度方法的收敛结果">
+<a class="anchor" href="#%E6%A2%AF%E5%BA%A6%E6%96%B9%E6%B3%95%E7%9A%84%E6%94%B6%E6%95%9B%E7%BB%93%E6%9E%9C" aria-hidden="true"><span class="octicon octicon-link"></span></a>梯度方法的收敛结果</h2>
+
+<h4 id="梯度方法的收敛结果-1">
+<a class="anchor" href="#%E6%A2%AF%E5%BA%A6%E6%96%B9%E6%B3%95%E7%9A%84%E6%94%B6%E6%95%9B%E7%BB%93%E6%9E%9C-1" aria-hidden="true"><span class="octicon octicon-link"></span></a>梯度方法的收敛结果</h4>
+<ul>
+  <li>
+    <p><strong>梯度方法的收敛结果</strong></p>
+
+    <p><img src="/assets/images/optimization/%E6%A2%AF%E5%BA%A6%E6%96%B9%E6%B3%95%E7%9A%84%E6%94%B6%E6%95%9B%E7%BB%93%E6%9E%9C.png" alt="梯度方法的收敛结果"></p>
+  </li>
+</ul>
+
+<h4 id="吸引定理">
+<a class="anchor" href="#%E5%90%B8%E5%BC%95%E5%AE%9A%E7%90%86" aria-hidden="true"><span class="octicon octicon-link"></span></a>吸引定理</h4>
+<ul>
+  <li>
+    <p><strong>吸引定理</strong></p>
+
+    <p><img src="/assets/images/optimization/%E5%90%B8%E5%BC%95%E5%AE%9A%E7%90%86.png" alt="吸引定理"></p>
+  </li>
+</ul>
+
+
+</article>
+      <section id="main_content">
+        <ul>
+            
+        </ul>
+      </section>
+    </div>
+  </div>
+   <footer>
+  <a href="/">
+    <span>
+        <b>LuoSongtao</b>
+    </span>
+    
+    <span>© 2020</span>
+  </a>
+</footer>
+
+  
+</body>
+
+</html>

@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+  <meta name="generator" content="Jekyll">
+
+  <title>机器学习(二)-LogisticRegression</title>
+  <link rel="stylesheet" href="/css/main.css">
+
+  <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="ATOM Feed" /> <!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>机器学习(二)-LogisticRegression | MicroNotes</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="机器学习(二)-LogisticRegression" />
+<meta name="author" content="LuoSongtao" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Logistic Distribution" />
+<meta property="og:description" content="Logistic Distribution" />
+<link rel="canonical" href="http://0.0.0.0:4000/algorithms/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0(2)-LogisticRegression" />
+<meta property="og:url" content="http://0.0.0.0:4000/algorithms/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0(2)-LogisticRegression" />
+<meta property="og:site_name" content="MicroNotes" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-03-30T19:00:02-05:00" />
+<script type="application/ld+json">
+{"author":{"@type":"Person","name":"LuoSongtao"},"mainEntityOfPage":{"@type":"WebPage","@id":"http://0.0.0.0:4000/algorithms/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0(2)-LogisticRegression"},"description":"Logistic Distribution","@type":"BlogPosting","headline":"机器学习(二)-LogisticRegression","dateModified":"2020-03-30T19:00:02-05:00","url":"http://0.0.0.0:4000/algorithms/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0(2)-LogisticRegression","datePublished":"2020-03-30T19:00:02-05:00","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+        inlineMath: [['$','$']]
+      }
+    });
+  </script>
+
+</head>
+
+<body>
+  <div id="wrapper">
+    <header>
+  
+  
+  <div class="container">
+      
+
+      <div style="padding-left: 42px;">
+        <a id="username" href="/">
+        
+        <span style="font-size: x-large; color: #6a9fb5;"># </span>
+        <span style="font-size: x-large; color: #aa759f;">luosongtao</span>
+        <span style="font-size: x-large; color: #6a9fb5;">@</span>
+        <span style="font-size: x-large; color: #83a;">home:</span>
+        <span style="font-size: x-large; color: #cc0000;">~$</span>
+        </a>
+        
+<div id="search">
+	<input type="text" id="search-input" placeholder=" find / -name " style="vertical-align:middle;">
+	<ul id="results-container"></ul>
+</div>
+
+<!-- script pointing to jekyll-search.js -->
+<script src="/assets/js/simple-jekyll-search.min.js"></script>
+<script async src="/searchdata.js"></script>
+
+
+      </div>
+
+      <ul id="results-container"></ul>
+
+      <nav class="nav">
+    
+    
+        
+        <h3><a href="/">最新</a></h3>
+        
+    
+        
+        <h3><a href="/algorithms">Algorithms</a></h3>
+        
+    
+        
+        <h3><a href="/optimization">Optimization</a></h3>
+        
+    
+        
+        <h3><a href="/algebra">代数论</a></h3>
+        
+    
+        
+        <h3><a href="/docker">Docker</a></h3>
+        
+    
+        
+        <h3><a href="/bigdata">大数据</a></h3>
+        
+    
+        
+        <h3><a href="/mathematical-analysis">数学分析</a></h3>
+        
+    
+        
+        <h3><a href="/probability-theory">概率论</a></h3>
+        
+    
+        
+        <h3><a href="/others">其他</a></h3>
+        
+    
+</nav>
+      <div class="header-links">
+        
+        <a href="/archive"><h2 class="header-link">时间轴</h2></a>
+<a href="/about"><h2 class="header-link">关于</h2></a>
+<!--<a href="/atom.xml"><h2 class="header-link">RSS</h2></a>-->
+      </div>
+  <div>
+
+</header>
+    
+    <div class="container">
+      <article>
+  <h1>机器学习(二)-LogisticRegression</h1>
+  <time datetime="2020-03-30T19:00:02-05:00" class="by-line">30 Mar 2020</time>
+  <ul class="section-nav">
+<li class="toc-entry toc-h2"><a href="#logistic-distribution">Logistic Distribution</a></li>
+<li class="toc-entry toc-h2"><a href="#logistic-regression-model">Logistic Regression Model</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#几率与对数几率">几率与对数几率</a></li>
+<li class="toc-entry toc-h4"><a href="#后验概率估计公式">后验概率估计公式</a></li>
+<li class="toc-entry toc-h4"><a href="#对数几率回归模型">对数几率回归模型</a></li>
+<li class="toc-entry toc-h4"><a href="#极大似然估计">极大似然估计</a></li>
+<li class="toc-entry toc-h4"><a href="#参数估计">参数估计</a></li>
+<li class="toc-entry toc-h4"><a href="#牛顿法">牛顿法</a></li>
+<li class="toc-entry toc-h4"><a href="#梯度下降法">梯度下降法</a></li>
+</ul>
+</li>
+</ul><h2 id="logistic-distribution">
+<a class="anchor" href="#logistic-distribution" aria-hidden="true"><span class="octicon octicon-link"></span></a>Logistic Distribution</h2>
+
+<ul>
+  <li>
+    <p>设$X$是连续随机变量，$X$服从Logistic Distribution是指$X$具有下列的概率分布函数和概率密度函数</p>
+
+    <script type="math/tex; mode=display">% <![CDATA[
+\begin{aligned} F(x) &= P(X\le x) = \frac {1}{1+e^{-(x-\mu)/r}} \\ f(x) &= F'(x) = \frac {e^{-(x-\mu)/r}}{\gamma (1+e^{-(x-\mu)/r})^2}  \end{aligned} %]]></script>
+  </li>
+</ul>
+
+<p>其中$\mu$为位置参数，$\gamma &gt; 0$为形状参数</p>
+
+<ul>
+  <li>分布函数的图形是一条S型曲线(Sigmoid Curve)</li>
+  <li>该曲线以$(\mu, \frac 12)$为中心对称：$F(-x+\mu) - \frac 12 = -F(x+\mu)+\frac 12$</li>
+  <li>曲线在中心附近增长速度较快，在两端增长速度较慢</li>
+  <li>形状参数$\gamma$的值越小，曲线在中心附近增长得越快</li>
+</ul>
+
+<h2 id="logistic-regression-model">
+<a class="anchor" href="#logistic-regression-model" aria-hidden="true"><span class="octicon octicon-link"></span></a>Logistic Regression Model</h2>
+
+<ul>
+  <li>LogisticRegression 常被翻译成逻辑回归或对数几率回归，但其实它主要和log函数也就是对数函数有关，和中文语义上的“逻辑”没有什么关系。后面我们将统一称之为对数几率回归。</li>
+  <li>
+    <p>LogisticRegression 虽然是一种回归模型，但却是一种主要用于二分类问题的分类算法，因此这里称为二项对数几率回归。</p>
+  </li>
+  <li>
+    <p>对数几率回归的基本形式，对数几率回归函数：</p>
+
+    <script type="math/tex; mode=display">y = \frac {1}{1+e^{-z}}</script>
+  </li>
+</ul>
+
+<p>二项对数几率回归是一种二分类模型，它有条件概率$P(Y\vert X)$表示，形式为参数化的Logistic Distribution。</p>
+<ul>
+  <li>随机变量$X$取值为实数</li>
+  <li>随机变量$Y$取值为0和1</li>
+</ul>
+
+<p>考虑线性回归模型$z = \boldsymbol{\omega}^T\boldsymbol{x} + b$，其结果是实值，但通过对数几率回归函数，可以将实值映射到$(0,1)$区间上，并将其输出结果作为取正值的概率，从而实现分类。</p>
+
+<ul>
+  <li>
+    <p>将$z$代入可得：</p>
+
+    <script type="math/tex; mode=display">y = \frac {1}{1+e^{-(\boldsymbol{\omega}^T\boldsymbol{x} + b)}}</script>
+  </li>
+  <li>
+    <p>将上式转换一下，可得：</p>
+
+    <script type="math/tex; mode=display">\ln \frac {y}{1-y} = \boldsymbol{\omega}^T\boldsymbol{x} + b</script>
+  </li>
+</ul>
+
+<p>这里的$\ln \frac {y}{1-y}$被称为对数几率</p>
+
+<h4 id="几率与对数几率">
+<a class="anchor" href="#%E5%87%A0%E7%8E%87%E4%B8%8E%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87" aria-hidden="true"><span class="octicon octicon-link"></span></a>几率与对数几率</h4>
+
+<ul>
+  <li>
+    <p>几率：一个事件发生的几率(odds)是指该事件发生的概率$p$与该事件不发生的概率$1-p$的比值。</p>
+
+    <script type="math/tex; mode=display">\frac {p}{1-p}</script>
+  </li>
+  <li>
+    <p>对数几率: 该事件的对数几率也就是对几率取对数得之</p>
+
+    <script type="math/tex; mode=display">logit(p) = \log \frac {p}{1-p}</script>
+  </li>
+</ul>
+
+<h4 id="后验概率估计公式">
+<a class="anchor" href="#%E5%90%8E%E9%AA%8C%E6%A6%82%E7%8E%87%E4%BC%B0%E8%AE%A1%E5%85%AC%E5%BC%8F" aria-hidden="true"><span class="octicon octicon-link"></span></a>后验概率估计公式</h4>
+
+<ul>
+  <li>
+    <p>根据对数几率，那么由：</p>
+
+    <script type="math/tex; mode=display">\ln \frac {y}{1-y} = \boldsymbol{\omega}^T\boldsymbol{x} + b</script>
+  </li>
+  <li>
+    <p>可得：</p>
+
+    <script type="math/tex; mode=display">\ln \frac {P(Y=1\vert \boldsymbol{x})}{P(Y=0\vert \boldsymbol{x})} = \boldsymbol{\omega}^T\boldsymbol{x} + b</script>
+  </li>
+  <li>
+    <p>则可解出：</p>
+
+    <script type="math/tex; mode=display">% <![CDATA[
+\begin{aligned} P(Y=1\vert \boldsymbol{x}) &= \frac {e^{\boldsymbol{\omega}^T\boldsymbol{x} + b}}{1+e^{\boldsymbol{\omega}^T\boldsymbol{x} + b}} \\ P(Y=0\vert \boldsymbol{x}) &= \frac {1}{1+e^{\boldsymbol{\omega}^T\boldsymbol{x} + b}} \end{aligned} %]]></script>
+  </li>
+</ul>
+
+<h4 id="对数几率回归模型">
+<a class="anchor" href="#%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92%E6%A8%A1%E5%9E%8B" aria-hidden="true"><span class="octicon octicon-link"></span></a>对数几率回归模型</h4>
+
+<p>通过上述推导，可以看到我们利用输入为$x$的线性函数可以得到$Y=1;Y=0$的对数几率。</p>
+
+<p>换个角度说，考虑对输入为$x$进行分类的线性函数$\boldsymbol{\omega}^T\boldsymbol{x} + b$，其值域为是$R$。那么通过对数几率回归模型，可以将线性函数$\boldsymbol{\omega}^T\boldsymbol{x} + b$转换为概率：<script type="math/tex">P(Y=1\vert \boldsymbol{x}) = \frac {e^{\boldsymbol{\omega}^T\boldsymbol{x} + b}}{1+e^{\boldsymbol{\omega}^T\boldsymbol{x} + b}} ;\space P(Y=0\vert \boldsymbol{x}) = \frac {1}{1+e^{\boldsymbol{\omega}^T\boldsymbol{x} + b}}</script>， 此时</p>
+<ul>
+  <li>线性函数的值越接近正无穷，概率值越接近1</li>
+  <li>线性函数的值越接近负无穷，概率值越接近0</li>
+</ul>
+
+<p>这样的模型就被称为对数几率回归模型，而且它是一个对数线性模型。</p>
+
+<h4 id="极大似然估计">
+<a class="anchor" href="#%E6%9E%81%E5%A4%A7%E4%BC%BC%E7%84%B6%E4%BC%B0%E8%AE%A1" aria-hidden="true"><span class="octicon octicon-link"></span></a>极大似然估计</h4>
+
+<ul>
+  <li>
+    <p>对数几率回归是一个线性模型，涉及到系数向量$\boldsymbol{\omega}$，和偏置项$b$两种参数。</p>
+  </li>
+  <li>
+    <p>对数几率回归输出的是样本属于一个类的概率，而样本的类别标签是离散值，因此不适合使用欧几里得距离来定义损失函数。而需要使用极大似然估计来确定参数。</p>
+  </li>
+  <li>
+    <p>由于样本之间独立，则对于训练样本集的似然函数：</p>
+
+    <script type="math/tex; mode=display">L(\boldsymbol{\omega}, b) = \prod_{i=1}^m P(y_i \vert x_i; \boldsymbol{\omega}, b)</script>
+  </li>
+  <li>
+    <p>假设$y_i$取值为0和1，则有</p>
+
+    <script type="math/tex; mode=display">L(\boldsymbol{\omega}, b) = \prod_{i=1}^m P(Y=1 \vert x_i; \boldsymbol{\omega}, b)^{y_i} P(Y=0 \vert x_i; \boldsymbol{\omega}, b)^{1-y_i}</script>
+
+    <p>该函数对应于n重伯努利分布</p>
+  </li>
+  <li>
+    <p>则得到，对数似然函数(将累乘转换为累加)：</p>
+
+    <script type="math/tex; mode=display">% <![CDATA[
+\begin{aligned} \ln L(\boldsymbol{\omega}, b) &= \sum_{i=1}^m [\ln P(Y=1 \vert x_i; \boldsymbol{\omega}, b)^{y_i} + \ln P(Y=0 \vert x_i; \boldsymbol{\omega}, b)^{1-y_i}] \\ &= \sum_{i=1}^m [y_i\ln P(Y=1 \vert x_i; \boldsymbol{\omega}, b) + (1-y_i)\ln P(Y=0 \vert x_i; \boldsymbol{\omega}, b)] \end{aligned} %]]></script>
+  </li>
+  <li>
+    <p>将对数几率模型公式代入上式简化后，可得简化的对数似然函数：</p>
+
+    <script type="math/tex; mode=display">LL(\boldsymbol{\omega}, b) = \ln L(\boldsymbol{\omega}, b) = \sum_{i=1}^m [ y_i (\boldsymbol{\omega}^T\boldsymbol{x}_i + b) - \ln (1+e^{\boldsymbol{\omega}^T\boldsymbol{x}_i + b}) ]</script>
+
+    <p>现在我们的目标就是对其进行极大似然估计，预测出参数$\boldsymbol{\omega}$、$b$</p>
+  </li>
+</ul>
+
+<h4 id="参数估计">
+<a class="anchor" href="#%E5%8F%82%E6%95%B0%E4%BC%B0%E8%AE%A1" aria-hidden="true"><span class="octicon octicon-link"></span></a>参数估计</h4>
+
+<ul>
+  <li>
+    <p>对上面的似然函数取最大值，等价于对:</p>
+
+    <script type="math/tex; mode=display">f(\boldsymbol{\omega}, b) = -LL(\boldsymbol{\omega}, b) = \sum_{i=1}^m [\ln (1+e^{\boldsymbol{\omega}^T\boldsymbol{x}_i + b}) - y_i (\boldsymbol{\omega}^T\boldsymbol{x}_i + b) ]</script>
+
+    <p>取最小值</p>
+
+    <p>可证$f(\boldsymbol{\omega}, b)$是一个高阶连续可导的凸函数。因此对数几率回归求解的优化问题是一个不带约束条件的凸优化问题。
+  可以借助梯度下降法、牛顿法等求的最优解。</p>
+  </li>
+  <li>
+    <p>计算梯度(令$z = \boldsymbol{\omega}^T\boldsymbol{x}_i + b$)</p>
+
+    <script type="math/tex; mode=display">% <![CDATA[
+\begin{aligned} \frac {\partial f(\boldsymbol{\omega}, b)}{\partial \boldsymbol{\omega}} &= \sum_{i=1}^m (\frac {e^z}{1+e^z} - y_i)\boldsymbol{x}_i \end{aligned} %]]></script>
+  </li>
+  <li>
+    <p>计算二阶导数</p>
+
+    <script type="math/tex; mode=display">\frac {\partial^2 f(\boldsymbol{\omega}, b)}{\partial \boldsymbol{\omega} \partial \boldsymbol{\omega}^T } = \sum_{i=1}^m \boldsymbol{x}_i \boldsymbol{x}_i^T \frac {e^z}{(1+e^z)^2} = \sum_{i=1}^m \boldsymbol{x}_i \boldsymbol{x}_i^T \frac {e^z}{1+e^z}(1-\frac {e^z}{1+e^z})</script>
+  </li>
+</ul>
+
+<h4 id="牛顿法">
+<a class="anchor" href="#%E7%89%9B%E9%A1%BF%E6%B3%95" aria-hidden="true"><span class="octicon octicon-link"></span></a>牛顿法</h4>
+
+<script type="math/tex; mode=display">\boldsymbol{\omega}_{i+1} = \boldsymbol{\omega}_i - (\frac {\partial^2 f(\boldsymbol{\omega}, b)}{\partial \boldsymbol{\omega} \partial \boldsymbol{\omega}^T })^{-1} \frac {\partial f(\boldsymbol{\omega}, b)}{\partial \boldsymbol{\omega}}</script>
+
+<h4 id="梯度下降法">
+<a class="anchor" href="#%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D%E6%B3%95" aria-hidden="true"><span class="octicon octicon-link"></span></a>梯度下降法</h4>
+
+<script type="math/tex; mode=display">\boldsymbol{\omega}_{i+1} = \boldsymbol{\omega}_i - \alpha \sum_{i=1}^m (\frac {e^z}{1+e^z} - y_i)\boldsymbol{x}_i</script>
+
+</article>
+      <section id="main_content">
+        <ul>
+            
+        </ul>
+      </section>
+    </div>
+  </div>
+   <footer>
+  <a href="/">
+    <span>
+        <b>LuoSongtao</b>
+    </span>
+    
+    <span>© 2020</span>
+  </a>
+</footer>
+
+  
+</body>
+
+</html>

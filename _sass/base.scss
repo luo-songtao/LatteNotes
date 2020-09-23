@@ -6,21 +6,24 @@
 @import "default_colors";
 
 $body-background: $cod-grey !default;
-$body-foreground: $gallery !default;
-$header: $conifer !default;
+$body-foreground: $cod-grey !default;
+$header: $apple-blossom !default;
 $blockquote-color: $silver-chalice !default;
 $blockquote-border: $dove-grey !default;
+$title: #09a5e6 !default;
 
 body {
   margin: 0;
   padding: 0;
   //background: $body-background url("../assets/bkg.png") 0 0;
-  background: url("../assets/bkg.png");
+  // background: url("../assets/bkg.png");
+  background: url("../assets/background.jpg");
   background-repeat: round;
   color: $body-foreground;
   font-size: 16px;
   line-height: 1.5;
   font-family: Monaco, "Bitstream Vera Sans Mono", "Lucida Console", Terminal, monospace;
+  font-weight: 400;
 }
 
 /* General & 'Reset' Stuff */
@@ -38,10 +41,6 @@ body {
 section {
   display: block;
   margin: 0 0 20px 0;
-}
-
-h1, h2, h3, h4, h5, h6 {
-  margin: 0 0 20px;
 }
 
 li {
@@ -76,7 +75,6 @@ header h1 {
   text-align: center;
   font-weight: bold;
   font-family: Monaco, "Bitstream Vera Sans Mono", "Lucida Console", Terminal, monospace;
-  color: $conifer;//$header;
   text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1),
                0 0 5px rgba(181, 232, 83, 0.1),
                0 0 10px rgba(181, 232, 83, 0.1);
@@ -95,7 +93,6 @@ p {
 header h2 {
   font-size: 18px;
   font-weight: bold;
-  color: #F0F0F0;
   text-align: center;
   font-family: Monaco, "Bitstream Vera Sans Mono", "Lucida Console", Terminal, monospace;
 
@@ -118,25 +115,23 @@ section img {
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-weight: normal;
+  font-weight: bold;
   font-family: Monaco, "Bitstream Vera Sans Mono", "Lucida Console", Terminal, monospace;
   color: $header;
   letter-spacing: -0.03em;
   text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1),
                0 0 5px rgba(181, 232, 83, 0.1),
                0 0 10px rgba(181, 232, 83, 0.1);
+  margin: 0 0 20px;
 }
 
-h1 {color: #f0f0f0;}
-h2 {color: $header;}
-h3 {color: $header;}
-h4 {color: #b5e853;}
-h5 {color: #b5e853;}
-h6 {color: #b5e853;}
+h5, h6 {
+  color: $body-foreground
+}
 
 #main_content h1 {
   font-size: 30px;
-  color: #feff01;
+  color: $header;
 }
 
 #main_content h2 {
@@ -184,7 +179,7 @@ pre {
   border: 1px solid rgba(255, 255, 255, 0.15);
   padding: 10px;
   font-size: 16px;
-  color: #b5e853;
+  color: #000;
   border-radius: 2px;
   text-wrap: normal;
   overflow: auto;
@@ -264,8 +259,9 @@ hr {
 */
 
 a {
-  color: #a3fff7;
-  text-shadow: 0 0 5px rgba(104, 182, 255, 0.5);
+  color: $title;
+  // text-shadow: 0 0 3px rgba(104, 182, 255, 0.5);
+  font-weight: bold;
 }
 
 a:active, a:focus {
@@ -320,7 +316,8 @@ a:active, a:focus {
   display: inline-block;
   margin-bottom: 8px;
   width: 250px;
-  font-size: 16px;
+  font-size: 20px;
+  color: $apple-blossom;
   border: 1px solid #ccc;
   //padding: 12px 0px 0px 0px;
   border-radius: 3px;
@@ -338,11 +335,11 @@ a:active, a:focus {
   box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6)
 }
 #search ul{
-  display: inline;
+  display: block;
 }
 
 #results-container {
-  position:absolute;
+  // position:absolute;
   text-align: left;
   //z-index:-1;
 }
@@ -351,7 +348,14 @@ a {
   text-decoration: None;
 }
 
+article>h1,article>time {
+  display: block;
+  text-align: center;
+}
+
 .nav {
+  // float: left;
+  margin-top: 20px;
   padding: 0 40px;
 }
 
@@ -361,16 +365,17 @@ a {
 }
 
 .nav h3>a{
-  color: #F0F0F0;
+  color: $title;
+  font-weight: 500;
 }
 
 /*hover*/
 nav h3:hover>a{
-    color: #feff01;
+    color: $cod-grey;
 }
 
 .nav h3.active>a{
-  color: $header;
+  color: $cod-grey;
 }
 
 

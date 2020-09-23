@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+  <meta name="generator" content="Jekyll">
+
+  <title>数学分析-数列极限</title>
+  <link rel="stylesheet" href="/css/main.css">
+
+  <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="ATOM Feed" /> <!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>数学分析-数列极限 | MicroNotes</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="数学分析-数列极限" />
+<meta name="author" content="LuoSongtao" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="数列" />
+<meta property="og:description" content="数列" />
+<link rel="canonical" href="http://0.0.0.0:4000/mathematical-analysis/%E6%95%B0%E5%88%97%E6%9E%81%E9%99%90" />
+<meta property="og:url" content="http://0.0.0.0:4000/mathematical-analysis/%E6%95%B0%E5%88%97%E6%9E%81%E9%99%90" />
+<meta property="og:site_name" content="MicroNotes" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2019-11-19T00:00:00-06:00" />
+<script type="application/ld+json">
+{"author":{"@type":"Person","name":"LuoSongtao"},"mainEntityOfPage":{"@type":"WebPage","@id":"http://0.0.0.0:4000/mathematical-analysis/%E6%95%B0%E5%88%97%E6%9E%81%E9%99%90"},"description":"数列","@type":"BlogPosting","headline":"数学分析-数列极限","dateModified":"2019-11-19T00:00:00-06:00","url":"http://0.0.0.0:4000/mathematical-analysis/%E6%95%B0%E5%88%97%E6%9E%81%E9%99%90","datePublished":"2019-11-19T00:00:00-06:00","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+        inlineMath: [['$','$']]
+      }
+    });
+  </script>
+
+</head>
+
+<body>
+  <div id="wrapper">
+    <header>
+  
+  
+  <div class="container">
+      
+
+      <div style="padding-left: 42px;">
+        <a id="username" href="/">
+        
+        <span style="font-size: x-large; color: #6a9fb5;"># </span>
+        <span style="font-size: x-large; color: #aa759f;">luosongtao</span>
+        <span style="font-size: x-large; color: #6a9fb5;">@</span>
+        <span style="font-size: x-large; color: #83a;">home:</span>
+        <span style="font-size: x-large; color: #cc0000;">~$</span>
+        </a>
+        
+<div id="search">
+	<input type="text" id="search-input" placeholder=" find / -name " style="vertical-align:middle;">
+	<ul id="results-container"></ul>
+</div>
+
+<!-- script pointing to jekyll-search.js -->
+<script src="/assets/js/simple-jekyll-search.min.js"></script>
+<script async src="/searchdata.js"></script>
+
+
+      </div>
+
+      <ul id="results-container"></ul>
+
+      <nav class="nav">
+    
+    
+        
+        <h3><a href="/">最新</a></h3>
+        
+    
+        
+        <h3><a href="/algorithms">Algorithms</a></h3>
+        
+    
+        
+        <h3><a href="/optimization">Optimization</a></h3>
+        
+    
+        
+        <h3><a href="/algebra">代数论</a></h3>
+        
+    
+        
+        <h3><a href="/docker">Docker</a></h3>
+        
+    
+        
+        <h3><a href="/bigdata">大数据</a></h3>
+        
+    
+        
+        <h3><a href="/mathematical-analysis">数学分析</a></h3>
+        
+    
+        
+        <h3><a href="/probability-theory">概率论</a></h3>
+        
+    
+        
+        <h3><a href="/others">其他</a></h3>
+        
+    
+</nav>
+      <div class="header-links">
+        
+        <a href="/archive"><h2 class="header-link">时间轴</h2></a>
+<a href="/about"><h2 class="header-link">关于</h2></a>
+<!--<a href="/atom.xml"><h2 class="header-link">RSS</h2></a>-->
+      </div>
+  <div>
+
+</header>
+    
+    <div class="container">
+      <article>
+  <h1>数学分析-数列极限</h1>
+  <time datetime="2019-11-19T00:00:00-06:00" class="by-line">19 Nov 2019</time>
+  <ul class="section-nav">
+<li class="toc-entry toc-h3"><a href="#数列">数列</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#定义">定义</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#数列收敛与发散">数列收敛与发散</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#定义varepsilon-n语言">定义–“$\varepsilon-N$语言”</a></li>
+<li class="toc-entry toc-h4"><a href="#领域">领域.</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#无穷小量">无穷小量</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#无穷小量例题">无穷小量例题</a></li>
+<li class="toc-entry toc-h5"><a href="#数列极限例题">数列极限例题</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#数列极限的性质">数列极限的性质</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#极限定义数学表示">极限定义数学表示</a></li>
+<li class="toc-entry toc-h4"><a href="#1-极限的唯一性">(1). 极限的唯一性</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#定义-1">定义</a></li>
+<li class="toc-entry toc-h5"><a href="#证明">证明</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#2-数列的有界性">(2). 数列的有界性</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#定义-2">定义</a></li>
+<li class="toc-entry toc-h5"><a href="#定理收敛数列必定有界">定理：收敛数列必定有界</a>
+<ul>
+<li class="toc-entry toc-h6"><a href="#证明-1">证明</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#3-数列的保序性">(3). 数列的保序性</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#定理">定理</a>
+<ul>
+<li class="toc-entry toc-h6"><a href="#证明-2">证明</a></li>
+<li class="toc-entry toc-h6"><a href="#逆命题">逆命题</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h5"><a href="#推论">推论</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#4-数列的夹逼性定理">(4). 数列的夹逼性定理</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#定理-1">定理</a></li>
+<li class="toc-entry toc-h5"><a href="#证明-3">证明</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#数列极限的四则运算">数列极限的四则运算</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#1-数乘">(1). 数乘</a></li>
+<li class="toc-entry toc-h5"><a href="#2-相乘">(2). 相乘</a></li>
+<li class="toc-entry toc-h5"><a href="#3-相除">(3). 相除</a></li>
+</ul>
+</li>
+</ul><h3 id="数列">
+<a class="anchor" href="#%E6%95%B0%E5%88%97" aria-hidden="true"><span class="octicon octicon-link"></span></a>数列</h3>
+
+<h4 id="定义">
+<a class="anchor" href="#%E5%AE%9A%E4%B9%89" aria-hidden="true"><span class="octicon octicon-link"></span></a>定义</h4>
+
+<p>按照正整数编了号的一串数</p>
+
+<script type="math/tex; mode=display">\lbrace x_n \rbrace = x_1,x_2,x_3,···,x_n,···</script>
+
+<p>$\lbrace x_n \rbrace$，称为通项</p>
+
+<script type="math/tex; mode=display">\lbrace \frac 1n \rbrace = 1, \frac 12, \frac 13,···,\frac 1n,···</script>
+
+<p>注意：数列的每一项的次序很重要，且可存在重复项</p>
+
+<p><img src="/assets/images/mathemathical-analysis/%E6%95%B0%E5%88%97%E6%9E%81%E9%99%90%E4%B8%8E%E5%9C%86%E5%91%A8.png" alt="数列极限与圆周"></p>
+
+<h3 id="数列收敛与发散">
+<a class="anchor" href="#%E6%95%B0%E5%88%97%E6%94%B6%E6%95%9B%E4%B8%8E%E5%8F%91%E6%95%A3" aria-hidden="true"><span class="octicon octicon-link"></span></a>数列收敛与发散</h3>
+
+<h4 id="定义varepsilon-n语言">
+<a class="anchor" href="#%E5%AE%9A%E4%B9%89varepsilon-n%E8%AF%AD%E8%A8%80" aria-hidden="true"><span class="octicon octicon-link"></span></a>定义–“$\varepsilon-N$语言”</h4>
+
+<p><img src="/assets/images/mathemathical-analysis/%E6%95%B0%E5%88%97%E6%94%B6%E6%95%9B%E4%B8%8E%E5%8F%91%E6%95%A3%E5%AE%9A%E4%B9%89.png" alt="数列收敛与发散定义"></p>
+
+<h4 id="领域">
+<a class="anchor" href="#%E9%A2%86%E5%9F%9F" aria-hidden="true"><span class="octicon octicon-link"></span></a>领域.</h4>
+
+<script type="math/tex; mode=display">% <![CDATA[
+O(a,\varepsilon)=(a-\varepsilon,a+\varepsilon)=\lbrace x \vert a-\varepsilon < x < a+ \varepsilon\rbrace %]]></script>
+
+<p>一个数列收敛与否，收敛的话，收敛于哪个数，这与数列的前有限项无关</p>
+
+<h3 id="无穷小量">
+<a class="anchor" href="#%E6%97%A0%E7%A9%B7%E5%B0%8F%E9%87%8F" aria-hidden="true"><span class="octicon octicon-link"></span></a>无穷小量</h3>
+
+<p>以零为极限变量称为无穷小量</p>
+
+<script type="math/tex; mode=display">\lim_{n\rightarrow \infty}x_n =a \Leftrightarrow \lbrace x_n -a \rbrace是无穷小量</script>
+
+<h5 id="无穷小量例题">
+<a class="anchor" href="#%E6%97%A0%E7%A9%B7%E5%B0%8F%E9%87%8F%E4%BE%8B%E9%A2%98" aria-hidden="true"><span class="octicon octicon-link"></span></a>无穷小量例题</h5>
+
+<p><img src="/assets/images/mathemathical-analysis/%E8%AF%81-%E6%9F%90%E6%95%B0%E5%88%97%E6%98%AF%E6%97%A0%E7%A9%B7%E5%B0%8F%E9%87%8F.png" alt="证-某数列是无穷小量"></p>
+
+<h5 id="数列极限例题">
+<a class="anchor" href="#%E6%95%B0%E5%88%97%E6%9E%81%E9%99%90%E4%BE%8B%E9%A2%98" aria-hidden="true"><span class="octicon octicon-link"></span></a>数列极限例题</h5>
+
+<p><img src="/assets/images/mathemathical-analysis/%E6%95%B0%E5%88%97%E6%9E%81%E9%99%90%E4%BE%8B%E9%A2%98.png" alt="数列极限例题"></p>
+
+<h3 id="数列极限的性质">
+<a class="anchor" href="#%E6%95%B0%E5%88%97%E6%9E%81%E9%99%90%E7%9A%84%E6%80%A7%E8%B4%A8" aria-hidden="true"><span class="octicon octicon-link"></span></a>数列极限的性质</h3>
+
+<h5 id="极限定义数学表示">
+<a class="anchor" href="#%E6%9E%81%E9%99%90%E5%AE%9A%E4%B9%89%E6%95%B0%E5%AD%A6%E8%A1%A8%E7%A4%BA" aria-hidden="true"><span class="octicon octicon-link"></span></a>极限定义数学表示</h5>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\lim_{x_n\rightarrow \infty}: \forall \varepsilon >0, \exists N,\forall n>N, \vert x_n -a\vert < \varepsilon %]]></script>
+
+<h4 id="1-极限的唯一性">
+<a class="anchor" href="#1-%E6%9E%81%E9%99%90%E7%9A%84%E5%94%AF%E4%B8%80%E6%80%A7" aria-hidden="true"><span class="octicon octicon-link"></span></a>(1). 极限的唯一性</h4>
+
+<h5 id="定义-1">
+<a class="anchor" href="#%E5%AE%9A%E4%B9%89-1" aria-hidden="true"><span class="octicon octicon-link"></span></a>定义</h5>
+
+<script type="math/tex; mode=display">若\lim_{x_n\rightarrow \infty}=a,\lim_{x_n\rightarrow \infty}=b,则a=b</script>
+
+<h5 id="证明">
+<a class="anchor" href="#%E8%AF%81%E6%98%8E" aria-hidden="true"><span class="octicon octicon-link"></span></a>证明</h5>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{equation} \begin{aligned} \forall \varepsilon >0,\space &\exists N_1, \forall n>N_1:\vert x_n-a\vert <\frac \varepsilon2 \\ &\exists N_2, \forall n>N_2:\vert x_n-b\vert <\frac \varepsilon2 \\取\space &N=\max (N_1,N_2),\forall n >N: \\ &\vert a-b \vert \le \vert x_n -a\vert - \vert x_n -b\vert \lt \varepsilon  \\& 由\varepsilon 的任意性, 可知:\vert a-b \vert \le0 \lt \varepsilon \Rightarrow a=b \end{aligned} \end{equation} %]]></script>
+
+<h4 id="2-数列的有界性">
+<a class="anchor" href="#2-%E6%95%B0%E5%88%97%E7%9A%84%E6%9C%89%E7%95%8C%E6%80%A7" aria-hidden="true"><span class="octicon octicon-link"></span></a>(2). 数列的有界性</h4>
+
+<h5 id="定义-2">
+<a class="anchor" href="#%E5%AE%9A%E4%B9%89-2" aria-hidden="true"><span class="octicon octicon-link"></span></a>定义</h5>
+
+<p>​	<script type="math/tex">% <![CDATA[
+\begin{equation} \begin{aligned} \lbrace x_n \rbrace，\space & 若\exists M \in R, \forall n \in N^+,成立x_n \le M,则M是\lbrace x_n \rbrace的一个上界，或称\lbrace x_n \rbrace有上界 \\ &若\exists m \in R, \forall n \in N^+,成立x_n \ge m,则m是\lbrace x_n \rbrace的一个下界，或称\lbrace x_n \rbrace有下界 \\&\lbrace x_n \rbrace既有上界又有下届，则称有界 \end{aligned} \end{equation} %]]></script></p>
+
+<script type="math/tex; mode=display">\lbrace x_n \rbrace有界 \Leftrightarrow \exists X\in R^+,\forall n\in N^+,成立\vert x_n \vert \le X</script>
+
+<h5 id="定理收敛数列必定有界">
+<a class="anchor" href="#%E5%AE%9A%E7%90%86%E6%94%B6%E6%95%9B%E6%95%B0%E5%88%97%E5%BF%85%E5%AE%9A%E6%9C%89%E7%95%8C" aria-hidden="true"><span class="octicon octicon-link"></span></a>定理：收敛数列必定有界</h5>
+
+<h6 id="证明-1">
+<a class="anchor" href="#%E8%AF%81%E6%98%8E-1" aria-hidden="true"><span class="octicon octicon-link"></span></a>证明</h6>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{equation} \begin{aligned} &\lbrace x_n \rbrace 收敛于a \\取\space & \varepsilon =1，存在N，\forall n>N:a-1<x_n<a+1 \\取\space &M=\max \lbrace x_1,x_2,···,x_N,a+1 \rbrace \\& m=\min \lbrace x_1,x_2,···,x_N,a-1 \rbrace \forall n\in N^+, m\le x_n \le M\space \space(收敛数列的前n项是有限集合) \end{aligned} \end{equation} %]]></script>
+
+<h4 id="3-数列的保序性">
+<a class="anchor" href="#3-%E6%95%B0%E5%88%97%E7%9A%84%E4%BF%9D%E5%BA%8F%E6%80%A7" aria-hidden="true"><span class="octicon octicon-link"></span></a>(3). 数列的保序性</h4>
+
+<h5 id="定理">
+<a class="anchor" href="#%E5%AE%9A%E7%90%86" aria-hidden="true"><span class="octicon octicon-link"></span></a>定理</h5>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\lbrace x_n \rbrace,\lbrace y_n \rbrace,\lim_{n \rightarrow \infty }x_n =a,\lim_{n \rightarrow \infty }y_n =b,a<b,则存在N,对\forall n>N,成立x_n<y_n %]]></script>
+
+<h6 id="证明-2">
+<a class="anchor" href="#%E8%AF%81%E6%98%8E-2" aria-hidden="true"><span class="octicon octicon-link"></span></a>证明</h6>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{equation} \begin{aligned} 取\varepsilon = \frac {b-a}{2}>0,&存在N_1,\forall n>N_1:\vert x_n -a\vert < \varepsilon \Rightarrow x_n < \frac {a+b}{2} \\&存在N_2,\forall n>N_2:\vert y_n -b\vert < \varepsilon \Rightarrow y_n > \frac {a+b}{2}  \\ 取\space & N=max(N_1,N_2),\forall n>N:x_n<\frac {a+b}{2} < y_n\end{aligned} \end{equation} %]]></script>
+
+<h6 id="逆命题">
+<a class="anchor" href="#%E9%80%86%E5%91%BD%E9%A2%98" aria-hidden="true"><span class="octicon octicon-link"></span></a>逆命题</h6>
+
+<script type="math/tex; mode=display">若\lim_{n \rightarrow \infty }x_n =a,\lim_{n \rightarrow \infty }y_n =b，若\exists N, \forall n>N,x_n \le y_n,则a\le b</script>
+
+<h5 id="推论">
+<a class="anchor" href="#%E6%8E%A8%E8%AE%BA" aria-hidden="true"><span class="octicon octicon-link"></span></a>推论</h5>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{equation} \begin{aligned} (1).\space &\lim_{n \rightarrow \infty }y_n =b>0，则\exists N, \forall n>N,y_n> \frac b2 >0 \\ (2).\space &\lim_{n \rightarrow \infty }y_n =b<0，则\exists N, \forall n>N,y_n< \frac b2 <0 \\(1)(2) \space & \lim_{n \rightarrow \infty }y_n =b\neq 0，则\exists N, \forall n>N,\vert y_n \vert > \frac {\vert b \vert }{2} >0 \end{aligned} \end{equation} %]]></script>
+
+<h4 id="4-数列的夹逼性定理">
+<a class="anchor" href="#4-%E6%95%B0%E5%88%97%E7%9A%84%E5%A4%B9%E9%80%BC%E6%80%A7%E5%AE%9A%E7%90%86" aria-hidden="true"><span class="octicon octicon-link"></span></a>(4). 数列的夹逼性定理</h4>
+
+<h5 id="定理-1">
+<a class="anchor" href="#%E5%AE%9A%E7%90%86-1" aria-hidden="true"><span class="octicon octicon-link"></span></a>定理</h5>
+
+<script type="math/tex; mode=display">\lbrace x_n \rbrace,\lbrace y_n \rbrace,\lbrace z_n \rbrace,若\exists N, \forall n>N，成立x_n \le y_n \le z_n,且\lim_{n \rightarrow \infty }x_n=\lim_{n \rightarrow \infty }z_n =a,则\lim_{n \rightarrow \infty }y_n=a</script>
+
+<h5 id="证明-3">
+<a class="anchor" href="#%E8%AF%81%E6%98%8E-3" aria-hidden="true"><span class="octicon octicon-link"></span></a>证明</h5>
+
+<script type="math/tex; mode=display">\begin{equation} \begin{aligned} equation \end{aligned} \end{equation}</script>
+
+<p><img src="/assets/images/mathemathical-analysis/%E8%AF%81-%E6%95%B0%E5%88%97%E7%9A%84%E5%A4%B9%E9%80%BC%E6%80%A7%E5%AE%9A%E7%90%86.png" alt="证-数列的夹逼性定理"></p>
+
+<h3 id="数列极限的四则运算">
+<a class="anchor" href="#%E6%95%B0%E5%88%97%E6%9E%81%E9%99%90%E7%9A%84%E5%9B%9B%E5%88%99%E8%BF%90%E7%AE%97" aria-hidden="true"><span class="octicon octicon-link"></span></a>数列极限的四则运算</h3>
+
+<script type="math/tex; mode=display">\lim_{n \rightarrow \infty }x_n =a,\lim_{n \rightarrow \infty }y_n =b</script>
+
+<h5 id="1-数乘">
+<a class="anchor" href="#1-%E6%95%B0%E4%B9%98" aria-hidden="true"><span class="octicon octicon-link"></span></a>(1). 数乘</h5>
+
+<script type="math/tex; mode=display">\lim_{n \rightarrow \infty }(\alpha x_n+\beta y_n) =\alpha a+\beta b</script>
+
+<h5 id="2-相乘">
+<a class="anchor" href="#2-%E7%9B%B8%E4%B9%98" aria-hidden="true"><span class="octicon octicon-link"></span></a>(2). 相乘</h5>
+
+<script type="math/tex; mode=display">\lim_{n \rightarrow \infty }(x_ny_n) =ab</script>
+
+<h5 id="3-相除">
+<a class="anchor" href="#3-%E7%9B%B8%E9%99%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>(3). 相除</h5>
+
+<script type="math/tex; mode=display">\lim_{n \rightarrow \infty } \frac {x_n}{y_n} =\frac ab(b\neq0)</script>
+
+</article>
+      <section id="main_content">
+        <ul>
+            
+        </ul>
+      </section>
+    </div>
+  </div>
+   <footer>
+  <a href="/">
+    <span>
+        <b>LuoSongtao</b>
+    </span>
+    
+    <span>© 2020</span>
+  </a>
+</footer>
+
+  
+</body>
+
+</html>

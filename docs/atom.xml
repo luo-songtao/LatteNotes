@@ -1,0 +1,1896 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>MicroNotes</title>
+    <description>千里之行始于足下；不积跬步无以致千里</description>
+    <link>http://0.0.0.0:4000</link>
+    <atom:link href="http://0.0.0.0:4000/feed.xml" rel="self" type="application/rss+xml" />
+    <author>
+      <name>LuoSongtao</name>
+      <email>ryomawithlst@gmail/outlook.com</email>
+      <uri></uri>
+    </author>
+    
+      <item>
+        <title>机器学习(七)-决策树</title>
+        <description>&lt;h2 id=&quot;介绍&quot;&gt;介绍&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;决策树是一种基本的分类与回归方法。决策树呈树形结构。决策树是一种判别模型，天然支持多分类问题
+    &lt;ul&gt;
+      &lt;li&gt;分类树的映射函数是多维空间的分段线性划分，即用平行于各坐标轴的超平面对空间进行切分&lt;/li&gt;
+      &lt;li&gt;回归树的映射函数是分段常数函数&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;决策树是分段线性函数而不是线性函数，它具有非线性建模能力。理论上，只要划分得足够细，分段常熟函数可以逼近闭区间熵任意函数到任意指定精度。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;决策树与if-then规则&quot;&gt;决策树与if-then规则&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;决策树到if-then规则：
+    &lt;ul&gt;
+      &lt;li&gt;由决策树的根节点到叶节点的每一条路径构建一条规则&lt;/li&gt;
+      &lt;li&gt;路径上的特征对应着规则的条件，而叶节点的类对应着规则的结论&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;决策树的路径(if-then规则集合)性质：互斥并且完备
+    &lt;ul&gt;
+      &lt;li&gt;每一个实例都能且只能被一条路径或一条规则所覆盖&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;决策树与条件概率分布&quot;&gt;决策树与条件概率分布&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;决策树表示给定条件下类的条件概率分布。其定义在特征空间的一个划分上
+    &lt;ul&gt;
+      &lt;li&gt;将特征空间划分为互不相交的单元或区域，在每个单元定义一个类的概率分布就构成了一个条件概率分布&lt;/li&gt;
+      &lt;li&gt;决策树所表示的条件概率分布由各个单元给定条件下类的条件概率分布组成&lt;/li&gt;
+      &lt;li&gt;各叶节点(单元)上条件概率往往偏向某一个类&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;决策树的学习&quot;&gt;决策树的学习&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;决策树学习本质上是从训练数据集中归纳出一组分类规则。
+    &lt;ul&gt;
+      &lt;li&gt;能训练出的与数据集不相矛盾的决策树可能有多个。因此最终需要的是一个与训练数据矛盾最小的决策树，同时具有很好的泛化能力&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;或者说决策树学习是由训练数据集估计条件概率模型
+    &lt;ul&gt;
+      &lt;li&gt;基于特征空间划分的类的条件概率模型有无穷多个，最终得到的模型不仅对训练数据有很好的拟合，还需要对未知数据有很好的预测&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;决策树学习过程：
+    &lt;ul&gt;
+      &lt;li&gt;特征选择
+        &lt;ul&gt;
+          &lt;li&gt;决策树学习的算法通常是一个递归地选择最优特征，并根据该特征对训练数据进行分割，使得各个子数据集有一个最好的分类的过程&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;决策树生成&lt;/li&gt;
+      &lt;li&gt;决策树修剪(剪枝)&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;特征选择&quot;&gt;特征选择&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;特征选择：决定用哪个特征来划分特征空间
+    &lt;ul&gt;
+      &lt;li&gt;选取对训练数据具有分类能力的特征&lt;/li&gt;
+      &lt;li&gt;如果利用一个特征进行分类的结果与随机分类的结果没有很大差别，则称该特征没有分类能力&lt;/li&gt;
+      &lt;li&gt;划分时，希望决策树的分支节点所包含的样本尽可能属于同一类别，即结点的”纯度”越来越高&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;信息增益information-gain&quot;&gt;信息增益(Information Gain)&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;设$X$是一个去有限个值的离散随机变量，其概率分布为：&lt;/p&gt;
+
+    &lt;script type=&quot;math/tex; mode=display&quot;&gt;P(X=x_i) = p_i, \qquad i=1,2,...,n&lt;/script&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;熵$H(X)$(表示随机变量不确定性的度量)：&lt;/p&gt;
+
+    &lt;script type=&quot;math/tex; mode=display&quot;&gt;H(X) = - \sum_{i=1}^n p_i\log p_i \qquad n表示X可能的取值个数&lt;/script&gt;
+
+    &lt;ul&gt;
+      &lt;li&gt;熵的单位：
+        &lt;ul&gt;
+          &lt;li&gt;bit: 当对数以2为底&lt;/li&gt;
+          &lt;li&gt;nat: 当对数以自然对数为底&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;信息熵(熵本是物理中的概念，但由香农引入到信息论中后，熵也被称为信息熵)
+    &lt;ul&gt;
+      &lt;li&gt;对于一个训练样本集合$D$而言，信息熵是度量样本集合纯度的一种常用指标&lt;/li&gt;
+      &lt;li&gt;
+        &lt;p&gt;假定当前样本集合$D$中第$i$类样本(共有$k$个类别)所占的比例为$p_i$，则$D$的信息熵为：&lt;/p&gt;
+
+        &lt;script type=&quot;math/tex; mode=display&quot;&gt;H(D) = - \sum_{i=1}^k p_i\log p_i \qquad k表示样本集合中类别总数&lt;/script&gt;
+      &lt;/li&gt;
+      &lt;li&gt;信息熵越小，表示$D$的纯度越高&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;条件熵$H(Y\vert X)$(表示已知随机变量$X$的条件下随机变量$Y$的不确定性)：&lt;/p&gt;
+
+    &lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{aligned} H(P) &amp;= H(Y \vert X) \\ &amp;=  \sum_{i=1}^n P(X=x_i) H(Y \vert X=x_i) \\ &amp;= - \sum_{i=1}^n P(X=x_i) \cdot \sum_{j=1}^k P(Y=y_j \vert X=x_i) \log P(Y=y_j \vert X=x_i) \qquad n、k分别表示X、Y的取值个数 \\ &amp;= -\sum_{x,y} P(Y=y, X=x) \log P(Y=y \vert X=x) \end{aligned} %]]&gt;&lt;/script&gt;
+  &lt;/li&gt;
+  &lt;li&gt;信息增益表示得知特征$X$的信息而使得类$Y$的信息的不确定性减少的程度
+    &lt;ul&gt;
+      &lt;li&gt;
+        &lt;p&gt;假设特征$X$有$n$个可能的取值$(x_1, x_2,…,x_n)$，训练数据集$D$中共有$k$类样本$(y_1,y_2,…,y_k)$，则特征$X$对数据集$D$进行划分所获得的信息增益$gain(D,X)$为：&lt;/p&gt;
+
+        &lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{aligned} gain(D,X) &amp;= H(D) - H(D\vert X) \\ &amp;= - \sum_{j=1}^k \tilde{P}(Y=y_j)\log \tilde{P}(Y=y_j) + \sum_{i=1}^n \tilde{P}(X=x_i) \cdot \sum_{j=1}^k \tilde{P}(Y=y_j \vert X=x_i) \log \tilde{P}(Y=y_j \vert X=x_i) \end{aligned} %]]&gt;&lt;/script&gt;
+      &lt;/li&gt;
+      &lt;li&gt;
+        &lt;p&gt;式中$\tilde{P}$表示根据频数计算而得的概率(经验分布)&lt;/p&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;利用信息增益准则的特征选择方法是：对训练数据集$D$，计算其每个特征的信息增益，选择信息增益最大的特征&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;信息增益率&quot;&gt;信息增益率&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;以最大信息增益进行选取的特征，倾向于选择特征可取值数较多的特征，如果需要消除这样的影响，那么可以使用最大信息增益率准则来进行选取&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;信息增益率$gain_{ratio}(D,X)$:&lt;/p&gt;
+
+    &lt;script type=&quot;math/tex; mode=display&quot;&gt;gain_{ratio}(D,X) = \frac {gain(D,X)}{H_X(D)}&lt;/script&gt;
+
+    &lt;ul&gt;
+      &lt;li&gt;
+        &lt;p&gt;$H_X(D)$表示数据集$D$关于特征$X$的取值的熵(经验熵)&lt;/p&gt;
+
+        &lt;script type=&quot;math/tex; mode=display&quot;&gt;H_X(D) = -\sum_{i=1}^n \tilde{P}(X=x_i) \log \tilde{P}(X=x_i) \qquad n表示特征X的可能取值个数&lt;/script&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;但要注意，信息增益率准则虽然减少了对特征可取值数较多的特征的影响，但同时它对特征可取值数较少的属性会有所偏好&lt;/strong&gt;&lt;/p&gt;
+    &lt;ul&gt;
+      &lt;li&gt;一种比较折中的方案是：&lt;strong&gt;先从候选划分特征中找出信息增益高于平均水平的特征，再从中选择信息增益率最高的特征&lt;/strong&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;基尼指数gini-index&quot;&gt;基尼指数(Gini Index)&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;数据集$D$的纯度也可以用&lt;strong&gt;基尼值&lt;/strong&gt;来度量：&lt;/p&gt;
+
+    &lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{aligned} Gini(D) &amp;= \sum_{i=1}^k \sum_{i' \neq i} P(Y=y_i)P(Y=y_{i'}) \\ &amp;= 1- \sum_{i=1}^k P(Y=y_i)^2 \end{aligned} %]]&gt;&lt;/script&gt;
+
+    &lt;ul&gt;
+      &lt;li&gt;基尼值反映了从数据集$D$中随机抽取两个样本，其类别标记不一致的概率&lt;/li&gt;
+      &lt;li&gt;基尼值越小，数据集的纯度越高&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;特征$X$的&lt;strong&gt;基尼指数&lt;/strong&gt;：&lt;/p&gt;
+
+    &lt;script type=&quot;math/tex; mode=display&quot;&gt;Gini\_Index(D,X) = \sum_{i=1}^n \tilde{P}(X=x_i) \cdot Gini(D_X)&lt;/script&gt;
+
+    &lt;ul&gt;
+      &lt;li&gt;其中&lt;script type=&quot;math/tex&quot;&gt;D_X = \{(x_i, y_i) \in D \vert X = x_i \}&lt;/script&gt;&lt;/li&gt;
+      &lt;li&gt;基尼指数指经$X=x_i$分割后集合$D$的纯度&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;决策树的生成&quot;&gt;决策树的生成&lt;/h2&gt;
+
+&lt;h4 id=&quot;id3算法&quot;&gt;ID3算法&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;ID3算法是在决策树各节点上应用信息增益准则选择特征，递归地构建决策树
+    &lt;ul&gt;
+      &lt;li&gt;从根节点开始，对节点计算所有可能的特征的信息增益，选择信息增益最大的特征作为节点的特征，由该特征的不同取值建立子节点&lt;/li&gt;
+      &lt;li&gt;在对子节点递归地用以上方法，构建决策树&lt;/li&gt;
+      &lt;li&gt;直到所有特征的信息增益均很小或没有特征可以选择为止&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;ID3算法相当于用极大似然法进行概率选择&lt;/li&gt;
+  &lt;li&gt;注意：ID3算法只有树的生成，所以该算法生成的树容易产生过拟合&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;c45算法&quot;&gt;C4.5算法&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;C4.5算法与ID3算法相似，但主要是使用信息增益率来选择特征&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;cart算法&quot;&gt;CART算法&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;分类与回归树(CART)，分为分类树和回归树，分别用于分类问题和回归问题&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;分类与回归树是一颗二叉决策树&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;分类与回归树生成需要，第一，考虑使用特征向量的哪个分量进行判定；第二，确定分裂分量后，如何划分训练样本，让一部分进入左子树，一部分进入右子树&lt;/p&gt;
+    &lt;ul&gt;
+      &lt;li&gt;连续数值型变量：寻找一个分裂阈值
+        &lt;ul&gt;
+          &lt;li&gt;均方误差&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;离散型类别变量：确定一个子集划分
+        &lt;ul&gt;
+          &lt;li&gt;基尼指数&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&quot;分类树&quot;&gt;分类树&lt;/h5&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;分类树使用基尼指数，其目标是把数据分成两部分后，两个子集都尽可能的纯，也就是左右子树集合的基尼指数和最小的，即：&lt;/p&gt;
+
+    &lt;script type=&quot;math/tex; mode=display&quot;&gt;\min \frac {count(D_l)}{count(D)}Gini(D_l) + \frac {count(D_r)}{count(D)}Gini(D_r)&lt;/script&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&quot;回归树&quot;&gt;回归树&lt;/h5&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;回归树使用样本均方误差作为评判标准，其目标是把数据分成两部分后，两个子集的均方误差和最小，即&lt;/p&gt;
+
+    &lt;script type=&quot;math/tex; mode=display&quot;&gt;\min \frac {count(D_l)}{count(D)}E(D_l) + \frac {count(D_r)}{count(D)}E(D_r)&lt;/script&gt;
+
+    &lt;script type=&quot;math/tex; mode=display&quot;&gt;E(D) = \frac {1}{count(D)} \sum_{i=1}^{count(D)} (x_i - \overline{x})&lt;/script&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;决策树的剪枝&quot;&gt;决策树的剪枝&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;为了调整决策树的过拟合问题，需要对决策树进行剪枝处理
+    &lt;ul&gt;
+      &lt;li&gt;预剪枝&lt;/li&gt;
+      &lt;li&gt;后剪枝&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;预剪枝&quot;&gt;预剪枝&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;在决策树生成过程中，对分别前和分裂后的就决策树整体损失(代价)进行计算，如果分裂后的损失更大，那么就停止分裂，反之才继续分裂&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;后剪枝&quot;&gt;后剪枝&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;在决策树完全生成后，使用自下而上的顺序考虑逐个剪掉内部节点，同时在剪枝前后，分别对决策树进行整体损失计算，如果剪枝后损失更小，那么就执行剪枝，否则，不执行&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;注意，在CART中，后剪枝是使用自下而上的方式剪枝，并生成一个子树序列，利用交叉验证方式，测试子树序列的各颗子树的均方误差或基尼指数，选取相应值最小的决策树子树评为最优的决策树&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        <pubDate>Mon, 30 Mar 2020 19:00:07 -0500</pubDate>
+        <link>http://0.0.0.0:4000//algorithms/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0(7)-%E5%86%B3%E7%AD%96%E6%A0%91</link>
+        <link href="http://0.0.0.0:4000/algorithms/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0(7)-%E5%86%B3%E7%AD%96%E6%A0%91"/>
+        <guid isPermaLink="true">http://0.0.0.0:4000/algorithms/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0(7)-%E5%86%B3%E7%AD%96%E6%A0%91</guid>
+      </item>
+    
+      <item>
+        <title>机器学习(六)-贝叶斯分类器</title>
+        <description>&lt;p&gt;贝叶斯分类器是一种概率模型，它用贝叶斯公式解决分类问题。&lt;/p&gt;
+
+&lt;p&gt;先设输入空间&lt;script type=&quot;math/tex&quot;&gt;\mathcal{X} \subset R^n&lt;/script&gt;为n维向量的集合，输出空间为$\mathcal{Y} = { c_1, c_2, ···, c_k }$的集合。$X$是定义在输入空间$\mathcal{X}$上的随机向量，$Y$是定义在输出空间$\mathcal{Y}$上的随机变量。&lt;/p&gt;
+
+&lt;h2 id=&quot;贝叶斯公式&quot;&gt;贝叶斯公式&lt;/h2&gt;
+
+&lt;h4 id=&quot;条件概率公式&quot;&gt;条件概率公式&lt;/h4&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;P(X \vert Y) = \frac {P(XY)}{P(Y)}&lt;/script&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;P(Y \vert X) = \frac {P(XY)}{P(X)}&lt;/script&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;$P(XY)$: $X$和$Y$的联合概率分布&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;全概率公式&quot;&gt;全概率公式&lt;/h4&gt;
+&lt;p&gt;根据条件概率公式，可得：&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;P(X=x) = \sum_{k=1}^K P(X=x;Y=c_k) = \sum_{k=1}^K P(X=x \vert Y=c_k)P(Y=c_k)&lt;/script&gt;
+
+&lt;h4 id=&quot;贝叶斯公式-1&quot;&gt;贝叶斯公式&lt;/h4&gt;
+&lt;p&gt;根据全概率公式，可得：&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;P(Y=c_i \vert X=x) = \frac {P(X=x;Y=c_i)}{P(X=x)} = \frac {P(X=x \vert Y=c_i)P(Y=c_i)}{\sum_{k=1}^K P(X=x \vert Y=c_k)P(Y=c_k)}&lt;/script&gt;
+
+&lt;h2 id=&quot;贝叶斯决策&quot;&gt;贝叶斯决策&lt;/h2&gt;
+
+&lt;p&gt;先对上面的贝叶斯公式中相关概率分布进行说明：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;$P(Y=c_k)$ ： 类先验概率。表达了样本空间中各类样本所占的比例，因为根据大数定律，当训练集包含充足的独立同分布样本时，$P(Y=c_k)$可通过各类样本的出现频率来进行估计&lt;/li&gt;
+  &lt;li&gt;$P(X=x \vert Y=c_k)$ ： 类条件概率。&lt;/li&gt;
+  &lt;li&gt;$P(Y=c_k \vert X=x)$ ： 类后验概率。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;贝叶斯决策也就是通过贝叶斯定理，使用这些概率来选择最优的类别标记。
+判断时，我们通常是选择估计出的后验概率最大的类作为最终结果然后输出。而最大化后验概率其实等价于最小化期望损失(后面再介绍)。&lt;/p&gt;
+
+&lt;p&gt;估计后验概率，通常有两种策略：&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;判别式：直接对后验概率建模进行预测。&lt;/li&gt;
+  &lt;li&gt;生成式：先对联合概率建模，然后再获得后验概率。&lt;/li&gt;
+  &lt;li&gt;两种策略简单对比(来自知乎):
+    &lt;ul&gt;
+      &lt;li&gt;要确定一个羊是山羊还是绵羊，用判别模型的方法是从历史数据中学习到模型，然后通过提取这只羊的特征来预测出这只羊是山羊的概率，是绵羊的概率&lt;/li&gt;
+      &lt;li&gt;利用生成模型是根据山羊的特征首先学习出一个山羊的模型，然后根据绵羊的特征学习出一个绵羊的模型，然后从这只羊中提取特征，放到山羊模型中看概率是多少，在放到绵羊模型中看概率是多少，哪个大就是哪个&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;而根据贝叶斯公式，如果我们要得到类后验概率，我们其实是需要先预测出联合概率的(可见属于生成式模型)。而为了获得联合概率，那么我们需要基于训练集样本估计出类先验概率和类条件概率。对于类先验概率可以直接估计(假定给定的样本量充足)&lt;/p&gt;
+
+&lt;p&gt;但对于类条件概率的估计，需要注意：&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;由于样本的特征向量$x$涉及到了其各个分量之间的联合概率问题，因此直接计算它们出现的频率来进行估计，将会带来严重的困难。&lt;/li&gt;
+  &lt;li&gt;而如果假设特征向量的各个分量之间相互独立，那么这时条件概率可表示为$P(X=x \vert Y=c_k) = \Pi_{i=1}^n P(X_i = x_i \vert Y=c_k)$，这样的分类器被称为朴素贝叶斯分类器。&lt;/li&gt;
+  &lt;li&gt;而如果样本的特征向量服从某种概率分布，如正态分布，则可以通过训练样本对概率分布的参数进行估计。(假定给定的样本是独立同分布的)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;极大似然估计&quot;&gt;极大似然估计&lt;/h2&gt;
+
+&lt;p&gt;前面提到我们需要估计后验概率，使其最大化，根据公式，那么本质上我们是要对估计的类条件概率最大化。&lt;/p&gt;
+
+&lt;p&gt;而估计类条件概率一种常用的策略是先假定其具有某种确定的概率分布形式，再基于训练样本对概率分布的参数进行估计。令$\theta_c$表示$P(X=x \vert Y=c_k)$的参数向量。&lt;/p&gt;
+
+&lt;p&gt;事实上，概率模型的训练过成功就是参数估计过程。&lt;/p&gt;
+
+&lt;p&gt;而类条件概率也被称为似然，因此最大化类条件概率也就是进行极大似然估计。且最大化类条件概率时，我们不是针对单个单个样本进行最大化，而是针对整个给定类别$c$的所有样本集合($D_c$)进行最大化，则$\theta_c$对于样本集$D_c$的似然：&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;P(D_c \vert Y=c_k) = \prod_{x\in D_c} P(X=x \vert \theta_c)&lt;/script&gt;
+
+&lt;p&gt;那么对于$\theta_c$的极大似然估计，就是需寻找使$P(D_c \vert Y=c_k)$最大化的参数$\hat{\theta}_c$。&lt;/p&gt;
+
+&lt;h4 id=&quot;对数似然&quot;&gt;对数似然&lt;/h4&gt;
+
+&lt;p&gt;由于数值运算时，连乘容易造成下溢，因此通常使用对数似然转换为累加&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\log P(D_c \vert Y=c_k) =\log \prod_{x\in D_c} P(X=x \vert \theta_c) = \sum_{x\in D_c} \log P(X=x \vert \theta_c)&lt;/script&gt;
+
+&lt;h4 id=&quot;attention&quot;&gt;Attention&lt;/h4&gt;
+
+&lt;p&gt;这种参数化方法虽然能使类条件概率估计变得相对简单，但估计结果的准确性严重依赖于所假设的概率分布形式是否复合潜在的真是数据分布。在现实应用中，欲做出能较好地接近潜在真是分布的假设，往往需要在一定程度上利用应用任务本身的经验知识，否则仅凭“猜测”来假设概率分布形式，很可能产生误导性的结果。&lt;/p&gt;
+
+&lt;h2 id=&quot;朴素贝叶斯分类器&quot;&gt;朴素贝叶斯分类器&lt;/h2&gt;
+
+&lt;p&gt;前面已经提到，根据原始的贝叶斯公式估计后验概率，在对类条件概率估计时，使用的是样本的特征向量上分量的联合概率，如果分量过多，则可能出现组合爆炸、样本稀疏等问题，因此很难从有限的训练样本中直接估计得到。&lt;/p&gt;
+
+&lt;p&gt;因此朴素贝叶斯分类器使用“特征属性条件独立性假设”，也就是假设特征向量的各个分量之间相互独立，那么则对于类条件概率，可表示为：&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;P(X=x \vert Y=c_k) = \prod_{j=1}^n P(X_j = x_j \vert Y=c_k)&lt;/script&gt;
+
+&lt;p&gt;因此朴素贝叶斯的表达式为：&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;P(Y=c_i \vert X=x) = \frac {P(X=x \vert Y=c_i)P(Y=c_i)}{\sum_{k=1}^K P(X=x \vert Y=c_k)P(Y=c_k)} = \frac {P(Y=c_i)}{\sum_{k=1}^K P(X=x \vert Y=c_k)P(Y=c_k)} \prod_{j=1}^n P(X_j = x_j \vert Y=c_i)&lt;/script&gt;
+
+&lt;p&gt;由于上式中的分母对于所有类都是相等的，因此将之看作一个归一化因子$Z$，简化后得：&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;P(Y=c_k \vert X=x) = \frac {1}{Z} P(Y=c_k) \prod_{j=1}^n P(X_j = x_j \vert Y=c_k)&lt;/script&gt;
+
+&lt;p&gt;先验概率(类似地使用$\vert D \vert$表示样本集合的数量)：&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;P(Y=c_k) = \frac {\vert D_{c_k} \vert}{\vert D \vert}&lt;/script&gt;
+
+&lt;p&gt;类条件概率($\vert D_{c,x_i} \vert$表示类别为$c_k$且第i个分量为x_i的样本集合)：&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;离散值&lt;/p&gt;
+
+    &lt;script type=&quot;math/tex; mode=display&quot;&gt;P(X_i=x_i \vert Y=c_k)= \frac {\vert D_{c_k,x_i} \vert}{\vert D_c \vert}&lt;/script&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;连续值
+  如果特征向量的分量是连续型随机变量，可以考虑概率密度函数。如可以假设它们服从一维正态分布。然后根据训练样本计算出每个类别样本的每个分量的均值$\mu_{c,i}$和方差$\sigma_{c,i}$,
+  则可以得到对应的正态分布，那么就可以用它表示概率密度函数来表示条件概率&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;平滑处理&quot;&gt;平滑处理&lt;/h4&gt;
+
+&lt;p&gt;在朴素贝叶斯中，如果在某个类别的下，所有样本的特征向量的某一分量的取值都为0，由于计算类条件概率使用连乘，那么将导致整个类条件概率的结果为0。&lt;/p&gt;
+
+&lt;p&gt;因此为了避免这样的情况发生，需要对概率值的估计进行平滑处理，常用的处理方式是”拉普拉斯平滑”：令N表示训练集中可能的类别数，$N_i$表示第i个分量的取值数(频率)，则：&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\begin{aligned} P(Y=c_k) = \frac {\vert D_{c_k} \vert + 1}{\vert D \vert + N}  \\ P(X_i=x_i \vert Y=c_k)= \frac {\vert D_{c_k,x_i}\vert + 1 }{\vert D_c \vert + N_i}  \end{aligned}&lt;/script&gt;
+</description>
+        <pubDate>Mon, 30 Mar 2020 19:00:06 -0500</pubDate>
+        <link>http://0.0.0.0:4000//algorithms/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0(6)-%E8%B4%9D%E5%8F%B6%E6%96%AF%E5%88%86%E7%B1%BB%E5%99%A8</link>
+        <link href="http://0.0.0.0:4000/algorithms/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0(6)-%E8%B4%9D%E5%8F%B6%E6%96%AF%E5%88%86%E7%B1%BB%E5%99%A8"/>
+        <guid isPermaLink="true">http://0.0.0.0:4000/algorithms/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0(6)-%E8%B4%9D%E5%8F%B6%E6%96%AF%E5%88%86%E7%B1%BB%E5%99%A8</guid>
+      </item>
+    
+      <item>
+        <title>机器学习(五)-k最近邻算法</title>
+        <description>&lt;h2 id=&quot;knn&quot;&gt;KNN&lt;/h2&gt;
+
+&lt;p&gt;k近邻算法(k-nearest neighbor, KNN)是一种基本分类与回归方法。&lt;/p&gt;
+
+&lt;h4 id=&quot;knn算法的工作机制&quot;&gt;KNN算法的工作机制&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;给定测试样本，基于某种距离度量(如欧氏距离)找出测试集中与其最靠近的k个训练样本，然后基于这k个近邻样本的信息进行预测。
+    &lt;ul&gt;
+      &lt;li&gt;给定的测试样本，其中的实例类别已定(分类任务)，或实例的真是标记值已定(回归任务)&lt;/li&gt;
+      &lt;li&gt;在分类任务中，对新的实例，根据其k个最近邻的训练实例的类别，通过多数表决等方式进行预测
+  对于分类问题，给定$m$个训练样本$(\boldsymbol{x}_i, y_i)$，设定参数$k$，假设类型数为$c$，待分类样本的特征向量是$\boldsymbol{x}$，那么预测的流程：
+        &lt;ul&gt;
+          &lt;li&gt;在训练样本中找出离$\boldsymbol{x}$最近的$k$个样本，假设这些样本的集合为$N$&lt;/li&gt;
+          &lt;li&gt;统计集合$N$中每一类的个数$C_i, i=1,2,···,c$&lt;/li&gt;
+          &lt;li&gt;最终分类结果为$\max_i C_i$&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;在回归任务中，可使用”平均法”，即将这k个样本的实值输出，标记的平均值作为预测结果&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;可见，KNN算法不具有显示的学习过程。
+    &lt;ul&gt;
+      &lt;li&gt;KNN实际上利用训练数据集对特征向量空间进行划分，并作为其分类的“模型”&lt;/li&gt;
+      &lt;li&gt;KNN是“lazy learning”的著名代表，此类学习技术在训练阶段仅仅是吧样本保存起来，训练时间开销为0，等需要进行预测时再进行处理。与之相对的是“eager learning”&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;KNN算法实现简单，但缺点是训练样本数大、特征向量维数很高时，计算复杂度高。
+    &lt;ul&gt;
+      &lt;li&gt;每次预测时要计算待预测样本和每一个训练样本的距离。而且要对距离进行排序找到最近的k个样本。
+        &lt;ul&gt;
+          &lt;li&gt;可以使用高效的部分排序算法，只找出最小的k个数&lt;/li&gt;
+          &lt;li&gt;或是利用kd数实现快速的近邻样本查找&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;变种：
+    &lt;ul&gt;
+      &lt;li&gt;带权重的KNN&lt;/li&gt;
+      &lt;li&gt;模糊KNN&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;knn算法的基本要素&quot;&gt;KNN算法的基本要素&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;k值的选择&lt;/li&gt;
+  &lt;li&gt;距离度量&lt;/li&gt;
+  &lt;li&gt;分类/回归决策规则&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;k值的选择&quot;&gt;K值的选择&lt;/h4&gt;
+&lt;ul&gt;
+  &lt;li&gt;k值的选择会对KNN算法的结果产生重大影响。它需要根据问题和数据的特点来确定，并注意：
+    &lt;ul&gt;
+      &lt;li&gt;如果选择较小k值，由于只有与输入实例较近的训练实例才会对预测结果作用，估计误差会增大，因此将对这些训练实例非常敏感，从而容易造成过拟合&lt;/li&gt;
+      &lt;li&gt;如果选择较大的k值，估计误差虽然可以减少，但近似误差，即与输入实例较远的训练实例也会对预测起作用，会使预测发生错误。&lt;/li&gt;
+      &lt;li&gt;k值的减小意味着整体模型变得复杂， k值的增大意味着整体模型变得简单&lt;/li&gt;
+    &lt;/ul&gt;
+
+    &lt;p&gt;实际中，k值取值一般比较小，并通常采用交叉验证法来选取最优的k值&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&quot;距离度量&quot;&gt;距离度量&lt;/h5&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;KNN算法模型的特征空间一般是n维实数向量空间$R^n$&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&quot;欧式距离&quot;&gt;欧式距离&lt;/h5&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;d(\boldsymbol{u}, \boldsymbol{v}) = \sqrt{\sum_{i=1}^n(u_i-v_i)^2}&lt;/script&gt;
+
+&lt;h5 id=&quot;曼哈顿距离&quot;&gt;曼哈顿距离&lt;/h5&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;d(\boldsymbol{u}, \boldsymbol{v}) = \sum_{i=1}^n \vert u_i-v_i \vert&lt;/script&gt;
+
+&lt;h5 id=&quot;mahalanobis距离&quot;&gt;Mahalanobis距离&lt;/h5&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;Mahalanobis距离是一种概率意义上的距离。它度量两个随机向量的相似度。&lt;/p&gt;
+
+    &lt;script type=&quot;math/tex; mode=display&quot;&gt;d(\boldsymbol{u}, \boldsymbol{v}) = \sqrt{(\boldsymbol{u}-\boldsymbol{v})^TS(\boldsymbol{u}-\boldsymbol{v})}&lt;/script&gt;
+
+    &lt;ul&gt;
+      &lt;li&gt;矩阵$S$是正定的(否则没有意义)&lt;/li&gt;
+      &lt;li&gt;当$S$是单位矩阵时，Mahalanobis距离退化为欧氏距离&lt;/li&gt;
+    &lt;/ul&gt;
+
+    &lt;p&gt;$S$矩阵可以通过计算训练样本集的协方差矩阵得到，也可以通过训练样本学习得到&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;KNN算法的精度在很大程度上依赖于所使用的距离度量标准，“距离度量学习”是一种从带标签的样本集中学习，得到距离度量矩阵的方法&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&quot;bhattacharyya距离&quot;&gt;Bhattacharyya距离&lt;/h5&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;Bhattacharyya距离定义了离散型或连续型概率分布的相似性&lt;/p&gt;
+
+    &lt;ul&gt;
+      &lt;li&gt;
+        &lt;p&gt;对于离散型随机变量的分布，定义为：&lt;/p&gt;
+
+        &lt;script type=&quot;math/tex; mode=display&quot;&gt;d(\boldsymbol{u}, \boldsymbol{v}) =  -\ln (\sum_{i=1}^n\sqrt{u_i\cdot y_i})&lt;/script&gt;
+
+        &lt;p&gt;其中随机向量的分量值必须非负&lt;/p&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;分类回归决策规则&quot;&gt;分类/回归决策规则&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;KNN中分类决策规则往往是多数表决&lt;/li&gt;
+  &lt;li&gt;KNN中回归决策规则往往是“平均值”&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;kd树&quot;&gt;kd树&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;KNN的实现，主要考虑的问题是如何对训练数据进行快速的k近邻搜索，尤其是在特征空间的维数大及训练数据容量大时。KNN最简单的实现方法是线性扫描，但显而易见，性能很低。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;kd树是一种对k维空间中的实例点进行存储以便对其进行快速检索的树形数据结构&lt;/p&gt;
+    &lt;ul&gt;
+      &lt;li&gt;kd树是一颗二叉树，表示对k维空间的一个划分&lt;/li&gt;
+      &lt;li&gt;构造kd树相当于不断对垂直于坐标轴超平面将k维空间划分，构成一系列的k维超矩形区域，kd树的每个节点对应于一个k维超矩形区域&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;kd树构造&quot;&gt;kd树构造&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;通常依次选择坐标轴对空间划分
+    &lt;ul&gt;
+      &lt;li&gt;选择训练实例点在所选定坐标轴上的&lt;strong&gt;中位数&lt;/strong&gt;坐标作为切分点，进行二分操作，并将切分点所属的实例点保存在当前的子树的根节点，然后递归处理左右两部分子区域，
+  直到两个子区域没有实例存在时停止，最终构建出kd树&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;通过中位数构建的kd树是平衡的&lt;/p&gt;
+
+&lt;h4 id=&quot;kd树搜索&quot;&gt;kd树搜索&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;首先从上往下，根据目标点依次在坐标轴上进行判断，直到叶节点&lt;/li&gt;
+  &lt;li&gt;然后将此叶节点作为“当前最近点”，随即递归向上回退，并坐如下处理
+    &lt;ul&gt;
+      &lt;li&gt;先判断当前所在节点比“当前最近点”距离更近，则更新当前所在节点为“当前最近点”&lt;/li&gt;
+      &lt;li&gt;搜索当前节点的另一子节点，在其中查找是否有更近的点，若有，则更新其为新的“当前最近点”&lt;/li&gt;
+      &lt;li&gt;直到回退到根节点，搜索结束&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;如果实例点是随机分布的，kd树搜索的平均计算复杂度是$O(\log N)$，$N$为训练样本数。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;kd树更适合于训练样本数远大于空间维数的k近邻搜索。当空间维数接近训练样本数时，它的效率会迅速下降，几乎接近线性扫描&lt;/li&gt;
+&lt;/ul&gt;
+
+</description>
+        <pubDate>Mon, 30 Mar 2020 19:00:05 -0500</pubDate>
+        <link>http://0.0.0.0:4000//algorithms/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0(5)-k%E6%9C%80%E8%BF%91%E9%82%BB%E7%AE%97%E6%B3%95</link>
+        <link href="http://0.0.0.0:4000/algorithms/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0(5)-k%E6%9C%80%E8%BF%91%E9%82%BB%E7%AE%97%E6%B3%95"/>
+        <guid isPermaLink="true">http://0.0.0.0:4000/algorithms/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0(5)-k%E6%9C%80%E8%BF%91%E9%82%BB%E7%AE%97%E6%B3%95</guid>
+      </item>
+    
+      <item>
+        <title>机器学习(四)-最大熵模型</title>
+        <description>&lt;h2 id=&quot;最大熵原理&quot;&gt;最大熵原理&lt;/h2&gt;
+
+&lt;h4 id=&quot;定义&quot;&gt;定义&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;最大熵原理是概率模型学习的一个准则。最大熵原理认为，学习概率模型时，在所有可能的概率模型(分布)中，熵最大的模型是最好的模型。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;若概率模型需要满足一些约束条件(满足约束条件的概率模型/分布可能有无穷多个)，那么最大熵原理也可以表述为在满足约束条件的模型集合中选取熵最大的模型。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;最大熵原理指出，对一个随机事件的概率分布进行预测时，预测应当满足全部已知的约束，而对未知的情况不要做任何主观假设，应认为对于未知的情况都是”等可能的”。
+而在这种情况下，概率分布最均匀，预测的风险最小，因此得到的概率分布的熵是最大。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;也就是说，最大熵原理通过熵的最大化来表示等可能性&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;熵公式&quot;&gt;熵公式&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;假设离散随机变量$X$是的概率分布是$P(X)$，则其熵是：&lt;/p&gt;
+
+    &lt;script type=&quot;math/tex; mode=display&quot;&gt;H(X) = -\sum_{\boldsymbol{x}} P(X=\boldsymbol{x})\log P(X=\boldsymbol{x})&lt;/script&gt;
+
+    &lt;ul&gt;
+      &lt;li&gt;$H(X)$依赖于X的分布,而与X的具体值无关。H(X)越大,表示X的不确定性越大&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;可证，熵$H(X)$满足：&lt;/p&gt;
+
+    &lt;script type=&quot;math/tex; mode=display&quot;&gt;0 \le H(X) \le \log \vert X \vert&lt;/script&gt;
+
+    &lt;ul&gt;
+      &lt;li&gt;$\vert X \vert$表示离散随机变量$X$的可能取值个数&lt;/li&gt;
+      &lt;li&gt;最大熵原理指出概率分布越均匀，熵越大，即当且仅当X的分布服从均匀分布时上式右边的等号成立&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;最大熵原理是统计学习的一般原理，将它应用到分类得到最大熵模型&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;最大熵模型定义&quot;&gt;最大熵模型定义&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;定义$\mathcal{X}$，$\mathcal{Y}$分别表示$R_n$中的输入空间和输出空间，$X$和$Y$分别是$\mathcal{X}$，$\mathcal{Y}$的随机变量。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;假设分类模型是一个条件概率分布$P(Y\vert X)$(判别式的)，即对于给定的输入$X$，根据条件概率$P(Y\vert X)$输出$Y$。&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;最大熵模型的特征与特征函数&quot;&gt;最大熵模型的特征与特征函数&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;通常”特征”往往仅指对输入抽取特征，用函数表示就是 $f(\boldsymbol{x})$；而在最大熵模型中，是对输入和输出同时抽取特征，用函数表示就是 $f(\boldsymbol{x},y)$&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;特征函数的作用可理解为相当于对特征进行特征转换、提取或向量化处理表达&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;如&lt;/p&gt;
+
+    &lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+f(\boldsymbol{x},y) = \left \{ \begin{aligned} &amp;1 \qquad &amp;&amp;当\boldsymbol{x},y满足某一事实，如 \boldsymbol{x}=\boldsymbol{x}_0,y=y_0 \\ &amp;0 \qquad &amp;&amp;不满足该事实 \end{aligned} \right. %]]&gt;&lt;/script&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;注意特征函数可以任意实值函数，且一个模型中可以定义多个特征函数&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;最大熵模型的约束条件&quot;&gt;最大熵模型的约束条件&lt;/h4&gt;
+
+&lt;h5 id=&quot;期望&quot;&gt;期望&lt;/h5&gt;
+&lt;ul&gt;
+  &lt;li&gt;对于给定的训练样本数据集(假设样本数为 $m$)：
+    &lt;ul&gt;
+      &lt;li&gt;
+        &lt;p&gt;联合分布 $P(X=\boldsymbol{x},Y=y)$ 的经验分布 $\tilde{P}(X=\boldsymbol{x},Y=y)$:&lt;/p&gt;
+
+        &lt;script type=&quot;math/tex; mode=display&quot;&gt;\tilde{P}(X=\boldsymbol{x},Y=y) = \frac {count(X=\boldsymbol{x},Y=y)}{m}&lt;/script&gt;
+      &lt;/li&gt;
+      &lt;li&gt;
+        &lt;p&gt;边缘分布 $P(X=\boldsymbol{x})$ 的经验分布 $\tilde{P}(X=\boldsymbol{x})$:&lt;/p&gt;
+
+        &lt;script type=&quot;math/tex; mode=display&quot;&gt;\tilde{P}(X=\boldsymbol{x}) = \frac {count(X=\boldsymbol{x})}{m}&lt;/script&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;则可得相应的期望：
+    &lt;ul&gt;
+      &lt;li&gt;
+        &lt;p&gt;特征函数 $f(\boldsymbol{x},y)$ 关于经验分布 $\tilde{P}(X=\boldsymbol{x},Y=y)$ 的期望是：&lt;/p&gt;
+
+        &lt;script type=&quot;math/tex; mode=display&quot;&gt;E_{\tilde{P}}(f) = \sum_{\boldsymbol{x},y} \tilde{P}(X=\boldsymbol{x},Y=y) \space f(\boldsymbol{x}, y)&lt;/script&gt;
+      &lt;/li&gt;
+      &lt;li&gt;
+        &lt;p&gt;模型 $P(Y\vert X)$ 关于特征函数 $f(\boldsymbol{x},y)$ 的期望是：&lt;/p&gt;
+
+        &lt;script type=&quot;math/tex; mode=display&quot;&gt;E_{P}(f) = \sum_{\boldsymbol{x},y} P(X=\boldsymbol{x},Y=y) \space f(\boldsymbol{x}, y) \approx \sum_{\boldsymbol{x},y} \tilde{P}(X=\boldsymbol{x}) \space P(Y=y\vert X=\boldsymbol{x}) \space f(\boldsymbol{x}, y)&lt;/script&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&quot;约束条件&quot;&gt;约束条件&lt;/h5&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;最大熵模型的约束条件就是，对于所有的特征函数 $f_i, i=1,2,…n$(假定有$n$个特征函数，也就意味着有$n$个约束条件)：&lt;/p&gt;
+
+    &lt;script type=&quot;math/tex; mode=display&quot;&gt;E_{\tilde{P}}(f_i) = E_{P}(f_i)&lt;/script&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;条件熵&quot;&gt;条件熵&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;关于条件分布 $P(Y\vert X)$ 的条件熵为：&lt;/p&gt;
+
+    &lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{aligned} H(P) &amp;= H(Y \vert X) \\ &amp;=  \sum_{i=1}^m P(X=\boldsymbol{x}_i) H(Y \vert X=\boldsymbol{x}_i) \\ &amp;= -\sum_{i=1}^m P(X=\boldsymbol{x}_i) \cdot \sum_{j=1}^n P(Y=y_j \vert X=\boldsymbol{x}_i) \log P(Y=y_j \vert X=\boldsymbol{x}_i) \\ &amp;= -\sum_{\boldsymbol{x},y} P(Y=y, X=\boldsymbol{x}) \log P(Y=y \vert X=\boldsymbol{x}) \\ &amp;\approx  -\sum_{\boldsymbol{x},y} \tilde{P}(X=\boldsymbol{x}) P(Y=y \vert X=\boldsymbol{x})\log P(Y=y \vert X=\boldsymbol{x}) \end{aligned} %]]&gt;&lt;/script&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;最大熵模型的定义&quot;&gt;最大熵模型的定义&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;设 $P^*$ 是最大熵模型的解，则最大熵模型定义为：
+    &lt;ul&gt;
+      &lt;li&gt;第一，优先保证模型满足已知的所有约束，约束集合记为：&lt;script type=&quot;math/tex&quot;&gt;C = \{ P \vert E_{\tilde{P}}(f_i) = E_{P}(f_i), \qquad i=1,2,...n \}&lt;/script&gt;&lt;/li&gt;
+      &lt;li&gt;第二，使条件熵 $H(P)$ 取最大&lt;/li&gt;
+    &lt;/ul&gt;
+
+    &lt;script type=&quot;math/tex; mode=display&quot;&gt;P^* = arg \max_{P\in C} H(P) \space 或 \space P^*= arg \min_{P\in C} -H(P)&lt;/script&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;最大熵模型的求解&quot;&gt;最大熵模型的求解&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;由上，可知最大熵模型的求解问题其实就是一个&lt;strong&gt;等式约束优化问题&lt;/strong&gt;：&lt;/p&gt;
+
+    &lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{aligned} &amp;\min_{P\in C} &amp;&amp;-H(P) = \sum_{\boldsymbol{x},y} \tilde{P}(X=\boldsymbol{x}) P(Y=y \vert X=\boldsymbol{x})\log P(Y=y \vert X=\boldsymbol{x}) \\ &amp;subject.to &amp;&amp;\sum_y P(Y=y\vert X=\boldsymbol{x}) = 1 \\ &amp; &amp;&amp;E_{\tilde{P}}(f_i) - E_{P}(f_i) = 0, \space i=1,2,...n \end{aligned} %]]&gt;&lt;/script&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;为表达方便，简写为：&lt;/p&gt;
+
+    &lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{aligned} &amp;\min_{P\in C} &amp;&amp;-H(P) = \sum_{\boldsymbol{x},y} \tilde{P}(\boldsymbol{x}) P(y \vert \boldsymbol{x})\log P(y \vert \boldsymbol{x}) \\ &amp;subject.to &amp;&amp;\sum_y P(y\vert \boldsymbol{x}) = 1 \\ &amp; &amp;&amp;E_{\tilde{P}}(f_i) - E_{P}(f_i) = 0, \space i=1,2,...n  \end{aligned} %]]&gt;&lt;/script&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;拉格朗日乘子法&quot;&gt;拉格朗日乘子法&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;对于&lt;strong&gt;等式约束优化问题&lt;/strong&gt;可引入拉格朗日乘子，构建拉格朗日函数：&lt;/p&gt;
+
+    &lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{aligned} L(P, \boldsymbol{\omega}) &amp;= -H(P) + \omega_0[1-\sum_y P(y\vert \boldsymbol{x})] + \sum_{i=1}^n \omega_i [E_{\tilde{P}}(f_i) - E_{P}(f_i)] \\ &amp;= \sum_{\boldsymbol{x},y} \tilde{P}(\boldsymbol{x}) P(y \vert \boldsymbol{x})\log P(y \vert \boldsymbol{x}) + \omega_0[1-\sum_y P(y\vert \boldsymbol{x})] + \sum_{i=1}^n \omega_i[\sum_{\boldsymbol{x},y} \tilde{P}(\boldsymbol{x},y) \space f_i(\boldsymbol{x}, y) - \sum_{\boldsymbol{x},y} \tilde{P}(\boldsymbol{x}) \space P(y\vert \boldsymbol{x}) \space f_i(\boldsymbol{x}, y)] \end{aligned} %]]&gt;&lt;/script&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&quot;对pyvert-boldsymbolx求偏导&quot;&gt;对$P(y\vert \boldsymbol{x})$求偏导&lt;/h5&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{aligned} \frac {\partial L(P, \boldsymbol{\omega})}{\partial P(y\vert \boldsymbol{x})} &amp;= \sum_{\boldsymbol{x},y} \tilde{P}(\boldsymbol{x}) [\log P(y \vert \boldsymbol{x})+1] - \sum_y \omega_0 - \sum_{i=1}^n \omega_i \sum_{\boldsymbol{x},y} \tilde{P}(\boldsymbol{x}) \space f_i(\boldsymbol{x}, y) \\ &amp;= \sum_{\boldsymbol{x},y} \tilde{P}(\boldsymbol{x})[1+\log P(y \vert \boldsymbol{x})-\omega_0-\sum_{i=1}^n \omega_i \space f_i(\boldsymbol{x}, y)]\end{aligned} %]]&gt;&lt;/script&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;令偏导数为0，将对数视为自然对数，可得：&lt;/p&gt;
+
+    &lt;script type=&quot;math/tex; mode=display&quot;&gt;P(y \vert \boldsymbol{x}) = e^{-1+\omega_0+\sum_{i=1}^n \omega_i \space f_i(\boldsymbol{x}, y)} =\frac {1}{e^{1-\omega_0}}e^{\sum_{i=1}^n \omega_i \space f_i(\boldsymbol{x}, y)}&lt;/script&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;由已知约束条件$\sum_y P(y \vert \boldsymbol{x}) = 1$，可得：&lt;/p&gt;
+
+    &lt;script type=&quot;math/tex; mode=display&quot;&gt;\sum_y P(y \vert \boldsymbol{x}) = \sum_y \frac {1}{e^{1-\omega_0}}e^{\sum_{i=1}^n \omega_i \space f_i(\boldsymbol{x}, y)} = 1&lt;/script&gt;
+
+    &lt;script type=&quot;math/tex; mode=display&quot;&gt;\Longrightarrow e^{1-\omega_0} = \sum_y e^{\sum_{i=1}^n \omega_i \space f_i(\boldsymbol{x}, y)}&lt;/script&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&quot;最终得到的最大熵模型&quot;&gt;最终得到的最大熵模型&lt;/h5&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;令&lt;/p&gt;
+
+    &lt;script type=&quot;math/tex; mode=display&quot;&gt;Z_\omega (\boldsymbol{x}) = e^{1-\omega_0} = \sum_y e^{\sum_{i=1}^n \omega_i \space f_i(\boldsymbol{x}, y)}&lt;/script&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;这里&lt;script type=&quot;math/tex&quot;&gt;Z_\omega (\boldsymbol{x})&lt;/script&gt;称为规范化因子，起到了归一化的作用&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;最大熵模型的后验概率：&lt;/p&gt;
+
+    &lt;script type=&quot;math/tex; mode=display&quot;&gt;P(y\vert \boldsymbol{x}) = \frac {1}{Z_\omega (\boldsymbol{x})} e^{\sum_{i=1}^n \omega_i \space f_i(\boldsymbol{x}, y)}&lt;/script&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;拉格朗日对偶法求解&quot;&gt;拉格朗日对偶法求解&lt;/h4&gt;
+
+&lt;h5 id=&quot;原问题与对偶问题最优解的等价性&quot;&gt;原问题与对偶问题最优解的等价性&lt;/h5&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;因满足以下三条性质，根据强对偶理论，可知最大熵模型的拉格朗日函数的拉格朗日对偶性中：原问题的最优解和对偶问题的最优解之间无对偶间隙。即对偶问题的最优解等价于原问题的最优解。
+    &lt;ul&gt;
+      &lt;li&gt;根据集合$C$的定义表述，可知$C$是一个多面体；&lt;/li&gt;
+      &lt;li&gt;由熵的凹性，可知 $L(P, \boldsymbol{\omega})$ 是关于 $P$的凸函数；&lt;/li&gt;
+      &lt;li&gt;同时加之，约束条件是线性的；&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h6 id=&quot;原问题&quot;&gt;原问题&lt;/h6&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;转换为等价的极小极大问题(原问题)&lt;/p&gt;
+
+    &lt;script type=&quot;math/tex; mode=display&quot;&gt;\min_{P\in C} \max_{\boldsymbol{\omega}} L(P, \boldsymbol{\omega})&lt;/script&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h6 id=&quot;对偶问题&quot;&gt;对偶问题&lt;/h6&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;对偶函数：&lt;/p&gt;
+
+    &lt;script type=&quot;math/tex; mode=display&quot;&gt;q(\boldsymbol{\omega}) = \min_{P\in C} L(P, \boldsymbol{\omega})&lt;/script&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;转换为对偶的极大极小问题(对偶问题)&lt;/p&gt;
+
+    &lt;script type=&quot;math/tex; mode=display&quot;&gt;\max_{\boldsymbol{\omega}} \min_{P\in C} L(P, \boldsymbol{\omega})&lt;/script&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&quot;求解对偶问题&quot;&gt;求解对偶问题&lt;/h5&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;求解对偶问题内部的极小化问题得 $P^*$：&lt;/p&gt;
+
+    &lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{aligned} P^* &amp;= arg \min_{P\in C} L(P, \boldsymbol{\omega}) \\ &amp;= \frac {1}{Z_\omega (\boldsymbol{x})} e^{\sum_{i=1}^n \omega_i \space f_i(\boldsymbol{x}, y)} \end{aligned} %]]&gt;&lt;/script&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;求解对偶问题外部的极大化问题得 $\boldsymbol{\omega}^*$：&lt;/p&gt;
+
+    &lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{aligned} \boldsymbol{\omega}^* &amp;= arg \max_{\boldsymbol{\omega}} q(\boldsymbol{\omega}) \\ &amp;= arg \max_{\boldsymbol{\omega}} \min_{P\in C} L(P, \boldsymbol{\omega}) \\ &amp;= arg \max_{\boldsymbol{\omega}} L(P^*, \boldsymbol{\omega}) \end{aligned} %]]&gt;&lt;/script&gt;
+
+    &lt;ul&gt;
+      &lt;li&gt;代入$P^*$，化简后得：&lt;/li&gt;
+    &lt;/ul&gt;
+
+    &lt;script type=&quot;math/tex; mode=display&quot;&gt;\boldsymbol{\omega}^* = arg \max_{\boldsymbol{\omega}} \sum_{\boldsymbol{x}, y} \tilde{P}(\boldsymbol{x}, y) \sum_{i=1}^n \omega_i f_i(\boldsymbol{x}, y)-\sum_{\boldsymbol{x}} \tilde{P}(\boldsymbol{x}) \log Z_\omega (\boldsymbol{x})&lt;/script&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;极大似然估计法求解&quot;&gt;极大似然估计法求解&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;似然函数&lt;/p&gt;
+
+    &lt;script type=&quot;math/tex; mode=display&quot;&gt;L(\boldsymbol{\omega}) = \prod_{i=1}^m P(Y=y_i \vert X=\boldsymbol{x}_i; \boldsymbol{\omega}), \qquad m表示训练样本数&lt;/script&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;上面的似然函数，稍微调整下可以写为：&lt;/p&gt;
+
+    &lt;script type=&quot;math/tex; mode=display&quot;&gt;L(\boldsymbol{\omega}) = \prod_{i=1}^k P(Y=y_i \vert X=\boldsymbol{x}_i; \boldsymbol{\omega})^{count(X=\boldsymbol{x}_i)}, \qquad k表示X的取值个数&lt;/script&gt;
+
+    &lt;ul&gt;
+      &lt;li&gt;左右同时取m次方根&lt;/li&gt;
+    &lt;/ul&gt;
+
+    &lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{aligned} L(\boldsymbol{\omega})^{\frac 1m} &amp;= \prod_{i=1}^k P(Y=y_i \vert X=\boldsymbol{x}_i; \boldsymbol{\omega})^{\frac {count(X=\boldsymbol{x}_i)}{m}}, \qquad k表示X的取值个数 \\ &amp;= \prod_{i=1}^k P(Y=y_i \vert X=\boldsymbol{x}_i; \boldsymbol{\omega})^{\tilde{P}(X=\boldsymbol{x}_i)} \\ &amp;= \prod_{\boldsymbol{x},y} P(y \vert \boldsymbol{x}; \boldsymbol{\omega})^{\tilde{P}(\boldsymbol{x})} \end{aligned} %]]&gt;&lt;/script&gt;
+
+    &lt;ul&gt;
+      &lt;li&gt;显然对 $L(\boldsymbol{\omega})$ 极大化等价于对其 $m$次方根的极大化&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;则可得条件分布$P(y\vert \boldsymbol{x})$ 极大化对数似然估计函数为：&lt;/p&gt;
+
+    &lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{aligned} \max_{\boldsymbol{\omega}} \log L(\boldsymbol{\omega}) &amp;\equiv \max_{\boldsymbol{\omega}} \log L(\boldsymbol{\omega})^{\frac 1m} \\ &amp;= \max_{\boldsymbol{\omega}} \log \prod_{\boldsymbol{x},y} P(y \vert \boldsymbol{x}; \boldsymbol{\omega})^{\tilde{P}(\boldsymbol{x})} \\ &amp;= \max_{\boldsymbol{\omega}} \sum_{\boldsymbol{x},y} \tilde{P}(\boldsymbol{x}, y) \log P(y\vert \boldsymbol{x}; \boldsymbol{\omega}) \end{aligned} %]]&gt;&lt;/script&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;则极大化对数似然函数，可得：&lt;/p&gt;
+
+    &lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{aligned} \boldsymbol{\omega}^* &amp;= arg \max_{\boldsymbol{\omega}} \log L(\boldsymbol{\omega}) \\ &amp;= arg \max_{\boldsymbol{\omega}} \sum_{\boldsymbol{x},y} \tilde{P}(\boldsymbol{x}, y) \sum_{i=1}^n \omega_i f_i(\boldsymbol{x}, y) - \sum_{\boldsymbol{x},y} \tilde{P}(\boldsymbol{x},y) \log Z_\omega (\boldsymbol{x}) \\ &amp;= arg \max_{\boldsymbol{\omega}} \sum_{\boldsymbol{x},y} \tilde{P}(\boldsymbol{x}, y) \sum_{i=1}^n \omega_i f_i(\boldsymbol{x}, y) - \sum_{\boldsymbol{x}} \tilde{P}(\boldsymbol{x}) \log Z_\omega (\boldsymbol{x}) \qquad 根据\sum_y P(\boldsymbol{x},y)=1得出 \end{aligned} %]]&gt;&lt;/script&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;最大熵模型的学习&quot;&gt;最大熵模型的学习&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;根据前面的推导已经得到参数的表达式，因此接下来可以使用如梯度下降、牛顿法、拟牛顿法等方法进行求解&lt;/li&gt;
+  &lt;li&gt;对于最大熵模型的学习，也有专门的最优化算法-改进的迭代尺度法(IIS)&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        <pubDate>Mon, 30 Mar 2020 19:00:04 -0500</pubDate>
+        <link>http://0.0.0.0:4000//algorithms/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0(4)-%E6%9C%80%E5%A4%A7%E7%86%B5%E6%A8%A1%E5%9E%8B</link>
+        <link href="http://0.0.0.0:4000/algorithms/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0(4)-%E6%9C%80%E5%A4%A7%E7%86%B5%E6%A8%A1%E5%9E%8B"/>
+        <guid isPermaLink="true">http://0.0.0.0:4000/algorithms/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0(4)-%E6%9C%80%E5%A4%A7%E7%86%B5%E6%A8%A1%E5%9E%8B</guid>
+      </item>
+    
+      <item>
+        <title>机器学习(三)-Softmax Regression</title>
+        <description>&lt;h2 id=&quot;softmax-regression&quot;&gt;Softmax Regression&lt;/h2&gt;
+
+&lt;h4 id=&quot;softmax-regression模型预估公式&quot;&gt;Softmax Regression模型预估公式&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;Logistic Regression 只能用于二分类问题，将它进行推广可以得到处理多类分类问题的Softmax Regression&lt;/p&gt;
+
+    &lt;ul&gt;
+      &lt;li&gt;给定m个训练样本$(\boldsymbol{x}_i, y_i)$，其中$\boldsymbol{x}_i$为n维特征向量，$y_i$为类别标签，取值是$1$~$k$的整数&lt;/li&gt;
+    &lt;/ul&gt;
+
+    &lt;p&gt;softmax回归按照下列公式估计一个样本属于每一类的概率：&lt;/p&gt;
+
+    &lt;script type=&quot;math/tex; mode=display&quot;&gt;\boldsymbol{y}^* = \left [ \begin{matrix} P(Y=y_1\vert \boldsymbol{x}) \\ P(Y=y_2\vert \boldsymbol{x}) \\ ··· \\ P(Y=y_k\vert \boldsymbol{x}) \end{matrix} \right ]  = \frac {1}{\sum_{i=1}^k e^{\boldsymbol{\omega}_i^T \boldsymbol{x}}}  \left [ \begin{matrix} \boldsymbol{\omega}_1^T \boldsymbol{x} \\ \boldsymbol{\omega}_2^T \boldsymbol{x} \\ ··· \\ \boldsymbol{\omega}_k^T \boldsymbol{x} \end{matrix} \right ]&lt;/script&gt;
+
+    &lt;ul&gt;
+      &lt;li&gt;模型的输出是一个$k$维的概率向量$\boldsymbol{y}^*$，其元素之和为1，每一个分量为样本属于该类的概率&lt;/li&gt;
+      &lt;li&gt;使用指数函数进行变换的原因是指数函数值都大于0，概率值必须是非负的&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&quot;参数矩阵&quot;&gt;参数矩阵&lt;/h5&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;可见需要估计的参数为：&lt;/p&gt;
+
+    &lt;script type=&quot;math/tex; mode=display&quot;&gt;\boldsymbol{\omega} = [\boldsymbol{\omega}_1 \space\space \boldsymbol{\omega}_2 \space\space ···  \space\space \boldsymbol{\omega}_k]&lt;/script&gt;
+
+    &lt;ul&gt;
+      &lt;li&gt;其中每个$\boldsymbol{\omega}_i$都是一个$n$维列向量(若将偏置项置入$\boldsymbol{\omega}_i$中，则是$n+1$维，此时$\boldsymbol{x}_i = [\boldsymbol{x}_i;1]$)&lt;/li&gt;
+      &lt;li&gt;即$\boldsymbol{\omega}$是一个$n \times k$的矩阵。或$(n+1) \times k$&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;似然函数&quot;&gt;似然函数&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;首先后面都假定对样本的真实标签向量使用$one-hot$编码，并记为向量 $\boldsymbol{y}$&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&quot;单样本概率估计公式&quot;&gt;单样本概率估计公式&lt;/h5&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;参照Logistic Regression的做法，每个样本属于每个类的概率计算公式：&lt;/p&gt;
+
+    &lt;script type=&quot;math/tex; mode=display&quot;&gt;P(Y=y_i\vert \boldsymbol{x}) = \prod_{i=1}^k(\boldsymbol{y}^*[i])^{\boldsymbol{y}[i]} = \prod_{i=1}^k(\frac {e^{\boldsymbol{\omega}_i^T \boldsymbol{x}_j}}{\sum_{t=1}^k e^{\boldsymbol{\omega}_t^T \boldsymbol{x}}})^{\boldsymbol{y}[i]}&lt;/script&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&quot;训练样本集的似然函数&quot;&gt;训练样本集的似然函数&lt;/h5&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;对于给定的一批样本(假设为$m$个)，由于样本之间独立，则与训练样本集的似然函数为：&lt;/p&gt;
+
+    &lt;script type=&quot;math/tex; mode=display&quot;&gt;L(\boldsymbol{\omega}) = \prod_{j=1}^m \prod_{i=1}^k (\frac {e^{\boldsymbol{\omega}_i^T \boldsymbol{x}_j}}{\sum_{t=1}^k e^{\boldsymbol{\omega}_t^T \boldsymbol{x}_j}})^{\boldsymbol{y}[i]}&lt;/script&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h6 id=&quot;训练样本集的对数似然函数&quot;&gt;训练样本集的对数似然函数&lt;/h6&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;则可得对数似然函数：&lt;/p&gt;
+
+    &lt;script type=&quot;math/tex; mode=display&quot;&gt;LL(\boldsymbol{\omega}) = \sum_{j=1}^m \sum_{i=1}^k \boldsymbol{y}[i] \ln (\frac {e^{\boldsymbol{\omega}_i^T \boldsymbol{x}_j}}{\sum_{t=1}^k e^{\boldsymbol{\omega}_t^T \boldsymbol{x}_j}})&lt;/script&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;极大似然估计-参数预估&quot;&gt;极大似然估计-参数预估&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;使用极大似然估计预估参数$\boldsymbol{\omega}^*$&lt;/p&gt;
+
+    &lt;script type=&quot;math/tex; mode=display&quot;&gt;LL(\boldsymbol{\omega}^*) = \max_{\boldsymbol{\omega}} \space LL(\boldsymbol{\omega})&lt;/script&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;也就等价于:&lt;/p&gt;
+
+    &lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{aligned}  &amp;\min_{\boldsymbol{\omega}}\space -LL(\boldsymbol{\omega}) \\ 即 &amp;\min_{\boldsymbol{\omega}}\space - \sum_{j=1}^m \sum_{i=1}^k \boldsymbol{y}[i] \ln (\frac {e^{\boldsymbol{\omega}_i^T \boldsymbol{x}_j}}{\sum_{t=1}^k e^{\boldsymbol{\omega}_t^T \boldsymbol{x}_j}}) \end{aligned} %]]&gt;&lt;/script&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&quot;总体损失函数&quot;&gt;总体损失函数&lt;/h5&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;令$E(\boldsymbol{\omega}_1, \boldsymbol{\omega}_2, ···, \boldsymbol{\omega}_k)$表示Softmax Regression对于训练集的总损失函数：&lt;/p&gt;
+
+    &lt;script type=&quot;math/tex; mode=display&quot;&gt;E(\boldsymbol{\omega}_1, \boldsymbol{\omega}_2, ···, \boldsymbol{\omega}_k) = - \sum_{j=1}^m \sum_{i=1}^k \boldsymbol{y}[i] \ln (\frac {e^{\boldsymbol{\omega}_i^T \boldsymbol{x}_j}}{\sum_{t=1}^k e^{\boldsymbol{\omega}_t^T \boldsymbol{x}_j}})&lt;/script&gt;
+
+    &lt;p&gt;该式也被称为交叉熵损失函数。可证该式是凸函数。&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&quot;单样本损失函数&quot;&gt;单样本损失函数&lt;/h5&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;对于单个样本 $(\boldsymbol{x}, y)$ 的损失函数$e(\boldsymbol{\omega}_1, \boldsymbol{\omega}_2, ···, \boldsymbol{\omega}_k)$：&lt;/p&gt;
+
+    &lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{aligned} e(\boldsymbol{\omega}_1, \boldsymbol{\omega}_2, ···, \boldsymbol{\omega}_k) &amp;= - \sum_{i=1}^k \boldsymbol{y}[i] \ln (\frac {e^{\boldsymbol{\omega}_i^T \boldsymbol{x}}}{\sum_{t=1}^k e^{\boldsymbol{\omega}_t^T \boldsymbol{x}}}) \\ &amp;= - \sum_{i=1}^k \boldsymbol{y}[i](\boldsymbol{\omega}_i^T \boldsymbol{x} - \ln (\sum_{t=1}^k e^{\boldsymbol{\omega}_t^T \boldsymbol{x}})) \\ &amp;= \ln (\sum_{t=1}^k e^{\boldsymbol{\omega}_t^T \boldsymbol{x}}) - \boldsymbol{\omega}_i^T \boldsymbol{x} \qquad (因为\boldsymbol{y}是one-hot编码)  \end{aligned} %]]&gt;&lt;/script&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h6 id=&quot;梯度&quot;&gt;梯度&lt;/h6&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;对$\boldsymbol{\omega}_p$计算一阶导数 $(p = 1,2,···,k)$：
+    &lt;ul&gt;
+      &lt;li&gt;
+        &lt;p&gt;当$i=p$时：&lt;/p&gt;
+
+        &lt;script type=&quot;math/tex; mode=display&quot;&gt;\frac {\partial e(\boldsymbol{\omega})}{\partial \boldsymbol{\omega}_p} = \frac {\boldsymbol{\omega}_p^T \boldsymbol{x}}{\sum_{t=1}^k e^{\boldsymbol{\omega}_t^T \boldsymbol{x}}} \boldsymbol{x} - \boldsymbol{x}&lt;/script&gt;
+
+        &lt;p&gt;可以发现，其实此时 $\boldsymbol{y}[p] = 1$&lt;/p&gt;
+      &lt;/li&gt;
+      &lt;li&gt;
+        &lt;p&gt;当$i\neq p$时：&lt;/p&gt;
+
+        &lt;script type=&quot;math/tex; mode=display&quot;&gt;\frac {\partial e(\boldsymbol{\omega})}{\partial \boldsymbol{\omega}_p} = \frac {\boldsymbol{\omega}_p^T \boldsymbol{x}}{\sum_{t=1}^k e^{\boldsymbol{\omega}_t^T \boldsymbol{x}}} \boldsymbol{x}&lt;/script&gt;
+
+        &lt;p&gt;此时 $\boldsymbol{y}[p] = 0$&lt;/p&gt;
+      &lt;/li&gt;
+      &lt;li&gt;
+        &lt;p&gt;统一写为：&lt;/p&gt;
+
+        &lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{aligned} \frac {\partial e(\boldsymbol{\omega})}{\partial \boldsymbol{\omega}_p} &amp;= \frac {\boldsymbol{\omega}_p^T \boldsymbol{x}}{\sum_{t=1}^k e^{\boldsymbol{\omega}_t^T \boldsymbol{x}}} \boldsymbol{x} - \boldsymbol{y}[p]\boldsymbol{x} \\ &amp;= (\boldsymbol{y}^*[p] - \boldsymbol{y}[p])\boldsymbol{x} \end{aligned} %]]&gt;&lt;/script&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h6 id=&quot;梯度下降法迭代求解&quot;&gt;梯度下降法迭代求解&lt;/h6&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;由于Softmax Regression涉及的参过较多，不方便计算二阶导数，因此这里使用梯度下降法来迭代求解，而不使用牛顿法&lt;/p&gt;
+
+    &lt;script type=&quot;math/tex; mode=display&quot;&gt;\boldsymbol{\omega}_{p+1} = \boldsymbol{\omega}_p - \alpha \frac {\partial e(\boldsymbol{\omega})}{\partial \boldsymbol{\omega}_p}&lt;/script&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+</description>
+        <pubDate>Mon, 30 Mar 2020 19:00:03 -0500</pubDate>
+        <link>http://0.0.0.0:4000//algorithms/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0(3)-SoftmaxRegression</link>
+        <link href="http://0.0.0.0:4000/algorithms/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0(3)-SoftmaxRegression"/>
+        <guid isPermaLink="true">http://0.0.0.0:4000/algorithms/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0(3)-SoftmaxRegression</guid>
+      </item>
+    
+      <item>
+        <title>机器学习(二)-LogisticRegression</title>
+        <description>&lt;h2 id=&quot;logistic-distribution&quot;&gt;Logistic Distribution&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;设$X$是连续随机变量，$X$服从Logistic Distribution是指$X$具有下列的概率分布函数和概率密度函数&lt;/p&gt;
+
+    &lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{aligned} F(x) &amp;= P(X\le x) = \frac {1}{1+e^{-(x-\mu)/r}} \\ f(x) &amp;= F'(x) = \frac {e^{-(x-\mu)/r}}{\gamma (1+e^{-(x-\mu)/r})^2}  \end{aligned} %]]&gt;&lt;/script&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;其中$\mu$为位置参数，$\gamma &amp;gt; 0$为形状参数&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;分布函数的图形是一条S型曲线(Sigmoid Curve)&lt;/li&gt;
+  &lt;li&gt;该曲线以$(\mu, \frac 12)$为中心对称：$F(-x+\mu) - \frac 12 = -F(x+\mu)+\frac 12$&lt;/li&gt;
+  &lt;li&gt;曲线在中心附近增长速度较快，在两端增长速度较慢&lt;/li&gt;
+  &lt;li&gt;形状参数$\gamma$的值越小，曲线在中心附近增长得越快&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;logistic-regression-model&quot;&gt;Logistic Regression Model&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;LogisticRegression 常被翻译成逻辑回归或对数几率回归，但其实它主要和log函数也就是对数函数有关，和中文语义上的“逻辑”没有什么关系。后面我们将统一称之为对数几率回归。&lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;LogisticRegression 虽然是一种回归模型，但却是一种主要用于二分类问题的分类算法，因此这里称为二项对数几率回归。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;对数几率回归的基本形式，对数几率回归函数：&lt;/p&gt;
+
+    &lt;script type=&quot;math/tex; mode=display&quot;&gt;y = \frac {1}{1+e^{-z}}&lt;/script&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;二项对数几率回归是一种二分类模型，它有条件概率$P(Y\vert X)$表示，形式为参数化的Logistic Distribution。&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;随机变量$X$取值为实数&lt;/li&gt;
+  &lt;li&gt;随机变量$Y$取值为0和1&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;考虑线性回归模型$z = \boldsymbol{\omega}^T\boldsymbol{x} + b$，其结果是实值，但通过对数几率回归函数，可以将实值映射到$(0,1)$区间上，并将其输出结果作为取正值的概率，从而实现分类。&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;将$z$代入可得：&lt;/p&gt;
+
+    &lt;script type=&quot;math/tex; mode=display&quot;&gt;y = \frac {1}{1+e^{-(\boldsymbol{\omega}^T\boldsymbol{x} + b)}}&lt;/script&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;将上式转换一下，可得：&lt;/p&gt;
+
+    &lt;script type=&quot;math/tex; mode=display&quot;&gt;\ln \frac {y}{1-y} = \boldsymbol{\omega}^T\boldsymbol{x} + b&lt;/script&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;这里的$\ln \frac {y}{1-y}$被称为对数几率&lt;/p&gt;
+
+&lt;h4 id=&quot;几率与对数几率&quot;&gt;几率与对数几率&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;几率：一个事件发生的几率(odds)是指该事件发生的概率$p$与该事件不发生的概率$1-p$的比值。&lt;/p&gt;
+
+    &lt;script type=&quot;math/tex; mode=display&quot;&gt;\frac {p}{1-p}&lt;/script&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;对数几率: 该事件的对数几率也就是对几率取对数得之&lt;/p&gt;
+
+    &lt;script type=&quot;math/tex; mode=display&quot;&gt;logit(p) = \log \frac {p}{1-p}&lt;/script&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;后验概率估计公式&quot;&gt;后验概率估计公式&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;根据对数几率，那么由：&lt;/p&gt;
+
+    &lt;script type=&quot;math/tex; mode=display&quot;&gt;\ln \frac {y}{1-y} = \boldsymbol{\omega}^T\boldsymbol{x} + b&lt;/script&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;可得：&lt;/p&gt;
+
+    &lt;script type=&quot;math/tex; mode=display&quot;&gt;\ln \frac {P(Y=1\vert \boldsymbol{x})}{P(Y=0\vert \boldsymbol{x})} = \boldsymbol{\omega}^T\boldsymbol{x} + b&lt;/script&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;则可解出：&lt;/p&gt;
+
+    &lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{aligned} P(Y=1\vert \boldsymbol{x}) &amp;= \frac {e^{\boldsymbol{\omega}^T\boldsymbol{x} + b}}{1+e^{\boldsymbol{\omega}^T\boldsymbol{x} + b}} \\ P(Y=0\vert \boldsymbol{x}) &amp;= \frac {1}{1+e^{\boldsymbol{\omega}^T\boldsymbol{x} + b}} \end{aligned} %]]&gt;&lt;/script&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;对数几率回归模型&quot;&gt;对数几率回归模型&lt;/h4&gt;
+
+&lt;p&gt;通过上述推导，可以看到我们利用输入为$x$的线性函数可以得到$Y=1;Y=0$的对数几率。&lt;/p&gt;
+
+&lt;p&gt;换个角度说，考虑对输入为$x$进行分类的线性函数$\boldsymbol{\omega}^T\boldsymbol{x} + b$，其值域为是$R$。那么通过对数几率回归模型，可以将线性函数$\boldsymbol{\omega}^T\boldsymbol{x} + b$转换为概率：&lt;script type=&quot;math/tex&quot;&gt;P(Y=1\vert \boldsymbol{x}) = \frac {e^{\boldsymbol{\omega}^T\boldsymbol{x} + b}}{1+e^{\boldsymbol{\omega}^T\boldsymbol{x} + b}} ;\space P(Y=0\vert \boldsymbol{x}) = \frac {1}{1+e^{\boldsymbol{\omega}^T\boldsymbol{x} + b}}&lt;/script&gt;， 此时&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;线性函数的值越接近正无穷，概率值越接近1&lt;/li&gt;
+  &lt;li&gt;线性函数的值越接近负无穷，概率值越接近0&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;这样的模型就被称为对数几率回归模型，而且它是一个对数线性模型。&lt;/p&gt;
+
+&lt;h4 id=&quot;极大似然估计&quot;&gt;极大似然估计&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;对数几率回归是一个线性模型，涉及到系数向量$\boldsymbol{\omega}$，和偏置项$b$两种参数。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;对数几率回归输出的是样本属于一个类的概率，而样本的类别标签是离散值，因此不适合使用欧几里得距离来定义损失函数。而需要使用极大似然估计来确定参数。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;由于样本之间独立，则对于训练样本集的似然函数：&lt;/p&gt;
+
+    &lt;script type=&quot;math/tex; mode=display&quot;&gt;L(\boldsymbol{\omega}, b) = \prod_{i=1}^m P(y_i \vert x_i; \boldsymbol{\omega}, b)&lt;/script&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;假设$y_i$取值为0和1，则有&lt;/p&gt;
+
+    &lt;script type=&quot;math/tex; mode=display&quot;&gt;L(\boldsymbol{\omega}, b) = \prod_{i=1}^m P(Y=1 \vert x_i; \boldsymbol{\omega}, b)^{y_i} P(Y=0 \vert x_i; \boldsymbol{\omega}, b)^{1-y_i}&lt;/script&gt;
+
+    &lt;p&gt;该函数对应于n重伯努利分布&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;则得到，对数似然函数(将累乘转换为累加)：&lt;/p&gt;
+
+    &lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{aligned} \ln L(\boldsymbol{\omega}, b) &amp;= \sum_{i=1}^m [\ln P(Y=1 \vert x_i; \boldsymbol{\omega}, b)^{y_i} + \ln P(Y=0 \vert x_i; \boldsymbol{\omega}, b)^{1-y_i}] \\ &amp;= \sum_{i=1}^m [y_i\ln P(Y=1 \vert x_i; \boldsymbol{\omega}, b) + (1-y_i)\ln P(Y=0 \vert x_i; \boldsymbol{\omega}, b)] \end{aligned} %]]&gt;&lt;/script&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;将对数几率模型公式代入上式简化后，可得简化的对数似然函数：&lt;/p&gt;
+
+    &lt;script type=&quot;math/tex; mode=display&quot;&gt;LL(\boldsymbol{\omega}, b) = \ln L(\boldsymbol{\omega}, b) = \sum_{i=1}^m [ y_i (\boldsymbol{\omega}^T\boldsymbol{x}_i + b) - \ln (1+e^{\boldsymbol{\omega}^T\boldsymbol{x}_i + b}) ]&lt;/script&gt;
+
+    &lt;p&gt;现在我们的目标就是对其进行极大似然估计，预测出参数$\boldsymbol{\omega}$、$b$&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;参数估计&quot;&gt;参数估计&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;对上面的似然函数取最大值，等价于对:&lt;/p&gt;
+
+    &lt;script type=&quot;math/tex; mode=display&quot;&gt;f(\boldsymbol{\omega}, b) = -LL(\boldsymbol{\omega}, b) = \sum_{i=1}^m [\ln (1+e^{\boldsymbol{\omega}^T\boldsymbol{x}_i + b}) - y_i (\boldsymbol{\omega}^T\boldsymbol{x}_i + b) ]&lt;/script&gt;
+
+    &lt;p&gt;取最小值&lt;/p&gt;
+
+    &lt;p&gt;可证$f(\boldsymbol{\omega}, b)$是一个高阶连续可导的凸函数。因此对数几率回归求解的优化问题是一个不带约束条件的凸优化问题。
+  可以借助梯度下降法、牛顿法等求的最优解。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;计算梯度(令$z = \boldsymbol{\omega}^T\boldsymbol{x}_i + b$)&lt;/p&gt;
+
+    &lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{aligned} \frac {\partial f(\boldsymbol{\omega}, b)}{\partial \boldsymbol{\omega}} &amp;= \sum_{i=1}^m (\frac {e^z}{1+e^z} - y_i)\boldsymbol{x}_i \end{aligned} %]]&gt;&lt;/script&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;计算二阶导数&lt;/p&gt;
+
+    &lt;script type=&quot;math/tex; mode=display&quot;&gt;\frac {\partial^2 f(\boldsymbol{\omega}, b)}{\partial \boldsymbol{\omega} \partial \boldsymbol{\omega}^T } = \sum_{i=1}^m \boldsymbol{x}_i \boldsymbol{x}_i^T \frac {e^z}{(1+e^z)^2} = \sum_{i=1}^m \boldsymbol{x}_i \boldsymbol{x}_i^T \frac {e^z}{1+e^z}(1-\frac {e^z}{1+e^z})&lt;/script&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;牛顿法&quot;&gt;牛顿法&lt;/h4&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\boldsymbol{\omega}_{i+1} = \boldsymbol{\omega}_i - (\frac {\partial^2 f(\boldsymbol{\omega}, b)}{\partial \boldsymbol{\omega} \partial \boldsymbol{\omega}^T })^{-1} \frac {\partial f(\boldsymbol{\omega}, b)}{\partial \boldsymbol{\omega}}&lt;/script&gt;
+
+&lt;h4 id=&quot;梯度下降法&quot;&gt;梯度下降法&lt;/h4&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\boldsymbol{\omega}_{i+1} = \boldsymbol{\omega}_i - \alpha \sum_{i=1}^m (\frac {e^z}{1+e^z} - y_i)\boldsymbol{x}_i&lt;/script&gt;
+</description>
+        <pubDate>Mon, 30 Mar 2020 19:00:02 -0500</pubDate>
+        <link>http://0.0.0.0:4000//algorithms/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0(2)-LogisticRegression</link>
+        <link href="http://0.0.0.0:4000/algorithms/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0(2)-LogisticRegression"/>
+        <guid isPermaLink="true">http://0.0.0.0:4000/algorithms/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0(2)-LogisticRegression</guid>
+      </item>
+    
+      <item>
+        <title>机器学习(一)-线性回归</title>
+        <description>&lt;h2 id=&quot;一元线性回归模型&quot;&gt;一元线性回归模型&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;预测函数&lt;/p&gt;
+
+    &lt;script type=&quot;math/tex; mode=display&quot;&gt;f(x) = \omega x + b&lt;/script&gt;
+  &lt;/li&gt;
+  &lt;li&gt;损失函数(使用均方误差表示):
+    &lt;ul&gt;
+      &lt;li&gt;
+        &lt;p&gt;单个样本的误差($y$表示真实值)：&lt;/p&gt;
+
+        &lt;script type=&quot;math/tex; mode=display&quot;&gt;e(\omega, b) = (f(x) - y)^2 = (\omega x + b - y)^2&lt;/script&gt;
+      &lt;/li&gt;
+      &lt;li&gt;
+        &lt;p&gt;全体样本的误差($m$表示样本数)：&lt;/p&gt;
+
+        &lt;script type=&quot;math/tex; mode=display&quot;&gt;E(\omega, b) = \sum_{i=1}^m(f(x_i) - y_i)^2 = \sum_{i=1}^m(\omega x_i + b - y_i)^2&lt;/script&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;线性回归的目标就是最小化损失函数，而均方误差最小化，通常可以使用最小二乘法来求解参数&lt;/p&gt;
+
+    &lt;script type=&quot;math/tex; mode=display&quot;&gt;\min_{\omega, b} \space \sum_{i=1}^m(\omega x_i + b - y_i)^2&lt;/script&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;分别对系数和偏置项求偏导：&lt;/p&gt;
+
+    &lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{aligned} \frac {\partial E(\omega, b)}{\partial \omega} &amp;= 2x_i\sum_{i=1}^m(\omega x_i + b - y_i) \\ \frac {\partial E(\omega, b)}{\partial b} &amp;= 2\sum_{i=1}^m(\omega x_i + b - y_i) \end{aligned} %]]&gt;&lt;/script&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;令上面的偏导为0，可以得到闭式解(损失函数是一个凸函数，令偏导为0时，可以得到最优解):&lt;/p&gt;
+
+    &lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{aligned} \omega &amp;= \frac {\sum_{i=1}^m y_i(x_i - \sum_{i=1}^m x_i)}{\sum_{i=1}^m x_i^2 - \frac 1m (\sum_{i=1}^m x_i)^2} \\ b &amp;= \frac 1m \sum_{i=1}^m(y_i - \omega x_i)\end{aligned} %]]&gt;&lt;/script&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;多元线性回归&quot;&gt;多元线性回归&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;预测函数
+    &lt;ul&gt;
+      &lt;li&gt;
+        &lt;p&gt;一般形式&lt;/p&gt;
+
+        &lt;script type=&quot;math/tex; mode=display&quot;&gt;f(\boldsymbol{x}) = \omega_1 x_1 + \omega_2 x_2 + ··· + \omega_n x_n + b&lt;/script&gt;
+      &lt;/li&gt;
+      &lt;li&gt;
+        &lt;p&gt;向量形式(设$\boldsymbol{\omega}和\boldsymbol{x}均是n维向量$)&lt;/p&gt;
+
+        &lt;script type=&quot;math/tex; mode=display&quot;&gt;f(\boldsymbol{x}) = \boldsymbol{\omega}^T\boldsymbol{x} + b&lt;/script&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;损失函数&lt;/p&gt;
+
+    &lt;p&gt;为了便于分析讨论，计$\boldsymbol{\hat{\omega}} = (\boldsymbol{\omega}; b)$，等价于将$b$看作一个单独的系数项。
+  同时令$X$表示$m \times (n+1)$的数据集矩阵,前n列分别是对应n维的样本特征向量，最后一列置为1，对应偏置项,；
+  令$\boldsymbol{y}$表示每个样本的真实值构成的$m$维向量&lt;/p&gt;
+
+    &lt;ul&gt;
+      &lt;li&gt;
+        &lt;p&gt;单个样本：&lt;/p&gt;
+
+        &lt;script type=&quot;math/tex; mode=display&quot;&gt;e(\boldsymbol{\hat{\omega}}) = (\boldsymbol{\hat{\omega}}^T\boldsymbol{x} - y)^2&lt;/script&gt;
+      &lt;/li&gt;
+      &lt;li&gt;
+        &lt;p&gt;全体样本的误差:&lt;/p&gt;
+        &lt;ul&gt;
+          &lt;li&gt;
+            &lt;p&gt;一般形式&lt;/p&gt;
+
+            &lt;script type=&quot;math/tex; mode=display&quot;&gt;E(\boldsymbol{\omega}, b) = \sum_{i=1}^m(y_i - \boldsymbol{\omega}^T\boldsymbol{x}_i)^2&lt;/script&gt;
+          &lt;/li&gt;
+          &lt;li&gt;
+            &lt;p&gt;向量形式&lt;/p&gt;
+
+            &lt;script type=&quot;math/tex; mode=display&quot;&gt;E(\boldsymbol{\hat{\omega}}) = (\boldsymbol{X}\boldsymbol{\hat{\omega}} - \boldsymbol{y})^T(\boldsymbol{X}\boldsymbol{\hat{\omega}} - \boldsymbol{y})&lt;/script&gt;
+          &lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;我们的目标同样是最小化损失函数&lt;/p&gt;
+
+    &lt;script type=&quot;math/tex; mode=display&quot;&gt;\min_{\boldsymbol{\hat{\omega}}} \space (\boldsymbol{X}\boldsymbol{\hat{\omega}} - \boldsymbol{y})^T(\boldsymbol{X}\boldsymbol{\hat{\omega}} - \boldsymbol{y})&lt;/script&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;分别对系数和偏置求偏导：&lt;/p&gt;
+
+    &lt;script type=&quot;math/tex; mode=display&quot;&gt;\frac {\partial E(\boldsymbol{\hat{\omega}})}{\partial \boldsymbol{\hat{\omega}}} = 2\boldsymbol{X}^T (\boldsymbol{X}\boldsymbol{\hat{\omega}} - \boldsymbol{y})&lt;/script&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;令上面的偏导为0，同样可以得到闭式解&lt;/p&gt;
+
+    &lt;script type=&quot;math/tex; mode=display&quot;&gt;\boldsymbol{\hat{\omega}} = (\boldsymbol{X}^T\boldsymbol{X})^{-1}\boldsymbol{X}^T\boldsymbol{y}&lt;/script&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;正则化&quot;&gt;正则化&lt;/h2&gt;
+
+&lt;p&gt;当数据集的样本特征很多，而样本数相对较少时，前面的损失函数最小化过程容易陷入过拟合，因此可以考虑对其添加惩罚项，以缓解过拟合的问题&lt;/p&gt;
+
+&lt;h4 id=&quot;l2-正则化-ridge-regreesion&quot;&gt;L2-正则化： Ridge Regreesion&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;L2-正则化即使用L2范数正则化&lt;/p&gt;
+
+    &lt;script type=&quot;math/tex; mode=display&quot;&gt;\min_{\boldsymbol{\hat{\omega}}} \space \sum_{i=1}^m(y_i - \boldsymbol{\omega}^T\boldsymbol{x}_i)^2 + \lambda \Vert \boldsymbol{\hat{\omega}} \Vert_2^2&lt;/script&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;$\lambda&amp;gt;0$称为正则化参数，使用L2正则化的线性回归被称为岭回归(Ridge Regreesion)&lt;/p&gt;
+
+&lt;h4 id=&quot;l1-正则化-lasso&quot;&gt;L1-正则化： LASSO&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;L1-正则化使用L1范数正则化&lt;/p&gt;
+
+    &lt;script type=&quot;math/tex; mode=display&quot;&gt;\min_{\boldsymbol{\hat{\omega}}} \space \sum_{i=1}^m(y_i - \boldsymbol{\omega}^T\boldsymbol{x}_i)^2 + \lambda \Vert \boldsymbol{\hat{\omega}} \Vert_1&lt;/script&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;使用L1正则化的线性回归被称为LASSO(Least Absolue Shrinkage and Selection Operator)&lt;/p&gt;
+
+&lt;h6 id=&quot;l0-正则化&quot;&gt;L0-正则化&lt;/h6&gt;
+
+&lt;p&gt;如果需要对$\boldsymbol{\hat{\omega}}$施加稀疏约束条件，最自然的是使用L0范数，但L0范数不连续，难以优化求解，因此常用L1范数来近似&lt;/p&gt;
+
+&lt;h6 id=&quot;l1与l2对比&quot;&gt;L1与L2对比&lt;/h6&gt;
+
+&lt;p&gt;L1与L2都有助于降低过拟合风险，但前者还会带来一个额外的好处，也就是它比后者更易于获得“稀疏”解，即它求得的$\boldsymbol{\hat{\omega}}$会有更少的非零分量&lt;/p&gt;
+</description>
+        <pubDate>Mon, 30 Mar 2020 19:00:01 -0500</pubDate>
+        <link>http://0.0.0.0:4000//algorithms/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0(1)-%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92</link>
+        <link href="http://0.0.0.0:4000/algorithms/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0(1)-%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92"/>
+        <guid isPermaLink="true">http://0.0.0.0:4000/algorithms/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0(1)-%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92</guid>
+      </item>
+    
+      <item>
+        <title>线性代数-向量空间的几何学</title>
+        <description>&lt;h2 id=&quot;仿射组合&quot;&gt;仿射组合&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;一个向量的仿射组合是线性组合的一种特殊形式&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;给定 $R^n$ 中的向量 $\boldsymbol{v_1}, \boldsymbol{v_2}, ···， \boldsymbol{v_p}$ 和标量 $c_1, c_2, ···， c_p$&lt;/p&gt;
+
+    &lt;p&gt;$v_1, v_2, ···， v_p$的一个仿射组合是：&lt;/p&gt;
+
+    &lt;script type=&quot;math/tex; mode=display&quot;&gt;c_1\boldsymbol{v_1} + c_2\boldsymbol{v_2} + ··· + c_p\boldsymbol{v_p}&lt;/script&gt;
+
+    &lt;p&gt;且权值满足 $c_1 + c_2 + ··· + c_p = 1$&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;仿射包&quot;&gt;仿射包&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;集合S中的所有仿射组合的集合称为S的仿射包，记为&lt;/p&gt;
+
+    &lt;script type=&quot;math/tex; mode=display&quot;&gt;aff \space S&lt;/script&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;定理：$R^n$ 中的一个点 $\boldsymbol{y}$ 是$ R^n$ 中 $\boldsymbol{v_1}, \boldsymbol{v_2}, ···， \boldsymbol{v_p}$ 的一个仿射组合，
+当且仅当 $\boldsymbol{y-v_1}$ 是平移点 $\boldsymbol{v_2-v_1}, ···, \boldsymbol{v_p-v_1}$ 的线性组合&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;仿射集&quot;&gt;仿射集&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;如果对于任意实数 $t$，由 $\boldsymbol{p,q} \in S$ 可得出 $(1+t)\boldsymbol{p} + t\boldsymbol{q} \in S$，则称集合S是仿射的&lt;/p&gt;
+
+    &lt;ul&gt;
+      &lt;li&gt;几何上，如果两点在集合中，则过这些点的直线在集合中，从而集合是仿射的&lt;/li&gt;
+      &lt;li&gt;代数学上，若一个集合是仿射的，则需要S中两点的每个仿射组合都属于S&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;定理：当前仅当S中，点的每一个仿射组合都属于S，集合S是仿射的。即当前仅当 $S = aff \space S$ 时，$S$是仿射的。&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;平面&quot;&gt;平面&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;$R^n$中的一个&lt;strong&gt;平面&lt;/strong&gt;是指 $R^n$ 子空间的一个平移&lt;/p&gt;
+
+    &lt;ul&gt;
+      &lt;li&gt;如果一个平面是另一个平面的平移，则两个平面是平行的&lt;/li&gt;
+      &lt;li&gt;一个&lt;strong&gt;平面的维数&lt;/strong&gt;是对应的平行子空间的维数&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;一个集合S的维数记为 $\mathcal{dim} \space S$, 是包含 $S$ 的最小平面的维数
+    &lt;ul&gt;
+      &lt;li&gt;$R^n$ 中一条直线是维数是1的平面&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;$R^n$中的一个&lt;strong&gt;超平面&lt;/strong&gt;是维数为 $n-1$ 的平面&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;定理：当前仅当一个集合$S$是平面时，一个非空集合$S$是仿射集&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;齐次形式&quot;&gt;齐次形式&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;对$R^n$中的 $\boldsymbol{v}$, 的标准齐次形式是$R^{n+1}$中的点 &lt;script type=&quot;math/tex&quot;&gt;\tilde{v} =\left [ \begin{matrix} \boldsymbol{v} \\ 1 \end{matrix} \right]&lt;/script&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;定理：$R^n$中的一个点$\boldsymbol{y}$是 $R^n$中$\boldsymbol{v_1}, ···, \boldsymbol{v_p}$的一个仿射组合，当前仅当$\boldsymbol{y}$的齐次形式在$\mathcal{Span} \lbrace \boldsymbol{\tilde{v}_1} ,···, \boldsymbol{\tilde{v}_p} \rbrace$中，即:&lt;/p&gt;
+
+    &lt;script type=&quot;math/tex; mode=display&quot;&gt;\boldsymbol{\tilde{y}} = c_1\boldsymbol{\tilde{v}_1} + ··· + c_p\boldsymbol{\tilde{v}_p} 且 \space c_1+···+c_p=1 \Longrightarrow \boldsymbol{y} = c_1\boldsymbol{v_1} + ··· + c_p\boldsymbol{v_p}&lt;/script&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;仿射无关性&quot;&gt;仿射无关性&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;设 ${ \boldsymbol{v_1}, ···, \boldsymbol{v_p} }$ 是 $R^n$ 中的一个指标点集(可理解为v是特征向量，${ \boldsymbol{v_1}, ···, \boldsymbol{v_p} }$都表示同一类别)，
+如果存在不全为零的实数 $c_1, ··· , c_p$，使得：&lt;/p&gt;
+
+    &lt;script type=&quot;math/tex; mode=display&quot;&gt;c_1+···+c_p =0, c_1\boldsymbol{v_1} + ··· + c_p\boldsymbol{v_p} = \boldsymbol{0}&lt;/script&gt;
+
+    &lt;p&gt;则称指标点集 ${ \boldsymbol{v_1}, ···, \boldsymbol{v_p} }$ 是仿射相关的，否则，该集合是仿射无关的&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;线性相关与仿射相关&quot;&gt;线性相关与仿射相关&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;给定 中的一个指标集合 &lt;script type=&quot;math/tex&quot;&gt;S = \{ \boldsymbol{v_1}, ···, \boldsymbol{v_p} \}, p\ge 2&lt;/script&gt;，下面的叙述是逻辑等价的：
+    &lt;ul&gt;
+      &lt;li&gt;$S$是仿射相关的&lt;/li&gt;
+      &lt;li&gt;$S$中有一个点是$S$中其他点的一个仿射组合&lt;/li&gt;
+      &lt;li&gt;$R^n$中集合&lt;script type=&quot;math/tex&quot;&gt;\{ \boldsymbol{v_2-v_1}, ···, \boldsymbol{v_p-v_1} \}&lt;/script&gt;是线性相关的&lt;/li&gt;
+      &lt;li&gt;$R^{n+1}$中集合 &lt;script type=&quot;math/tex&quot;&gt;\{ \boldsymbol{\tilde{v}_1} ,···, \boldsymbol{\tilde{v}_p} \}&lt;/script&gt; (齐次形式)是线性相关的&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;重心坐标&quot;&gt;重心坐标&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;定理：令&lt;script type=&quot;math/tex&quot;&gt;S = \{ \boldsymbol{v_1}, ···, \boldsymbol{v_k} \}&lt;/script&gt;是$R^n$中的一个仿射无关集，则$aff \space S$中每一个$\boldsymbol{p}$都有一个唯一的$\boldsymbol{v_1}, ···, \boldsymbol{v_k}$的仿射组合表示。
+也就是说，对一个$\boldsymbol{p}$ ，存在唯一的标量集 $c_1,···,c_k$ ，使得：&lt;/p&gt;
+
+    &lt;script type=&quot;math/tex; mode=display&quot;&gt;\boldsymbol{p} = c_1\boldsymbol{v_1} + ··· + c_k\boldsymbol{v_k} \space 且 \space c_1+···+c_k = 1&lt;/script&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;令&lt;script type=&quot;math/tex&quot;&gt;S = \{ \boldsymbol{v_1}, ···, \boldsymbol{v_k} \}&lt;/script&gt;是$R^n$中的一个仿射无关集，则对$aff \space S$中每一个$\boldsymbol{p}$，$\boldsymbol{p}$的唯一表达式中的系数 $c_1,···,c_k$ 称为的&lt;strong&gt;重心坐标&lt;/strong&gt;，或称为&lt;strong&gt;仿射坐标&lt;/strong&gt;&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;凸组合凸包凸集&quot;&gt;凸组合、凸包、凸集&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;$R^n$中点$\boldsymbol{v_1}, ···, \boldsymbol{v_k}$的一个&lt;strong&gt;凸组合&lt;/strong&gt;，其实是仿射组合的一种特殊情形，凸组合要求仿射组合中的所有的系数$c_1,···,c_k$必须都大于等于0
+    &lt;ul&gt;
+      &lt;li&gt;此时的仿射包被称为&lt;strong&gt;凸包&lt;/strong&gt;，记为$conv \space S$&lt;/li&gt;
+      &lt;li&gt;
+        &lt;p&gt;单点$\boldsymbol{v_1}$的凸包就是集合&lt;script type=&quot;math/tex&quot;&gt;\{ \boldsymbol{v_1} \}&lt;/script&gt;&lt;/p&gt;
+      &lt;/li&gt;
+      &lt;li&gt;
+        &lt;p&gt;不同点$\boldsymbol{v_1}$和$\boldsymbol{v_2}$的仿射包是&lt;strong&gt;直线&lt;/strong&gt;:&lt;/p&gt;
+
+        &lt;script type=&quot;math/tex; mode=display&quot;&gt;\boldsymbol{y} = (1-t)\boldsymbol{v_1} + t\boldsymbol{v_2}，t\in R&lt;/script&gt;
+      &lt;/li&gt;
+      &lt;li&gt;
+        &lt;p&gt;不同点$\boldsymbol{v_1}$和$\boldsymbol{v_2}$的凸包是&lt;strong&gt;线段&lt;/strong&gt;，记为$\overline{\boldsymbol{v_1}\boldsymbol{v_2}}$:&lt;/p&gt;
+
+        &lt;script type=&quot;math/tex; mode=display&quot;&gt;\boldsymbol{y} = (1-t)\boldsymbol{v_1} + t\boldsymbol{v_2}，0\le t \le 1&lt;/script&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;若对于每个 $\boldsymbol{p}, \boldsymbol{q} \in S$，线段 $\overline{\boldsymbol{p}\boldsymbol{q}} \in S$，则集合$S$是凸的&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;集合$S$是&lt;strong&gt;凸集&lt;/strong&gt;，当且仅当$S$中的点的凸组合在$S$中。即$S$是凸集当且仅当$S=conv \space S$&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;凸集的并集也是凸集&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;对于任何集合$S$，$S$的凸包是所有包含$S$的凸集的交集&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;caratheodory&quot;&gt;Caratheodory&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;若$S$是$R^n$中一非空子集，则$S$的凸包中的每一个点，都可以由$S$中 $n+1$个或更少的点的凸组合表示。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;超平面&quot;&gt;超平面&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;$R^n$中的一个&lt;strong&gt;超平面&lt;/strong&gt;是维数为 $n-1$ 的平面&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;超平面的隐式表示&quot;&gt;超平面的隐式表示&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;$R^2$中直线的隐式方程为：$ax +by = d$&lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;$R^3$中平面的隐式方程为：$ax +by + cz = d$&lt;/p&gt;
+
+    &lt;p&gt;上面两个方程都描述为一个线性表达式(也叫线性函数)取得固定值$d$时所有点的集合&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;线性函数&quot;&gt;线性函数&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;$R^n$上的一个线性函数时从$R^n$到$R$的一个线性变换$f$。对$R$中的每个标量$d$，符号$[f:d]$表示$R^n$中使得$f$的值为$d$
+的所有$\boldsymbol{x}$的集合，即:&lt;/p&gt;
+
+    &lt;script type=&quot;math/tex; mode=display&quot;&gt;[f:d]是集合\{ \boldsymbol{x} \in R^n: \space f(\boldsymbol{x})=d \}&lt;/script&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;零函数&lt;/strong&gt;是对于$R^n$中所有点$x$都有$f(\boldsymbol{x})=0$的线性函数&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;线性函数的标准矩阵是一个$1 \times n$的矩阵$A$，即：&lt;/p&gt;
+
+    &lt;script type=&quot;math/tex; mode=display&quot;&gt;[f:0]等同于\{ \boldsymbol{x} \in R^n: \space A\boldsymbol{x}=0 \}&lt;/script&gt;
+
+    &lt;script type=&quot;math/tex; mode=display&quot;&gt;[f:d]等同于\{ \boldsymbol{x} \in R^n: \space A\boldsymbol{x}=d \}&lt;/script&gt;
+
+    &lt;p&gt;集合$[f:d]$是平行于$[f:0]$的超平面&lt;/p&gt;
+
+    &lt;p&gt;且对于线性函数再次转换(转换为向量内积形式):&lt;/p&gt;
+
+    &lt;script type=&quot;math/tex; mode=display&quot;&gt;[f:d]等同于\{ \boldsymbol{x} \in R^n: \space \boldsymbol{n} \cdot \boldsymbol{x}=d \}&lt;/script&gt;
+
+    &lt;p&gt;则有：&lt;/p&gt;
+
+    &lt;script type=&quot;math/tex; mode=display&quot;&gt;[f:0]等同于\{ \boldsymbol{x} \in R^n: \space \boldsymbol{n} \cdot \boldsymbol{x}=0 \}&lt;/script&gt;
+
+    &lt;ul&gt;
+      &lt;li&gt;由此可见，$[f:0]$是有 $n$生成的子空间的正交补
+        &lt;ul&gt;
+          &lt;li&gt;即$\boldsymbol{n}$是$[f:0]$的&lt;strong&gt;法向量&lt;/strong&gt;，同时$\boldsymbol{n}$正交于每个平行的超平面$[f:d]$&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;$[f:d]$也称为函数$f$的水平集&lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;当对所有的$\boldsymbol{x}$有$f(\boldsymbol{x}) = \boldsymbol{n} \cdot \boldsymbol{x}$时，$\boldsymbol{n}$有时称为$f$的梯度。即可理解为梯度向量是过点$\boldsymbol{x}$并正交于过点$\boldsymbol{x}$的超平面&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;定理：$R^n$中的子集$H$是超平面当且仅当$H=[f:d]$，其中$f$为某个非零线性函数，$d$为$R$中某个数。
+    &lt;ul&gt;
+      &lt;li&gt;因而若$H$是超平面，则存在非零向量$\boldsymbol{n}$与实数$d$，使得$H={\boldsymbol{x} :\space \boldsymbol{n} \cdot \boldsymbol{x}=d }$&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;开集闭集紧集&quot;&gt;开集、闭集、紧集&lt;/h2&gt;
+
+&lt;h4 id=&quot;开球&quot;&gt;开球&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;对$R^n$中任意点$\boldsymbol{p}$以及任意实数$\delta&amp;gt;0$，以$\boldsymbol{p}$为心，$\delta$为半径的开球$B(\boldsymbol{p}, \delta)$表示为：&lt;/p&gt;
+
+    &lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+B(\boldsymbol{p}, \delta) = \{\boldsymbol{x}: \Vert \boldsymbol{x}- \boldsymbol{p} \Vert &lt; \delta \} %]]&gt;&lt;/script&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;内点&quot;&gt;内点&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;设$S$为$R^n$中的集合，若存在$\delta&amp;gt;0$，使得$B(\boldsymbol{p}, \delta) \subset S$，则称点$\boldsymbol{p}$为$S$的内点&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;边界点&quot;&gt;边界点&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;若以点$\boldsymbol{p}$为心的每个开球既与$S$相交又与$S$的补集相交，则称点$\boldsymbol{p}$为$S$的边界点&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;开集&quot;&gt;开集&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;若集合$S$不包含边界点，则集合$S$为开集($S$中所有点都是内点)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;闭集&quot;&gt;闭集&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;若集合$S$包含所有的边界点，则集合$S$为闭集&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;有界集合&quot;&gt;有界集合&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;若存在$\delta &amp;gt;0$使得$S\subset B(\boldsymbol{0}, \delta)$，则集合$S$称为有界集&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;紧集&quot;&gt;紧集&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;若集合$S$既是闭集又是有界集，那么称为$S$为紧集&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;开集的凸包是开集；紧集的凸包也是紧集。(但闭集的凸包不一定是闭集)&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;超平面存在定理&quot;&gt;超平面存在定理&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;设$A$与$B$是非空凸集，且$A$是紧集，$B$是闭集，那么当前仅当$A \cap B = \emptyset$时，存在超平面$H$严格分割$A$与$B$&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;设$A$与$B$是非空紧集，那么当前仅当$(conv \space A) \cap (conv \space B) = \emptyset$时，存在超平面$H$严格分割$A$与$B$&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;多面体&quot;&gt;多面体&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;$R^n$中的$多面体$是一个有限点集的凸包。即它是一个紧集也是一个凸集。
+    &lt;ul&gt;
+      &lt;li&gt;如$R^2$中的多边形&lt;/li&gt;
+      &lt;li&gt;如$R^3$中的长方体等&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;多面体的面&quot;&gt;多面体的面&lt;/h4&gt;
+&lt;ul&gt;
+  &lt;li&gt;定义：设$S是$R^n$中的紧致凸子集。如果$F\neq S$且存在超平面$[f:d]$使得$F=S\cap H$，以及要么$f(s)\ge d$，要么$f(s) \le d$，则称$S$的非空子集$F$称为$S$的面(真面)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;多面体的支撑超平面&quot;&gt;多面体的支撑超平面&lt;/h4&gt;
+&lt;ul&gt;
+  &lt;li&gt;超平面$H$称为$S$的支撑超平面&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;k面&quot;&gt;k面&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;若$F$的维数是$k$，则$F$称为$S$的$k$面&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;k面体&quot;&gt;k面体&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;若$P$是$k$维的多面体，则$P$称为$k$面体
+    &lt;ul&gt;
+      &lt;li&gt;$P$的0维面称为顶点&lt;/li&gt;
+      &lt;li&gt;$P$的1维面称为棱&lt;/li&gt;
+      &lt;li&gt;$P$的$(k-1)$维面称为$S$的面&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;极端点与轮廓&quot;&gt;极端点与轮廓&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;设$S$是凸集，若点$\boldsymbol{p}$不在$S中任何线段的内部，则称点$\boldsymbol{p}$为$S$的极端点(多面体中的顶点)
+    &lt;ul&gt;
+      &lt;li&gt;若$\boldsymbol{x},\boldsymbol{y}\in S$，且$\boldsymbol{p} \in \overline{xy}$，则有$\boldsymbol{p} = \boldsymbol{x}$或$\boldsymbol{p} = \boldsymbol{y}$。&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;$S$中所有极端点的集合$S$称为轮廓&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;最小代表元&quot;&gt;最小代表元&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;若&lt;script type=&quot;math/tex&quot;&gt;P=conv\{ \boldsymbol{v_1},···, \boldsymbol{v_k}\}&lt;/script&gt;，且对每个&lt;script type=&quot;math/tex&quot;&gt;i=1,···,k，\space \boldsymbol{v_j} \notin conv(\boldsymbol{v_j:j\neq i})&lt;/script&gt;，则称集合&lt;script type=&quot;math/tex&quot;&gt;M = \{ \boldsymbol{v_1},···, \boldsymbol{v_k}\}&lt;/script&gt;是多面体$P$的最小代表元
+  等价命题：
+    &lt;ul&gt;
+      &lt;li&gt;$\boldsymbol{p}\in M$&lt;/li&gt;
+      &lt;li&gt;$\boldsymbol{p}$是$P$的顶点&lt;/li&gt;
+      &lt;li&gt;$\boldsymbol{p}$是$P$的极端点&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;其他相关定理&quot;&gt;其他相关定理&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;设$S为非空紧凸集，则$S是它的轮廓的凸包&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;设$f$是定义在非空的紧凸集$SA$上的线性函数，则存在$S$的极端点$\boldsymbol{\hat{v}}$和$\boldsymbol{\hat{w}}$，使得:&lt;/p&gt;
+
+    &lt;script type=&quot;math/tex; mode=display&quot;&gt;f(\boldsymbol{\hat{v}}) = \max_{\boldsymbol{v}\in S} f(\boldsymbol{v})&lt;/script&gt;
+
+    &lt;script type=&quot;math/tex; mode=display&quot;&gt;f(\boldsymbol{\hat{w}}) = \min_{\boldsymbol{w}\in S} f(\boldsymbol{v})&lt;/script&gt;
+
+    &lt;ul&gt;
+      &lt;li&gt;意即可在极端点出取得最大值与最小值&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;单纯形&quot;&gt;单纯形&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;单纯形&lt;/strong&gt;是仿射不相关的有限向量集的凸包
+    &lt;ul&gt;
+      &lt;li&gt;$0$维单纯性$S^0$: 单个点&lt;script type=&quot;math/tex&quot;&gt;\{ \boldsymbol{v_1} \}&lt;/script&gt;&lt;/li&gt;
+      &lt;li&gt;$1$维单纯性$S^1$: &lt;script type=&quot;math/tex&quot;&gt;conv(S^0 \cup \{ \boldsymbol{v_2} \})&lt;/script&gt;，$\boldsymbol{v_2}$不在$S^0$中&lt;/li&gt;
+      &lt;li&gt;$2$维单纯性$S^2$: &lt;script type=&quot;math/tex&quot;&gt;conv(S^1 \cup \{ \boldsymbol{v_3} \})&lt;/script&gt;，$\boldsymbol{v_3}$不在$S^0$中&lt;/li&gt;
+      &lt;li&gt;···&lt;/li&gt;
+      &lt;li&gt;$k$维单纯性$S^k$: &lt;script type=&quot;math/tex&quot;&gt;conv(S^{k-1} \cup \{ \boldsymbol{v_{k+1}} \})&lt;/script&gt;，$\boldsymbol{v_{k+1}}$不在$S^0$中&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;ul&gt;
+      &lt;li&gt;&lt;strong&gt;单纯形S^0&lt;/strong&gt;: 单个点&lt;/li&gt;
+      &lt;li&gt;&lt;strong&gt;单纯形S^1&lt;/strong&gt;: 线段&lt;/li&gt;
+      &lt;li&gt;&lt;strong&gt;单纯形S^2&lt;/strong&gt;: 三角形&lt;/li&gt;
+      &lt;li&gt;&lt;strong&gt;单纯形S^3&lt;/strong&gt;: 四面体(任意一点不在其他三点所在平面上)&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;超立方体&quot;&gt;超立方体&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;设$\boldsymbol{I} = \overline{\boldsymbol{0e_i}}$是从原点$\boldsymbol{0}$到$R^n$中标准基向量$\boldsymbol{e_i}$的线段。那么对于$k(1\le k \le n)$，向量和：&lt;/p&gt;
+
+    &lt;script type=&quot;math/tex; mode=display&quot;&gt;C^k = \boldsymbol{I_1} + ···+\boldsymbol{I_k}&lt;/script&gt;
+
+    &lt;p&gt;称为$k维超立方体$&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;每次构造超立方体$C^{k+1}$，相当于是将$C^k$沿着$\boldsymbol{e_{k+1}}$的方向进行平移&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        <pubDate>Mon, 30 Mar 2020 19:00:00 -0500</pubDate>
+        <link>http://0.0.0.0:4000//algebra/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0-%E5%90%91%E9%87%8F%E7%A9%BA%E9%97%B4%E7%9A%84%E5%87%A0%E4%BD%95%E5%AD%A6</link>
+        <link href="http://0.0.0.0:4000/algebra/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0-%E5%90%91%E9%87%8F%E7%A9%BA%E9%97%B4%E7%9A%84%E5%87%A0%E4%BD%95%E5%AD%A6"/>
+        <guid isPermaLink="true">http://0.0.0.0:4000/algebra/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0-%E5%90%91%E9%87%8F%E7%A9%BA%E9%97%B4%E7%9A%84%E5%87%A0%E4%BD%95%E5%AD%A6</guid>
+      </item>
+    
+      <item>
+        <title>凸分析(四)-极点</title>
+        <description>&lt;h2 id=&quot;极点&quot;&gt;极点&lt;/h2&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;img src=&quot;/assets/images/optimization/极点.png&quot; alt=&quot;极点&quot; /&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;多面体集合的极点&quot;&gt;多面体集合的极点&lt;/h2&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;img src=&quot;/assets/images/optimization/多面体集合的极点.png&quot; alt=&quot;多面体集合的极点&quot; /&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+</description>
+        <pubDate>Sun, 29 Mar 2020 19:00:02 -0500</pubDate>
+        <link>http://0.0.0.0:4000//optimization/%E5%87%B8%E5%88%86%E6%9E%90(%E5%9B%9B)-%E6%9E%81%E7%82%B9</link>
+        <link href="http://0.0.0.0:4000/optimization/%E5%87%B8%E5%88%86%E6%9E%90(%E5%9B%9B)-%E6%9E%81%E7%82%B9"/>
+        <guid isPermaLink="true">http://0.0.0.0:4000/optimization/%E5%87%B8%E5%88%86%E6%9E%90(%E5%9B%9B)-%E6%9E%81%E7%82%B9</guid>
+      </item>
+    
+      <item>
+        <title>凸分析(五)-凸函数的可微性问题</title>
+        <description>&lt;h2 id=&quot;极点&quot;&gt;极点&lt;/h2&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;img src=&quot;/assets/images/optimization/极点.png&quot; alt=&quot;极点&quot; /&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;多面体集合的极点&quot;&gt;多面体集合的极点&lt;/h2&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;img src=&quot;/assets/images/optimization/多面体集合的极点.png&quot; alt=&quot;多面体集合的极点&quot; /&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+</description>
+        <pubDate>Sun, 29 Mar 2020 19:00:02 -0500</pubDate>
+        <link>http://0.0.0.0:4000//optimization/%E5%87%B8%E5%88%86%E6%9E%90(%E4%BA%94)-%E5%87%B8%E5%87%BD%E6%95%B0%E7%9A%84%E5%8F%AF%E5%BE%AE%E6%80%A7%E9%97%AE%E9%A2%98</link>
+        <link href="http://0.0.0.0:4000/optimization/%E5%87%B8%E5%88%86%E6%9E%90(%E4%BA%94)-%E5%87%B8%E5%87%BD%E6%95%B0%E7%9A%84%E5%8F%AF%E5%BE%AE%E6%80%A7%E9%97%AE%E9%A2%98"/>
+        <guid isPermaLink="true">http://0.0.0.0:4000/optimization/%E5%87%B8%E5%88%86%E6%9E%90(%E4%BA%94)-%E5%87%B8%E5%87%BD%E6%95%B0%E7%9A%84%E5%8F%AF%E5%BE%AE%E6%80%A7%E9%97%AE%E9%A2%98</guid>
+      </item>
+    
+  </channel>
+</rss>

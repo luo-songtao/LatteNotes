@@ -1,8 +1,8 @@
 <nav class="nav">
-    <h3><a href="{{ site.baseurl }}">最新</a></h3>
+    {% comment %} <h3><a href="{{ site.baseurl }}">最新</a></h3> {% endcomment %}
     {% for c in site.data._metadata.categories %}
         {% if page.verbose_name contains c.verbose_name %}
-        <h3 class="active"><a href="{{ c.verbose_name | prepend: site.baseurl | replace: '//', '/' }}">{{ c.name }}</a></h3>
+        <h3 class="active"><a>{{ c.name }}</a></h3>
         {% else %}
         <h3><a href="{{ c.verbose_name | prepend: site.baseurl | replace: '//', '/' }}">{{ c.name }}</a></h3>
         {% endif %}

@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+  <meta name="generator" content="Jekyll">
+
+  <title>MicroNote</title>
+  <link rel="stylesheet" href="/css/main.css">
+
+  <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="ATOM Feed" /> <!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>MicroNote | MicroNotes</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="MicroNote" />
+<meta name="author" content="LuoSongtao" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="千里之行始于足下；不积跬步无以致千里" />
+<meta property="og:description" content="千里之行始于足下；不积跬步无以致千里" />
+<link rel="canonical" href="http://0.0.0.0:4000/" />
+<meta property="og:url" content="http://0.0.0.0:4000/" />
+<meta property="og:site_name" content="MicroNotes" />
+<link rel="next" href="http://0.0.0.0:4000/page/2/" />
+<script type="application/ld+json">
+{"author":{"@type":"Person","name":"LuoSongtao"},"description":"千里之行始于足下；不积跬步无以致千里","@type":"WebSite","headline":"MicroNote","url":"http://0.0.0.0:4000/","name":"MicroNotes","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+        inlineMath: [['$','$']]
+      }
+    });
+  </script>
+
+</head>
+
+<body>
+  <div id="wrapper">
+    <header>
+  
+  
+  <div class="container">
+      
+
+      <div style="padding-left: 42px;">
+        <a id="username" href="/">
+        
+        <span style="font-size: x-large; color: #6a9fb5;"># </span>
+        <span style="font-size: x-large; color: #aa759f;">luosongtao</span>
+        <span style="font-size: x-large; color: #6a9fb5;">@</span>
+        <span style="font-size: x-large; color: #83a;">home:</span>
+        <span style="font-size: x-large; color: #cc0000;">~$</span>
+        </a>
+        
+<div id="search">
+	<input type="text" id="search-input" placeholder=" find / -name " style="vertical-align:middle;">
+	<ul id="results-container"></ul>
+</div>
+
+<!-- script pointing to jekyll-search.js -->
+<script src="/assets/js/simple-jekyll-search.min.js"></script>
+<script async src="/searchdata.js"></script>
+
+
+      </div>
+
+      <ul id="results-container"></ul>
+
+      <nav class="nav">
+    
+    
+        
+        <h3 class="active"><a>最新</a></h3>
+        
+    
+        
+        <h3><a href="/algorithms">Algorithms</a></h3>
+        
+    
+        
+        <h3><a href="/optimization">Optimization</a></h3>
+        
+    
+        
+        <h3><a href="/algebra">代数论</a></h3>
+        
+    
+        
+        <h3><a href="/docker">Docker</a></h3>
+        
+    
+        
+        <h3><a href="/bigdata">大数据</a></h3>
+        
+    
+        
+        <h3><a href="/mathematical-analysis">数学分析</a></h3>
+        
+    
+        
+        <h3><a href="/probability-theory">概率论</a></h3>
+        
+    
+        
+        <h3><a href="/others">其他</a></h3>
+        
+    
+</nav>
+      <div class="header-links">
+        
+        <a href="/archive"><h2 class="header-link">时间轴</h2></a>
+<a href="/about"><h2 class="header-link">关于</h2></a>
+<!--<a href="/atom.xml"><h2 class="header-link">RSS</h2></a>-->
+      </div>
+  <div>
+
+</header>
+    
+    <div class="container">
+      
+
+      <section id="main_content">
+        <ul>
+            
+              <li>
+                  <h2><a href="/algorithms/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0(7)-%E5%86%B3%E7%AD%96%E6%A0%91">机器学习(七)-决策树</a></h2>
+                  
+                  <time >决策树</time>
+                  <p>介绍 决策树是一种基本的分类与回归方法。决策树呈树形结构。决策树是一种判别模型，天然支持多分类问题 分类树的映射函数是多维空间的分段线性划分，即用平行于各坐标轴的超平面对空间进行切分 回归树的映射函数是分段常数函数 决策树是分段线性函数而不是线性函数，它具有非线性建模能力。理论上，只要划分得足够细，分段常熟函数可以逼近闭区间熵任意函数到任意指定精度。 决策树与if-then规则 决策树到if-then规则： 由决策树的根节点到叶节点的每一条路径构建一条规则 路径上的特征对应着规则的条件，而叶节点的类对应着规则的结论 决策树的路径(if-then规则集合)性质：互斥并且完备 每一个实例都能且只能被一条路径或一条规则所覆盖 决策树与条件概率分布 决策树表示给定条件下类的条件概率分布。其定义在特征空间的一个划分上 将特征空间划分为互不相交的单元或区域，在每个单元定义一个类的概率分布就构成了一个条件概率分布 决策树所表示的条件概率分布由各个单元给定条件下类的条件概率分布组成 各叶节点(单元)上条件概率往往偏向某一个类 决策树的学习 决策树学习本质上是从训练数据集中归纳出一组分类规则。 能训练出的与数据集不相矛盾的决策树可能有多个。因此最终需要的是一个与训练数据矛盾最小的决策树，同时具有很好的泛化能力 或者说决策树学习是由训练数据集估计条件概率模型 基于特征空间划分的类的条件概率模型有无穷多个，最终得到的模型不仅对训练数据有很好的拟合，还需要对未知数据有很好的预测 决策树学习过程： 特征选择 决策树学习的算法通常是一个递归地选择最优特征，并根据该特征对训练数据进行分割，使得各个子数据集有一个最好的分类的过程 决策树生成 决策树修剪(剪枝) 特征选择 特征选择：决定用哪个特征来划分特征空间 选取对训练数据具有分类能力的特征 如果利用一个特征进行分类的结果与随机分类的结果没有很大差别，则称该特征没有分类能力 划分时，希望决策树的分支节点所包含的样本尽可能属于同一类别，即结点的”纯度”越来越高 信息增益(Information Gain) 设$X$是一个去有限个值的离散随机变量，其概率分布为： 熵$H(X)$(表示随机变量不确定性的度量)： 熵的单位： bit: 当对数以2为底 nat: 当对数以自然对数为底 信息熵(熵本是物理中的概念，但由香农引入到信息论中后，熵也被称为信息熵) 对于一个训练样本集合$D$而言，信息熵是度量样本集合纯度的一种常用指标 假定当前样本集合$D$中第$i$类样本(共有$k$个类别)所占的比例为$p_i$，则$D$的信息熵为： 信息熵越小，表示$D$的纯度越高 条件熵$H(Y\vert X)$(表示已知随机变量$X$的条件下随机变量$Y$的不确定性)： 信息增益表示得知特征$X$的信息而使得类$Y$的信息的不确定性减少的程度 假设特征$X$有$n$个可能的取值$(x_1, x_2,…,x_n)$，训练数据集$D$中共有$k$类样本$(y_1,y_2,…,y_k)$，则特征$X$对数据集$D$进行划分所获得的信息增益$gain(D,X)$为： 式中$\tilde{P}$表示根据频数计算而得的概率(经验分布)...</p>
+              </li>
+            
+              <li>
+                  <h2><a href="/algorithms/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0(6)-%E8%B4%9D%E5%8F%B6%E6%96%AF%E5%88%86%E7%B1%BB%E5%99%A8">机器学习(六)-贝叶斯分类器</a></h2>
+                  
+                  <time >贝叶斯分类器</time>
+                  <p>贝叶斯分类器是一种概率模型，它用贝叶斯公式解决分类问题。 先设输入空间为n维向量的集合，输出空间为$\mathcal{Y} = { c_1, c_2, ···, c_k }$的集合。$X$是定义在输入空间$\mathcal{X}$上的随机向量，$Y$是定义在输出空间$\mathcal{Y}$上的随机变量。 贝叶斯公式 条件概率公式 $P(XY)$: $X$和$Y$的联合概率分布 全概率公式 根据条件概率公式，可得： 贝叶斯公式 根据全概率公式，可得： 贝叶斯决策 先对上面的贝叶斯公式中相关概率分布进行说明： $P(Y=c_k)$ ： 类先验概率。表达了样本空间中各类样本所占的比例，因为根据大数定律，当训练集包含充足的独立同分布样本时，$P(Y=c_k)$可通过各类样本的出现频率来进行估计 $P(X=x \vert Y=c_k)$ ： 类条件概率。 $P(Y=c_k \vert X=x)$ ： 类后验概率。 贝叶斯决策也就是通过贝叶斯定理，使用这些概率来选择最优的类别标记。 判断时，我们通常是选择估计出的后验概率最大的类作为最终结果然后输出。而最大化后验概率其实等价于最小化期望损失(后面再介绍)。 估计后验概率，通常有两种策略： 判别式：直接对后验概率建模进行预测。 生成式：先对联合概率建模，然后再获得后验概率。 两种策略简单对比(来自知乎): 要确定一个羊是山羊还是绵羊，用判别模型的方法是从历史数据中学习到模型，然后通过提取这只羊的特征来预测出这只羊是山羊的概率，是绵羊的概率 利用生成模型是根据山羊的特征首先学习出一个山羊的模型，然后根据绵羊的特征学习出一个绵羊的模型，然后从这只羊中提取特征，放到山羊模型中看概率是多少，在放到绵羊模型中看概率是多少，哪个大就是哪个 而根据贝叶斯公式，如果我们要得到类后验概率，我们其实是需要先预测出联合概率的(可见属于生成式模型)。而为了获得联合概率，那么我们需要基于训练集样本估计出类先验概率和类条件概率。对于类先验概率可以直接估计(假定给定的样本量充足) 但对于类条件概率的估计，需要注意： 由于样本的特征向量$x$涉及到了其各个分量之间的联合概率问题，因此直接计算它们出现的频率来进行估计，将会带来严重的困难。 而如果假设特征向量的各个分量之间相互独立，那么这时条件概率可表示为$P(X=x \vert Y=c_k) = \Pi_{i=1}^n P(X_i =...</p>
+              </li>
+            
+              <li>
+                  <h2><a href="/algorithms/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0(5)-k%E6%9C%80%E8%BF%91%E9%82%BB%E7%AE%97%E6%B3%95">机器学习(五)-k最近邻算法</a></h2>
+                  
+                  <time >knn</time>
+                  <p>KNN k近邻算法(k-nearest neighbor, KNN)是一种基本分类与回归方法。 KNN算法的工作机制 给定测试样本，基于某种距离度量(如欧氏距离)找出测试集中与其最靠近的k个训练样本，然后基于这k个近邻样本的信息进行预测。 给定的测试样本，其中的实例类别已定(分类任务)，或实例的真是标记值已定(回归任务) 在分类任务中，对新的实例，根据其k个最近邻的训练实例的类别，通过多数表决等方式进行预测 对于分类问题，给定$m$个训练样本$(\boldsymbol{x}_i, y_i)$，设定参数$k$，假设类型数为$c$，待分类样本的特征向量是$\boldsymbol{x}$，那么预测的流程： 在训练样本中找出离$\boldsymbol{x}$最近的$k$个样本，假设这些样本的集合为$N$ 统计集合$N$中每一类的个数$C_i, i=1,2,···,c$ 最终分类结果为$\max_i C_i$ 在回归任务中，可使用”平均法”，即将这k个样本的实值输出，标记的平均值作为预测结果 可见，KNN算法不具有显示的学习过程。 KNN实际上利用训练数据集对特征向量空间进行划分，并作为其分类的“模型” KNN是“lazy learning”的著名代表，此类学习技术在训练阶段仅仅是吧样本保存起来，训练时间开销为0，等需要进行预测时再进行处理。与之相对的是“eager learning” KNN算法实现简单，但缺点是训练样本数大、特征向量维数很高时，计算复杂度高。 每次预测时要计算待预测样本和每一个训练样本的距离。而且要对距离进行排序找到最近的k个样本。 可以使用高效的部分排序算法，只找出最小的k个数 或是利用kd数实现快速的近邻样本查找 变种： 带权重的KNN 模糊KNN KNN算法的基本要素 k值的选择 距离度量 分类/回归决策规则 K值的选择 k值的选择会对KNN算法的结果产生重大影响。它需要根据问题和数据的特点来确定，并注意： 如果选择较小k值，由于只有与输入实例较近的训练实例才会对预测结果作用，估计误差会增大，因此将对这些训练实例非常敏感，从而容易造成过拟合 如果选择较大的k值，估计误差虽然可以减少，但近似误差，即与输入实例较远的训练实例也会对预测起作用，会使预测发生错误。 k值的减小意味着整体模型变得复杂， k值的增大意味着整体模型变得简单 实际中，k值取值一般比较小，并通常采用交叉验证法来选取最优的k值 距离度量 KNN算法模型的特征空间一般是n维实数向量空间$R^n$ 欧式距离 曼哈顿距离 Mahalanobis距离 Mahalanobis距离是一种概率意义上的距离。它度量两个随机向量的相似度。 矩阵$S$是正定的(否则没有意义) 当$S$是单位矩阵时，Mahalanobis距离退化为欧氏距离 $S$矩阵可以通过计算训练样本集的协方差矩阵得到，也可以通过训练样本学习得到 KNN算法的精度在很大程度上依赖于所使用的距离度量标准，“距离度量学习”是一种从带标签的样本集中学习，得到距离度量矩阵的方法 Bhattacharyya距离...</p>
+              </li>
+            
+              <li>
+                  <h2><a href="/algorithms/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0(4)-%E6%9C%80%E5%A4%A7%E7%86%B5%E6%A8%A1%E5%9E%8B">机器学习(四)-最大熵模型</a></h2>
+                  
+                  <time >最大熵</time>
+                  <p>最大熵原理 定义 最大熵原理是概率模型学习的一个准则。最大熵原理认为，学习概率模型时，在所有可能的概率模型(分布)中，熵最大的模型是最好的模型。 若概率模型需要满足一些约束条件(满足约束条件的概率模型/分布可能有无穷多个)，那么最大熵原理也可以表述为在满足约束条件的模型集合中选取熵最大的模型。 最大熵原理指出，对一个随机事件的概率分布进行预测时，预测应当满足全部已知的约束，而对未知的情况不要做任何主观假设，应认为对于未知的情况都是”等可能的”。 而在这种情况下，概率分布最均匀，预测的风险最小，因此得到的概率分布的熵是最大。 也就是说，最大熵原理通过熵的最大化来表示等可能性 熵公式 假设离散随机变量$X$是的概率分布是$P(X)$，则其熵是： $H(X)$依赖于X的分布,而与X的具体值无关。H(X)越大,表示X的不确定性越大 可证，熵$H(X)$满足： $\vert X \vert$表示离散随机变量$X$的可能取值个数 最大熵原理指出概率分布越均匀，熵越大，即当且仅当X的分布服从均匀分布时上式右边的等号成立 最大熵原理是统计学习的一般原理，将它应用到分类得到最大熵模型 最大熵模型定义 定义$\mathcal{X}$，$\mathcal{Y}$分别表示$R_n$中的输入空间和输出空间，$X$和$Y$分别是$\mathcal{X}$，$\mathcal{Y}$的随机变量。 假设分类模型是一个条件概率分布$P(Y\vert X)$(判别式的)，即对于给定的输入$X$，根据条件概率$P(Y\vert X)$输出$Y$。 最大熵模型的特征与特征函数 通常”特征”往往仅指对输入抽取特征，用函数表示就是 $f(\boldsymbol{x})$；而在最大熵模型中，是对输入和输出同时抽取特征，用函数表示就是 $f(\boldsymbol{x},y)$ 特征函数的作用可理解为相当于对特征进行特征转换、提取或向量化处理表达 如 注意特征函数可以任意实值函数，且一个模型中可以定义多个特征函数 最大熵模型的约束条件 期望 对于给定的训练样本数据集(假设样本数为 $m$)： 联合分布 $P(X=\boldsymbol{x},Y=y)$ 的经验分布 $\tilde{P}(X=\boldsymbol{x},Y=y)$: 边缘分布 $P(X=\boldsymbol{x})$ 的经验分布 $\tilde{P}(X=\boldsymbol{x})$: 则可得相应的期望： 特征函数 $f(\boldsymbol{x},y)$ 关于经验分布 $\tilde{P}(X=\boldsymbol{x},Y=y)$ 的期望是： 模型 $P(Y\vert X)$ 关于特征函数...</p>
+              </li>
+            
+              <li>
+                  <h2><a href="/algorithms/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0(3)-SoftmaxRegression">机器学习(三)-Softmax Regression</a></h2>
+                  
+                  <time >softmax-regression</time>
+                  <p>Softmax Regression Softmax Regression模型预估公式 Logistic Regression 只能用于二分类问题，将它进行推广可以得到处理多类分类问题的Softmax Regression 给定m个训练样本$(\boldsymbol{x}_i, y_i)$，其中$\boldsymbol{x}_i$为n维特征向量，$y_i$为类别标签，取值是$1$~$k$的整数 softmax回归按照下列公式估计一个样本属于每一类的概率： 模型的输出是一个$k$维的概率向量$\boldsymbol{y}^*$，其元素之和为1，每一个分量为样本属于该类的概率 使用指数函数进行变换的原因是指数函数值都大于0，概率值必须是非负的 参数矩阵 可见需要估计的参数为： 其中每个$\boldsymbol{\omega}_i$都是一个$n$维列向量(若将偏置项置入$\boldsymbol{\omega}_i$中，则是$n+1$维，此时$\boldsymbol{x}_i = [\boldsymbol{x}_i;1]$) 即$\boldsymbol{\omega}$是一个$n \times k$的矩阵。或$(n+1) \times k$ 似然函数 首先后面都假定对样本的真实标签向量使用$one-hot$编码，并记为向量 $\boldsymbol{y}$ 单样本概率估计公式 参照Logistic Regression的做法，每个样本属于每个类的概率计算公式： 训练样本集的似然函数 对于给定的一批样本(假设为$m$个)，由于样本之间独立，则与训练样本集的似然函数为： 训练样本集的对数似然函数 则可得对数似然函数： 极大似然估计-参数预估 使用极大似然估计预估参数$\boldsymbol{\omega}^*$ 也就等价于: 总体损失函数 令$E(\boldsymbol{\omega}_1, \boldsymbol{\omega}_2, ···, \boldsymbol{\omega}_k)$表示Softmax Regression对于训练集的总损失函数： 该式也被称为交叉熵损失函数。可证该式是凸函数。 单样本损失函数 对于单个样本 $(\boldsymbol{x}, y)$ 的损失函数$e(\boldsymbol{\omega}_1, \boldsymbol{\omega}_2, ···,...</p>
+              </li>
+            
+              <li>
+                  <h2><a href="/algorithms/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0(2)-LogisticRegression">机器学习(二)-LogisticRegression</a></h2>
+                  
+                  <time >线性模型LogisticRegression</time>
+                  <p>Logistic Distribution 设$X$是连续随机变量，$X$服从Logistic Distribution是指$X$具有下列的概率分布函数和概率密度函数 其中$\mu$为位置参数，$\gamma &gt; 0$为形状参数 分布函数的图形是一条S型曲线(Sigmoid Curve) 该曲线以$(\mu, \frac 12)$为中心对称：$F(-x+\mu) - \frac 12 = -F(x+\mu)+\frac 12$ 曲线在中心附近增长速度较快，在两端增长速度较慢 形状参数$\gamma$的值越小，曲线在中心附近增长得越快 Logistic Regression Model LogisticRegression 常被翻译成逻辑回归或对数几率回归，但其实它主要和log函数也就是对数函数有关，和中文语义上的“逻辑”没有什么关系。后面我们将统一称之为对数几率回归。 LogisticRegression 虽然是一种回归模型，但却是一种主要用于二分类问题的分类算法，因此这里称为二项对数几率回归。 对数几率回归的基本形式，对数几率回归函数： 二项对数几率回归是一种二分类模型，它有条件概率$P(Y\vert X)$表示，形式为参数化的Logistic Distribution。 随机变量$X$取值为实数 随机变量$Y$取值为0和1 考虑线性回归模型$z = \boldsymbol{\omega}^T\boldsymbol{x} + b$，其结果是实值，但通过对数几率回归函数，可以将实值映射到$(0,1)$区间上，并将其输出结果作为取正值的概率，从而实现分类。 将$z$代入可得： 将上式转换一下，可得： 这里的$\ln \frac {y}{1-y}$被称为对数几率 几率与对数几率 几率：一个事件发生的几率(odds)是指该事件发生的概率$p$与该事件不发生的概率$1-p$的比值。 对数几率: 该事件的对数几率也就是对几率取对数得之 后验概率估计公式 根据对数几率，那么由： 可得：...</p>
+              </li>
+            
+              <li>
+                  <h2><a href="/algorithms/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0(1)-%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92">机器学习(一)-线性回归</a></h2>
+                  
+                  <time >线性模型线性回归</time>
+                  <p>一元线性回归模型
+
+
+  
+    预测函数
+
+    
+  
+  损失函数(使用均方误差表示):
+    
+      
+        单个样本的误差($y$表示真实值)：
+
+        
+      
+      
+        全体样本的误差($m$表示样本数)：
+
+        
+      
+    
+  
+  
+    线性回归的目标就是最小化损失函数，而均方误差最小化，通常可以使用最小二乘法来求解参数
+
+    
+  
+  
+    分别对系数和偏置项求偏导：
+
+    
+  
+  
+    令上面的偏导为0，可以得到闭式解(损失函数是一个凸函数，令偏导为0时，可以得到最优解):
+
+    
+  
+
+
+多元线性回归
+
+
+  预测函数
+    
+      
+        一般形式
+
+        
+      
+      
+        向量形式(设$\boldsymbol{\omega}和\boldsymbol{x}均是n维向量$)
+
+        
+      
+    
+  
+  
+    损失函数
+
+    为了便于分析讨论，计$\boldsymbol{\hat{\omega}} = (\boldsymbol{\omega}; b)$，等价于将$b$看作一个单独的系数项。
+  同时令$X$表示$m \times (n+1)$的数据集矩阵,前n列分别是对应n维的样本特征向量，最后一列置为1，对应偏置项,；
+  令$\boldsymbol{y}$表示每个样本的真实值构成的$m$维向量
+
+    
+      
+        单个样本：
+
+        
+      
+      
+        全体样本的误差:
+        
+          
+            一般形式
+
+            
+          
+          
+            向量形式
+
+            
+          
+        
+      
+    
+  
+  
+    我们的目标同样是最小化损失函数
+
+    
+  
+  
+    分别对系数和偏置求偏导：
+
+    
+  
+  
+    令上面的偏导为0，同样可以得到闭式解
+
+    
+  
+
+
+正则化
+
+当数据集的样本特征很多，而样本数相对较少时，前面的损失函数最小化过程容易陷入过拟合，因此可以考虑对其添加惩罚项，以缓解过拟合的问题
+
+L2-正则化： Ridge Regreesion
+
+
+  
+    L2-正则化即使用L2范数正则化
+
+    
+  
+
+
+$\lambda&gt;0$称为正则化参数，使用L2正则化的线性回归被称为岭回归(Ridge Regreesion)
+
+L1-正则化： LASSO
+
+
+  
+    L1-正则化使用L1范数正则化
+
+    
+  
+
+
+使用L1正则化的线性回归被称为LASSO(Least Absolue Shrinkage and Selection Operator)
+
+L0-正则化
+
+如果需要对$\boldsymbol{\hat{\omega}}$施加稀疏约束条件，最自然的是使用L0范数，但L0范数不连续，难以优化求解，因此常用L1范数来近似
+
+L1与L2对比
+
+L1与L2都有助于降低过拟合风险，但前者还会带来一个额外的好处，也就是它比后者更易于获得“稀疏”解，即它求得的$\boldsymbol{\hat{\omega}}$会有更少的非零分量
+</p>
+              </li>
+            
+              <li>
+                  <h2><a href="/algebra/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0-%E5%90%91%E9%87%8F%E7%A9%BA%E9%97%B4%E7%9A%84%E5%87%A0%E4%BD%95%E5%AD%A6">线性代数-向量空间的几何学</a></h2>
+                  
+                  <time >线性代数</time>
+                  <p>仿射组合 一个向量的仿射组合是线性组合的一种特殊形式 给定 $R^n$ 中的向量 $\boldsymbol{v_1}, \boldsymbol{v_2}, ···， \boldsymbol{v_p}$ 和标量 $c_1, c_2, ···， c_p$ $v_1, v_2, ···， v_p$的一个仿射组合是： 且权值满足 $c_1 + c_2 + ··· + c_p = 1$ 仿射包 集合S中的所有仿射组合的集合称为S的仿射包，记为 定理：$R^n$ 中的一个点 $\boldsymbol{y}$ 是$ R^n$ 中 $\boldsymbol{v_1}, \boldsymbol{v_2}, ···， \boldsymbol{v_p}$ 的一个仿射组合， 当且仅当 $\boldsymbol{y-v_1}$ 是平移点 $\boldsymbol{v_2-v_1}, ···, \boldsymbol{v_p-v_1}$ 的线性组合 仿射集 如果对于任意实数...</p>
+              </li>
+            
+        </ul>
+      </section>
+    </div>
+  </div>
+  
+  <div class="pagination">
+    
+      <span class="page-item">&laquo;</span>
+    
+
+    
+      
+        
+          <span class="page-item">1</span>
+        
+      
+        
+          <a href="/page/2/" class="page-item">2</a>
+        
+      
+        
+          <a href="/page/3/" class="page-item">3</a>
+        
+      
+        
+          <a href="/page/4/" class="page-item">4</a>
+        
+      
+        
+          <a href="/page/5/" class="page-item">5</a>
+        
+      
+    
+
+    
+      <a href="/page/2/" class="page-item">&raquo;</a>
+    
+  </div>
+   <footer>
+  <a href="/">
+    <span>
+        <b>LuoSongtao</b>
+    </span>
+    
+    <span>© 2020</span>
+  </a>
+</footer>
+
+  
+</body>
+
+</html>

@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+  <meta name="generator" content="Jekyll">
+
+  <title>数学分析-数项级数(无证明)</title>
+  <link rel="stylesheet" href="/css/main.css">
+
+  <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="ATOM Feed" /> <!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>数学分析-数项级数(无证明) | MicroNotes</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="数学分析-数项级数(无证明)" />
+<meta name="author" content="LuoSongtao" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="数项级数的收敛性" />
+<meta property="og:description" content="数项级数的收敛性" />
+<link rel="canonical" href="http://0.0.0.0:4000/mathematical-analysis/00-00-04-%E6%95%B0%E9%A1%B9%E7%BA%A7%E6%95%B0(%E6%97%A0%E8%AF%81%E6%98%8E)" />
+<meta property="og:url" content="http://0.0.0.0:4000/mathematical-analysis/00-00-04-%E6%95%B0%E9%A1%B9%E7%BA%A7%E6%95%B0(%E6%97%A0%E8%AF%81%E6%98%8E)" />
+<meta property="og:site_name" content="MicroNotes" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2019-12-13T18:00:04-06:00" />
+<script type="application/ld+json">
+{"author":{"@type":"Person","name":"LuoSongtao"},"mainEntityOfPage":{"@type":"WebPage","@id":"http://0.0.0.0:4000/mathematical-analysis/00-00-04-%E6%95%B0%E9%A1%B9%E7%BA%A7%E6%95%B0(%E6%97%A0%E8%AF%81%E6%98%8E)"},"description":"数项级数的收敛性","@type":"BlogPosting","headline":"数学分析-数项级数(无证明)","dateModified":"2019-12-13T18:00:04-06:00","url":"http://0.0.0.0:4000/mathematical-analysis/00-00-04-%E6%95%B0%E9%A1%B9%E7%BA%A7%E6%95%B0(%E6%97%A0%E8%AF%81%E6%98%8E)","datePublished":"2019-12-13T18:00:04-06:00","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+        inlineMath: [['$','$']]
+      }
+    });
+  </script>
+
+</head>
+
+<body>
+  <div id="wrapper">
+    <header>
+  
+  
+  <div class="container">
+      
+
+      <div style="padding-left: 42px;">
+        <a id="username" href="/">
+        
+        <span style="font-size: x-large; color: #6a9fb5;"># </span>
+        <span style="font-size: x-large; color: #aa759f;">luosongtao</span>
+        <span style="font-size: x-large; color: #6a9fb5;">@</span>
+        <span style="font-size: x-large; color: #83a;">home:</span>
+        <span style="font-size: x-large; color: #cc0000;">~$</span>
+        </a>
+        
+<div id="search">
+	<input type="text" id="search-input" placeholder=" find / -name " style="vertical-align:middle;">
+	<ul id="results-container"></ul>
+</div>
+
+<!-- script pointing to jekyll-search.js -->
+<script src="/assets/js/simple-jekyll-search.min.js"></script>
+<script async src="/searchdata.js"></script>
+
+
+      </div>
+
+      <ul id="results-container"></ul>
+
+      <nav class="nav">
+    
+    
+        
+        <h3><a href="/">最新</a></h3>
+        
+    
+        
+        <h3><a href="/algorithms">Algorithms</a></h3>
+        
+    
+        
+        <h3><a href="/optimization">Optimization</a></h3>
+        
+    
+        
+        <h3><a href="/algebra">代数论</a></h3>
+        
+    
+        
+        <h3><a href="/docker">Docker</a></h3>
+        
+    
+        
+        <h3><a href="/bigdata">大数据</a></h3>
+        
+    
+        
+        <h3><a href="/mathematical-analysis">数学分析</a></h3>
+        
+    
+        
+        <h3><a href="/probability-theory">概率论</a></h3>
+        
+    
+        
+        <h3><a href="/others">其他</a></h3>
+        
+    
+</nav>
+      <div class="header-links">
+        
+        <a href="/archive"><h2 class="header-link">时间轴</h2></a>
+<a href="/about"><h2 class="header-link">关于</h2></a>
+<!--<a href="/atom.xml"><h2 class="header-link">RSS</h2></a>-->
+      </div>
+  <div>
+
+</header>
+    
+    <div class="container">
+      <article>
+  <h1>数学分析-数项级数(无证明)</h1>
+  <time datetime="2019-12-13T18:00:04-06:00" class="by-line">13 Dec 2019</time>
+  <ul class="section-nav">
+<li class="toc-entry toc-h2"><a href="#数项级数的收敛性">数项级数的收敛性</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#数项级数">数项级数</a></li>
+<li class="toc-entry toc-h4"><a href="#级数的基本性质">级数的基本性质</a>
+<ul>
+<li class="toc-entry toc-h6"><a href="#级数收敛的必要条件">级数收敛的必要条件</a></li>
+<li class="toc-entry toc-h6"><a href="#线性性">线性性</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#上极限与下极限">上极限与下极限</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#数列的上极限与下极限">数列的上极限与下极限</a></li>
+<li class="toc-entry toc-h4"><a href="#数列的上极限与下极限扩充定义">数列的上极限与下极限：扩充定义</a></li>
+<li class="toc-entry toc-h4"><a href="#关于上下极限的充分必要条件">关于上下极限的充分必要条件</a></li>
+<li class="toc-entry toc-h4"><a href="#上极限和下极限的运算">上极限和下极限的运算</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#正项级数">正项级数</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#正项级数收敛原理">正项级数收敛原理</a></li>
+<li class="toc-entry toc-h4"><a href="#比较判别法">比较判别法</a></li>
+<li class="toc-entry toc-h4"><a href="#比较判别法的极限形式">比较判别法的极限形式</a></li>
+<li class="toc-entry toc-h4"><a href="#cauchy判别法">Cauchy判别法</a></li>
+<li class="toc-entry toc-h4"><a href="#dalembert-判别法">d’Alembert 判别法</a></li>
+<li class="toc-entry toc-h4"><a href="#raabe-判别法">Raabe 判别法</a></li>
+<li class="toc-entry toc-h4"><a href="#积分判别法">积分判别法</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#任意项级数">任意项级数</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#级数的cauchy收敛原理">级数的Cauchy收敛原理</a></li>
+<li class="toc-entry toc-h4"><a href="#leibniz级数">Leibniz级数</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#无穷乘积">无穷乘积</a></li>
+</ul><h2 id="数项级数的收敛性">
+<a class="anchor" href="#%E6%95%B0%E9%A1%B9%E7%BA%A7%E6%95%B0%E7%9A%84%E6%94%B6%E6%95%9B%E6%80%A7" aria-hidden="true"><span class="octicon octicon-link"></span></a>数项级数的收敛性</h2>
+
+<h4 id="数项级数">
+<a class="anchor" href="#%E6%95%B0%E9%A1%B9%E7%BA%A7%E6%95%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>数项级数</h4>
+
+<ul>
+  <li>
+    <p>设$x_1, x_2, ···, x_n, ···$ 是无穷可列个实数，则称它们的”和”</p>
+
+    <script type="math/tex; mode=display">x_1+x_2+ ···+ x_n+ ···</script>
+
+    <p>为<strong>无穷数项级数</strong>(简称级数)，记为</p>
+
+    <script type="math/tex; mode=display">\sum_{n=1}^\infty x_n</script>
+
+    <p>其中$x_n$称为级数的通项或一般项</p>
+  </li>
+  <li>
+    <p>部分和数列<script type="math/tex">\{S_n \}</script></p>
+
+    <script type="math/tex; mode=display">% <![CDATA[
+\begin{aligned} S_1 &= x_1 \\ S_2 &= x_1+x_2 \\ S_3 &= x_1+x_2 + x_3 \\  & ······ \\ S_n &= x_1 +x_2+···+x_n = \sum_{i=1}^n x_i \\ & ······ \end{aligned} %]]></script>
+  </li>
+  <li>
+    <p>如果部分和数列<script type="math/tex">\{S_n \}</script>收敛与有限数$S$，则称无穷级数 $\sum_{n=1}^\infty x_n$ 收敛，且称它的和为S，记为</p>
+
+    <script type="math/tex; mode=display">S = \sum_{n=1}^\infty x_n</script>
+
+    <p>如果部分和数列<script type="math/tex">\{S_n \}</script>发散，则称无穷级数 $\sum_{n=1}^\infty x_n$ 发散</p>
+  </li>
+  <li>
+    <p>几何级数(等比级数)</p>
+
+    <script type="math/tex; mode=display">\sum_{n=1}^\infty q^{n-1} = 1 + q + q^2 + ··· + q^n +···</script>
+
+    <p>其部分和数列的通项:</p>
+
+    <script type="math/tex; mode=display">S_n = \sum_{i=1}^n q^{i-1} = \frac {1-q^n}{1-q}</script>
+
+    <p>当$\vert q \vert&lt;1$时，可知:</p>
+
+    <script type="math/tex; mode=display">\lim_{n\rightarrow \infty} S_n = \frac 1{1-q}</script>
+  </li>
+  <li>
+    <p>p级数</p>
+
+    <script type="math/tex; mode=display">\sum_{n=1}^\infty \frac 1{n^p} = 1 + \frac 1{2^p} + \frac 1{3^p} +···+ + \frac 1{n^p} +··· \qquad p>0</script>
+
+    <ul>
+      <li>当$p&gt;1$时收敛</li>
+      <li>当$0\lt p \le 1$发散到正无穷大</li>
+    </ul>
+
+    <p>当$p=1$时， $\sum_{n=1}^\infty \frac 1n$称为调和级数</p>
+  </li>
+  <li>
+    <p>余和数列<script type="math/tex">\{ r_n \}</script></p>
+
+    <script type="math/tex; mode=display">r_n = \sum_{k=n+1}^\infty x_k = x_{n+1} + x_{n+2} + ···</script>
+
+    <p>设$\sum_{n=1}^\infty x_n = S$，则$r_n = S - S_n$，显然，这时<script type="math/tex">\{ r_n \}</script>收敛与0</p>
+  </li>
+</ul>
+
+<h4 id="级数的基本性质">
+<a class="anchor" href="#%E7%BA%A7%E6%95%B0%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%80%A7%E8%B4%A8" aria-hidden="true"><span class="octicon octicon-link"></span></a>级数的基本性质</h4>
+
+<h6 id="级数收敛的必要条件">
+<a class="anchor" href="#%E7%BA%A7%E6%95%B0%E6%94%B6%E6%95%9B%E7%9A%84%E5%BF%85%E8%A6%81%E6%9D%A1%E4%BB%B6" aria-hidden="true"><span class="octicon octicon-link"></span></a>级数收敛的必要条件</h6>
+
+<ul>
+  <li>
+    <p>设级数 $\sum_{n=1}^\infty x_n$ 收敛，则其通项所构成的数列 <script type="math/tex">\{ x_n \}</script> 是无穷小量，即</p>
+
+    <script type="math/tex; mode=display">\lim_{n\rightarrow \infty} x_n = 0</script>
+  </li>
+</ul>
+
+<h6 id="线性性">
+<a class="anchor" href="#%E7%BA%BF%E6%80%A7%E6%80%A7" aria-hidden="true"><span class="octicon octicon-link"></span></a>线性性</h6>
+
+<ul>
+  <li>
+    <p>设 $\sum_{n=1}^\infty a_n = A$, $\sum_{n=1}^\infty b_n = B$，$\alpha, \beta$ 是两个常数，则</p>
+
+    <script type="math/tex; mode=display">\sum_{n=1}^\infty(\alpha a_n + \beta b_n) = \alpha A + \beta B</script>
+  </li>
+  <li>
+    <p>设级数$\sum_{n=1}^\infty x_n$收敛，则在它的求和表达式中任意添加括号后所得的级数仍然收敛，且其和不变</p>
+  </li>
+</ul>
+
+<h2 id="上极限与下极限">
+<a class="anchor" href="#%E4%B8%8A%E6%9E%81%E9%99%90%E4%B8%8E%E4%B8%8B%E6%9E%81%E9%99%90" aria-hidden="true"><span class="octicon octicon-link"></span></a>上极限与下极限</h2>
+
+<h4 id="数列的上极限与下极限">
+<a class="anchor" href="#%E6%95%B0%E5%88%97%E7%9A%84%E4%B8%8A%E6%9E%81%E9%99%90%E4%B8%8E%E4%B8%8B%E6%9E%81%E9%99%90" aria-hidden="true"><span class="octicon octicon-link"></span></a>数列的上极限与下极限</h4>
+
+<ul>
+  <li>
+    <p>在有界数列 <script type="math/tex">\{ x_n \}</script> 中，若存在它的一个子列 <script type="math/tex">\{ x_{n_k} \}</script> 使得：</p>
+
+    <script type="math/tex; mode=display">\lim_{n\rightarrow \infty} x_{n_k} = \varepsilon</script>
+
+    <p>则称 $\varepsilon$ 为数列 <script type="math/tex">\{ x_n \}</script> 的一个极限点</p>
+  </li>
+  <li>
+    <p>等价表述：对于任意给定的$\varepsilon &gt; 0$,存在 <script type="math/tex">\{ x_n \}</script> 中的无穷多个项属于 $\varepsilon$ 的 $\epsilon $ 领域, 记</p>
+
+    <script type="math/tex; mode=display">E =\{ \varepsilon \vert \varepsilon 是 \{ x_n \} 的极限点 \}</script>
+
+    <p>根据Bolzano-Weierstrass 定理，有界数列中必定有收敛子列，$E$ 是非空有界集合。</p>
+
+    <p>因此，$E$的上确界 $H=\sup E$ 和下确界 $h = \inf E$存在</p>
+  </li>
+  <li>
+    <p>上极限与下极限</p>
+
+    <ul>
+      <li>
+        <p>$E$ 的上确界 $H$ 和 下确界 $h$ 均属于 $E$</p>
+
+        <script type="math/tex; mode=display">H = \max E, h = \min E</script>
+      </li>
+      <li>
+        <p>$H$ 称为 <script type="math/tex">\{ x_n \}</script> 的上极限，记为</p>
+
+        <script type="math/tex; mode=display">H = \overline{\lim_{n\rightarrow \infty}}x_n</script>
+      </li>
+      <li>
+        <p>$h$ 称为 <script type="math/tex">\{ x_n \}</script> 的下极限，记为</p>
+
+        <script type="math/tex; mode=display">h = \underline{\lim_{n\rightarrow \infty}}x_n</script>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>设<script type="math/tex">\{ x_n \}</script>是有界数列，则<script type="math/tex">\{ x_n \}</script>收敛的充分必要条件是：</p>
+
+    <script type="math/tex; mode=display">\overline{\lim_{n\rightarrow \infty}}x_n = \underline{\lim_{n\rightarrow \infty}}x_n</script>
+  </li>
+</ul>
+
+<h4 id="数列的上极限与下极限扩充定义">
+<a class="anchor" href="#%E6%95%B0%E5%88%97%E7%9A%84%E4%B8%8A%E6%9E%81%E9%99%90%E4%B8%8E%E4%B8%8B%E6%9E%81%E9%99%90%E6%89%A9%E5%85%85%E5%AE%9A%E4%B9%89" aria-hidden="true"><span class="octicon octicon-link"></span></a>数列的上极限与下极限：扩充定义</h4>
+
+<ul>
+  <li>
+    <p>在数列 <script type="math/tex">\{ x_n \}</script> 中，若存在它的一个子列 <script type="math/tex">\{ x_{n_k} \}</script> 使得：</p>
+
+    <script type="math/tex; mode=display">\lim_{k\rightarrow \infty} x_{n_k} = \varepsilon \qquad (-\infty \le \varepsilon \le \infty)</script>
+
+    <p>则称$\varepsilon$ 为数列 <script type="math/tex">\{ x_n \}</script> 的一个极限点</p>
+  </li>
+  <li>
+    <p>$\lim_{n\rightarrow \infty} x_n$存在(有限数、$+\infty$或$-\infty$)的充分必要条件是：</p>
+
+    <script type="math/tex; mode=display">\overline{\lim_{n\rightarrow \infty}}x_n = \underline{\lim_{n\rightarrow \infty}}x_n</script>
+  </li>
+</ul>
+
+<h4 id="关于上下极限的充分必要条件">
+<a class="anchor" href="#%E5%85%B3%E4%BA%8E%E4%B8%8A%E4%B8%8B%E6%9E%81%E9%99%90%E7%9A%84%E5%85%85%E5%88%86%E5%BF%85%E8%A6%81%E6%9D%A1%E4%BB%B6" aria-hidden="true"><span class="octicon octicon-link"></span></a>关于上下极限的充分必要条件</h4>
+
+<ul>
+  <li>设 <script type="math/tex">\{ x_n \}</script> 是有界数列，则
+    <ul>
+      <li>$\overline{\lim_{n\rightarrow \infty}}x_n = H$ 的充分必要条件是： 对任意给定的 $\epsilon&gt;0$
+        <ul>
+          <li>
+            <p>存在正整数N，使得</p>
+
+            <script type="math/tex; mode=display">% <![CDATA[
+x_n < H+\epsilon %]]></script>
+
+            <p>对一切$n&gt;N$成立</p>
+          </li>
+          <li>
+            <p><script type="math/tex">\{ x_n \}</script> 中有无穷多项，满足：</p>
+
+            <script type="math/tex; mode=display">x_n > H - \epsilon</script>
+          </li>
+        </ul>
+      </li>
+      <li>$\underline{\lim_{n\rightarrow \infty}}x_n = h$ 的充分必要条件是： 对任意给定的 $\epsilon&gt;0$
+        <ul>
+          <li>
+            <p>存在正整数N，使得</p>
+
+            <script type="math/tex; mode=display">x_n > h - \epsilon</script>
+
+            <p>对一切$n&gt;N$成立</p>
+          </li>
+          <li>
+            <p><script type="math/tex">\{ x_n \}</script> 中有无穷多项，满足：</p>
+
+            <script type="math/tex; mode=display">x_n > h + \epsilon</script>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="上极限和下极限的运算">
+<a class="anchor" href="#%E4%B8%8A%E6%9E%81%E9%99%90%E5%92%8C%E4%B8%8B%E6%9E%81%E9%99%90%E7%9A%84%E8%BF%90%E7%AE%97" aria-hidden="true"><span class="octicon octicon-link"></span></a>上极限和下极限的运算</h4>
+
+<ul>
+  <li>设 <script type="math/tex">\{ x_n \}</script>, <script type="math/tex">\{ y_n \}</script> 是两数列，则
+    <ul>
+      <li>
+        <script type="math/tex; mode=display">\overline{\lim_{n\rightarrow \infty}} (x_n+y_n) \le \overline{\lim_{n\rightarrow \infty}}x_n + \overline{\lim_{n\rightarrow \infty}}y_n, \space \underline{\lim_{n\rightarrow \infty}} (x_n+y_n) \ge \underline{\lim_{n\rightarrow \infty}}x_n + \underline{\lim_{n\rightarrow \infty}}y_n</script>
+      </li>
+      <li>
+        <p>若 $\lim_{n\rightarrow \infty}x_n$ 存在，则</p>
+
+        <script type="math/tex; mode=display">\overline{\lim_{n\rightarrow \infty}} (x_n+y_n) = \lim_{n\rightarrow \infty}x_n + \overline{\lim_{n\rightarrow \infty}}y_n, \space \underline{\lim_{n\rightarrow \infty}} (x_n+y_n) = \lim_{n\rightarrow \infty}x_n + \underline{\lim_{n\rightarrow \infty}}y_n</script>
+      </li>
+    </ul>
+
+    <p>要求上面公式的右端不是待定型，即不为$(+\infty)+(-\infty)$等</p>
+  </li>
+  <li>设 <script type="math/tex">\{ x_n \}</script>, <script type="math/tex">\{ y_n \}</script> 是两数列，则
+    <ul>
+      <li>
+        <p>若$x_n \ge 0, y_n \ge 0$，则：</p>
+
+        <script type="math/tex; mode=display">\overline{\lim_{n\rightarrow \infty}} (x_n y_n) \le \overline{\lim_{n\rightarrow \infty}} x_n · \overline{\lim_{n\rightarrow \infty}} y_n</script>
+
+        <script type="math/tex; mode=display">\underline{\lim_{n\rightarrow \infty}} (x_n y_n) \ge \underline{\lim_{n\rightarrow \infty}} x_n · \underline{\lim_{n\rightarrow \infty}} y_n</script>
+      </li>
+      <li>
+        <p>若 $\lim_{n\rightarrow \infty}x_n, 0&lt;x&lt;+\infty$，则：</p>
+
+        <script type="math/tex; mode=display">\overline{\lim_{n\rightarrow \infty}} (x_n y_n) = \lim_{n\rightarrow \infty} x_n · \overline{\lim_{n\rightarrow \infty}} y_n</script>
+
+        <script type="math/tex; mode=display">\underline{\lim_{n\rightarrow \infty}} (x_n y_n) = \lim_{n\rightarrow \infty} x_n · \underline{\lim_{n\rightarrow \infty}} y_n</script>
+      </li>
+    </ul>
+
+    <p>要求上面公式的右端不是待定型，即不为$0·(+\infty)$等</p>
+  </li>
+</ul>
+
+<h2 id="正项级数">
+<a class="anchor" href="#%E6%AD%A3%E9%A1%B9%E7%BA%A7%E6%95%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>正项级数</h2>
+
+<ul>
+  <li>如果级数 $\sum_{n=1}^\infty x_n$ 的各项都是非负实数，则称此级数为正项级数</li>
+</ul>
+
+<h4 id="正项级数收敛原理">
+<a class="anchor" href="#%E6%AD%A3%E9%A1%B9%E7%BA%A7%E6%95%B0%E6%94%B6%E6%95%9B%E5%8E%9F%E7%90%86" aria-hidden="true"><span class="octicon octicon-link"></span></a>正项级数收敛原理</h4>
+
+<ul>
+  <li>
+    <p>正项级数收敛的充分必要条件是它的部分和数列有上界。</p>
+
+    <p>若正项级数的部分和数列无上界，则其比发散到$+\infty$</p>
+  </li>
+</ul>
+
+<h4 id="比较判别法">
+<a class="anchor" href="#%E6%AF%94%E8%BE%83%E5%88%A4%E5%88%AB%E6%B3%95" aria-hidden="true"><span class="octicon octicon-link"></span></a>比较判别法</h4>
+
+<p>判断一个正项级数是否收敛，最常用的方法是用一个已知收敛或发散的级数与它进行比较</p>
+
+<ul>
+  <li>
+    <p>设 $\sum_{n=1}^\infty x_n$ 与 $\sum_{n=1}^\infty y_n$ 是两个正项级数，若存在常数 $A&gt;0$ ，使得：</p>
+
+    <script type="math/tex; mode=display">x_n \le A y_n \qquad n=1,2,···</script>
+
+    <p>则：</p>
+
+    <ul>
+      <li>当 $\sum_{n=1}^\infty y_n$ 收敛时，$\sum_{n=1}^\infty x_n$ 也收敛</li>
+      <li>当 $\sum_{n=1}^\infty x_n$ 发散时，$\sum_{n=1}^\infty y_n$ 也发散</li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="比较判别法的极限形式">
+<a class="anchor" href="#%E6%AF%94%E8%BE%83%E5%88%A4%E5%88%AB%E6%B3%95%E7%9A%84%E6%9E%81%E9%99%90%E5%BD%A2%E5%BC%8F" aria-hidden="true"><span class="octicon octicon-link"></span></a>比较判别法的极限形式</h4>
+
+<ul>
+  <li>
+    <p>设 $\sum_{n=1}^\infty x_n$ 与 $\sum_{n=1}^\infty y_n$ 是两个正项级数，且</p>
+
+    <script type="math/tex; mode=display">\lim_{n\rightarrow \infty} \frac {x_n}{y_n} = l \qquad 0\le l \le +\infty</script>
+
+    <p>则：</p>
+    <ul>
+      <li>若 $0 \le l \lt +\infty$, 则当 $\sum_{n=1}^\infty y_n$ 收敛时，$\sum_{n=1}^\infty x_n$ 也收敛</li>
+      <li>若 $0 \lt l \le +\infty$, 则当 $\sum_{n=1}^\infty y_n$ 发散时，$\sum_{n=1}^\infty x_n$ 也发散</li>
+    </ul>
+
+    <p>所以当 $0 \le l \le +\infty$ 时，$\sum_{n=1}^\infty y_n$ 和 $\sum_{n=1}^\infty x_n$ 同时收敛或同时发散</p>
+  </li>
+</ul>
+
+<h4 id="cauchy判别法">
+<a class="anchor" href="#cauchy%E5%88%A4%E5%88%AB%E6%B3%95" aria-hidden="true"><span class="octicon octicon-link"></span></a>Cauchy判别法</h4>
+
+<p>与数列n次方根数列的上极限比较</p>
+
+<ul>
+  <li>设 $\sum_{n=1}^\infty x_n$ 是正项级数， $r = \overline{lim_{n\rightarrow \infty}}\sqrt[n]{x_n}$，则
+    <ul>
+      <li>当 $r &lt; 1$ 时，级数 $\sum_{n=1}^\infty x_n$ 收敛</li>
+      <li>当 $r &gt; 1$ 时，级数 $\sum_{n=1}^\infty x_n$ 发散</li>
+      <li>当 $r = 1$ 时，无法判别，级数 $\sum_{n=1}^\infty x_n$ 可能收敛，也可能发散</li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="dalembert-判别法">
+<a class="anchor" href="#dalembert-%E5%88%A4%E5%88%AB%E6%B3%95" aria-hidden="true"><span class="octicon octicon-link"></span></a>d’Alembert 判别法</h4>
+
+<ul>
+  <li>
+    <p>设 $\sum_{n=1}^\infty x_n$, $(x_n\neq 0)$ 是正项级数， 则
+  <script type="math/tex">\overline{r} = \overline{lim_{n\rightarrow \infty}} \frac {x_{n+1}}{x_n}</script></p>
+
+    <script type="math/tex; mode=display">\underline{r} = \underline{lim_{n\rightarrow \infty}} \frac {x_{n+1}}{x_n}</script>
+
+    <ul>
+      <li>当 $\overline{r} &lt; 1$ 时，级数 $\sum_{n=1}^\infty x_n$ 收敛</li>
+      <li>当 $\underline{r} &gt; 1$ 时，级数 $\sum_{n=1}^\infty x_n$ 发散</li>
+      <li>当 $\overline{r} \le 1$或$\underline{r} \ge 1$，无法判别</li>
+    </ul>
+  </li>
+  <li>
+    <p>若一个级数能以d’Alembert 判别法 判别，则一定可以用Cauchy判别法；反之不一定成立</p>
+  </li>
+</ul>
+
+<h4 id="raabe-判别法">
+<a class="anchor" href="#raabe-%E5%88%A4%E5%88%AB%E6%B3%95" aria-hidden="true"><span class="octicon octicon-link"></span></a>Raabe 判别法</h4>
+
+<h4 id="积分判别法">
+<a class="anchor" href="#%E7%A7%AF%E5%88%86%E5%88%A4%E5%88%AB%E6%B3%95" aria-hidden="true"><span class="octicon octicon-link"></span></a>积分判别法</h4>
+
+<ul>
+  <li>
+    <p>设$f(x)$定在与$[a, +\infty)$，并且$f(x) \ge 0$, 进一步设 在任意有限区间上Riemann可积</p>
+
+    <p>取以单调增加趋于$+\infty$ 的数列<script type="math/tex">\{ a_n \}</script></p>
+
+    <script type="math/tex; mode=display">% <![CDATA[
+a=a_1<a_2<···<a_n<··· %]]></script>
+
+    <p>令</p>
+
+    <script type="math/tex; mode=display">u_n = \int_{a_n}^{a_{n+1}} f(x)dx</script>
+  </li>
+  <li>
+    <p>反常积分 $\int_a^{+\infty} f(x)dx$ 与正项级数 $\sum_{n=1}^\infty u_n$同时收敛或同时发散于 $+\infty$，且</p>
+
+    <script type="math/tex; mode=display">\int_a^{+\infty} f(x)dx = \sum_{n=1}^\infty u_n = \sum_{n=1}^\infty\int_{a_n}^{a_{n+1}} f(x)dx</script>
+  </li>
+  <li>
+    <p>特别地，当f(x)单调减少时，取 $a_n=n$，则反常积分 与反常积分 $\int_a^{+\infty} f(x)dx$ 与正项级数 $\sum_{n=N}^\infty f(n)$ $(N=[a]+1)$同时收敛或同时发散</p>
+  </li>
+</ul>
+
+<h2 id="任意项级数">
+<a class="anchor" href="#%E4%BB%BB%E6%84%8F%E9%A1%B9%E7%BA%A7%E6%95%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>任意项级数</h2>
+
+<p>一个级数，如果只有有限个负项或有限个正项，都可以用正项级数的各种方法判别。但如果一个级数既有无限个正项也有无限个负项，那么这些方法将不再适用</p>
+
+<h4 id="级数的cauchy收敛原理">
+<a class="anchor" href="#%E7%BA%A7%E6%95%B0%E7%9A%84cauchy%E6%94%B6%E6%95%9B%E5%8E%9F%E7%90%86" aria-hidden="true"><span class="octicon octicon-link"></span></a>级数的Cauchy收敛原理</h4>
+
+<h4 id="leibniz级数">
+<a class="anchor" href="#leibniz%E7%BA%A7%E6%95%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>Leibniz级数</h4>
+
+<ul>
+  <li>
+    <p>如果级数$\sum_{n=1}^\infty x_n = \sum_{n=1}^\infty (-1)^{n+1}u_n$ $(u_n &gt;0)$，则称此级数为交错级数</p>
+
+    <p>若$\sum_{n=1}^\infty (-1)^{n+1}u_n$ 满足 ${ u_n }$单调减少且收敛于0，则称这样的交错级数为Leibniz级数</p>
+  </li>
+  <li>
+    <p>Leibniz级数必定收敛</p>
+  </li>
+</ul>
+
+<h2 id="无穷乘积">
+<a class="anchor" href="#%E6%97%A0%E7%A9%B7%E4%B9%98%E7%A7%AF" aria-hidden="true"><span class="octicon octicon-link"></span></a>无穷乘积</h2>
+
+
+</article>
+      <section id="main_content">
+        <ul>
+            
+        </ul>
+      </section>
+    </div>
+  </div>
+   <footer>
+  <a href="/">
+    <span>
+        <b>LuoSongtao</b>
+    </span>
+    
+    <span>© 2020</span>
+  </a>
+</footer>
+
+  
+</body>
+
+</html>
