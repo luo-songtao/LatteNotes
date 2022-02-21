@@ -1,0 +1,6596 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html lang="en"
+  
+>
+
+  <!--
+  The Head
+-->
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Allow having a localized datetime different from the appearance language -->
+  
+
+  
+
+    
+
+    
+
+  
+
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+<meta name="generator" content="Jekyll v4.2.1" />
+<meta property="og:title" content="Polynomial Theorem" />
+<meta name="author" content="luo-songtao" />
+<meta property="og:locale" content="en" />
+<meta name="description" content="信息（Information） ​ \(I(x) = -\log p(x)\) 负号确保了信息是非负的 信息单位： $bits$：如果对数是以2为底。$binary \space digits$ $nats$：如果对数是以$e$为底。$natural \space units$ 使用对数表示信息的一个直观理解是：两件独立统计事件的信息应当是二者的和 \[I(x,y) = - \log p(x,y) = -\log (p(x)p(y)) = -\log p(x) - \log p(y)\] 互信息（Mutual Information） [\begin{aligned} I(x,y) = \log \frac {p(x\vert y)}{p(x)} \end{aligned}] 度量两个随机变量之间的相互依赖的程度 后面还可以看到，互信息还表示这两个随机变量的联合概率分布与各自边缘分布乘积之间的差异(KL散度) 条件信息（Conditional Information） [\begin{aligned} I(x\vert y) = - \log p(x\vert y) \end{aligned}] ​ 可得： [\begin{aligned} I(x, y) = \log p(x\vert y) - \log p(x) = I(x)-I(x\vert y) \end{aligned}] 熵（Entropy） ​ \(\begin{aligned} H(x) = -\sum_{x\in \mathcal{X}}p(x)\log p(x) \end{aligned}\) 随机变量的信息的期望被称为熵。如果是连续随机变量，上式累加换为积分即可。 当随机变量的所有取值是等概率时(equiprobable)，熵取最大值 证明（基于拉格朗日乘子法） \[\begin{aligned} \rm{maximum} \qquad &amp;-\sum p_i\log p_i \qquad 令q(x)=q_i \\ \rm{subject.to} \qquad &amp;\sum p_i=1 \\ \space \\ L(p_i, \lambda) &amp;= -\sum p_i\log p_i + \lambda (\sum p_i -1) \\ \space \\ \frac {\partial L}{\partial p_i} &amp;= - \log p_i -1+\lambda \\ 令导数为0，可得:&amp; \\ p_i &amp;= e^{\lambda -1} \qquad 假设使用自然对数 \\ 则可知当熵取最大值时，&amp;所有的p_i都相等 \\\end{aligned}\] 条件熵（Conditional Entropy） [\begin{aligned} H(x\vert y) = -\sum_{x\in \mathcal{X}}\sum_{y\in \mathcal{Y}}p(x,y)\log \frac {p(x, y)}{p(y)} \end{aligned}] 证明： \[\begin{aligned} H(x\vert y) &amp;= \sum_{y\in \mathcal{Y}}p(y)H(x\vert y) \\&amp;= -\sum_{y\in \mathcal{Y}}p(y)\sum_{x\in \mathcal{X}}p(x\vert y)\log p(x\vert y) \\ &amp;= - \sum_{y\in \mathcal{Y}}\sum_{x\in \mathcal{X}}p(x,y)\log p(x\vert y) \\ &amp;= -\sum_{x\in \mathcal{X}}\sum_{y\in \mathcal{Y}}p(x,y)\log \frac {p(x, y)}{p(y)}\end{aligned}\] 互信息与熵：$I(x,y) = H(x)- H(x\vert y)$ 证明： \[\begin{aligned} H(x)- H(x\vert y) &amp;= -\sum_{x\in \mathcal{X}}p(x)\log p(x) + \sum_{x\in \mathcal{X}}\sum_{y\in \mathcal{Y}}p(x,y)\log \frac {p(x, y)}{p(y)} \\&amp;= -\sum_{x\in \mathcal{X}}\sum_{y\in \mathcal{Y}}p(x,y)\log p(x) + \sum_{x\in \mathcal{X}}\sum_{y\in \mathcal{Y}}p(x,y)\log \frac {p(x, y)}{p(y)} \\ &amp;= \sum_{x\in \mathcal{X}}\sum_{y\in \mathcal{Y}}p(x,y)\log \frac {p(x, y)}{p(y)p(x)} \\ &amp;= \sum_{x\in \mathcal{X}}\sum_{y\in \mathcal{Y}}p(x,y) \log \frac {p(x\vert y)}{p(x)} \\ &amp;= \sum_{x\in \mathcal{X}}\sum_{y\in \mathcal{Y}}p(x,y) I(x,y) \\&amp;= I(x,y) \end{aligned}\] 联合熵（Joint Entropy） [\begin{aligned} H(x,y) = -\sum_{x\in \mathcal{X}}\sum_{y\in \mathcal{Y}}p(x,y)\log p(x, y) \end{aligned}] 则有$H(x,y) = H(y\vert x) + H(x)$ 证明： \[\begin{aligned} H(y\vert x) + H(x) &amp;= -\sum_{x\in \mathcal{X}}\sum_{y\in \mathcal{Y}}p(x,y)\log \frac {p(x, y)}{p(x)} - H(x) \\&amp;= -\sum_{x\in \mathcal{X}}\sum_{y\in \mathcal{Y}}p(x,y)\log p(x, y) - \sum_{x\in \mathcal{X}}\sum_{y\in \mathcal{Y}}p(x,y)\log p(x) - H(x) \\&amp;= H(x,y)- \sum_{x\in \mathcal{X}}p(x)\log p(x) - H(x) \\&amp;= H(x,y) \end{aligned}\] $I(x,y) = H(x)- H(x\vert y) = H(x)+ H(y)-H(x,y)$ 相对熵（Relative Entropy） [\begin{aligned} KL(p\vert\vert q) &amp;= \sum_{x\in \mathcal{X}}p(x)\log \frac{p(x)}{q(x)} \&amp;= -\sum_{x\in \mathcal{X}}p(x)\log \frac{q(x)}{p(x)} \end{aligned}] 相对熵也称为KL散度（Kullback-Leibler divergence） 常用于度量两个概率分布之间的相似情况 $I(x,y)=KL(p(x,y)\vert\vert p(x)p(y))$ 证明： \[\begin{aligned} KL(p(x,y)\vert\vert p(x)p(y)) &amp;= \sum_{x,y} p(x,y)\log \frac{p(x,y)}{p(x)p(y)} \\&amp;= \sum_{x,y} p(x,y)\log \frac{p(x\vert y)}{p(x)} \\&amp;= I(x,y) \end{aligned}\] 注意相对熵不是对称的，即$KL(p\vert\vert q) \neq KL(q\vert\vert p)$ 交叉熵（Cross Entropy） [\begin{aligned} H(p,q) = -\mathbb{E}_p [\log q] \end{aligned}] 交叉熵主要用于度量两个概率分布间的差异性信息 $H(p,q) = H(p)+KL(p\vert\vert q)$ 证明： \[\begin{aligned} H(p,q) &amp;= -\mathbb{E}_p [\log q] \\&amp;= -\sum_x p(x)\log q(x) \\&amp;= -\sum_x p(x)\log [\frac{q(x)}{p(x)}p(x)] \\&amp;= -\sum_x p(x) \log \frac{q(x)}{p(x)} - \sum_x p(x)\log p(x) \\&amp;= H(p)+KL(p\vert\vert q) \end{aligned}\] 微分熵（Differential Entropy） 针对连续变量的熵成为微分熵，上述公式中，将累加替换为积分号，就对应着相应的微分熵" />
+<meta property="og:description" content="信息（Information） ​ \(I(x) = -\log p(x)\) 负号确保了信息是非负的 信息单位： $bits$：如果对数是以2为底。$binary \space digits$ $nats$：如果对数是以$e$为底。$natural \space units$ 使用对数表示信息的一个直观理解是：两件独立统计事件的信息应当是二者的和 \[I(x,y) = - \log p(x,y) = -\log (p(x)p(y)) = -\log p(x) - \log p(y)\] 互信息（Mutual Information） [\begin{aligned} I(x,y) = \log \frac {p(x\vert y)}{p(x)} \end{aligned}] 度量两个随机变量之间的相互依赖的程度 后面还可以看到，互信息还表示这两个随机变量的联合概率分布与各自边缘分布乘积之间的差异(KL散度) 条件信息（Conditional Information） [\begin{aligned} I(x\vert y) = - \log p(x\vert y) \end{aligned}] ​ 可得： [\begin{aligned} I(x, y) = \log p(x\vert y) - \log p(x) = I(x)-I(x\vert y) \end{aligned}] 熵（Entropy） ​ \(\begin{aligned} H(x) = -\sum_{x\in \mathcal{X}}p(x)\log p(x) \end{aligned}\) 随机变量的信息的期望被称为熵。如果是连续随机变量，上式累加换为积分即可。 当随机变量的所有取值是等概率时(equiprobable)，熵取最大值 证明（基于拉格朗日乘子法） \[\begin{aligned} \rm{maximum} \qquad &amp;-\sum p_i\log p_i \qquad 令q(x)=q_i \\ \rm{subject.to} \qquad &amp;\sum p_i=1 \\ \space \\ L(p_i, \lambda) &amp;= -\sum p_i\log p_i + \lambda (\sum p_i -1) \\ \space \\ \frac {\partial L}{\partial p_i} &amp;= - \log p_i -1+\lambda \\ 令导数为0，可得:&amp; \\ p_i &amp;= e^{\lambda -1} \qquad 假设使用自然对数 \\ 则可知当熵取最大值时，&amp;所有的p_i都相等 \\\end{aligned}\] 条件熵（Conditional Entropy） [\begin{aligned} H(x\vert y) = -\sum_{x\in \mathcal{X}}\sum_{y\in \mathcal{Y}}p(x,y)\log \frac {p(x, y)}{p(y)} \end{aligned}] 证明： \[\begin{aligned} H(x\vert y) &amp;= \sum_{y\in \mathcal{Y}}p(y)H(x\vert y) \\&amp;= -\sum_{y\in \mathcal{Y}}p(y)\sum_{x\in \mathcal{X}}p(x\vert y)\log p(x\vert y) \\ &amp;= - \sum_{y\in \mathcal{Y}}\sum_{x\in \mathcal{X}}p(x,y)\log p(x\vert y) \\ &amp;= -\sum_{x\in \mathcal{X}}\sum_{y\in \mathcal{Y}}p(x,y)\log \frac {p(x, y)}{p(y)}\end{aligned}\] 互信息与熵：$I(x,y) = H(x)- H(x\vert y)$ 证明： \[\begin{aligned} H(x)- H(x\vert y) &amp;= -\sum_{x\in \mathcal{X}}p(x)\log p(x) + \sum_{x\in \mathcal{X}}\sum_{y\in \mathcal{Y}}p(x,y)\log \frac {p(x, y)}{p(y)} \\&amp;= -\sum_{x\in \mathcal{X}}\sum_{y\in \mathcal{Y}}p(x,y)\log p(x) + \sum_{x\in \mathcal{X}}\sum_{y\in \mathcal{Y}}p(x,y)\log \frac {p(x, y)}{p(y)} \\ &amp;= \sum_{x\in \mathcal{X}}\sum_{y\in \mathcal{Y}}p(x,y)\log \frac {p(x, y)}{p(y)p(x)} \\ &amp;= \sum_{x\in \mathcal{X}}\sum_{y\in \mathcal{Y}}p(x,y) \log \frac {p(x\vert y)}{p(x)} \\ &amp;= \sum_{x\in \mathcal{X}}\sum_{y\in \mathcal{Y}}p(x,y) I(x,y) \\&amp;= I(x,y) \end{aligned}\] 联合熵（Joint Entropy） [\begin{aligned} H(x,y) = -\sum_{x\in \mathcal{X}}\sum_{y\in \mathcal{Y}}p(x,y)\log p(x, y) \end{aligned}] 则有$H(x,y) = H(y\vert x) + H(x)$ 证明： \[\begin{aligned} H(y\vert x) + H(x) &amp;= -\sum_{x\in \mathcal{X}}\sum_{y\in \mathcal{Y}}p(x,y)\log \frac {p(x, y)}{p(x)} - H(x) \\&amp;= -\sum_{x\in \mathcal{X}}\sum_{y\in \mathcal{Y}}p(x,y)\log p(x, y) - \sum_{x\in \mathcal{X}}\sum_{y\in \mathcal{Y}}p(x,y)\log p(x) - H(x) \\&amp;= H(x,y)- \sum_{x\in \mathcal{X}}p(x)\log p(x) - H(x) \\&amp;= H(x,y) \end{aligned}\] $I(x,y) = H(x)- H(x\vert y) = H(x)+ H(y)-H(x,y)$ 相对熵（Relative Entropy） [\begin{aligned} KL(p\vert\vert q) &amp;= \sum_{x\in \mathcal{X}}p(x)\log \frac{p(x)}{q(x)} \&amp;= -\sum_{x\in \mathcal{X}}p(x)\log \frac{q(x)}{p(x)} \end{aligned}] 相对熵也称为KL散度（Kullback-Leibler divergence） 常用于度量两个概率分布之间的相似情况 $I(x,y)=KL(p(x,y)\vert\vert p(x)p(y))$ 证明： \[\begin{aligned} KL(p(x,y)\vert\vert p(x)p(y)) &amp;= \sum_{x,y} p(x,y)\log \frac{p(x,y)}{p(x)p(y)} \\&amp;= \sum_{x,y} p(x,y)\log \frac{p(x\vert y)}{p(x)} \\&amp;= I(x,y) \end{aligned}\] 注意相对熵不是对称的，即$KL(p\vert\vert q) \neq KL(q\vert\vert p)$ 交叉熵（Cross Entropy） [\begin{aligned} H(p,q) = -\mathbb{E}_p [\log q] \end{aligned}] 交叉熵主要用于度量两个概率分布间的差异性信息 $H(p,q) = H(p)+KL(p\vert\vert q)$ 证明： \[\begin{aligned} H(p,q) &amp;= -\mathbb{E}_p [\log q] \\&amp;= -\sum_x p(x)\log q(x) \\&amp;= -\sum_x p(x)\log [\frac{q(x)}{p(x)}p(x)] \\&amp;= -\sum_x p(x) \log \frac{q(x)}{p(x)} - \sum_x p(x)\log p(x) \\&amp;= H(p)+KL(p\vert\vert q) \end{aligned}\] 微分熵（Differential Entropy） 针对连续变量的熵成为微分熵，上述公式中，将累加替换为积分号，就对应着相应的微分熵" />
+<link rel="canonical" href="http://0.0.0.0:4000/posts/Information_Theory/" />
+<meta property="og:url" content="http://0.0.0.0:4000/posts/Information_Theory/" />
+<meta property="og:site_name" content="Candy Note" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-02-20T00:00:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Polynomial Theorem" />
+<meta name="twitter:site" content="@twitter_username" />
+<meta name="twitter:creator" content="@luo-songtao" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"luo-songtao"},"dateModified":"2021-02-20T00:00:00+00:00","datePublished":"2021-02-20T00:00:00+00:00","description":"信息（Information） ​ \\(I(x) = -\\log p(x)\\) 负号确保了信息是非负的 信息单位： $bits$：如果对数是以2为底。$binary \\space digits$ $nats$：如果对数是以$e$为底。$natural \\space units$ 使用对数表示信息的一个直观理解是：两件独立统计事件的信息应当是二者的和 \\[I(x,y) = - \\log p(x,y) = -\\log (p(x)p(y)) = -\\log p(x) - \\log p(y)\\] 互信息（Mutual Information） [\\begin{aligned} I(x,y) = \\log \\frac {p(x\\vert y)}{p(x)} \\end{aligned}] 度量两个随机变量之间的相互依赖的程度 后面还可以看到，互信息还表示这两个随机变量的联合概率分布与各自边缘分布乘积之间的差异(KL散度) 条件信息（Conditional Information） [\\begin{aligned} I(x\\vert y) = - \\log p(x\\vert y) \\end{aligned}] ​ 可得： [\\begin{aligned} I(x, y) = \\log p(x\\vert y) - \\log p(x) = I(x)-I(x\\vert y) \\end{aligned}] 熵（Entropy） ​ \\(\\begin{aligned} H(x) = -\\sum_{x\\in \\mathcal{X}}p(x)\\log p(x) \\end{aligned}\\) 随机变量的信息的期望被称为熵。如果是连续随机变量，上式累加换为积分即可。 当随机变量的所有取值是等概率时(equiprobable)，熵取最大值 证明（基于拉格朗日乘子法） \\[\\begin{aligned} \\rm{maximum} \\qquad &amp;-\\sum p_i\\log p_i \\qquad 令q(x)=q_i \\\\ \\rm{subject.to} \\qquad &amp;\\sum p_i=1 \\\\ \\space \\\\ L(p_i, \\lambda) &amp;= -\\sum p_i\\log p_i + \\lambda (\\sum p_i -1) \\\\ \\space \\\\ \\frac {\\partial L}{\\partial p_i} &amp;= - \\log p_i -1+\\lambda \\\\ 令导数为0，可得:&amp; \\\\ p_i &amp;= e^{\\lambda -1} \\qquad 假设使用自然对数 \\\\ 则可知当熵取最大值时，&amp;所有的p_i都相等 \\\\\\end{aligned}\\] 条件熵（Conditional Entropy） [\\begin{aligned} H(x\\vert y) = -\\sum_{x\\in \\mathcal{X}}\\sum_{y\\in \\mathcal{Y}}p(x,y)\\log \\frac {p(x, y)}{p(y)} \\end{aligned}] 证明： \\[\\begin{aligned} H(x\\vert y) &amp;= \\sum_{y\\in \\mathcal{Y}}p(y)H(x\\vert y) \\\\&amp;= -\\sum_{y\\in \\mathcal{Y}}p(y)\\sum_{x\\in \\mathcal{X}}p(x\\vert y)\\log p(x\\vert y) \\\\ &amp;= - \\sum_{y\\in \\mathcal{Y}}\\sum_{x\\in \\mathcal{X}}p(x,y)\\log p(x\\vert y) \\\\ &amp;= -\\sum_{x\\in \\mathcal{X}}\\sum_{y\\in \\mathcal{Y}}p(x,y)\\log \\frac {p(x, y)}{p(y)}\\end{aligned}\\] 互信息与熵：$I(x,y) = H(x)- H(x\\vert y)$ 证明： \\[\\begin{aligned} H(x)- H(x\\vert y) &amp;= -\\sum_{x\\in \\mathcal{X}}p(x)\\log p(x) + \\sum_{x\\in \\mathcal{X}}\\sum_{y\\in \\mathcal{Y}}p(x,y)\\log \\frac {p(x, y)}{p(y)} \\\\&amp;= -\\sum_{x\\in \\mathcal{X}}\\sum_{y\\in \\mathcal{Y}}p(x,y)\\log p(x) + \\sum_{x\\in \\mathcal{X}}\\sum_{y\\in \\mathcal{Y}}p(x,y)\\log \\frac {p(x, y)}{p(y)} \\\\ &amp;= \\sum_{x\\in \\mathcal{X}}\\sum_{y\\in \\mathcal{Y}}p(x,y)\\log \\frac {p(x, y)}{p(y)p(x)} \\\\ &amp;= \\sum_{x\\in \\mathcal{X}}\\sum_{y\\in \\mathcal{Y}}p(x,y) \\log \\frac {p(x\\vert y)}{p(x)} \\\\ &amp;= \\sum_{x\\in \\mathcal{X}}\\sum_{y\\in \\mathcal{Y}}p(x,y) I(x,y) \\\\&amp;= I(x,y) \\end{aligned}\\] 联合熵（Joint Entropy） [\\begin{aligned} H(x,y) = -\\sum_{x\\in \\mathcal{X}}\\sum_{y\\in \\mathcal{Y}}p(x,y)\\log p(x, y) \\end{aligned}] 则有$H(x,y) = H(y\\vert x) + H(x)$ 证明： \\[\\begin{aligned} H(y\\vert x) + H(x) &amp;= -\\sum_{x\\in \\mathcal{X}}\\sum_{y\\in \\mathcal{Y}}p(x,y)\\log \\frac {p(x, y)}{p(x)} - H(x) \\\\&amp;= -\\sum_{x\\in \\mathcal{X}}\\sum_{y\\in \\mathcal{Y}}p(x,y)\\log p(x, y) - \\sum_{x\\in \\mathcal{X}}\\sum_{y\\in \\mathcal{Y}}p(x,y)\\log p(x) - H(x) \\\\&amp;= H(x,y)- \\sum_{x\\in \\mathcal{X}}p(x)\\log p(x) - H(x) \\\\&amp;= H(x,y) \\end{aligned}\\] $I(x,y) = H(x)- H(x\\vert y) = H(x)+ H(y)-H(x,y)$ 相对熵（\u0010Relative Entropy） [\\begin{aligned} KL(p\\vert\\vert q) &amp;= \\sum_{x\\in \\mathcal{X}}p(x)\\log \\frac{p(x)}{q(x)} \\&amp;= -\\sum_{x\\in \\mathcal{X}}p(x)\\log \\frac{q(x)}{p(x)} \\end{aligned}] 相对熵也称为KL散度（Kullback-Leibler divergence） 常用于度量两个概率分布之间的相似情况 $I(x,y)=KL(p(x,y)\\vert\\vert p(x)p(y))$ 证明： \\[\\begin{aligned} KL(p(x,y)\\vert\\vert p(x)p(y)) &amp;= \\sum_{x,y} p(x,y)\\log \\frac{p(x,y)}{p(x)p(y)} \\\\&amp;= \\sum_{x,y} p(x,y)\\log \\frac{p(x\\vert y)}{p(x)} \\\\&amp;= I(x,y) \\end{aligned}\\] 注意相对熵不是对称的，即$KL(p\\vert\\vert q) \\neq KL(q\\vert\\vert p)$ 交叉熵（Cross Entropy） [\\begin{aligned} H(p,q) = -\\mathbb{E}_p [\\log q] \\end{aligned}] 交叉熵主要用于度量两个概率分布间的差异性信息 $H(p,q) = H(p)+KL(p\\vert\\vert q)$ 证明： \\[\\begin{aligned} H(p,q) &amp;= -\\mathbb{E}_p [\\log q] \\\\&amp;= -\\sum_x p(x)\\log q(x) \\\\&amp;= -\\sum_x p(x)\\log [\\frac{q(x)}{p(x)}p(x)] \\\\&amp;= -\\sum_x p(x) \\log \\frac{q(x)}{p(x)} - \\sum_x p(x)\\log p(x) \\\\&amp;= H(p)+KL(p\\vert\\vert q) \\end{aligned}\\] 微分熵（Differential Entropy） 针对连续变量的熵成为微分熵，上述公式中，将累加替换为积分号，就对应着相应的微分熵","headline":"Polynomial Theorem","mainEntityOfPage":{"@type":"WebPage","@id":"http://0.0.0.0:4000/posts/Information_Theory/"},"url":"http://0.0.0.0:4000/posts/Information_Theory/"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+  <title>Polynomial Theorem | Candy Note
+  </title>
+
+  <!--
+  The Favicons for Web, Android, Microsoft, and iOS (iPhone and iPad) Apps
+  Generated by: https://realfavicongenerator.net/
+-->
+
+
+
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/img/favicons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicons/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicons/favicon-16x16.png">
+<link rel="manifest" href="/assets/img/favicons/site.webmanifest">
+<link rel="shortcut icon" href="/assets/img/favicons/favicon.ico">
+<meta name="apple-mobile-web-app-title" content="Candy Note">
+<meta name="application-name" content="Candy Note">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="msapplication-config" content="/assets/img/favicons/browserconfig.xml">
+<meta name="theme-color" content="#ffffff">
+
+
+  
+
+    
+      <link rel="preconnect" href="https://fonts.googleapis.com" >
+      <link rel="dns-prefetch" href="https://fonts.googleapis.com" >
+    
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+      <link rel="dns-prefetch" href="https://fonts.gstatic.com" crossorigin>
+    
+      <link rel="preconnect" href="https://fonts.googleapis.com" >
+      <link rel="dns-prefetch" href="https://fonts.googleapis.com" >
+    
+      <link rel="preconnect" href="https://cdn.jsdelivr.net" >
+      <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" >
+    
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato&family=Source+Sans+Pro:wght@400;600;700;900&display=swap">
+
+  
+
+  <!-- GA -->
+  
+
+  <!-- Bootstrap -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.11.2/css/all.min.css">
+
+  <link rel="stylesheet" href="/assets/css/style.css">
+
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@1.0.1/dist/bootstrap-toc.min.css">
+  
+
+  
+    <!-- Manific Popup -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/magnific-popup@1/dist/magnific-popup.min.css">
+  
+
+  <!-- JavaScript -->
+
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+
+</head>
+
+
+  
+    <!--
+  Switch the mode between dark and light.
+-->
+
+<script type="text/javascript">
+  class ModeToggle {
+    static get MODE_KEY() { return "mode"; }
+    static get MODE_ATTR() { return "data-mode"; }
+    static get DARK_MODE() { return "dark"; }
+    static get LIGHT_MODE() { return "light"; }
+    static get ID() { return "mode-toggle"; }
+
+    constructor() {
+      if (this.hasMode) {
+        if (this.isDarkMode) {
+          if (!this.isSysDarkPrefer) {
+            this.setDark();
+          }
+        } else {
+          if (this.isSysDarkPrefer) {
+            this.setLight();
+          }
+        }
+      }
+
+      let self = this;
+
+      /* always follow the system prefers */
+      this.sysDarkPrefers.addEventListener("change", () => {
+        if (self.hasMode) {
+          if (self.isDarkMode) {
+            if (!self.isSysDarkPrefer) {
+              self.setDark();
+            }
+
+          } else {
+            if (self.isSysDarkPrefer) {
+              self.setLight();
+            }
+          }
+
+          self.clearMode();
+        }
+
+        self.notify();
+
+      });
+
+    } /* constructor() */
+
+    get sysDarkPrefers() { return window.matchMedia("(prefers-color-scheme: dark)"); }
+
+    get isSysDarkPrefer() { return this.sysDarkPrefers.matches; }
+
+    get isDarkMode() { return this.mode === ModeToggle.DARK_MODE; }
+
+    get isLightMode() { return this.mode === ModeToggle.LIGHT_MODE; }
+
+    get hasMode() { return this.mode != null; }
+
+    get mode() { return sessionStorage.getItem(ModeToggle.MODE_KEY); }
+
+    /* get the current mode on screen */
+    get modeStatus() {
+      if (this.isDarkMode
+        || (!this.hasMode && this.isSysDarkPrefer)) {
+        return ModeToggle.DARK_MODE;
+      } else {
+        return ModeToggle.LIGHT_MODE;
+      }
+    }
+
+    setDark() {
+      $('html').attr(ModeToggle.MODE_ATTR, ModeToggle.DARK_MODE);
+      sessionStorage.setItem(ModeToggle.MODE_KEY, ModeToggle.DARK_MODE);
+    }
+
+    setLight() {
+      $('html').attr(ModeToggle.MODE_ATTR, ModeToggle.LIGHT_MODE);
+      sessionStorage.setItem(ModeToggle.MODE_KEY, ModeToggle.LIGHT_MODE);
+    }
+
+    clearMode() {
+      $('html').removeAttr(ModeToggle.MODE_ATTR);
+      sessionStorage.removeItem(ModeToggle.MODE_KEY);
+    }
+
+    /* Notify another plugins that the theme mode has changed */
+    notify() {
+      window.postMessage({
+        direction: ModeToggle.ID,
+        message: this.modeStatus
+      }, "*");
+    }
+
+  } /* ModeToggle */
+
+  const toggle = new ModeToggle();
+
+  function flipMode() {
+    if (toggle.hasMode) {
+      if (toggle.isSysDarkPrefer) {
+        if (toggle.isLightMode) {
+          toggle.clearMode();
+        } else {
+          toggle.setLight();
+        }
+
+      } else {
+        if (toggle.isDarkMode) {
+          toggle.clearMode();
+        } else {
+          toggle.setDark();
+        }
+      }
+
+    } else {
+      if (toggle.isSysDarkPrefer) {
+        toggle.setLight();
+      } else {
+        toggle.setDark();
+      }
+    }
+
+    toggle.notify();
+
+  } /* flipMode() */
+
+</script>
+
+  
+
+  <body data-spy="scroll" data-target="#toc" data-topbar-visible="true">
+
+    <!--
+  The Side Bar
+-->
+
+<div id="sidebar" class="d-flex flex-column align-items-end">
+  <div class="profile-wrapper text-center">
+    <div id="avatar">
+      <a href="/" alt="avatar" class="mx-auto">
+        
+          
+          <img src="
+            
+              /assets/img/head.jpg
+            
+          " alt="avatar" onerror="this.style.display='none'">
+        
+      </a>
+    </div>
+
+    <div class="site-title mt-3">
+      <a href="/">Candy Note</a>
+    </div>
+    <div class="site-subtitle font-italic">Personal Notes</div>
+
+  </div><!-- .profile-wrapper -->
+
+  <ul class="w-100">
+
+    <!-- home -->
+    <li class="nav-item">
+      <a href="/" class="nav-link">
+        <i class="fa-fw fas fa-home ml-xl-3 mr-xl-3 unloaded"></i>
+        <span>HOME</span>
+      </a>
+    </li>
+    <!-- the real tabs -->
+    
+    <li class="nav-item">
+      <a href="/categories/" class="nav-link">
+        <i class="fa-fw fas fa-stream ml-xl-3 mr-xl-3 unloaded"></i>
+        
+
+        <span>CATEGORIES</span>
+      </a>
+    </li> <!-- .nav-item -->
+    
+    <li class="nav-item">
+      <a href="/tags/" class="nav-link">
+        <i class="fa-fw fas fa-tag ml-xl-3 mr-xl-3 unloaded"></i>
+        
+
+        <span>TAGS</span>
+      </a>
+    </li> <!-- .nav-item -->
+    
+    <li class="nav-item">
+      <a href="/archives/" class="nav-link">
+        <i class="fa-fw fas fa-archive ml-xl-3 mr-xl-3 unloaded"></i>
+        
+
+        <span>ARCHIVES</span>
+      </a>
+    </li> <!-- .nav-item -->
+    
+    <li class="nav-item">
+      <a href="/about/" class="nav-link">
+        <i class="fa-fw fas fa-info-circle ml-xl-3 mr-xl-3 unloaded"></i>
+        
+
+        <span>ABOUT</span>
+      </a>
+    </li> <!-- .nav-item -->
+    
+
+  </ul> <!-- ul.nav.flex-column -->
+
+  <div class="sidebar-bottom mt-auto d-flex flex-wrap justify-content-center align-items-center">
+
+    
+      <button class="mode-toggle btn" aria-label="Switch Mode">
+        <i class="fas fa-adjust"></i>
+      </button>
+
+      
+        <span class="icon-border"></span>
+      
+    
+
+    
+      
+
+      
+      <a href="https://github.com/github_username" aria-label="github"
+        target="_blank" rel="noopener">
+        <i class="fab fa-github"></i>
+      </a>
+      
+
+    
+      
+
+      
+      <a href="https://twitter.com/twitter_username" aria-label="twitter"
+        target="_blank" rel="noopener">
+        <i class="fab fa-twitter"></i>
+      </a>
+      
+
+    
+      
+
+      
+      <a href="
+          javascript:location.href = 'mailto:' + ['ryomawithlst','gmail.com'].join('@')" aria-label="email"
+        >
+        <i class="fas fa-envelope"></i>
+      </a>
+      
+
+    
+      
+
+      
+      <a href="/feed.xml" aria-label="rss"
+        >
+        <i class="fas fa-rss"></i>
+      </a>
+      
+
+    
+
+  </div> <!-- .sidebar-bottom -->
+
+</div><!-- #sidebar -->
+
+
+    <!--
+  The Top Bar
+-->
+
+<div id="topbar-wrapper" class="row justify-content-center">
+  <div id="topbar" class="col-11 d-flex h-100 align-items-center justify-content-between">
+    <span id="breadcrumb">
+
+    
+
+    
+
+      
+
+        
+          <span>
+            <a href="/">
+              Home
+            </a>
+          </span>
+
+        
+
+      
+
+        
+
+      
+
+        
+
+          
+            <span>Polynomial Theorem</span>
+          
+
+        
+
+      
+
+    
+
+    </span><!-- endof #breadcrumb -->
+
+    <i id="sidebar-trigger" class="fas fa-bars fa-fw"></i>
+
+    <div id="topbar-title">
+      Post
+    </div>
+
+    <i id="search-trigger" class="fas fa-search fa-fw"></i>
+    <span id="search-wrapper" class="align-items-center">
+      <i class="fas fa-search fa-fw"></i>
+      <input class="form-control" id="search-input" type="search"
+        aria-label="search" autocomplete="off" placeholder="Search...">
+    </span>
+    <span id="search-cancel" >Cancel</span>
+  </div>
+
+</div>
+
+
+    <div id="main-wrapper">
+      <div id="main">
+
+        
+
+
+
+
+
+
+
+
+
+<div class="row">
+
+  <!-- core -->
+  <div id="core-wrapper" class="col-12 col-lg-11 col-xl-8">
+    <div class="post pl-1 pr-1 pl-sm-2 pr-sm-2 pl-md-4 pr-md-4">
+
+    
+
+    
+      
+      
+        <!--
+  Refactor the HTML structure.
+-->
+
+
+
+<!--
+  In order to allow a wide table to scroll horizontally,
+  we suround the markdown table with `<div class="table-wrapper">` and `</div>`
+-->
+
+
+
+<!--
+  Fixed kramdown code highlight rendering:
+  https://github.com/penibelst/jekyll-compress-html/issues/101
+  https://github.com/penibelst/jekyll-compress-html/issues/71#issuecomment-188144901
+-->
+
+
+
+<!-- Add attribute 'hide-bullet' to the checkbox list -->
+
+
+
+<!-- images -->
+
+
+
+
+
+<!-- Add header for code snippets -->
+
+
+
+<!-- Create heading anchors -->
+
+
+
+
+
+  
+  
+
+  
+
+  
+  
+
+  
+
+  
+  
+
+  
+    
+    
+
+    
+      
+        
+        
+      
+
+      
+      
+
+      
+      
+      
+
+      
+
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+
+    
+
+    
+
+  
+
+  
+  
+
+  
+
+
+
+
+<!-- Wrap prompt element of blockquote with the <div> tag -->
+
+
+
+
+
+
+
+<!-- return -->
+
+
+
+
+
+
+
+<h1 data-toc-skip>Polynomial Theorem</h1>
+
+<div class="post-meta text-muted">
+
+  <!-- author -->
+  <div>
+    
+    
+
+    
+
+    By
+    <em>
+      
+        <a href="https://github.com/luo-songtao">luo-songtao</a>
+      
+    </em>
+  </div>
+
+  <div class="d-flex">
+    <div>
+      <!-- published date -->
+      <span>
+        Posted
+        <!--
+  Date format snippet
+  See: ${JS_ROOT}/utils/timeago.js
+-->
+
+<em class="timeago"
+    data-ts="1613779200"
+    
+      data-toggle="tooltip" data-placement="bottom" data-tooltip-df="llll"
+    
+    >
+  2021-02-20
+</em>
+
+      </span>
+
+      <!-- lastmod date -->
+      
+
+      <!-- read time -->
+      <!--
+  Calculate the post's reading time, and display the word count in tooltip
+ -->
+
+
+
+<!-- words per minute  -->
+
+
+
+
+
+
+
+
+
+
+<!-- return element -->
+<span class="readtime" data-toggle="tooltip" data-placement="bottom"
+  title="753 words">
+  <em>4 min</em> read</span>
+
+
+      <!-- page views -->
+      
+    </div>
+
+  </div> <!-- .d-flex -->
+
+</div> <!-- .post-meta -->
+
+<div class="post-content">
+  <h4 id="信息information"><span class="mr-2">信息（Information）</span><a href="#信息information" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h4></h4>
+
+<p>​	\(I(x) = -\log p(x)\)</p>
+
+<ul>
+  <li>
+    <p>负号确保了信息是非负的</p>
+  </li>
+  <li>
+    <p>信息单位：</p>
+
+    <ul>
+      <li>$bits$：如果对数是以2为底。$binary \space digits$</li>
+      <li>$nats$：如果对数是以$e$为底。$natural \space units$</li>
+    </ul>
+  </li>
+  <li>
+    <p>使用对数表示信息的一个直观理解是：两件<strong>独立统计</strong>事件的信息应当是二者的和</p>
+
+\[I(x,y) = - \log p(x,y) = -\log (p(x)p(y)) = -\log p(x) - \log p(y)\]
+  </li>
+</ul>
+
+<h4 id="互信息mutual-information"><span class="mr-2">互信息（Mutual Information）</span><a href="#互信息mutual-information" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h4></h4>
+
+\[\begin{aligned} I(x,y) = \log \frac {p(x\vert y)}{p(x)} \end{aligned}\]
+
+<ul>
+  <li>度量两个随机变量之间的相互依赖的程度</li>
+  <li>后面还可以看到，互信息还表示这两个随机变量的联合概率分布与各自边缘分布乘积之间的差异(KL散度)</li>
+</ul>
+
+<h4 id="条件信息conditional-information"><span class="mr-2">条件信息（Conditional Information）</span><a href="#条件信息conditional-information" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h4></h4>
+
+\[\begin{aligned} I(x\vert y) = - \log p(x\vert y) \end{aligned}\]
+
+<p>​	可得：</p>
+
+\[\begin{aligned} I(x, y) = \log p(x\vert y) - \log p(x) = I(x)-I(x\vert y) \end{aligned}\]
+
+<h4 id="熵entropy"><span class="mr-2">熵（Entropy）</span><a href="#熵entropy" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h4></h4>
+
+<p>​	\(\begin{aligned} H(x) = -\sum_{x\in \mathcal{X}}p(x)\log p(x) \end{aligned}\)</p>
+
+<ul>
+  <li>
+    <p>随机变量的信息的期望被称为熵。如果是连续随机变量，上式累加换为积分即可。</p>
+  </li>
+  <li>
+    <p>当随机变量的所有取值是等概率时(equiprobable)，熵取最大值</p>
+
+    <ul>
+      <li>
+        <p>证明（基于拉格朗日乘子法）</p>
+
+\[\begin{aligned} \rm{maximum} \qquad &amp;-\sum p_i\log p_i \qquad 令q(x)=q_i \\ \rm{subject.to} \qquad &amp;\sum p_i=1 \\ \space \\ L(p_i, \lambda) &amp;= -\sum p_i\log p_i + \lambda (\sum p_i -1)  \\ \space \\ \frac {\partial L}{\partial p_i} &amp;= - \log p_i -1+\lambda \\ 令导数为0，可得:&amp; \\  p_i &amp;= e^{\lambda -1} \qquad 假设使用自然对数 \\ 则可知当熵取最大值时，&amp;所有的p_i都相等 \\\end{aligned}\]
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="条件熵conditional-entropy"><span class="mr-2">条件熵（Conditional Entropy）</span><a href="#条件熵conditional-entropy" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h4></h4>
+
+\[\begin{aligned} H(x\vert y) = -\sum_{x\in \mathcal{X}}\sum_{y\in \mathcal{Y}}p(x,y)\log \frac {p(x, y)}{p(y)} \end{aligned}\]
+
+<ul>
+  <li>
+    <p>证明：</p>
+
+\[\begin{aligned} H(x\vert y) &amp;= \sum_{y\in \mathcal{Y}}p(y)H(x\vert y) \\&amp;= -\sum_{y\in \mathcal{Y}}p(y)\sum_{x\in \mathcal{X}}p(x\vert y)\log p(x\vert y) \\ &amp;= - \sum_{y\in \mathcal{Y}}\sum_{x\in \mathcal{X}}p(x,y)\log p(x\vert y) \\ &amp;= -\sum_{x\in \mathcal{X}}\sum_{y\in \mathcal{Y}}p(x,y)\log \frac {p(x, y)}{p(y)}\end{aligned}\]
+  </li>
+  <li>
+    <p>互信息与熵：$I(x,y) = H(x)- H(x\vert y)$</p>
+
+    <ul>
+      <li>
+        <p>证明：</p>
+
+\[\begin{aligned} H(x)- H(x\vert y) &amp;=  -\sum_{x\in \mathcal{X}}p(x)\log p(x) + \sum_{x\in \mathcal{X}}\sum_{y\in \mathcal{Y}}p(x,y)\log \frac {p(x, y)}{p(y)} \\&amp;= -\sum_{x\in \mathcal{X}}\sum_{y\in \mathcal{Y}}p(x,y)\log p(x) + \sum_{x\in \mathcal{X}}\sum_{y\in \mathcal{Y}}p(x,y)\log \frac {p(x, y)}{p(y)} \\ &amp;= \sum_{x\in \mathcal{X}}\sum_{y\in \mathcal{Y}}p(x,y)\log \frac {p(x, y)}{p(y)p(x)} \\ &amp;= \sum_{x\in \mathcal{X}}\sum_{y\in \mathcal{Y}}p(x,y) \log \frac {p(x\vert y)}{p(x)} \\ &amp;= \sum_{x\in \mathcal{X}}\sum_{y\in \mathcal{Y}}p(x,y) I(x,y) \\&amp;= I(x,y) \end{aligned}\]
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="联合熵joint-entropy"><span class="mr-2">联合熵（Joint Entropy）</span><a href="#联合熵joint-entropy" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h4></h4>
+
+\[\begin{aligned} H(x,y) = -\sum_{x\in \mathcal{X}}\sum_{y\in \mathcal{Y}}p(x,y)\log p(x, y) \end{aligned}\]
+
+<ul>
+  <li>则有$H(x,y) = H(y\vert x) + H(x)$
+    <ul>
+      <li>
+        <p>证明：</p>
+
+\[\begin{aligned} H(y\vert x) + H(x) &amp;= -\sum_{x\in \mathcal{X}}\sum_{y\in \mathcal{Y}}p(x,y)\log \frac {p(x, y)}{p(x)} - H(x) \\&amp;= -\sum_{x\in \mathcal{X}}\sum_{y\in \mathcal{Y}}p(x,y)\log p(x, y) - \sum_{x\in \mathcal{X}}\sum_{y\in \mathcal{Y}}p(x,y)\log p(x) - H(x) \\&amp;= H(x,y)- \sum_{x\in \mathcal{X}}p(x)\log p(x) - H(x) \\&amp;= H(x,y) \end{aligned}\]
+      </li>
+    </ul>
+  </li>
+  <li>$I(x,y) = H(x)- H(x\vert y) = H(x)+ H(y)-H(x,y)$</li>
+</ul>
+
+<h4 id="相对熵relative-entropy"><span class="mr-2">相对熵（Relative Entropy）</span><a href="#相对熵relative-entropy" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h4></h4>
+
+\[\begin{aligned} KL(p\vert\vert q) &amp;= \sum_{x\in \mathcal{X}}p(x)\log \frac{p(x)}{q(x)} \\&amp;= -\sum_{x\in \mathcal{X}}p(x)\log \frac{q(x)}{p(x)} \end{aligned}\]
+
+<ul>
+  <li>
+    <p>相对熵也称为<strong>KL散度（Kullback-Leibler divergence）</strong></p>
+
+    <ul>
+      <li>常用于度量两个概率分布之间的相似情况</li>
+    </ul>
+  </li>
+  <li>
+    <p>$I(x,y)=KL(p(x,y)\vert\vert p(x)p(y))$</p>
+
+    <ul>
+      <li>
+        <p>证明：</p>
+
+\[\begin{aligned} KL(p(x,y)\vert\vert p(x)p(y)) &amp;= \sum_{x,y} p(x,y)\log \frac{p(x,y)}{p(x)p(y)} \\&amp;= \sum_{x,y} p(x,y)\log \frac{p(x\vert y)}{p(x)} \\&amp;= I(x,y) \end{aligned}\]
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>注意相对熵不是对称的，即$KL(p\vert\vert q) \neq KL(q\vert\vert p)$</p>
+  </li>
+</ul>
+
+<h4 id="交叉熵cross-entropy"><span class="mr-2">交叉熵（Cross Entropy）</span><a href="#交叉熵cross-entropy" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h4></h4>
+
+\[\begin{aligned} H(p,q) = -\mathbb{E}_p [\log q] \end{aligned}\]
+
+<ul>
+  <li>
+    <p>交叉熵主要用于度量两个概率分布间的差异性信息</p>
+  </li>
+  <li>
+    <p>$H(p,q) = H(p)+KL(p\vert\vert q)$</p>
+
+    <ul>
+      <li>
+        <p>证明：</p>
+
+\[\begin{aligned} H(p,q) &amp;= -\mathbb{E}_p [\log q] \\&amp;= -\sum_x p(x)\log q(x) \\&amp;=  -\sum_x p(x)\log [\frac{q(x)}{p(x)}p(x)] \\&amp;= -\sum_x p(x) \log \frac{q(x)}{p(x)} - \sum_x p(x)\log p(x) \\&amp;= H(p)+KL(p\vert\vert q) \end{aligned}\]
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="微分熵differential-entropy"><span class="mr-2">微分熵（Differential Entropy）</span><a href="#微分熵differential-entropy" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h4></h4>
+
+<ul>
+  <li>针对连续变量的熵成为微分熵，上述公式中，将累加替换为积分号，就对应着相应的微分熵</li>
+</ul>
+
+
+</div>
+
+<div class="post-tail-wrapper text-muted">
+
+  <!-- categories -->
+  
+  <div class="post-meta mb-3">
+    <i class="far fa-folder-open fa-fw mr-1"></i>
+    
+      <a href='//categories/information-theory/'>Information Theory</a>,
+      <a href='//categories/basic-concept/'>Basic Concept</a>
+  </div>
+  
+
+  <!-- tags -->
+  
+  <div class="post-tags">
+    <i class="fa fa-tags fa-fw mr-1"></i>
+      
+      <a href="//tags/entropy/"
+          class="post-tag no-text-decoration" >Entropy</a>
+      
+  </div>
+  
+
+  <div class="post-tail-bottom
+    d-flex justify-content-between align-items-center mt-3 pt-5 pb-2">
+    <div class="license-wrapper">
+
+      
+
+        
+
+        This post is licensed under 
+        <a href="https://creativecommons.org/licenses/by/4.0/">
+          CC BY 4.0
+        </a>
+         by the author.
+
+      
+    </div>
+
+    <!--
+ Post sharing snippet
+-->
+
+<div class="share-wrapper">
+  <span class="share-label text-muted mr-1">Share</span>
+  <span class="share-icons">
+    
+    
+
+    
+      
+        <a href="https://twitter.com/intent/tweet?text=Polynomial Theorem - Candy Note&amp;url=http://0.0.0.0:4000/posts/Information_Theory/" data-toggle="tooltip" data-placement="top"
+          title="Twitter" target="_blank" rel="noopener" aria-label="Twitter">
+          <i class="fa-fw fab fa-twitter"></i>
+        </a>
+    
+      
+        <a href="https://www.facebook.com/sharer/sharer.php?title=Polynomial Theorem - Candy Note&amp;u=http://0.0.0.0:4000/posts/Information_Theory/" data-toggle="tooltip" data-placement="top"
+          title="Facebook" target="_blank" rel="noopener" aria-label="Facebook">
+          <i class="fa-fw fab fa-facebook-square"></i>
+        </a>
+    
+      
+        <a href="https://t.me/share/url?url=http://0.0.0.0:4000/posts/Information_Theory/&amp;text=Polynomial Theorem - Candy Note" data-toggle="tooltip" data-placement="top"
+          title="Telegram" target="_blank" rel="noopener" aria-label="Telegram">
+          <i class="fa-fw fab fa-telegram"></i>
+        </a>
+    
+
+    <i id="copy-link" class="fa-fw fas fa-link small"
+        data-toggle="tooltip" data-placement="top"
+        title="Copy link"
+        data-title-succeed="Link copied successfully!">
+    </i>
+
+  </span>
+</div>
+
+
+  </div><!-- .post-tail-bottom -->
+
+</div><!-- div.post-tail-wrapper -->
+
+
+      
+    
+    
+
+    </div>
+  </div> <!-- #core-wrapper -->
+
+  <!-- pannel -->
+  <div id="panel-wrapper" class="col-xl-3 pl-2 text-muted">
+
+    <div class="access">
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+
+
+  <div id="access-tags">
+    <div class="panel-heading">Trending Tags</div>
+    <div class="d-flex flex-wrap mt-3 mb-1 mr-3">
+
+    
+      
+      <a class="post-tag" href="/tags/%E6%95%B0%E5%AD%A6%E5%88%86%E6%9E%90/">数学分析</a>
+    
+      
+      <a class="post-tag" href="/tags/%E8%BF%9E%E7%BB%AD%E5%87%BD%E6%95%B0/">连续函数</a>
+    
+      
+      <a class="post-tag" href="/tags/eigenvalue/">Eigenvalue</a>
+    
+      
+      <a class="post-tag" href="/tags/eigenvector/">Eigenvector</a>
+    
+      
+      <a class="post-tag" href="/tags/matrix/">Matrix</a>
+    
+      
+      <a class="post-tag" href="/tags/%E5%AF%BC%E6%95%B0/">导数</a>
+    
+      
+      <a class="post-tag" href="/tags/%E6%95%B0%E5%88%97/">数列</a>
+    
+      
+      <a class="post-tag" href="/tags/%E6%97%A0%E7%A9%B7%E5%A4%A7%E9%87%8F/">无穷大量</a>
+    
+      
+      <a class="post-tag" href="/tags/bernoulli/">Bernoulli</a>
+    
+      
+      <a class="post-tag" href="/tags/binomial/">Binomial</a>
+    
+
+    </div>
+  </div>
+
+
+    </div>
+
+    
+      
+      
+
+
+
+
+    
+  </div>
+
+</div>
+
+<!-- tail -->
+
+<div class="row">
+  <div class="col-12 col-lg-11 col-xl-8">
+    <div id="tail-wrapper" class="pl-1 pr-1 pl-sm-2 pr-sm-2 pl-md-4 pr-md-4">
+      
+        
+        <!--
+ Recommend the other 3 posts according to the tags and categories of the current post,
+ if the number is not enough, use the other latest posts to supplement.
+-->
+
+<!-- The total size of related posts  -->
+
+
+<!-- An random integer that bigger than 0  -->
+
+
+<!-- Equals to TAG_SCORE / {max_categories_hierarchy}  -->
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+
+
+
+<!-- Fill with the other newlest posts  -->
+
+
+
+
+
+
+  <div id="related-posts" class="mt-5 mb-2 mb-sm-4">
+    <h3 class="pt-2 mt-1 mb-4 ml-1"
+      data-toc-skip>Further Reading</h3>
+    <div class="card-deck mb-4">
+    
+      
+      
+      <div class="card">
+        <a href="/posts/some_calculus_concept/">
+          <div class="card-body">
+            <!--
+  Date format snippet
+  See: ${JS_ROOT}/utils/timeago.js
+-->
+
+<em class="timeago small"
+    data-ts="1613779200"
+    
+    >
+  2021-02-20
+</em>
+
+            <h3 class="pt-0 mt-1 mb-3" data-toc-skip>Some Calculus Concept</h3>
+            <div class="text-muted small">
+              <p>
+                
+
+
+
+
+
+                二重积分变量代换公式
+
+\[\begin{aligned} \int\int_D f(x,y)dxdy = \int\int_D f(x(u,v), y(u,v))\left\vert \frac{\partial(x,y)}{\partial(u,v)}\right\vert du,dv \end{aligned}\]
+
+斯特林公式
+
+\[\begin{aligned} n! \appro...
+              </p>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+      
+      
+      <div class="card">
+        <a href="/posts/polynomial_ring/">
+          <div class="card-body">
+            <!--
+  Date format snippet
+  See: ${JS_ROOT}/utils/timeago.js
+-->
+
+<em class="timeago small"
+    data-ts="1613779200"
+    
+    >
+  2021-02-20
+</em>
+
+            <h3 class="pt-0 mt-1 mb-3" data-toc-skip>Polynomial Ring</h3>
+            <div class="text-muted small">
+              <p>
+                
+
+
+
+
+
+                多项式环
+
+一元多项式
+
+\[a_nx^n + a_{n-1}x^{n-1} + \cdots + + a_1x^1 + a_0\]
+
+
+  
+    数域$F$上所有一元多项式组成的集合记作$F[x]$，在$F[x]$中可以定义加法、乘法运算
+  
+  
+    $F[x]$中可以定义加法、乘法运算的性质：
+
+    
+      一元多项式的加法满足交换律、结合律
+      一元多项式...
+              </p>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+      
+      
+      <div class="card">
+        <a href="/posts/polynomial_theorem/">
+          <div class="card-body">
+            <!--
+  Date format snippet
+  See: ${JS_ROOT}/utils/timeago.js
+-->
+
+<em class="timeago small"
+    data-ts="1613779200"
+    
+    >
+  2021-02-20
+</em>
+
+            <h3 class="pt-0 mt-1 mb-3" data-toc-skip>Polynomial</h3>
+            <div class="text-muted small">
+              <p>
+                
+
+
+
+
+
+                多项式
+
+多项式定义
+
+对于函数$p:F\rightarrow F$，若存在$a_0,\cdots,a_m\in F$使得对所有的$x\in F$，都有：
+
+\[p(x) = a_0 + a_1x+a_2x^2+\cdots + a_mx^m\]
+
+则称函数$p$为系数在$F$中的多项式
+
+
+  多项式的阶数：$\deg p = m$
+  所有等于小于$m$阶多项式的集合（$x\in F$）...
+              </p>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+    </div> <!-- .card-deck -->
+  </div> <!-- #related-posts -->
+
+
+      
+        
+        <!--
+  Navigation buttons at the bottom of the post.
+-->
+
+<div class="post-navigation d-flex justify-content-between">
+  
+  <a href="//posts/%E5%AE%9A%E7%A7%AF%E5%88%86%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%80%A7%E8%B4%A8/" class="btn btn-outline-primary"
+    prompt="Older">
+    <p>数学分析-定积分的基本性质</p>
+  </a>
+  
+
+  
+  <a href="//posts/eigenv_1_eignv_and_invariant_subspace/" class="btn btn-outline-primary"
+    prompt="Newer">
+    <p>Eigenvalue and Eigenvector (1) Eigenvector and Invariant Subspace</p>
+  </a>
+  
+
+</div>
+
+      
+        
+        <!--  The comments switcher -->
+
+
+      
+    </div>
+  </div>
+</div> <!-- .row -->
+
+
+
+        <!--
+  The Footer
+-->
+
+<footer class="d-flex w-100 justify-content-center">
+  <div class="d-flex justify-content-between align-items-center text-muted">
+    <div class="footer-left">
+      <p class="mb-0">
+        © 2022
+        <a href="https://twitter.com/username">luo-songtao</a>.
+        
+        <span data-toggle="tooltip" data-placement="top"
+          title="Except where otherwise noted, the blog posts on this site are licensed under the Creative Commons Attribution 4.0 International (CC BY 4.0) License by the author.">Some rights reserved.</span>
+        
+      </p>
+    </div>
+
+    <div class="footer-right">
+      <p class="mb-0">
+        
+
+        
+
+        Powered by 
+          <a href="https://jekyllrb.com" target="_blank" rel="noopener">Jekyll</a>
+         with 
+          <a href="https://github.com/cotes2020/jekyll-theme-chirpy" target="_blank" rel="noopener">Chirpy</a>
+         theme.
+
+      </p>
+    </div>
+
+  </div> <!-- div.d-flex -->
+</footer>
+
+
+      </div>
+
+      <!--
+  The Search results
+-->
+<div id="search-result-wrapper" class="d-flex justify-content-center unloaded">
+  <div class="col-12 col-sm-11 post-content">
+    <div id="search-hints">
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+
+
+  <div id="access-tags">
+    <div class="panel-heading">Trending Tags</div>
+    <div class="d-flex flex-wrap mt-3 mb-1 mr-3">
+
+    
+      
+      <a class="post-tag" href="/tags/%E6%95%B0%E5%AD%A6%E5%88%86%E6%9E%90/">数学分析</a>
+    
+      
+      <a class="post-tag" href="/tags/%E8%BF%9E%E7%BB%AD%E5%87%BD%E6%95%B0/">连续函数</a>
+    
+      
+      <a class="post-tag" href="/tags/eigenvalue/">Eigenvalue</a>
+    
+      
+      <a class="post-tag" href="/tags/eigenvector/">Eigenvector</a>
+    
+      
+      <a class="post-tag" href="/tags/matrix/">Matrix</a>
+    
+      
+      <a class="post-tag" href="/tags/%E5%AF%BC%E6%95%B0/">导数</a>
+    
+      
+      <a class="post-tag" href="/tags/%E6%95%B0%E5%88%97/">数列</a>
+    
+      
+      <a class="post-tag" href="/tags/%E6%97%A0%E7%A9%B7%E5%A4%A7%E9%87%8F/">无穷大量</a>
+    
+      
+      <a class="post-tag" href="/tags/bernoulli/">Bernoulli</a>
+    
+      
+      <a class="post-tag" href="/tags/binomial/">Binomial</a>
+    
+
+    </div>
+  </div>
+
+
+    </div>
+    <div id="search-results" class="d-flex flex-wrap justify-content-center text-muted mt-3"></div>
+  </div>
+</div>
+
+
+    </div> <!-- #main-wrapper -->
+
+    
+      <!--
+  mermaid-js loader
+-->
+
+<script src="https://cdn.jsdelivr.net/npm/mermaid@8/dist/mermaid.min.js"></script>
+
+<script>
+  $(function() {
+    function updateMermaid(event) {
+      if (event.source === window && event.data &&
+            event.data.direction === ModeToggle.ID) {
+
+        const mode = event.data.message;
+
+        if (typeof mermaid === "undefined") {
+          return;
+        }
+
+        let expectedTheme = (mode === ModeToggle.DARK_MODE? "dark" : "default");
+        let config = { theme: expectedTheme };
+
+        /* Re-render the SVG › <https://github.com/mermaid-js/mermaid/issues/311#issuecomment-332557344> */
+        $(".mermaid").each(function() {
+          let svgCode = $(this).prev().children().html();
+          $(this).removeAttr("data-processed");
+          $(this).html(svgCode);
+        });
+
+        mermaid.initialize(config);
+        mermaid.init(undefined, ".mermaid");
+      }
+    }
+
+    let initTheme = "default";
+
+    if ($("html[data-mode=dark]").length > 0
+      || ($("html[data-mode]").length == 0
+        && window.matchMedia("(prefers-color-scheme: dark)").matches ) ) {
+      initTheme = "dark";
+    }
+
+    let mermaidConf = {
+      theme: initTheme  /* <default|dark|forest|neutral> */
+    };
+
+    /* Markdown converts to HTML */
+    $("pre").has("code.language-mermaid").each(function() {
+      let svgCode = $(this).children().html();
+      $(this).addClass("unloaded");
+      $(this).after(`<div class=\"mermaid\">${svgCode}</div>`);
+    });
+
+    mermaid.initialize(mermaidConf);
+
+    window.addEventListener("message", updateMermaid);
+  });
+</script>
+
+    
+
+    <div id="mask"></div>
+
+    <a id="back-to-top" href="#" aria-label="back-to-top" class="btn btn-lg btn-box-shadow" role="button">
+      <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!--
+  Jekyll Simple Search loader
+  See: <https://github.com/christian-fei/Simple-Jekyll-Search>
+-->
+
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/simple-jekyll-search@1.10.0/dest/simple-jekyll-search.min.js"></script>
+
+<script>
+SimpleJekyllSearch({
+  searchInput: document.getElementById('search-input'),
+  resultsContainer: document.getElementById('search-results'),
+  json: '/assets/js/data/search.json',
+  searchResultTemplate: '<div class="pl-1 pr-1 pl-sm-2 pr-sm-2 pl-lg-4 pr-lg-4 pl-xl-0 pr-xl-0">  <a href="{url}">{title}</a>  <div class="post-meta d-flex flex-column flex-sm-row text-muted mt-1 mb-1">    {categories}    {tags}  </div>  <p>{snippet}</p></div>',
+  noResultsText: '<p class="mt-5">Oops! No result founds.</p>',
+  templateMiddleware: function(prop, value, template) {
+    if (prop === 'categories') {
+      if (value === '') {
+        return `${value}`;
+      } else {
+        return `<div class="mr-sm-4"><i class="far fa-folder fa-fw"></i>${value}</div>`;
+      }
+    }
+
+    if (prop === 'tags') {
+      if (value === '') {
+        return `${value}`;
+      } else {
+        return `<div><i class="fa fa-tag fa-fw"></i>${value}</div>`;
+      }
+    }
+  }
+});
+</script>
+
+
+    <!--
+  JS selector for site.
+-->
+
+<!-- layout specified -->
+
+
+  
+
+
+
+  <!-- image lazy-loading & popup & clipboard -->
+  
+
+  
+
+
+
+
+
+
+
+  
+    
+
+    
+
+  
+
+
+
+  
+    
+
+    
+
+  
+
+
+
+  
+    
+
+    
+
+  
+
+
+
+
+  <script src="https://cdn.jsdelivr.net/combine/npm/magnific-popup@1/dist/jquery.magnific-popup.min.js,npm/lozad/dist/lozad.min.js,npm/clipboard@2/dist/clipboard.min.js"></script>
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+
+
+
+
+
+  
+    
+
+    
+
+  
+
+
+
+  
+    
+
+    
+
+  
+
+
+
+  
+    
+
+    
+
+  
+
+
+
+  
+    
+
+    
+
+  
+
+
+
+
+  <script src="https://cdn.jsdelivr.net/combine/npm/dayjs@1/dayjs.min.js,npm/dayjs@1/locale/en.min.js,npm/dayjs@1/plugin/relativeTime.min.js,npm/dayjs@1/plugin/localizedFormat.min.js"></script>
+
+
+
+
+
+
+
+
+<script defer src="/assets/js/dist/post.min.js"></script>
+
+
+  <!-- MathJax -->
+  <script>
+  /* see: <https://docs.mathjax.org/en/latest/options/input/tex.html#tex-options> */
+  MathJax = {
+    tex: {
+      inlineMath: [              /* start/end delimiter pairs for in-line math */
+        ['$','$'],
+        ['\\(','\\)']
+      ],
+      displayMath: [             /* start/end delimiter pairs for display math */
+        ['$$', '$$'],
+        ['\\[', '\\]']
+      ]
+    }
+  };
+  </script>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+  </script>
+
+
+<!-- commons -->
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.bundle.min.js"></script>
+
+
+
+
+  </body>
+
+</html>
+

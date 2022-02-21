@@ -9,7 +9,6 @@
 _site
 vendor
 Gemfile.lock
-docs
 
 # rubygem
 *.gem

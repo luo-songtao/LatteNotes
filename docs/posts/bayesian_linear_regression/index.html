@@ -1,0 +1,6572 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html lang="en"
+  
+>
+
+  <!--
+  The Head
+-->
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Allow having a localized datetime different from the appearance language -->
+  
+
+  
+
+    
+
+    
+
+  
+
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+<meta name="generator" content="Jekyll v4.2.1" />
+<meta property="og:title" content="Bayesian Linear Regression" />
+<meta name="author" content="luo-songtao" />
+<meta property="og:locale" content="en" />
+<meta name="description" content="Bayesian Linear Regression The Linear Model of $f(\boldsymbol{x}, \boldsymbol{w}) = \boldsymbol{w}^T\phi(\boldsymbol{x})$, with Gaussian noise $p(\epsilon) = \mathcal{N}(\epsilon \vert 0, \beta^{-1})$ is given by: \[\begin{aligned} y &amp;= \boldsymbol{w}^T\phi(\boldsymbol{x}) + \epsilon \\ p(t\vert \boldsymbol{x}, \boldsymbol{w}, \beta) &amp;= \mathcal{N}(y\vert \boldsymbol{w}^T\boldsymbol{x}, \beta^{-1}) \end{aligned}\] Likelihood Function \[\begin{aligned} p(\mathbf{y} \vert \mathbf{X}, \boldsymbol{w}) = \prod_{i=1}^N \mathcal{N}(y_i \vert \boldsymbol{w}^T\phi(\mathbf{x}_i), \beta^{-1}) \end{aligned}\] Known Variance Assume the noise precision $\beta$ is known, then the conjugate prior and posterior both are Gaussian Parameter Distribution The Conjugate Prior Distribution (Gaussian) \[\begin{aligned} p(\boldsymbol{w} \vert \boldsymbol{\mu}_0, \boldsymbol{S}_0) = \mathcal{N}(\boldsymbol{w} \vert \boldsymbol{\mu}_0, \boldsymbol{S}_0) \end{aligned}\] The Posterior Distribution (Gaussian) \[\begin{aligned} p(\boldsymbol{w} \vert \mathbf{X}, \mathbf{y}) &amp;= \mathcal{N}(\boldsymbol{w} \vert \boldsymbol{\mu}_N, \boldsymbol{S}_N) \\ \\ \boldsymbol{S}_N^{-1} &amp;= \beta \mathbf{\Phi}^T\mathbf{\Phi} + \boldsymbol{S}_0^{-1} \\ \boldsymbol{\mu}_N &amp;= \boldsymbol{S}_N(\beta \mathbf{\Phi}^T \mathbf{y} + \boldsymbol{S}_0^{-1} \boldsymbol{\mu}_0) \end{aligned}\] where $\mathbf{X}$ and $\mathbf{y}$ are observations corresponding to the N input and output values. where $\mathbf{\Phi}$ is a $N\times m$ matrix, if $\boldsymbol{w}$ is a $m$-dim vector, and its rows are $\phi(\mathbf{x}_i)^T,\space i=1,2\cdots,N$. The Proof: \[\begin{aligned} p(\boldsymbol{w} \vert \mathbf{X}, \mathbf{y}) &amp;\propto p(\mathbf{y}\vert \mathbf{X},\boldsymbol{w})p(\boldsymbol{w}) \\ &amp;= \left[ \prod_{i=1}^N \mathcal{N}(y_i \vert \boldsymbol{w}^T\phi(\mathbf{x}_i), \beta^{-1}) \right]\mathcal{N}(\boldsymbol{w} \vert \boldsymbol{\mu}_0, \boldsymbol{S}_0) \\ &amp; \propto \exp\left(-\frac \beta 2 (\mathbf{y}-\mathbf{\Phi}\boldsymbol{w})^T(\mathbf{y}-\mathbf{\Phi}\boldsymbol{w})\right) \exp\left( -\frac 12 (\boldsymbol{w}-\boldsymbol{\mu}_0)^TS_0^{-1}(\boldsymbol{w}-\boldsymbol{\mu}_0) \right) \\ &amp;= \exp\left(-\frac 12 \boldsymbol{w}^T(\beta\boldsymbol{\Phi}^T\boldsymbol{\Phi} + S_0^{-1})\boldsymbol{w} + \boldsymbol{w}^T(\beta\boldsymbol{\Phi}^T\boldsymbol{y} + S_0^{-1}\boldsymbol{\mu}_0) \right) + \mathrm{const} \end{aligned}\] If we consider the prior is a zero-mean and isotropic Gaussian distribution, then The Prior Distribution (let $\alpha$ be its precision) can be written by: \[\begin{aligned} p(\boldsymbol{w} \vert 0, \alpha^{-1}I) \end{aligned}\] The Posterior Distribution: \[\begin{aligned} p(\boldsymbol{w} \vert \mathbf{X}, \mathbf{y}) &amp;= \mathcal{N}(\boldsymbol{w} \vert \boldsymbol{\mu}_N, \boldsymbol{S}_N) \\ \\ \boldsymbol{S}_N^{-1} &amp;= \beta \mathbf{\Phi}^T\mathbf{\Phi} + \alpha I \\ \boldsymbol{\mu}_N &amp;= \beta\boldsymbol{S}_N\mathbf{\Phi}^T \mathbf{y} \end{aligned}\] Also, in this assumption: \[\begin{aligned} p(\boldsymbol{w} \vert \mathbf{X}, \mathbf{y}) &amp;\propto \exp\left(-\frac \beta 2 (\mathbf{y}-\mathbf{\Phi}\boldsymbol{w})^T(\mathbf{y}-\mathbf{\Phi}\boldsymbol{w})\right) \exp\left( -\frac \alpha 2 \boldsymbol{w}^T\boldsymbol{w} \right) \\ \ln (p(\boldsymbol{w} \vert \mathbf{X}, \mathbf{y})) &amp;= -\frac \beta 2 (\mathbf{y}-\mathbf{\Phi}\boldsymbol{w})^T(\mathbf{y}-\mathbf{\Phi}\boldsymbol{w}) -\frac \alpha 2 \boldsymbol{w}^T\boldsymbol{w} + \mathrm{const} \end{aligned}\] Then we can see, maximization of this posterior distribution with respect to $\boldsymbol{w}$ is therefore equivalent to the minimization of the sum-of-squares error function with the addition of a quadratic regularization term, corresponding $\lambda = \frac {\alpha}{\beta}$ Predictive Distribution In practice, we are not usually interested in the value of $\boldsymbol{w}$ itself but rather to making predictions of $t$ for new values of $\mathbf{x}$. Then we can batained a predictive dsitribution by \[\begin{aligned} p(y \vert \boldsymbol{x}, \mathbf{X}, \mathbf{y}) = \int p(y\vert \boldsymbol{x}, \boldsymbol{w}) p(\boldsymbol{w}\vert \mathbf{X}, \mathbf{y}) d\boldsymbol{w} \end{aligned}\] And we have already know: if the condition distribution $p(\boldsymbol{x})$ is $\mathcal{N}(\boldsymbol{x} \vert \boldsymbol{\mu}, \Lambda^{-1})$ and the marginal distribution $p(\boldsymbol{y} \vert \boldsymbol{x})$ is $\mathcal{N}(\boldsymbol{y} \vert A\boldsymbol{x} + b, L^{-1})$ then the marginal distribution $p(y)$ is $\mathcal{N}(y\vert A\boldsymbol{\mu} +b, L^{-1}+A\Lambda^{-1}A^T)$ Thus in this case, (Linear Model with zero-mean Gaussian noise): \[\begin{aligned} p(y\vert \boldsymbol{x}, \mathbf{X}, \mathbf{y}, \alpha, \beta) &amp;= \int p(y\vert \boldsymbol{x}, \boldsymbol{w}, \beta) p(\boldsymbol{w}\vert \mathbf{X}, \mathbf{y}, \alpha^{-1}I) \boldsymbol{w} \\ &amp;= \int \mathcal{N}(y \vert \boldsymbol{w}^T\phi(\boldsymbol{x}), \beta^{-1}) \mathcal{N}(\boldsymbol{w}\vert \boldsymbol{\mu}_N, \boldsymbol{S}_N) d\boldsymbol{w} \\ &amp;= \mathcal{N}(y\vert \boldsymbol{\mu}, \boldsymbol{S}) \\ \\ \boldsymbol{\mu} &amp;= \boldsymbol{\mu}_N^T\phi(\boldsymbol{x}) \\ \boldsymbol{S} &amp;= \beta^{-1}+\phi(\boldsymbol{x})^T \boldsymbol{S}_N \phi(\boldsymbol{x}) \\\\ \end{aligned}\] Note: if we use localized basis functions such as Gaussian, then in regions away from the basis function centres, the contribution from the second term in the predictive variance will go to zero, leaving only the noise contribution $\beta^{-1}$. Thus the model becomes very confident in its predictions when extrapolation outside the region occuiped by the basis functions, which is generaly an undersirable behaviour. Unknown Variance If both $w$ and $\beta$ are treated as unknown, then the conjugate prior will be a Gaussian-Gamma distribution. In this case, the predictive distribution is a Student’s distribution." />
+<meta property="og:description" content="Bayesian Linear Regression The Linear Model of $f(\boldsymbol{x}, \boldsymbol{w}) = \boldsymbol{w}^T\phi(\boldsymbol{x})$, with Gaussian noise $p(\epsilon) = \mathcal{N}(\epsilon \vert 0, \beta^{-1})$ is given by: \[\begin{aligned} y &amp;= \boldsymbol{w}^T\phi(\boldsymbol{x}) + \epsilon \\ p(t\vert \boldsymbol{x}, \boldsymbol{w}, \beta) &amp;= \mathcal{N}(y\vert \boldsymbol{w}^T\boldsymbol{x}, \beta^{-1}) \end{aligned}\] Likelihood Function \[\begin{aligned} p(\mathbf{y} \vert \mathbf{X}, \boldsymbol{w}) = \prod_{i=1}^N \mathcal{N}(y_i \vert \boldsymbol{w}^T\phi(\mathbf{x}_i), \beta^{-1}) \end{aligned}\] Known Variance Assume the noise precision $\beta$ is known, then the conjugate prior and posterior both are Gaussian Parameter Distribution The Conjugate Prior Distribution (Gaussian) \[\begin{aligned} p(\boldsymbol{w} \vert \boldsymbol{\mu}_0, \boldsymbol{S}_0) = \mathcal{N}(\boldsymbol{w} \vert \boldsymbol{\mu}_0, \boldsymbol{S}_0) \end{aligned}\] The Posterior Distribution (Gaussian) \[\begin{aligned} p(\boldsymbol{w} \vert \mathbf{X}, \mathbf{y}) &amp;= \mathcal{N}(\boldsymbol{w} \vert \boldsymbol{\mu}_N, \boldsymbol{S}_N) \\ \\ \boldsymbol{S}_N^{-1} &amp;= \beta \mathbf{\Phi}^T\mathbf{\Phi} + \boldsymbol{S}_0^{-1} \\ \boldsymbol{\mu}_N &amp;= \boldsymbol{S}_N(\beta \mathbf{\Phi}^T \mathbf{y} + \boldsymbol{S}_0^{-1} \boldsymbol{\mu}_0) \end{aligned}\] where $\mathbf{X}$ and $\mathbf{y}$ are observations corresponding to the N input and output values. where $\mathbf{\Phi}$ is a $N\times m$ matrix, if $\boldsymbol{w}$ is a $m$-dim vector, and its rows are $\phi(\mathbf{x}_i)^T,\space i=1,2\cdots,N$. The Proof: \[\begin{aligned} p(\boldsymbol{w} \vert \mathbf{X}, \mathbf{y}) &amp;\propto p(\mathbf{y}\vert \mathbf{X},\boldsymbol{w})p(\boldsymbol{w}) \\ &amp;= \left[ \prod_{i=1}^N \mathcal{N}(y_i \vert \boldsymbol{w}^T\phi(\mathbf{x}_i), \beta^{-1}) \right]\mathcal{N}(\boldsymbol{w} \vert \boldsymbol{\mu}_0, \boldsymbol{S}_0) \\ &amp; \propto \exp\left(-\frac \beta 2 (\mathbf{y}-\mathbf{\Phi}\boldsymbol{w})^T(\mathbf{y}-\mathbf{\Phi}\boldsymbol{w})\right) \exp\left( -\frac 12 (\boldsymbol{w}-\boldsymbol{\mu}_0)^TS_0^{-1}(\boldsymbol{w}-\boldsymbol{\mu}_0) \right) \\ &amp;= \exp\left(-\frac 12 \boldsymbol{w}^T(\beta\boldsymbol{\Phi}^T\boldsymbol{\Phi} + S_0^{-1})\boldsymbol{w} + \boldsymbol{w}^T(\beta\boldsymbol{\Phi}^T\boldsymbol{y} + S_0^{-1}\boldsymbol{\mu}_0) \right) + \mathrm{const} \end{aligned}\] If we consider the prior is a zero-mean and isotropic Gaussian distribution, then The Prior Distribution (let $\alpha$ be its precision) can be written by: \[\begin{aligned} p(\boldsymbol{w} \vert 0, \alpha^{-1}I) \end{aligned}\] The Posterior Distribution: \[\begin{aligned} p(\boldsymbol{w} \vert \mathbf{X}, \mathbf{y}) &amp;= \mathcal{N}(\boldsymbol{w} \vert \boldsymbol{\mu}_N, \boldsymbol{S}_N) \\ \\ \boldsymbol{S}_N^{-1} &amp;= \beta \mathbf{\Phi}^T\mathbf{\Phi} + \alpha I \\ \boldsymbol{\mu}_N &amp;= \beta\boldsymbol{S}_N\mathbf{\Phi}^T \mathbf{y} \end{aligned}\] Also, in this assumption: \[\begin{aligned} p(\boldsymbol{w} \vert \mathbf{X}, \mathbf{y}) &amp;\propto \exp\left(-\frac \beta 2 (\mathbf{y}-\mathbf{\Phi}\boldsymbol{w})^T(\mathbf{y}-\mathbf{\Phi}\boldsymbol{w})\right) \exp\left( -\frac \alpha 2 \boldsymbol{w}^T\boldsymbol{w} \right) \\ \ln (p(\boldsymbol{w} \vert \mathbf{X}, \mathbf{y})) &amp;= -\frac \beta 2 (\mathbf{y}-\mathbf{\Phi}\boldsymbol{w})^T(\mathbf{y}-\mathbf{\Phi}\boldsymbol{w}) -\frac \alpha 2 \boldsymbol{w}^T\boldsymbol{w} + \mathrm{const} \end{aligned}\] Then we can see, maximization of this posterior distribution with respect to $\boldsymbol{w}$ is therefore equivalent to the minimization of the sum-of-squares error function with the addition of a quadratic regularization term, corresponding $\lambda = \frac {\alpha}{\beta}$ Predictive Distribution In practice, we are not usually interested in the value of $\boldsymbol{w}$ itself but rather to making predictions of $t$ for new values of $\mathbf{x}$. Then we can batained a predictive dsitribution by \[\begin{aligned} p(y \vert \boldsymbol{x}, \mathbf{X}, \mathbf{y}) = \int p(y\vert \boldsymbol{x}, \boldsymbol{w}) p(\boldsymbol{w}\vert \mathbf{X}, \mathbf{y}) d\boldsymbol{w} \end{aligned}\] And we have already know: if the condition distribution $p(\boldsymbol{x})$ is $\mathcal{N}(\boldsymbol{x} \vert \boldsymbol{\mu}, \Lambda^{-1})$ and the marginal distribution $p(\boldsymbol{y} \vert \boldsymbol{x})$ is $\mathcal{N}(\boldsymbol{y} \vert A\boldsymbol{x} + b, L^{-1})$ then the marginal distribution $p(y)$ is $\mathcal{N}(y\vert A\boldsymbol{\mu} +b, L^{-1}+A\Lambda^{-1}A^T)$ Thus in this case, (Linear Model with zero-mean Gaussian noise): \[\begin{aligned} p(y\vert \boldsymbol{x}, \mathbf{X}, \mathbf{y}, \alpha, \beta) &amp;= \int p(y\vert \boldsymbol{x}, \boldsymbol{w}, \beta) p(\boldsymbol{w}\vert \mathbf{X}, \mathbf{y}, \alpha^{-1}I) \boldsymbol{w} \\ &amp;= \int \mathcal{N}(y \vert \boldsymbol{w}^T\phi(\boldsymbol{x}), \beta^{-1}) \mathcal{N}(\boldsymbol{w}\vert \boldsymbol{\mu}_N, \boldsymbol{S}_N) d\boldsymbol{w} \\ &amp;= \mathcal{N}(y\vert \boldsymbol{\mu}, \boldsymbol{S}) \\ \\ \boldsymbol{\mu} &amp;= \boldsymbol{\mu}_N^T\phi(\boldsymbol{x}) \\ \boldsymbol{S} &amp;= \beta^{-1}+\phi(\boldsymbol{x})^T \boldsymbol{S}_N \phi(\boldsymbol{x}) \\\\ \end{aligned}\] Note: if we use localized basis functions such as Gaussian, then in regions away from the basis function centres, the contribution from the second term in the predictive variance will go to zero, leaving only the noise contribution $\beta^{-1}$. Thus the model becomes very confident in its predictions when extrapolation outside the region occuiped by the basis functions, which is generaly an undersirable behaviour. Unknown Variance If both $w$ and $\beta$ are treated as unknown, then the conjugate prior will be a Gaussian-Gamma distribution. In this case, the predictive distribution is a Student’s distribution." />
+<link rel="canonical" href="http://0.0.0.0:4000/posts/bayesian_linear_regression/" />
+<meta property="og:url" content="http://0.0.0.0:4000/posts/bayesian_linear_regression/" />
+<meta property="og:site_name" content="Candy Note" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-02-20T00:00:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Bayesian Linear Regression" />
+<meta name="twitter:site" content="@twitter_username" />
+<meta name="twitter:creator" content="@luo-songtao" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"luo-songtao"},"dateModified":"2022-02-20T00:00:00+00:00","datePublished":"2022-02-20T00:00:00+00:00","description":"Bayesian Linear Regression The Linear Model of $f(\\boldsymbol{x}, \\boldsymbol{w}) = \\boldsymbol{w}^T\\phi(\\boldsymbol{x})$, with Gaussian noise $p(\\epsilon) = \\mathcal{N}(\\epsilon \\vert 0, \\beta^{-1})$ is given by: \\[\\begin{aligned} y &amp;= \\boldsymbol{w}^T\\phi(\\boldsymbol{x}) + \\epsilon \\\\ p(t\\vert \\boldsymbol{x}, \\boldsymbol{w}, \\beta) &amp;= \\mathcal{N}(y\\vert \\boldsymbol{w}^T\\boldsymbol{x}, \\beta^{-1}) \\end{aligned}\\] Likelihood Function \\[\\begin{aligned} p(\\mathbf{y} \\vert \\mathbf{X}, \\boldsymbol{w}) = \\prod_{i=1}^N \\mathcal{N}(y_i \\vert \\boldsymbol{w}^T\\phi(\\mathbf{x}_i), \\beta^{-1}) \\end{aligned}\\] Known Variance Assume the noise precision $\\beta$ is known, then the conjugate prior and posterior both are Gaussian Parameter Distribution The Conjugate Prior Distribution (Gaussian) \\[\\begin{aligned} p(\\boldsymbol{w} \\vert \\boldsymbol{\\mu}_0, \\boldsymbol{S}_0) = \\mathcal{N}(\\boldsymbol{w} \\vert \\boldsymbol{\\mu}_0, \\boldsymbol{S}_0) \\end{aligned}\\] The Posterior Distribution (Gaussian) \\[\\begin{aligned} p(\\boldsymbol{w} \\vert \\mathbf{X}, \\mathbf{y}) &amp;= \\mathcal{N}(\\boldsymbol{w} \\vert \\boldsymbol{\\mu}_N, \\boldsymbol{S}_N) \\\\ \\\\ \\boldsymbol{S}_N^{-1} &amp;= \\beta \\mathbf{\\Phi}^T\\mathbf{\\Phi} + \\boldsymbol{S}_0^{-1} \\\\ \\boldsymbol{\\mu}_N &amp;= \\boldsymbol{S}_N(\\beta \\mathbf{\\Phi}^T \\mathbf{y} + \\boldsymbol{S}_0^{-1} \\boldsymbol{\\mu}_0) \\end{aligned}\\] where $\\mathbf{X}$ and $\\mathbf{y}$ are observations corresponding to the N input and output values. where $\\mathbf{\\Phi}$ is a $N\\times m$ matrix, if $\\boldsymbol{w}$ is a $m$-dim vector, and its rows are $\\phi(\\mathbf{x}_i)^T,\\space i=1,2\\cdots,N$. The Proof: \\[\\begin{aligned} p(\\boldsymbol{w} \\vert \\mathbf{X}, \\mathbf{y}) &amp;\\propto p(\\mathbf{y}\\vert \\mathbf{X},\\boldsymbol{w})p(\\boldsymbol{w}) \\\\ &amp;= \\left[ \\prod_{i=1}^N \\mathcal{N}(y_i \\vert \\boldsymbol{w}^T\\phi(\\mathbf{x}_i), \\beta^{-1}) \\right]\\mathcal{N}(\\boldsymbol{w} \\vert \\boldsymbol{\\mu}_0, \\boldsymbol{S}_0) \\\\ &amp; \\propto \\exp\\left(-\\frac \\beta 2 (\\mathbf{y}-\\mathbf{\\Phi}\\boldsymbol{w})^T(\\mathbf{y}-\\mathbf{\\Phi}\\boldsymbol{w})\\right) \\exp\\left( -\\frac 12 (\\boldsymbol{w}-\\boldsymbol{\\mu}_0)^TS_0^{-1}(\\boldsymbol{w}-\\boldsymbol{\\mu}_0) \\right) \\\\ &amp;= \\exp\\left(-\\frac 12 \\boldsymbol{w}^T(\\beta\\boldsymbol{\\Phi}^T\\boldsymbol{\\Phi} + S_0^{-1})\\boldsymbol{w} + \\boldsymbol{w}^T(\\beta\\boldsymbol{\\Phi}^T\\boldsymbol{y} + S_0^{-1}\\boldsymbol{\\mu}_0) \\right) + \\mathrm{const} \\end{aligned}\\] If we consider the prior is a zero-mean and isotropic Gaussian distribution, then The Prior Distribution (let $\\alpha$ be its precision) can be written by: \\[\\begin{aligned} p(\\boldsymbol{w} \\vert 0, \\alpha^{-1}I) \\end{aligned}\\] The Posterior Distribution: \\[\\begin{aligned} p(\\boldsymbol{w} \\vert \\mathbf{X}, \\mathbf{y}) &amp;= \\mathcal{N}(\\boldsymbol{w} \\vert \\boldsymbol{\\mu}_N, \\boldsymbol{S}_N) \\\\ \\\\ \\boldsymbol{S}_N^{-1} &amp;= \\beta \\mathbf{\\Phi}^T\\mathbf{\\Phi} + \\alpha I \\\\ \\boldsymbol{\\mu}_N &amp;= \\beta\\boldsymbol{S}_N\\mathbf{\\Phi}^T \\mathbf{y} \\end{aligned}\\] Also, in this assumption: \\[\\begin{aligned} p(\\boldsymbol{w} \\vert \\mathbf{X}, \\mathbf{y}) &amp;\\propto \\exp\\left(-\\frac \\beta 2 (\\mathbf{y}-\\mathbf{\\Phi}\\boldsymbol{w})^T(\\mathbf{y}-\\mathbf{\\Phi}\\boldsymbol{w})\\right) \\exp\\left( -\\frac \\alpha 2 \\boldsymbol{w}^T\\boldsymbol{w} \\right) \\\\ \\ln (p(\\boldsymbol{w} \\vert \\mathbf{X}, \\mathbf{y})) &amp;= -\\frac \\beta 2 (\\mathbf{y}-\\mathbf{\\Phi}\\boldsymbol{w})^T(\\mathbf{y}-\\mathbf{\\Phi}\\boldsymbol{w}) -\\frac \\alpha 2 \\boldsymbol{w}^T\\boldsymbol{w} + \\mathrm{const} \\end{aligned}\\] Then we can see, maximization of this posterior distribution with respect to $\\boldsymbol{w}$ is therefore equivalent to the minimization of the sum-of-squares error function with the addition of a quadratic regularization term, corresponding $\\lambda = \\frac {\\alpha}{\\beta}$ Predictive Distribution In practice, we are not usually interested in the value of $\\boldsymbol{w}$ itself but rather to making predictions of $t$ for new values of $\\mathbf{x}$. Then we can batained a predictive dsitribution by \\[\\begin{aligned} p(y \\vert \\boldsymbol{x}, \\mathbf{X}, \\mathbf{y}) = \\int p(y\\vert \\boldsymbol{x}, \\boldsymbol{w}) p(\\boldsymbol{w}\\vert \\mathbf{X}, \\mathbf{y}) d\\boldsymbol{w} \\end{aligned}\\] And we have already know: if the condition distribution $p(\\boldsymbol{x})$ is $\\mathcal{N}(\\boldsymbol{x} \\vert \\boldsymbol{\\mu}, \\Lambda^{-1})$ and the marginal distribution $p(\\boldsymbol{y} \\vert \\boldsymbol{x})$ is $\\mathcal{N}(\\boldsymbol{y} \\vert A\\boldsymbol{x} + b, L^{-1})$ then the marginal distribution $p(y)$ is $\\mathcal{N}(y\\vert A\\boldsymbol{\\mu} +b, L^{-1}+A\\Lambda^{-1}A^T)$ Thus in this case, (Linear Model with zero-mean Gaussian noise): \\[\\begin{aligned} p(y\\vert \\boldsymbol{x}, \\mathbf{X}, \\mathbf{y}, \\alpha, \\beta) &amp;= \\int p(y\\vert \\boldsymbol{x}, \\boldsymbol{w}, \\beta) p(\\boldsymbol{w}\\vert \\mathbf{X}, \\mathbf{y}, \\alpha^{-1}I) \\boldsymbol{w} \\\\ &amp;= \\int \\mathcal{N}(y \\vert \\boldsymbol{w}^T\\phi(\\boldsymbol{x}), \\beta^{-1}) \\mathcal{N}(\\boldsymbol{w}\\vert \\boldsymbol{\\mu}_N, \\boldsymbol{S}_N) d\\boldsymbol{w} \\\\ &amp;= \\mathcal{N}(y\\vert \\boldsymbol{\\mu}, \\boldsymbol{S}) \\\\ \\\\ \\boldsymbol{\\mu} &amp;= \\boldsymbol{\\mu}_N^T\\phi(\\boldsymbol{x}) \\\\ \\boldsymbol{S} &amp;= \\beta^{-1}+\\phi(\\boldsymbol{x})^T \\boldsymbol{S}_N \\phi(\\boldsymbol{x}) \\\\\\\\ \\end{aligned}\\] Note: if we use localized basis functions such as Gaussian, then in regions away from the basis function centres, the contribution from the second term in the predictive variance will go to zero, leaving only the noise contribution $\\beta^{-1}$. Thus the model becomes very confident in its predictions when extrapolation outside the region occuiped by the basis functions, which is generaly an undersirable behaviour. Unknown Variance If both $w$ and $\\beta$ are treated as unknown, then the conjugate prior will be a Gaussian-Gamma distribution. In this case, the predictive distribution is a Student’s distribution.","headline":"Bayesian Linear Regression","mainEntityOfPage":{"@type":"WebPage","@id":"http://0.0.0.0:4000/posts/bayesian_linear_regression/"},"url":"http://0.0.0.0:4000/posts/bayesian_linear_regression/"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+  <title>Bayesian Linear Regression | Candy Note
+  </title>
+
+  <!--
+  The Favicons for Web, Android, Microsoft, and iOS (iPhone and iPad) Apps
+  Generated by: https://realfavicongenerator.net/
+-->
+
+
+
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/img/favicons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicons/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicons/favicon-16x16.png">
+<link rel="manifest" href="/assets/img/favicons/site.webmanifest">
+<link rel="shortcut icon" href="/assets/img/favicons/favicon.ico">
+<meta name="apple-mobile-web-app-title" content="Candy Note">
+<meta name="application-name" content="Candy Note">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="msapplication-config" content="/assets/img/favicons/browserconfig.xml">
+<meta name="theme-color" content="#ffffff">
+
+
+  
+
+    
+      <link rel="preconnect" href="https://fonts.googleapis.com" >
+      <link rel="dns-prefetch" href="https://fonts.googleapis.com" >
+    
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+      <link rel="dns-prefetch" href="https://fonts.gstatic.com" crossorigin>
+    
+      <link rel="preconnect" href="https://fonts.googleapis.com" >
+      <link rel="dns-prefetch" href="https://fonts.googleapis.com" >
+    
+      <link rel="preconnect" href="https://cdn.jsdelivr.net" >
+      <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" >
+    
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato&family=Source+Sans+Pro:wght@400;600;700;900&display=swap">
+
+  
+
+  <!-- GA -->
+  
+
+  <!-- Bootstrap -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.11.2/css/all.min.css">
+
+  <link rel="stylesheet" href="/assets/css/style.css">
+
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@1.0.1/dist/bootstrap-toc.min.css">
+  
+
+  
+    <!-- Manific Popup -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/magnific-popup@1/dist/magnific-popup.min.css">
+  
+
+  <!-- JavaScript -->
+
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+
+</head>
+
+
+  
+    <!--
+  Switch the mode between dark and light.
+-->
+
+<script type="text/javascript">
+  class ModeToggle {
+    static get MODE_KEY() { return "mode"; }
+    static get MODE_ATTR() { return "data-mode"; }
+    static get DARK_MODE() { return "dark"; }
+    static get LIGHT_MODE() { return "light"; }
+    static get ID() { return "mode-toggle"; }
+
+    constructor() {
+      if (this.hasMode) {
+        if (this.isDarkMode) {
+          if (!this.isSysDarkPrefer) {
+            this.setDark();
+          }
+        } else {
+          if (this.isSysDarkPrefer) {
+            this.setLight();
+          }
+        }
+      }
+
+      let self = this;
+
+      /* always follow the system prefers */
+      this.sysDarkPrefers.addEventListener("change", () => {
+        if (self.hasMode) {
+          if (self.isDarkMode) {
+            if (!self.isSysDarkPrefer) {
+              self.setDark();
+            }
+
+          } else {
+            if (self.isSysDarkPrefer) {
+              self.setLight();
+            }
+          }
+
+          self.clearMode();
+        }
+
+        self.notify();
+
+      });
+
+    } /* constructor() */
+
+    get sysDarkPrefers() { return window.matchMedia("(prefers-color-scheme: dark)"); }
+
+    get isSysDarkPrefer() { return this.sysDarkPrefers.matches; }
+
+    get isDarkMode() { return this.mode === ModeToggle.DARK_MODE; }
+
+    get isLightMode() { return this.mode === ModeToggle.LIGHT_MODE; }
+
+    get hasMode() { return this.mode != null; }
+
+    get mode() { return sessionStorage.getItem(ModeToggle.MODE_KEY); }
+
+    /* get the current mode on screen */
+    get modeStatus() {
+      if (this.isDarkMode
+        || (!this.hasMode && this.isSysDarkPrefer)) {
+        return ModeToggle.DARK_MODE;
+      } else {
+        return ModeToggle.LIGHT_MODE;
+      }
+    }
+
+    setDark() {
+      $('html').attr(ModeToggle.MODE_ATTR, ModeToggle.DARK_MODE);
+      sessionStorage.setItem(ModeToggle.MODE_KEY, ModeToggle.DARK_MODE);
+    }
+
+    setLight() {
+      $('html').attr(ModeToggle.MODE_ATTR, ModeToggle.LIGHT_MODE);
+      sessionStorage.setItem(ModeToggle.MODE_KEY, ModeToggle.LIGHT_MODE);
+    }
+
+    clearMode() {
+      $('html').removeAttr(ModeToggle.MODE_ATTR);
+      sessionStorage.removeItem(ModeToggle.MODE_KEY);
+    }
+
+    /* Notify another plugins that the theme mode has changed */
+    notify() {
+      window.postMessage({
+        direction: ModeToggle.ID,
+        message: this.modeStatus
+      }, "*");
+    }
+
+  } /* ModeToggle */
+
+  const toggle = new ModeToggle();
+
+  function flipMode() {
+    if (toggle.hasMode) {
+      if (toggle.isSysDarkPrefer) {
+        if (toggle.isLightMode) {
+          toggle.clearMode();
+        } else {
+          toggle.setLight();
+        }
+
+      } else {
+        if (toggle.isDarkMode) {
+          toggle.clearMode();
+        } else {
+          toggle.setDark();
+        }
+      }
+
+    } else {
+      if (toggle.isSysDarkPrefer) {
+        toggle.setLight();
+      } else {
+        toggle.setDark();
+      }
+    }
+
+    toggle.notify();
+
+  } /* flipMode() */
+
+</script>
+
+  
+
+  <body data-spy="scroll" data-target="#toc" data-topbar-visible="true">
+
+    <!--
+  The Side Bar
+-->
+
+<div id="sidebar" class="d-flex flex-column align-items-end">
+  <div class="profile-wrapper text-center">
+    <div id="avatar">
+      <a href="/" alt="avatar" class="mx-auto">
+        
+          
+          <img src="
+            
+              /assets/img/head.jpg
+            
+          " alt="avatar" onerror="this.style.display='none'">
+        
+      </a>
+    </div>
+
+    <div class="site-title mt-3">
+      <a href="/">Candy Note</a>
+    </div>
+    <div class="site-subtitle font-italic">Personal Notes</div>
+
+  </div><!-- .profile-wrapper -->
+
+  <ul class="w-100">
+
+    <!-- home -->
+    <li class="nav-item">
+      <a href="/" class="nav-link">
+        <i class="fa-fw fas fa-home ml-xl-3 mr-xl-3 unloaded"></i>
+        <span>HOME</span>
+      </a>
+    </li>
+    <!-- the real tabs -->
+    
+    <li class="nav-item">
+      <a href="/categories/" class="nav-link">
+        <i class="fa-fw fas fa-stream ml-xl-3 mr-xl-3 unloaded"></i>
+        
+
+        <span>CATEGORIES</span>
+      </a>
+    </li> <!-- .nav-item -->
+    
+    <li class="nav-item">
+      <a href="/tags/" class="nav-link">
+        <i class="fa-fw fas fa-tag ml-xl-3 mr-xl-3 unloaded"></i>
+        
+
+        <span>TAGS</span>
+      </a>
+    </li> <!-- .nav-item -->
+    
+    <li class="nav-item">
+      <a href="/archives/" class="nav-link">
+        <i class="fa-fw fas fa-archive ml-xl-3 mr-xl-3 unloaded"></i>
+        
+
+        <span>ARCHIVES</span>
+      </a>
+    </li> <!-- .nav-item -->
+    
+    <li class="nav-item">
+      <a href="/about/" class="nav-link">
+        <i class="fa-fw fas fa-info-circle ml-xl-3 mr-xl-3 unloaded"></i>
+        
+
+        <span>ABOUT</span>
+      </a>
+    </li> <!-- .nav-item -->
+    
+
+  </ul> <!-- ul.nav.flex-column -->
+
+  <div class="sidebar-bottom mt-auto d-flex flex-wrap justify-content-center align-items-center">
+
+    
+      <button class="mode-toggle btn" aria-label="Switch Mode">
+        <i class="fas fa-adjust"></i>
+      </button>
+
+      
+        <span class="icon-border"></span>
+      
+    
+
+    
+      
+
+      
+      <a href="https://github.com/github_username" aria-label="github"
+        target="_blank" rel="noopener">
+        <i class="fab fa-github"></i>
+      </a>
+      
+
+    
+      
+
+      
+      <a href="https://twitter.com/twitter_username" aria-label="twitter"
+        target="_blank" rel="noopener">
+        <i class="fab fa-twitter"></i>
+      </a>
+      
+
+    
+      
+
+      
+      <a href="
+          javascript:location.href = 'mailto:' + ['ryomawithlst','gmail.com'].join('@')" aria-label="email"
+        >
+        <i class="fas fa-envelope"></i>
+      </a>
+      
+
+    
+      
+
+      
+      <a href="/feed.xml" aria-label="rss"
+        >
+        <i class="fas fa-rss"></i>
+      </a>
+      
+
+    
+
+  </div> <!-- .sidebar-bottom -->
+
+</div><!-- #sidebar -->
+
+
+    <!--
+  The Top Bar
+-->
+
+<div id="topbar-wrapper" class="row justify-content-center">
+  <div id="topbar" class="col-11 d-flex h-100 align-items-center justify-content-between">
+    <span id="breadcrumb">
+
+    
+
+    
+
+      
+
+        
+          <span>
+            <a href="/">
+              Home
+            </a>
+          </span>
+
+        
+
+      
+
+        
+
+      
+
+        
+
+          
+            <span>Bayesian Linear Regression</span>
+          
+
+        
+
+      
+
+    
+
+    </span><!-- endof #breadcrumb -->
+
+    <i id="sidebar-trigger" class="fas fa-bars fa-fw"></i>
+
+    <div id="topbar-title">
+      Post
+    </div>
+
+    <i id="search-trigger" class="fas fa-search fa-fw"></i>
+    <span id="search-wrapper" class="align-items-center">
+      <i class="fas fa-search fa-fw"></i>
+      <input class="form-control" id="search-input" type="search"
+        aria-label="search" autocomplete="off" placeholder="Search...">
+    </span>
+    <span id="search-cancel" >Cancel</span>
+  </div>
+
+</div>
+
+
+    <div id="main-wrapper">
+      <div id="main">
+
+        
+
+
+
+
+
+
+
+
+
+<div class="row">
+
+  <!-- core -->
+  <div id="core-wrapper" class="col-12 col-lg-11 col-xl-8">
+    <div class="post pl-1 pr-1 pl-sm-2 pr-sm-2 pl-md-4 pr-md-4">
+
+    
+
+    
+      
+      
+        <!--
+  Refactor the HTML structure.
+-->
+
+
+
+<!--
+  In order to allow a wide table to scroll horizontally,
+  we suround the markdown table with `<div class="table-wrapper">` and `</div>`
+-->
+
+
+
+<!--
+  Fixed kramdown code highlight rendering:
+  https://github.com/penibelst/jekyll-compress-html/issues/101
+  https://github.com/penibelst/jekyll-compress-html/issues/71#issuecomment-188144901
+-->
+
+
+
+<!-- Add attribute 'hide-bullet' to the checkbox list -->
+
+
+
+<!-- images -->
+
+
+
+
+
+<!-- Add header for code snippets -->
+
+
+
+<!-- Create heading anchors -->
+
+
+
+
+
+  
+  
+
+  
+    
+    
+
+    
+      
+        
+        
+      
+
+      
+      
+
+      
+      
+      
+
+      
+
+    
+
+    
+
+  
+
+  
+  
+
+  
+    
+    
+
+    
+      
+        
+        
+      
+
+      
+      
+
+      
+      
+      
+
+      
+
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+
+    
+
+    
+
+  
+
+  
+  
+
+  
+    
+    
+
+    
+      
+        
+        
+      
+
+      
+      
+
+      
+      
+      
+
+      
+
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+
+    
+
+    
+
+  
+
+  
+  
+
+  
+
+
+
+
+<!-- Wrap prompt element of blockquote with the <div> tag -->
+
+
+
+
+
+
+
+<!-- return -->
+
+
+
+
+
+
+
+<h1 data-toc-skip>Bayesian Linear Regression</h1>
+
+<div class="post-meta text-muted">
+
+  <!-- author -->
+  <div>
+    
+    
+
+    
+
+    By
+    <em>
+      
+        <a href="https://github.com/luo-songtao">luo-songtao</a>
+      
+    </em>
+  </div>
+
+  <div class="d-flex">
+    <div>
+      <!-- published date -->
+      <span>
+        Posted
+        <!--
+  Date format snippet
+  See: ${JS_ROOT}/utils/timeago.js
+-->
+
+<em class="timeago"
+    data-ts="1645315200"
+    
+      data-toggle="tooltip" data-placement="bottom" data-tooltip-df="llll"
+    
+    >
+  2022-02-20
+</em>
+
+      </span>
+
+      <!-- lastmod date -->
+      
+
+      <!-- read time -->
+      <!--
+  Calculate the post's reading time, and display the word count in tooltip
+ -->
+
+
+
+<!-- words per minute  -->
+
+
+
+
+
+
+
+
+
+
+<!-- return element -->
+<span class="readtime" data-toggle="tooltip" data-placement="bottom"
+  title="578 words">
+  <em>3 min</em> read</span>
+
+
+      <!-- page views -->
+      
+    </div>
+
+  </div> <!-- .d-flex -->
+
+</div> <!-- .post-meta -->
+
+<div class="post-content">
+  <h2 id="bayesian-linear-regression"><span class="mr-2">Bayesian Linear Regression</span><a href="#bayesian-linear-regression" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2></h2>
+
+<ul>
+  <li>
+    <p>The Linear Model of $f(\boldsymbol{x}, \boldsymbol{w}) = \boldsymbol{w}^T\phi(\boldsymbol{x})$, with Gaussian noise $p(\epsilon) = \mathcal{N}(\epsilon \vert 0, \beta^{-1})$ is given by:</p>
+
+\[\begin{aligned} y &amp;= \boldsymbol{w}^T\phi(\boldsymbol{x}) + \epsilon \\ p(t\vert \boldsymbol{x}, \boldsymbol{w}, \beta) &amp;= \mathcal{N}(y\vert \boldsymbol{w}^T\boldsymbol{x}, \beta^{-1}) \end{aligned}\]
+  </li>
+  <li>
+    <p>Likelihood Function</p>
+
+\[\begin{aligned} p(\mathbf{y} \vert \mathbf{X}, \boldsymbol{w}) = \prod_{i=1}^N \mathcal{N}(y_i \vert \boldsymbol{w}^T\phi(\mathbf{x}_i), \beta^{-1}) \end{aligned}\]
+  </li>
+</ul>
+
+<h3 id="known-variance"><span class="mr-2">Known Variance</span><a href="#known-variance" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3></h3>
+
+<ul>
+  <li>Assume the noise precision $\beta$ is known, then the conjugate prior and posterior both are Gaussian</li>
+</ul>
+
+<h4 id="parameter-distribution"><span class="mr-2">Parameter Distribution</span><a href="#parameter-distribution" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h4></h4>
+
+<ul>
+  <li>
+    <p>The Conjugate Prior Distribution  (Gaussian)</p>
+
+\[\begin{aligned} p(\boldsymbol{w} \vert \boldsymbol{\mu}_0, \boldsymbol{S}_0) = \mathcal{N}(\boldsymbol{w} \vert \boldsymbol{\mu}_0, \boldsymbol{S}_0) \end{aligned}\]
+  </li>
+  <li>
+    <p>The Posterior Distribution  (Gaussian)</p>
+
+\[\begin{aligned} p(\boldsymbol{w} \vert \mathbf{X}, \mathbf{y}) &amp;= \mathcal{N}(\boldsymbol{w} \vert \boldsymbol{\mu}_N, \boldsymbol{S}_N) \\ \\ \boldsymbol{S}_N^{-1} &amp;= \beta \mathbf{\Phi}^T\mathbf{\Phi} + \boldsymbol{S}_0^{-1} \\ \boldsymbol{\mu}_N &amp;= \boldsymbol{S}_N(\beta \mathbf{\Phi}^T \mathbf{y} + \boldsymbol{S}_0^{-1} \boldsymbol{\mu}_0) \end{aligned}\]
+
+    <ul>
+      <li>
+        <p>where $\mathbf{X}$ and $\mathbf{y}$ are observations corresponding to the N input and output values.</p>
+      </li>
+      <li>
+        <p>where $\mathbf{\Phi}$ is a $N\times m$ matrix, if $\boldsymbol{w}$ is a $m$-dim vector, and its rows are $\phi(\mathbf{x}_i)^T,\space i=1,2\cdots,N$.</p>
+      </li>
+      <li>
+        <p>The Proof:</p>
+
+\[\begin{aligned} p(\boldsymbol{w} \vert \mathbf{X}, \mathbf{y}) &amp;\propto p(\mathbf{y}\vert \mathbf{X},\boldsymbol{w})p(\boldsymbol{w}) \\ &amp;= \left[ \prod_{i=1}^N \mathcal{N}(y_i \vert \boldsymbol{w}^T\phi(\mathbf{x}_i), \beta^{-1}) \right]\mathcal{N}(\boldsymbol{w} \vert \boldsymbol{\mu}_0, \boldsymbol{S}_0) \\ &amp; \propto \exp\left(-\frac \beta 2 (\mathbf{y}-\mathbf{\Phi}\boldsymbol{w})^T(\mathbf{y}-\mathbf{\Phi}\boldsymbol{w})\right) \exp\left( -\frac 12 (\boldsymbol{w}-\boldsymbol{\mu}_0)^TS_0^{-1}(\boldsymbol{w}-\boldsymbol{\mu}_0) \right) \\ &amp;= \exp\left(-\frac 12 \boldsymbol{w}^T(\beta\boldsymbol{\Phi}^T\boldsymbol{\Phi} + S_0^{-1})\boldsymbol{w} + \boldsymbol{w}^T(\beta\boldsymbol{\Phi}^T\boldsymbol{y} + S_0^{-1}\boldsymbol{\mu}_0) \right) + \mathrm{const} \end{aligned}\]
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>If we consider the prior is a zero-mean and isotropic Gaussian distribution, then</p>
+    <ul>
+      <li>
+        <p>The Prior Distribution (let $\alpha$ be its precision) can be written by:</p>
+
+\[\begin{aligned} p(\boldsymbol{w} \vert 0, \alpha^{-1}I) \end{aligned}\]
+      </li>
+      <li>
+        <p>The Posterior Distribution:</p>
+
+\[\begin{aligned} p(\boldsymbol{w} \vert \mathbf{X}, \mathbf{y}) &amp;= \mathcal{N}(\boldsymbol{w} \vert \boldsymbol{\mu}_N, \boldsymbol{S}_N) \\ \\ \boldsymbol{S}_N^{-1} &amp;= \beta \mathbf{\Phi}^T\mathbf{\Phi} + \alpha I \\ \boldsymbol{\mu}_N &amp;= \beta\boldsymbol{S}_N\mathbf{\Phi}^T \mathbf{y}  \end{aligned}\]
+
+        <ul>
+          <li>
+            <p>Also, in this assumption:</p>
+
+\[\begin{aligned} p(\boldsymbol{w} \vert \mathbf{X}, \mathbf{y}) &amp;\propto \exp\left(-\frac \beta 2 (\mathbf{y}-\mathbf{\Phi}\boldsymbol{w})^T(\mathbf{y}-\mathbf{\Phi}\boldsymbol{w})\right) \exp\left( -\frac \alpha 2 \boldsymbol{w}^T\boldsymbol{w} \right) \\ \ln (p(\boldsymbol{w} \vert \mathbf{X}, \mathbf{y})) &amp;= -\frac \beta 2 (\mathbf{y}-\mathbf{\Phi}\boldsymbol{w})^T(\mathbf{y}-\mathbf{\Phi}\boldsymbol{w}) -\frac \alpha 2 \boldsymbol{w}^T\boldsymbol{w} + \mathrm{const} \end{aligned}\]
+          </li>
+          <li>
+            <p>Then we can see, maximization of this posterior distribution with respect to $\boldsymbol{w}$ is therefore equivalent to the minimization of the sum-of-squares error function with the addition of a quadratic regularization term, corresponding $\lambda = \frac {\alpha}{\beta}$</p>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="predictive-distribution"><span class="mr-2">Predictive Distribution</span><a href="#predictive-distribution" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h4></h4>
+
+<ul>
+  <li>
+    <p>In practice, we are not usually interested in the value of $\boldsymbol{w}$ itself but rather to making predictions of $t$ for new values of $\mathbf{x}$.</p>
+  </li>
+  <li>
+    <p>Then we can batained a predictive dsitribution by</p>
+
+\[\begin{aligned} p(y \vert \boldsymbol{x}, \mathbf{X}, \mathbf{y}) = \int p(y\vert \boldsymbol{x}, \boldsymbol{w}) p(\boldsymbol{w}\vert \mathbf{X}, \mathbf{y}) d\boldsymbol{w} \end{aligned}\]
+  </li>
+  <li>
+    <p>And we have already know:</p>
+
+    <ul>
+      <li>
+        <p>if the condition distribution $p(\boldsymbol{x})$ is $\mathcal{N}(\boldsymbol{x} \vert \boldsymbol{\mu}, \Lambda^{-1})$ and the marginal distribution $p(\boldsymbol{y} \vert \boldsymbol{x})$ is $\mathcal{N}(\boldsymbol{y} \vert A\boldsymbol{x} + b, L^{-1})$</p>
+      </li>
+      <li>
+        <p>then the marginal distribution $p(y)$ is $\mathcal{N}(y\vert A\boldsymbol{\mu} +b, L^{-1}+A\Lambda^{-1}A^T)$</p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>Thus in this case, (Linear Model with zero-mean Gaussian noise):</p>
+
+\[\begin{aligned} p(y\vert \boldsymbol{x}, \mathbf{X}, \mathbf{y}, \alpha, \beta) &amp;= \int p(y\vert \boldsymbol{x}, \boldsymbol{w}, \beta) p(\boldsymbol{w}\vert \mathbf{X}, \mathbf{y}, \alpha^{-1}I) \boldsymbol{w} \\ &amp;= \int \mathcal{N}(y \vert \boldsymbol{w}^T\phi(\boldsymbol{x}), \beta^{-1}) \mathcal{N}(\boldsymbol{w}\vert \boldsymbol{\mu}_N, \boldsymbol{S}_N) d\boldsymbol{w} \\ &amp;= \mathcal{N}(y\vert \boldsymbol{\mu}, \boldsymbol{S}) \\ \\ \boldsymbol{\mu} &amp;= \boldsymbol{\mu}_N^T\phi(\boldsymbol{x}) \\ \boldsymbol{S} &amp;=  \beta^{-1}+\phi(\boldsymbol{x})^T \boldsymbol{S}_N \phi(\boldsymbol{x}) \\\\  \end{aligned}\]
+  </li>
+  <li>
+    <p>Note:</p>
+    <ul>
+      <li>if we use localized basis functions such as Gaussian, then in regions away from the basis function centres, the contribution from the second term in the predictive variance will go to zero, leaving only the noise contribution $\beta^{-1}$. Thus the model becomes very confident in its predictions when extrapolation outside the region occuiped by the basis functions, which is generaly an undersirable behaviour.</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="unknown-variance"><span class="mr-2">Unknown Variance</span><a href="#unknown-variance" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3></h3>
+
+<ul>
+  <li>If both $w$ and $\beta$ are treated as unknown, then the conjugate prior will be a <strong>Gaussian-Gamma</strong> distribution. In this case, the predictive distribution is a <strong>Student’s</strong> distribution.</li>
+</ul>
+
+
+</div>
+
+<div class="post-tail-wrapper text-muted">
+
+  <!-- categories -->
+  
+  <div class="post-meta mb-3">
+    <i class="far fa-folder-open fa-fw mr-1"></i>
+    
+      <a href='//categories/bayesian/'>Bayesian</a>
+  </div>
+  
+
+  <!-- tags -->
+  
+  <div class="post-tags">
+    <i class="fa fa-tags fa-fw mr-1"></i>
+      
+      <a href="//tags/linear-regression/"
+          class="post-tag no-text-decoration" >Linear Regression</a>
+      
+      <a href="//tags/bayesian/"
+          class="post-tag no-text-decoration" >Bayesian</a>
+      
+  </div>
+  
+
+  <div class="post-tail-bottom
+    d-flex justify-content-between align-items-center mt-3 pt-5 pb-2">
+    <div class="license-wrapper">
+
+      
+
+        
+
+        This post is licensed under 
+        <a href="https://creativecommons.org/licenses/by/4.0/">
+          CC BY 4.0
+        </a>
+         by the author.
+
+      
+    </div>
+
+    <!--
+ Post sharing snippet
+-->
+
+<div class="share-wrapper">
+  <span class="share-label text-muted mr-1">Share</span>
+  <span class="share-icons">
+    
+    
+
+    
+      
+        <a href="https://twitter.com/intent/tweet?text=Bayesian Linear Regression - Candy Note&amp;url=http://0.0.0.0:4000/posts/bayesian_linear_regression/" data-toggle="tooltip" data-placement="top"
+          title="Twitter" target="_blank" rel="noopener" aria-label="Twitter">
+          <i class="fa-fw fab fa-twitter"></i>
+        </a>
+    
+      
+        <a href="https://www.facebook.com/sharer/sharer.php?title=Bayesian Linear Regression - Candy Note&amp;u=http://0.0.0.0:4000/posts/bayesian_linear_regression/" data-toggle="tooltip" data-placement="top"
+          title="Facebook" target="_blank" rel="noopener" aria-label="Facebook">
+          <i class="fa-fw fab fa-facebook-square"></i>
+        </a>
+    
+      
+        <a href="https://t.me/share/url?url=http://0.0.0.0:4000/posts/bayesian_linear_regression/&amp;text=Bayesian Linear Regression - Candy Note" data-toggle="tooltip" data-placement="top"
+          title="Telegram" target="_blank" rel="noopener" aria-label="Telegram">
+          <i class="fa-fw fab fa-telegram"></i>
+        </a>
+    
+
+    <i id="copy-link" class="fa-fw fas fa-link small"
+        data-toggle="tooltip" data-placement="top"
+        title="Copy link"
+        data-title-succeed="Link copied successfully!">
+    </i>
+
+  </span>
+</div>
+
+
+  </div><!-- .post-tail-bottom -->
+
+</div><!-- div.post-tail-wrapper -->
+
+
+      
+    
+    
+
+    </div>
+  </div> <!-- #core-wrapper -->
+
+  <!-- pannel -->
+  <div id="panel-wrapper" class="col-xl-3 pl-2 text-muted">
+
+    <div class="access">
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+
+
+  <div id="access-tags">
+    <div class="panel-heading">Trending Tags</div>
+    <div class="d-flex flex-wrap mt-3 mb-1 mr-3">
+
+    
+      
+      <a class="post-tag" href="/tags/%E6%95%B0%E5%AD%A6%E5%88%86%E6%9E%90/">数学分析</a>
+    
+      
+      <a class="post-tag" href="/tags/%E8%BF%9E%E7%BB%AD%E5%87%BD%E6%95%B0/">连续函数</a>
+    
+      
+      <a class="post-tag" href="/tags/eigenvalue/">Eigenvalue</a>
+    
+      
+      <a class="post-tag" href="/tags/eigenvector/">Eigenvector</a>
+    
+      
+      <a class="post-tag" href="/tags/matrix/">Matrix</a>
+    
+      
+      <a class="post-tag" href="/tags/%E5%AF%BC%E6%95%B0/">导数</a>
+    
+      
+      <a class="post-tag" href="/tags/%E6%95%B0%E5%88%97/">数列</a>
+    
+      
+      <a class="post-tag" href="/tags/%E6%97%A0%E7%A9%B7%E5%A4%A7%E9%87%8F/">无穷大量</a>
+    
+      
+      <a class="post-tag" href="/tags/bernoulli/">Bernoulli</a>
+    
+      
+      <a class="post-tag" href="/tags/binomial/">Binomial</a>
+    
+
+    </div>
+  </div>
+
+
+    </div>
+
+    
+      
+      
+
+
+
+<!-- BS-toc.js will be loaded at medium priority -->
+<script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@1.0.1/dist/bootstrap-toc.min.js"></script>
+
+<div id="toc-wrapper" class="pl-0 pr-4 mb-5">
+  <div class="panel-heading pl-3 pt-2 mb-2">Contents</div>
+  <nav id="toc" data-toggle="toc"></nav>
+</div>
+
+
+    
+  </div>
+
+</div>
+
+<!-- tail -->
+
+<div class="row">
+  <div class="col-12 col-lg-11 col-xl-8">
+    <div id="tail-wrapper" class="pl-1 pr-1 pl-sm-2 pr-sm-2 pl-md-4 pr-md-4">
+      
+        
+        <!--
+ Recommend the other 3 posts according to the tags and categories of the current post,
+ if the number is not enough, use the other latest posts to supplement.
+-->
+
+<!-- The total size of related posts  -->
+
+
+<!-- An random integer that bigger than 0  -->
+
+
+<!-- Equals to TAG_SCORE / {max_categories_hierarchy}  -->
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+
+
+
+<!-- Fill with the other newlest posts  -->
+
+
+
+
+  
+    
+    
+      
+      
+        
+        
+        
+      
+    
+  
+    
+    
+  
+    
+    
+      
+      
+        
+        
+        
+      
+    
+  
+    
+    
+      
+      
+        
+        
+        
+          
+
+
+
+
+
+  <div id="related-posts" class="mt-5 mb-2 mb-sm-4">
+    <h3 class="pt-2 mt-1 mb-4 ml-1"
+      data-toc-skip>Further Reading</h3>
+    <div class="card-deck mb-4">
+    
+      
+      
+      <div class="card">
+        <a href="/posts/Proximal_Gradient_Method/">
+          <div class="card-body">
+            <!--
+  Date format snippet
+  See: ${JS_ROOT}/utils/timeago.js
+-->
+
+<em class="timeago small"
+    data-ts="1645315200"
+    
+    >
+  2022-02-20
+</em>
+
+            <h3 class="pt-0 mt-1 mb-3" data-toc-skip>Proximal Gradient Method</h3>
+            <div class="text-muted small">
+              <p>
+                
+
+
+
+
+
+                Proximal Gradient Method
+
+Proximal opeartor
+
+
+  
+    Proximal Opeartor
+
+\[{\displaystyle \operatorname {prox}_{f}(v)=\arg \min _{x\in {\mathcal {X}}}\left(f(x)+{\frac {1}{2}}\|x-v\|_{2}^{2}\right)....
+              </p>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+      
+      
+      <div class="card">
+        <a href="/posts/limit_theorem/">
+          <div class="card-body">
+            <!--
+  Date format snippet
+  See: ${JS_ROOT}/utils/timeago.js
+-->
+
+<em class="timeago small"
+    data-ts="1613779200"
+    
+    >
+  2021-02-20
+</em>
+
+            <h3 class="pt-0 mt-1 mb-3" data-toc-skip>Limit Theorem</h3>
+            <div class="text-muted small">
+              <p>
+                
+
+
+
+
+
+                极限定理
+
+极限定理是概率论中最重要的理论。其中大数定律和中心极限定理是最核心的两大定理。
+
+马尔可夫不等式（Markov’s inequality）
+
+
+  
+    设$X$为取非负值的随机变量，则对于任何常数$a&amp;gt;0$，有：
+
+\[p(X\ge a) \le \frac {\mathbb{E}[X]}{a}\]
+
+    
+      
+        证明：
+
+\[\begin...
+              </p>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+      
+      
+      <div class="card">
+        <a href="/posts/exponential_family/">
+          <div class="card-body">
+            <!--
+  Date format snippet
+  See: ${JS_ROOT}/utils/timeago.js
+-->
+
+<em class="timeago small"
+    data-ts="1613779200"
+    
+    >
+  2021-02-20
+</em>
+
+            <h3 class="pt-0 mt-1 mb-3" data-toc-skip>Exponential Family Distribution</h3>
+            <div class="text-muted small">
+              <p>
+                
+
+
+
+
+
+                指数簇分布
+
+指数簇分布
+
+[\begin{aligned} p(\boldsymbol{x}\vert \boldsymbol{\theta}) = g(\boldsymbol{\theta})f(\boldsymbol{x})\mathrm{exp}[\boldsymbol{\phi}^T(\boldsymbol{\theta})\boldsymbol{u}(\boldsymbol{x}...
+              </p>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+    </div> <!-- .card-deck -->
+  </div> <!-- #related-posts -->
+
+
+      
+        
+        <!--
+  Navigation buttons at the bottom of the post.
+-->
+
+<div class="post-navigation d-flex justify-content-between">
+  
+  <a href="//posts/limit_theorem/" class="btn btn-outline-primary"
+    prompt="Older">
+    <p>Limit Theorem</p>
+  </a>
+  
+
+  
+  <a href="//posts/Proximal_Gradient_Method/" class="btn btn-outline-primary"
+    prompt="Newer">
+    <p>Proximal Gradient Method</p>
+  </a>
+  
+
+</div>
+
+      
+        
+        <!--  The comments switcher -->
+
+
+      
+    </div>
+  </div>
+</div> <!-- .row -->
+
+
+
+        <!--
+  The Footer
+-->
+
+<footer class="d-flex w-100 justify-content-center">
+  <div class="d-flex justify-content-between align-items-center text-muted">
+    <div class="footer-left">
+      <p class="mb-0">
+        © 2022
+        <a href="https://twitter.com/username">luo-songtao</a>.
+        
+        <span data-toggle="tooltip" data-placement="top"
+          title="Except where otherwise noted, the blog posts on this site are licensed under the Creative Commons Attribution 4.0 International (CC BY 4.0) License by the author.">Some rights reserved.</span>
+        
+      </p>
+    </div>
+
+    <div class="footer-right">
+      <p class="mb-0">
+        
+
+        
+
+        Powered by 
+          <a href="https://jekyllrb.com" target="_blank" rel="noopener">Jekyll</a>
+         with 
+          <a href="https://github.com/cotes2020/jekyll-theme-chirpy" target="_blank" rel="noopener">Chirpy</a>
+         theme.
+
+      </p>
+    </div>
+
+  </div> <!-- div.d-flex -->
+</footer>
+
+
+      </div>
+
+      <!--
+  The Search results
+-->
+<div id="search-result-wrapper" class="d-flex justify-content-center unloaded">
+  <div class="col-12 col-sm-11 post-content">
+    <div id="search-hints">
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+
+
+  <div id="access-tags">
+    <div class="panel-heading">Trending Tags</div>
+    <div class="d-flex flex-wrap mt-3 mb-1 mr-3">
+
+    
+      
+      <a class="post-tag" href="/tags/%E6%95%B0%E5%AD%A6%E5%88%86%E6%9E%90/">数学分析</a>
+    
+      
+      <a class="post-tag" href="/tags/%E8%BF%9E%E7%BB%AD%E5%87%BD%E6%95%B0/">连续函数</a>
+    
+      
+      <a class="post-tag" href="/tags/eigenvalue/">Eigenvalue</a>
+    
+      
+      <a class="post-tag" href="/tags/eigenvector/">Eigenvector</a>
+    
+      
+      <a class="post-tag" href="/tags/matrix/">Matrix</a>
+    
+      
+      <a class="post-tag" href="/tags/%E5%AF%BC%E6%95%B0/">导数</a>
+    
+      
+      <a class="post-tag" href="/tags/%E6%95%B0%E5%88%97/">数列</a>
+    
+      
+      <a class="post-tag" href="/tags/%E6%97%A0%E7%A9%B7%E5%A4%A7%E9%87%8F/">无穷大量</a>
+    
+      
+      <a class="post-tag" href="/tags/bernoulli/">Bernoulli</a>
+    
+      
+      <a class="post-tag" href="/tags/binomial/">Binomial</a>
+    
+
+    </div>
+  </div>
+
+
+    </div>
+    <div id="search-results" class="d-flex flex-wrap justify-content-center text-muted mt-3"></div>
+  </div>
+</div>
+
+
+    </div> <!-- #main-wrapper -->
+
+    
+      <!--
+  mermaid-js loader
+-->
+
+<script src="https://cdn.jsdelivr.net/npm/mermaid@8/dist/mermaid.min.js"></script>
+
+<script>
+  $(function() {
+    function updateMermaid(event) {
+      if (event.source === window && event.data &&
+            event.data.direction === ModeToggle.ID) {
+
+        const mode = event.data.message;
+
+        if (typeof mermaid === "undefined") {
+          return;
+        }
+
+        let expectedTheme = (mode === ModeToggle.DARK_MODE? "dark" : "default");
+        let config = { theme: expectedTheme };
+
+        /* Re-render the SVG › <https://github.com/mermaid-js/mermaid/issues/311#issuecomment-332557344> */
+        $(".mermaid").each(function() {
+          let svgCode = $(this).prev().children().html();
+          $(this).removeAttr("data-processed");
+          $(this).html(svgCode);
+        });
+
+        mermaid.initialize(config);
+        mermaid.init(undefined, ".mermaid");
+      }
+    }
+
+    let initTheme = "default";
+
+    if ($("html[data-mode=dark]").length > 0
+      || ($("html[data-mode]").length == 0
+        && window.matchMedia("(prefers-color-scheme: dark)").matches ) ) {
+      initTheme = "dark";
+    }
+
+    let mermaidConf = {
+      theme: initTheme  /* <default|dark|forest|neutral> */
+    };
+
+    /* Markdown converts to HTML */
+    $("pre").has("code.language-mermaid").each(function() {
+      let svgCode = $(this).children().html();
+      $(this).addClass("unloaded");
+      $(this).after(`<div class=\"mermaid\">${svgCode}</div>`);
+    });
+
+    mermaid.initialize(mermaidConf);
+
+    window.addEventListener("message", updateMermaid);
+  });
+</script>
+
+    
+
+    <div id="mask"></div>
+
+    <a id="back-to-top" href="#" aria-label="back-to-top" class="btn btn-lg btn-box-shadow" role="button">
+      <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!--
+  Jekyll Simple Search loader
+  See: <https://github.com/christian-fei/Simple-Jekyll-Search>
+-->
+
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/simple-jekyll-search@1.10.0/dest/simple-jekyll-search.min.js"></script>
+
+<script>
+SimpleJekyllSearch({
+  searchInput: document.getElementById('search-input'),
+  resultsContainer: document.getElementById('search-results'),
+  json: '/assets/js/data/search.json',
+  searchResultTemplate: '<div class="pl-1 pr-1 pl-sm-2 pr-sm-2 pl-lg-4 pr-lg-4 pl-xl-0 pr-xl-0">  <a href="{url}">{title}</a>  <div class="post-meta d-flex flex-column flex-sm-row text-muted mt-1 mb-1">    {categories}    {tags}  </div>  <p>{snippet}</p></div>',
+  noResultsText: '<p class="mt-5">Oops! No result founds.</p>',
+  templateMiddleware: function(prop, value, template) {
+    if (prop === 'categories') {
+      if (value === '') {
+        return `${value}`;
+      } else {
+        return `<div class="mr-sm-4"><i class="far fa-folder fa-fw"></i>${value}</div>`;
+      }
+    }
+
+    if (prop === 'tags') {
+      if (value === '') {
+        return `${value}`;
+      } else {
+        return `<div><i class="fa fa-tag fa-fw"></i>${value}</div>`;
+      }
+    }
+  }
+});
+</script>
+
+
+    <!--
+  JS selector for site.
+-->
+
+<!-- layout specified -->
+
+
+  
+
+
+
+  <!-- image lazy-loading & popup & clipboard -->
+  
+
+  
+
+
+
+
+
+
+
+  
+    
+
+    
+
+  
+
+
+
+  
+    
+
+    
+
+  
+
+
+
+  
+    
+
+    
+
+  
+
+
+
+
+  <script src="https://cdn.jsdelivr.net/combine/npm/magnific-popup@1/dist/jquery.magnific-popup.min.js,npm/lozad/dist/lozad.min.js,npm/clipboard@2/dist/clipboard.min.js"></script>
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+
+
+
+
+
+  
+    
+
+    
+
+  
+
+
+
+  
+    
+
+    
+
+  
+
+
+
+  
+    
+
+    
+
+  
+
+
+
+  
+    
+
+    
+
+  
+
+
+
+
+  <script src="https://cdn.jsdelivr.net/combine/npm/dayjs@1/dayjs.min.js,npm/dayjs@1/locale/en.min.js,npm/dayjs@1/plugin/relativeTime.min.js,npm/dayjs@1/plugin/localizedFormat.min.js"></script>
+
+
+
+
+
+
+
+
+<script defer src="/assets/js/dist/post.min.js"></script>
+
+
+  <!-- MathJax -->
+  <script>
+  /* see: <https://docs.mathjax.org/en/latest/options/input/tex.html#tex-options> */
+  MathJax = {
+    tex: {
+      inlineMath: [              /* start/end delimiter pairs for in-line math */
+        ['$','$'],
+        ['\\(','\\)']
+      ],
+      displayMath: [             /* start/end delimiter pairs for display math */
+        ['$$', '$$'],
+        ['\\[', '\\]']
+      ]
+    }
+  };
+  </script>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+  </script>
+
+
+<!-- commons -->
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.bundle.min.js"></script>
+
+
+
+
+  </body>
+
+</html>
+
