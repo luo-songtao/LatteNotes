@@ -1,13 +1,13 @@
 # frozen_string_literal: true
-# source 'https://mirrors.tuna.tsinghua.edu.cn/rubygems/'
+source 'https://mirrors.tuna.tsinghua.edu.cn/rubygems/'
 
 # source "https://rubygems.org"
 
 gemspec
 
-# group :test do
-#   gem "html-proofer", "~> 3.18"
-# end
+group :test do
+  gem "html-proofer", "~> 3.18"
+end
 
 # Windows and JRuby does not include zoneinfo files, so bundle the tzinfo-data gem
 # and associated library.
@@ -20,4 +20,4 @@ end
 gem "wdm", "~> 0.1.1", :install_if => Gem.win_platform?
 
 # Jekyll <= 4.2.0 compatibility with Ruby 3.0
-# gem "webrick", "~> 1.7"
+gem "webrick", "~> 1.7"
