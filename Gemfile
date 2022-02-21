@@ -1,7 +1,7 @@
 # frozen_string_literal: true
-source 'https://mirrors.tuna.tsinghua.edu.cn/rubygems/'
+# source 'https://mirrors.tuna.tsinghua.edu.cn/rubygems/'
 
-# source "https://rubygems.org"
+source "https://rubygems.org"
 
 gemspec
 
