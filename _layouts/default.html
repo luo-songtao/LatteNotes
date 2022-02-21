@@ -1,56 +1,61 @@
+---
+layout: compress
+# Default layout
+---
+
 <!DOCTYPE html>
-<html>
-{% include head.html %}
 
-<body>
-  <div id="wrapper">
-    {% include header.html %}
-    <div class="container">
-        {{ content }}
-      <section id="main_content">
-        <ul>
-            {% for post in paginator.posts %}
-              <li>
-                  <h2><a href="{{ post.url | prepend: site.baseurl | replace: '//', '/' }}">{{ post.title }}</a></h2>
-                  <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date_to_string }}</time>
-                  <p>{{ post.content | strip_html | truncatewords:50 }}</p>
-              </li>
-            {% endfor %}
-        </ul>
-      </section>
-    </div>
-  </div>
-  {% if paginator.total_pages > 1 %}
-  <div class="pagination">
-    {% if paginator.previous_page == 1 %}
-      <a href="{{ '/' | prepend: site.baseurl | replace: '//', '/' }}" class="page-item">&laquo;</a>
-    {% elsif paginator.previous_page%}
-      <a href="{{ paginator.previous_page_path | prepend: site.baseurl | replace: '//', '/' }}" class="page-item">&laquo;</a>
-    {% else %}
-      <span class="page-item">&laquo;</span>
-    {% endif %}
+{% include lang.html %}
 
-    {% if paginator.page_trail %}
-      {% for trail in paginator.page_trail %}
-        {% if trail.num == paginator.page %}
-          <span class="page-item">{{ trail.num }}</span>
-        {% else %}
-          <a href="{{ trail.path | prepend: site.baseurl | replace: '//', '/' | replace: 'index.html', '' }}" class="page-item">{{ trail.num }}</a>
-        {% endif %}
-      {% endfor %}
-    {% endif %}
+{% include assets-origin.html %}
 
-    {% if paginator.next_page %}
-      <a href="{{ paginator.next_page_path | prepend: site.baseurl | replace: '//', '/' }}" class="page-item">&raquo;</a>
-    {% else %}
-      <span class="page-item">&raquo;</span>
-    {% endif %}
-  </div>
-  {% endif %} {% include footer.html %}
-
-  {% if site.google_analytics %}
-    {% include analytics.html %}
+{% capture prefer_mode %}
+  {% if site.theme_mode %}
+    data-mode="{{ site.theme_mode }}"
   {% endif %}
-</body>
+{% endcapture %}
+
+<html lang="{{ site.lang }}"{{ prefer_mode }}>
+
+  {% include head.html %}
+
+  {% unless site.theme_mode %}
+    {% include mode-toggle.html %}
+  {% endunless %}
+
+  <body data-spy="scroll" data-target="#toc" data-topbar-visible="true">
+
+    {% include sidebar.html %}
+
+    {% include topbar.html %}
+
+    <div id="main-wrapper">
+      <div id="main">
+
+        {{ content }}
+
+        {% include footer.html %}
+
+      </div>
+
+      {% include search-results.html %}
+
+    </div> <!-- #main-wrapper -->
+
+    {% if page.mermaid %}
+      {% include mermaid.html %}
+    {% endif %}
+
+    <div id="mask"></div>
+
+    <a id="back-to-top" href="#" aria-label="back-to-top" class="btn btn-lg btn-box-shadow" role="button">
+      <i class="fas fa-angle-up"></i>
+    </a>
+
+    {% include search-loader.html %}
+
+    {% include js-selector.html %}
+
+  </body>
 
 </html>
