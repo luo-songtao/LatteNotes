@@ -1,0 +1,3932 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html lang="en"
+  
+>
+
+  <!--
+  The Head
+-->
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Allow having a localized datetime different from the appearance language -->
+  
+
+  
+
+    
+
+    
+
+  
+
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+<meta name="generator" content="Jekyll v4.2.1" />
+<meta property="og:title" content="Sampling Methods" />
+<meta name="author" content="luo-songtao" />
+<meta property="og:locale" content="en" />
+<meta name="description" content="Sampling Methods Ancestral Sampling Approach Directed Graph [\begin{aligned} p(\boldsymbol{z}) = \prod_{i}^M p(\boldsymbol{z} \vert pa_i) \end{aligned}] make one pass through the set of variables in the order $z_1, . . . , z_M$ sampling from the conditional distributions $p(\boldsymbol{z}_i pa_i)$ if some of the nodes are instantiated with observed values: logic sampling approach: which can be seen as a special case of importance sampling At each step, when a sampled value is obtained for a variable zi whose value is observed, the sampled value is compared to the observed value, and if they agree then the sample value is retained and the algorithm proceeds to the next variable in turn. However, if the sampled value and the observed value disagree, then the whole sample so far is discarded and the algorithm starts again with the first node in the graph. UDG: Gibbs sampling For marginonal: If we already have a strategy for sampling from a joint distribution $p(u, v)$, then it is straightforward to obtain samples from the marginal distribution $p(u)$ simply by ignoring the values for $v$ in each sample. Inverse function 通过分布函数逆函数的解析形式，使用均匀分布随机数求解。同时利用： [p(y) = p(z) \left \vert \frac {dz}{dy} \right\vert] exponential distribution Cauchy distribution Sampling from Gaussian 使用专属抽样算法 Box-muller Marsaglia Polar method Rejection Sampling [\begin{aligned} p(z) = \frac {1}{Z_p} \tilde{p}(z) \end{aligned}] proposal distribution $q(z)$ $kq(z) \ge p(z)$ [\begin{aligned} &amp;q(z) \rightarrow z_0 \ &amp; u_0 = \text{random}(0,kq(z_0)) \ &amp; \text{if } u_0 &gt; \tilde p(z_0), \text{then accept} \\ p(\text{accept}) &amp;= \int \frac {\tilde p(z)}{kq(z)} q(z) dz = \frac 1k \int \tilde p(z) dz \end{aligned}] the fraction of points that are rejected by this method depends on the ratio of the area under the unnormalized distribution $p(z)$ to the area under the curve $kq(z)$. Adaptive Rejection Sampling when difficult to determine a suitable analytic form for the envelope distribution $q(z)$ Construction of an envelope function is particularly straightforward for cases in which p(z) is log concave (梯度持续下降的类型) The function $ln p(z)$ and its gradient are evaluated at some initial set of grid points, and the intersections of the resulting tangent lines are used to construct the envelope function. 其他变种，用于处理梯度不是持续下降的类型 Rejection Sampling 对高维采样的困难：高维下，拒绝率将会非常高 （直观解释：因为高维中一个球的体积主要集中在离球面近的区域，相对于近球心的区域，是指数级差距） 从而导致拒绝率可能接近1 Importance Sampling The technique of importance sampling provides a framework for approximating expectations directly but does not itself provide a mechanism for drawing samples from distribution also using proposal distribution $q(z)$ Importance Weights \[\begin{aligned} \mathbb{E}[f] &amp;= \int f(z)p(z)dz \\ &amp;= \int f(z) \frac {p(z)}{q(z)}q(z) dz \\ &amp;\simeq \frac 1L \sum_{l=1}^L \frac {p(z^{(l)})}{q(z^{(l)})} f(z^{(l)}) \end{aligned}\] $r_l = \frac {p(z^{(l)})}{q(z^{(l)})}$ are known as Importance Weights work on unnormoalized distribution \[\begin{aligned} \mathbb{E}[f] &amp;= \int f(z)p(z)dz \\ &amp;= \frac{Z_p}{Z_q} \int f(z) \frac {\tilde p(z)}{\tilde q(z)} q(z) dz \\ &amp;\simeq \frac{Z_q}{Z_p} \frac 1L \sum_{l=1}^L \frac {\tilde p(z)}{\tilde q(z)} f(z^{(l)}) \\\\ \frac{Z_q}{Z_p} &amp;= \frac {1}{Z_q} \int \tilde p(z) dz \\ &amp;= \int \frac {\tilde p(z)}{\tilde q(z)}q(z) dz \\ &amp;\simeq \frac 1L \sum_{l=1}^L \frac {\tilde p(z)}{\tilde q(z)} \\ \\ \mathbb{E}[f] &amp;\simeq \frac {1}{\sum_{l=1}^L \frac {\tilde p(z^{(l)})}{\tilde q(z^{(l)})}}\sum_{l=1}^L \frac {\tilde p(z^{(l)})}{\tilde q(z^{(l)})} f(z^{(l)}) \end{aligned}\] 注意： 如果通常情况下，在$p(z)f(z)$ 变化很大并且在$z$空间的相对较小区域上具有显着的集中的值存在，则重要性权重 ${rl}$ 的集合可能由一些具有较大值的权重控制，其余权重相对无关紧要 也可能存在着在$p(z)f(z)$很大时，但却没有样本对应此区间 Hence a major drawback of the importance sampling method is the potential to produce results that are arbitrarily in error and with no diagnostic indication. 因此需要保证$p(z)$可能取值较大时，$q(z)$不能很小或者为0，否则将使抽样结果与真实值存在很大差异 In Graphical Model: Likelihood Weighted Sampling This is based on ancestral sampling of the variables. - Each sample from the joint distribution is obtained by first setting those variables zi that are in the evidence set equal to their observed values. For each variable in turn, if that variable is in the evidence set, then it is just set to its instantiated value. If it is not in the evidence set, then it is sampled from the conditional distribution $p(z_i pa_i)$ in which the conditioning variables are set to their currently sampled values. The weighting associated with the resulting sample $z$ is then given by \[\begin{aligned} r(z) = \prod_{z_i\in e} p(z_i\vert pa_i) \end{aligned}\] self-importance sampling Sampling-Importance-resampling Step 1: Use proposal distribution generate $L$ samples $z^{(1)},…,z^{(L)}$ Step 2: A second set of $L$ samples is drawn from the discrete distribution $z^{(1)},…,z^{(L)}$ with probabilities \[\begin{aligned} \frac {\frac {\tilde p(z^{(l)})}{\tilde q(z^{(l)})}}{\sum_{l=1}^L \frac {\tilde p(z^{(l)})}{\tilde q(z^{(l)})}} \end{aligned}\] Note: the discrete distribution $z^{(1)},…,z^{(L)}$ are only approximately distributed according to $p(z)$, but the distribution becomes correct in the limit $L \rightarrow \infty$ Monte Carlo EM algorithm In particular, sampling methods can be used to approximate the E step of the EM algorithm for models in which the E step cannot be performed analytically. [\begin{aligned} \mathcal{Q}(\boldsymbol{\theta}, \boldsymbol{\theta}^{old}) = \sum_{\mathbf{Z}} p(\mathbf{Z} \mid \mathbf{X}, \boldsymbol{\theta}^{old}) \ln p(\mathbf{X},\mathbf{Z} \mid \boldsymbol{\theta}) \end{aligned}] using sampling methods to generate ${\mathbf{Z}^{(L)}}$ and then: \[\begin{aligned} \mathcal{Q}(\boldsymbol{\theta}, \boldsymbol{\theta}^{old}) \simeq \frac 1L \sum_{l=1}^L \ln p(\mathbf{X},\mathbf{Z}^{(L)} \mid \boldsymbol{\theta}) \end{aligned}\] A particular instance of the Monte Carlo EM algorithm, called stochastic EM, arises if we consider a finite mixture model, and draw just one sample at each E step Imputation-Posterior Algorithm This inspires the data augmentation algorithm, which alternates between two steps known as the I-step (imputation step, analogous to an E step) and the P-step (posterior step, analogous to an M step). $Z$ hidden variables, $\theta$ parameter (random variables) I-step: wish to sample from $p(Z\vert X)$ but we cannot do this disectly \[\begin{aligned} p(Z\vert X) = \int p(Z\vert \theta, X)p(\theta \vert X) d\theta \end{aligned}\] and hence for $1,…,L$, $p(\theta\vert X) \rightarrow \theta^{(l)}$, and then $p(Z\vert \theta^{(l)}, X)\rightarrow Z^{(l)}$ P-step Given the relation \[\begin{aligned} p(\theta \vert X) = \int p(\theta\vert Z, X) p(Z\vert X) dZ \end{aligned}\] then \[\begin{aligned} p(\theta\vert X) \simeq p(\theta\vert Z^{(l)}, X) \end{aligned}\]" />
+<meta property="og:description" content="Sampling Methods Ancestral Sampling Approach Directed Graph [\begin{aligned} p(\boldsymbol{z}) = \prod_{i}^M p(\boldsymbol{z} \vert pa_i) \end{aligned}] make one pass through the set of variables in the order $z_1, . . . , z_M$ sampling from the conditional distributions $p(\boldsymbol{z}_i pa_i)$ if some of the nodes are instantiated with observed values: logic sampling approach: which can be seen as a special case of importance sampling At each step, when a sampled value is obtained for a variable zi whose value is observed, the sampled value is compared to the observed value, and if they agree then the sample value is retained and the algorithm proceeds to the next variable in turn. However, if the sampled value and the observed value disagree, then the whole sample so far is discarded and the algorithm starts again with the first node in the graph. UDG: Gibbs sampling For marginonal: If we already have a strategy for sampling from a joint distribution $p(u, v)$, then it is straightforward to obtain samples from the marginal distribution $p(u)$ simply by ignoring the values for $v$ in each sample. Inverse function 通过分布函数逆函数的解析形式，使用均匀分布随机数求解。同时利用： [p(y) = p(z) \left \vert \frac {dz}{dy} \right\vert] exponential distribution Cauchy distribution Sampling from Gaussian 使用专属抽样算法 Box-muller Marsaglia Polar method Rejection Sampling [\begin{aligned} p(z) = \frac {1}{Z_p} \tilde{p}(z) \end{aligned}] proposal distribution $q(z)$ $kq(z) \ge p(z)$ [\begin{aligned} &amp;q(z) \rightarrow z_0 \ &amp; u_0 = \text{random}(0,kq(z_0)) \ &amp; \text{if } u_0 &gt; \tilde p(z_0), \text{then accept} \\ p(\text{accept}) &amp;= \int \frac {\tilde p(z)}{kq(z)} q(z) dz = \frac 1k \int \tilde p(z) dz \end{aligned}] the fraction of points that are rejected by this method depends on the ratio of the area under the unnormalized distribution $p(z)$ to the area under the curve $kq(z)$. Adaptive Rejection Sampling when difficult to determine a suitable analytic form for the envelope distribution $q(z)$ Construction of an envelope function is particularly straightforward for cases in which p(z) is log concave (梯度持续下降的类型) The function $ln p(z)$ and its gradient are evaluated at some initial set of grid points, and the intersections of the resulting tangent lines are used to construct the envelope function. 其他变种，用于处理梯度不是持续下降的类型 Rejection Sampling 对高维采样的困难：高维下，拒绝率将会非常高 （直观解释：因为高维中一个球的体积主要集中在离球面近的区域，相对于近球心的区域，是指数级差距） 从而导致拒绝率可能接近1 Importance Sampling The technique of importance sampling provides a framework for approximating expectations directly but does not itself provide a mechanism for drawing samples from distribution also using proposal distribution $q(z)$ Importance Weights \[\begin{aligned} \mathbb{E}[f] &amp;= \int f(z)p(z)dz \\ &amp;= \int f(z) \frac {p(z)}{q(z)}q(z) dz \\ &amp;\simeq \frac 1L \sum_{l=1}^L \frac {p(z^{(l)})}{q(z^{(l)})} f(z^{(l)}) \end{aligned}\] $r_l = \frac {p(z^{(l)})}{q(z^{(l)})}$ are known as Importance Weights work on unnormoalized distribution \[\begin{aligned} \mathbb{E}[f] &amp;= \int f(z)p(z)dz \\ &amp;= \frac{Z_p}{Z_q} \int f(z) \frac {\tilde p(z)}{\tilde q(z)} q(z) dz \\ &amp;\simeq \frac{Z_q}{Z_p} \frac 1L \sum_{l=1}^L \frac {\tilde p(z)}{\tilde q(z)} f(z^{(l)}) \\\\ \frac{Z_q}{Z_p} &amp;= \frac {1}{Z_q} \int \tilde p(z) dz \\ &amp;= \int \frac {\tilde p(z)}{\tilde q(z)}q(z) dz \\ &amp;\simeq \frac 1L \sum_{l=1}^L \frac {\tilde p(z)}{\tilde q(z)} \\ \\ \mathbb{E}[f] &amp;\simeq \frac {1}{\sum_{l=1}^L \frac {\tilde p(z^{(l)})}{\tilde q(z^{(l)})}}\sum_{l=1}^L \frac {\tilde p(z^{(l)})}{\tilde q(z^{(l)})} f(z^{(l)}) \end{aligned}\] 注意： 如果通常情况下，在$p(z)f(z)$ 变化很大并且在$z$空间的相对较小区域上具有显着的集中的值存在，则重要性权重 ${rl}$ 的集合可能由一些具有较大值的权重控制，其余权重相对无关紧要 也可能存在着在$p(z)f(z)$很大时，但却没有样本对应此区间 Hence a major drawback of the importance sampling method is the potential to produce results that are arbitrarily in error and with no diagnostic indication. 因此需要保证$p(z)$可能取值较大时，$q(z)$不能很小或者为0，否则将使抽样结果与真实值存在很大差异 In Graphical Model: Likelihood Weighted Sampling This is based on ancestral sampling of the variables. - Each sample from the joint distribution is obtained by first setting those variables zi that are in the evidence set equal to their observed values. For each variable in turn, if that variable is in the evidence set, then it is just set to its instantiated value. If it is not in the evidence set, then it is sampled from the conditional distribution $p(z_i pa_i)$ in which the conditioning variables are set to their currently sampled values. The weighting associated with the resulting sample $z$ is then given by \[\begin{aligned} r(z) = \prod_{z_i\in e} p(z_i\vert pa_i) \end{aligned}\] self-importance sampling Sampling-Importance-resampling Step 1: Use proposal distribution generate $L$ samples $z^{(1)},…,z^{(L)}$ Step 2: A second set of $L$ samples is drawn from the discrete distribution $z^{(1)},…,z^{(L)}$ with probabilities \[\begin{aligned} \frac {\frac {\tilde p(z^{(l)})}{\tilde q(z^{(l)})}}{\sum_{l=1}^L \frac {\tilde p(z^{(l)})}{\tilde q(z^{(l)})}} \end{aligned}\] Note: the discrete distribution $z^{(1)},…,z^{(L)}$ are only approximately distributed according to $p(z)$, but the distribution becomes correct in the limit $L \rightarrow \infty$ Monte Carlo EM algorithm In particular, sampling methods can be used to approximate the E step of the EM algorithm for models in which the E step cannot be performed analytically. [\begin{aligned} \mathcal{Q}(\boldsymbol{\theta}, \boldsymbol{\theta}^{old}) = \sum_{\mathbf{Z}} p(\mathbf{Z} \mid \mathbf{X}, \boldsymbol{\theta}^{old}) \ln p(\mathbf{X},\mathbf{Z} \mid \boldsymbol{\theta}) \end{aligned}] using sampling methods to generate ${\mathbf{Z}^{(L)}}$ and then: \[\begin{aligned} \mathcal{Q}(\boldsymbol{\theta}, \boldsymbol{\theta}^{old}) \simeq \frac 1L \sum_{l=1}^L \ln p(\mathbf{X},\mathbf{Z}^{(L)} \mid \boldsymbol{\theta}) \end{aligned}\] A particular instance of the Monte Carlo EM algorithm, called stochastic EM, arises if we consider a finite mixture model, and draw just one sample at each E step Imputation-Posterior Algorithm This inspires the data augmentation algorithm, which alternates between two steps known as the I-step (imputation step, analogous to an E step) and the P-step (posterior step, analogous to an M step). $Z$ hidden variables, $\theta$ parameter (random variables) I-step: wish to sample from $p(Z\vert X)$ but we cannot do this disectly \[\begin{aligned} p(Z\vert X) = \int p(Z\vert \theta, X)p(\theta \vert X) d\theta \end{aligned}\] and hence for $1,…,L$, $p(\theta\vert X) \rightarrow \theta^{(l)}$, and then $p(Z\vert \theta^{(l)}, X)\rightarrow Z^{(l)}$ P-step Given the relation \[\begin{aligned} p(\theta \vert X) = \int p(\theta\vert Z, X) p(Z\vert X) dZ \end{aligned}\] then \[\begin{aligned} p(\theta\vert X) \simeq p(\theta\vert Z^{(l)}, X) \end{aligned}\]" />
+<link rel="canonical" href="http://0.0.0.0:4000/posts/sampling_methods/" />
+<meta property="og:url" content="http://0.0.0.0:4000/posts/sampling_methods/" />
+<meta property="og:site_name" content="Candy Note" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-02-21T00:00:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Sampling Methods" />
+<meta name="twitter:site" content="@twitter_username" />
+<meta name="twitter:creator" content="@luo-songtao" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"luo-songtao"},"dateModified":"2022-02-21T00:00:00+00:00","datePublished":"2022-02-21T00:00:00+00:00","description":"Sampling Methods Ancestral Sampling Approach Directed Graph [\\begin{aligned} p(\\boldsymbol{z}) = \\prod_{i}^M p(\\boldsymbol{z} \\vert pa_i) \\end{aligned}] make one pass through the set of variables in the order $z_1, . . . , z_M$ sampling from the conditional distributions $p(\\boldsymbol{z}_i pa_i)$ if some of the nodes are instantiated with observed values: logic sampling approach: which can be seen as a special case of importance sampling At each step, when a sampled value is obtained for a variable zi whose value is observed, the sampled value is compared to the observed value, and if they agree then the sample value is retained and the algorithm proceeds to the next variable in turn. However, if the sampled value and the observed value disagree, then the whole sample so far is discarded and the algorithm starts again with the first node in the graph. UDG: Gibbs sampling For marginonal: If we already have a strategy for sampling from a joint distribution $p(u, v)$, then it is straightforward to obtain samples from the marginal distribution $p(u)$ simply by ignoring the values for $v$ in each sample. Inverse function 通过分布函数逆函数的解析形式，使用均匀分布随机数求解。同时利用： [p(y) = p(z) \\left \\vert \\frac {dz}{dy} \\right\\vert] exponential distribution Cauchy distribution Sampling from Gaussian 使用专属抽样算法 Box-muller Marsaglia Polar method Rejection Sampling [\\begin{aligned} p(z) = \\frac {1}{Z_p} \\tilde{p}(z) \\end{aligned}] proposal distribution $q(z)$ $kq(z) \\ge p(z)$ [\\begin{aligned} &amp;q(z) \\rightarrow z_0 \\ &amp; u_0 = \\text{random}(0,kq(z_0)) \\ &amp; \\text{if } u_0 &gt; \\tilde p(z_0), \\text{then accept} \\\\ p(\\text{accept}) &amp;= \\int \\frac {\\tilde p(z)}{kq(z)} q(z) dz = \\frac 1k \\int \\tilde p(z) dz \\end{aligned}] the fraction of points that are rejected by this method depends on the ratio of the area under the unnormalized distribution $p(z)$ to the area under the curve $kq(z)$. Adaptive Rejection Sampling when difficult to determine a suitable analytic form for the envelope distribution $q(z)$ Construction of an envelope function is particularly straightforward for cases in which p(z) is log concave (梯度持续下降的类型) The function $ln p(z)$ and its gradient are evaluated at some initial set of grid points, and the intersections of the resulting tangent lines are used to construct the envelope function. 其他变种，用于处理梯度不是持续下降的类型 Rejection Sampling 对高维采样的困难：高维下，拒绝率将会非常高 （直观解释：因为高维中一个球的体积主要集中在离球面近的区域，相对于近球心的区域，是指数级差距） 从而导致拒绝率可能接近1 Importance Sampling The technique of importance sampling provides a framework for approximating expectations directly but does not itself provide a mechanism for drawing samples from distribution also using proposal distribution $q(z)$ Importance Weights \\[\\begin{aligned} \\mathbb{E}[f] &amp;= \\int f(z)p(z)dz \\\\ &amp;= \\int f(z) \\frac {p(z)}{q(z)}q(z) dz \\\\ &amp;\\simeq \\frac 1L \\sum_{l=1}^L \\frac {p(z^{(l)})}{q(z^{(l)})} f(z^{(l)}) \\end{aligned}\\] $r_l = \\frac {p(z^{(l)})}{q(z^{(l)})}$ are known as Importance Weights work on unnormoalized distribution \\[\\begin{aligned} \\mathbb{E}[f] &amp;= \\int f(z)p(z)dz \\\\ &amp;= \\frac{Z_p}{Z_q} \\int f(z) \\frac {\\tilde p(z)}{\\tilde q(z)} q(z) dz \\\\ &amp;\\simeq \\frac{Z_q}{Z_p} \\frac 1L \\sum_{l=1}^L \\frac {\\tilde p(z)}{\\tilde q(z)} f(z^{(l)}) \\\\\\\\ \\frac{Z_q}{Z_p} &amp;= \\frac {1}{Z_q} \\int \\tilde p(z) dz \\\\ &amp;= \\int \\frac {\\tilde p(z)}{\\tilde q(z)}q(z) dz \\\\ &amp;\\simeq \\frac 1L \\sum_{l=1}^L \\frac {\\tilde p(z)}{\\tilde q(z)} \\\\ \\\\ \\mathbb{E}[f] &amp;\\simeq \\frac {1}{\\sum_{l=1}^L \\frac {\\tilde p(z^{(l)})}{\\tilde q(z^{(l)})}}\\sum_{l=1}^L \\frac {\\tilde p(z^{(l)})}{\\tilde q(z^{(l)})} f(z^{(l)}) \\end{aligned}\\] 注意： 如果通常情况下，在$p(z)f(z)$ 变化很大并且在$z$空间的相对较小区域上具有显着的集中的值存在，则重要性权重 ${rl}$ 的集合可能由一些具有较大值的权重控制，其余权重相对无关紧要 也可能存在着在$p(z)f(z)$很大时，但却没有样本对应此区间 Hence a major drawback of the importance sampling method is the potential to produce results that are arbitrarily in error and with no diagnostic indication. 因此需要保证$p(z)$可能取值较大时，$q(z)$不能很小或者为0，否则将使抽样结果与真实值存在很大差异 In Graphical Model: Likelihood Weighted Sampling This is based on ancestral sampling of the variables. - Each sample from the joint distribution is obtained by first setting those variables zi that are in the evidence set equal to their observed values. For each variable in turn, if that variable is in the evidence set, then it is just set to its instantiated value. If it is not in the evidence set, then it is sampled from the conditional distribution $p(z_i pa_i)$ in which the conditioning variables are set to their currently sampled values. The weighting associated with the resulting sample $z$ is then given by \\[\\begin{aligned} r(z) = \\prod_{z_i\\in e} p(z_i\\vert pa_i) \\end{aligned}\\] self-importance sampling Sampling-Importance-resampling Step 1: Use proposal distribution generate $L$ samples $z^{(1)},…,z^{(L)}$ Step 2: A second set of $L$ samples is drawn from the discrete distribution $z^{(1)},…,z^{(L)}$ with probabilities \\[\\begin{aligned} \\frac {\\frac {\\tilde p(z^{(l)})}{\\tilde q(z^{(l)})}}{\\sum_{l=1}^L \\frac {\\tilde p(z^{(l)})}{\\tilde q(z^{(l)})}} \\end{aligned}\\] Note: the discrete distribution $z^{(1)},…,z^{(L)}$ are only approximately distributed according to $p(z)$, but the distribution becomes correct in the limit $L \\rightarrow \\infty$ Monte Carlo EM algorithm In particular, sampling methods can be used to approximate the E step of the EM algorithm for models in which the E step cannot be performed analytically. [\\begin{aligned} \\mathcal{Q}(\\boldsymbol{\\theta}, \\boldsymbol{\\theta}^{old}) = \\sum_{\\mathbf{Z}} p(\\mathbf{Z} \\mid \\mathbf{X}, \\boldsymbol{\\theta}^{old}) \\ln p(\\mathbf{X},\\mathbf{Z} \\mid \\boldsymbol{\\theta}) \\end{aligned}] using sampling methods to generate ${\\mathbf{Z}^{(L)}}$ and then: \\[\\begin{aligned} \\mathcal{Q}(\\boldsymbol{\\theta}, \\boldsymbol{\\theta}^{old}) \\simeq \\frac 1L \\sum_{l=1}^L \\ln p(\\mathbf{X},\\mathbf{Z}^{(L)} \\mid \\boldsymbol{\\theta}) \\end{aligned}\\] A particular instance of the Monte Carlo EM algorithm, called stochastic EM, arises if we consider a finite mixture model, and draw just one sample at each E step Imputation-Posterior Algorithm This inspires the data augmentation algorithm, which alternates between two steps known as the I-step (imputation step, analogous to an E step) and the P-step (posterior step, analogous to an M step). $Z$ hidden variables, $\\theta$ parameter (random variables) I-step: wish to sample from $p(Z\\vert X)$ but we cannot do this disectly \\[\\begin{aligned} p(Z\\vert X) = \\int p(Z\\vert \\theta, X)p(\\theta \\vert X) d\\theta \\end{aligned}\\] and hence for $1,…,L$, $p(\\theta\\vert X) \\rightarrow \\theta^{(l)}$, and then $p(Z\\vert \\theta^{(l)}, X)\\rightarrow Z^{(l)}$ P-step Given the relation \\[\\begin{aligned} p(\\theta \\vert X) = \\int p(\\theta\\vert Z, X) p(Z\\vert X) dZ \\end{aligned}\\] then \\[\\begin{aligned} p(\\theta\\vert X) \\simeq p(\\theta\\vert Z^{(l)}, X) \\end{aligned}\\]","headline":"Sampling Methods","mainEntityOfPage":{"@type":"WebPage","@id":"http://0.0.0.0:4000/posts/sampling_methods/"},"url":"http://0.0.0.0:4000/posts/sampling_methods/"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+  <title>Sampling Methods | Candy Note
+  </title>
+
+  <!--
+  The Favicons for Web, Android, Microsoft, and iOS (iPhone and iPad) Apps
+  Generated by: https://realfavicongenerator.net/
+-->
+
+
+
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/img/favicons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicons/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicons/favicon-16x16.png">
+<link rel="manifest" href="/assets/img/favicons/site.webmanifest">
+<link rel="shortcut icon" href="/assets/img/favicons/favicon.ico">
+<meta name="apple-mobile-web-app-title" content="Candy Note">
+<meta name="application-name" content="Candy Note">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="msapplication-config" content="/assets/img/favicons/browserconfig.xml">
+<meta name="theme-color" content="#ffffff">
+
+
+  
+
+    
+      <link rel="preconnect" href="https://fonts.googleapis.com" >
+      <link rel="dns-prefetch" href="https://fonts.googleapis.com" >
+    
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+      <link rel="dns-prefetch" href="https://fonts.gstatic.com" crossorigin>
+    
+      <link rel="preconnect" href="https://fonts.googleapis.com" >
+      <link rel="dns-prefetch" href="https://fonts.googleapis.com" >
+    
+      <link rel="preconnect" href="https://cdn.jsdelivr.net" >
+      <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" >
+    
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato&family=Source+Sans+Pro:wght@400;600;700;900&display=swap">
+
+  
+
+  <!-- GA -->
+  
+
+  <!-- Bootstrap -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.11.2/css/all.min.css">
+
+  <link rel="stylesheet" href="/assets/css/style.css">
+
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@1.0.1/dist/bootstrap-toc.min.css">
+  
+
+  
+    <!-- Manific Popup -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/magnific-popup@1/dist/magnific-popup.min.css">
+  
+
+  <!-- JavaScript -->
+
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+
+</head>
+
+
+  
+    <!--
+  Switch the mode between dark and light.
+-->
+
+<script type="text/javascript">
+  class ModeToggle {
+    static get MODE_KEY() { return "mode"; }
+    static get MODE_ATTR() { return "data-mode"; }
+    static get DARK_MODE() { return "dark"; }
+    static get LIGHT_MODE() { return "light"; }
+    static get ID() { return "mode-toggle"; }
+
+    constructor() {
+      if (this.hasMode) {
+        if (this.isDarkMode) {
+          if (!this.isSysDarkPrefer) {
+            this.setDark();
+          }
+        } else {
+          if (this.isSysDarkPrefer) {
+            this.setLight();
+          }
+        }
+      }
+
+      let self = this;
+
+      /* always follow the system prefers */
+      this.sysDarkPrefers.addEventListener("change", () => {
+        if (self.hasMode) {
+          if (self.isDarkMode) {
+            if (!self.isSysDarkPrefer) {
+              self.setDark();
+            }
+
+          } else {
+            if (self.isSysDarkPrefer) {
+              self.setLight();
+            }
+          }
+
+          self.clearMode();
+        }
+
+        self.notify();
+
+      });
+
+    } /* constructor() */
+
+    get sysDarkPrefers() { return window.matchMedia("(prefers-color-scheme: dark)"); }
+
+    get isSysDarkPrefer() { return this.sysDarkPrefers.matches; }
+
+    get isDarkMode() { return this.mode === ModeToggle.DARK_MODE; }
+
+    get isLightMode() { return this.mode === ModeToggle.LIGHT_MODE; }
+
+    get hasMode() { return this.mode != null; }
+
+    get mode() { return sessionStorage.getItem(ModeToggle.MODE_KEY); }
+
+    /* get the current mode on screen */
+    get modeStatus() {
+      if (this.isDarkMode
+        || (!this.hasMode && this.isSysDarkPrefer)) {
+        return ModeToggle.DARK_MODE;
+      } else {
+        return ModeToggle.LIGHT_MODE;
+      }
+    }
+
+    setDark() {
+      $('html').attr(ModeToggle.MODE_ATTR, ModeToggle.DARK_MODE);
+      sessionStorage.setItem(ModeToggle.MODE_KEY, ModeToggle.DARK_MODE);
+    }
+
+    setLight() {
+      $('html').attr(ModeToggle.MODE_ATTR, ModeToggle.LIGHT_MODE);
+      sessionStorage.setItem(ModeToggle.MODE_KEY, ModeToggle.LIGHT_MODE);
+    }
+
+    clearMode() {
+      $('html').removeAttr(ModeToggle.MODE_ATTR);
+      sessionStorage.removeItem(ModeToggle.MODE_KEY);
+    }
+
+    /* Notify another plugins that the theme mode has changed */
+    notify() {
+      window.postMessage({
+        direction: ModeToggle.ID,
+        message: this.modeStatus
+      }, "*");
+    }
+
+  } /* ModeToggle */
+
+  const toggle = new ModeToggle();
+
+  function flipMode() {
+    if (toggle.hasMode) {
+      if (toggle.isSysDarkPrefer) {
+        if (toggle.isLightMode) {
+          toggle.clearMode();
+        } else {
+          toggle.setLight();
+        }
+
+      } else {
+        if (toggle.isDarkMode) {
+          toggle.clearMode();
+        } else {
+          toggle.setDark();
+        }
+      }
+
+    } else {
+      if (toggle.isSysDarkPrefer) {
+        toggle.setLight();
+      } else {
+        toggle.setDark();
+      }
+    }
+
+    toggle.notify();
+
+  } /* flipMode() */
+
+</script>
+
+  
+
+  <body data-spy="scroll" data-target="#toc" data-topbar-visible="true">
+
+    <!--
+  The Side Bar
+-->
+
+<div id="sidebar" class="d-flex flex-column align-items-end">
+  <div class="profile-wrapper text-center">
+    <div id="avatar">
+      <a href="/" alt="avatar" class="mx-auto">
+        
+          
+          <img src="
+            
+              /assets/img/head.jpg
+            
+          " alt="avatar" onerror="this.style.display='none'">
+        
+      </a>
+    </div>
+
+    <div class="site-title mt-3">
+      <a href="/">Candy Note</a>
+    </div>
+    <div class="site-subtitle font-italic">Personal Notes</div>
+
+  </div><!-- .profile-wrapper -->
+
+  <ul class="w-100">
+
+    <!-- home -->
+    <li class="nav-item">
+      <a href="/" class="nav-link">
+        <i class="fa-fw fas fa-home ml-xl-3 mr-xl-3 unloaded"></i>
+        <span>HOME</span>
+      </a>
+    </li>
+    <!-- the real tabs -->
+    
+    <li class="nav-item">
+      <a href="/categories/" class="nav-link">
+        <i class="fa-fw fas fa-stream ml-xl-3 mr-xl-3 unloaded"></i>
+        
+
+        <span>CATEGORIES</span>
+      </a>
+    </li> <!-- .nav-item -->
+    
+    <li class="nav-item">
+      <a href="/tags/" class="nav-link">
+        <i class="fa-fw fas fa-tag ml-xl-3 mr-xl-3 unloaded"></i>
+        
+
+        <span>TAGS</span>
+      </a>
+    </li> <!-- .nav-item -->
+    
+    <li class="nav-item">
+      <a href="/archives/" class="nav-link">
+        <i class="fa-fw fas fa-archive ml-xl-3 mr-xl-3 unloaded"></i>
+        
+
+        <span>ARCHIVES</span>
+      </a>
+    </li> <!-- .nav-item -->
+    
+    <li class="nav-item">
+      <a href="/about/" class="nav-link">
+        <i class="fa-fw fas fa-info-circle ml-xl-3 mr-xl-3 unloaded"></i>
+        
+
+        <span>ABOUT</span>
+      </a>
+    </li> <!-- .nav-item -->
+    
+
+  </ul> <!-- ul.nav.flex-column -->
+
+  <div class="sidebar-bottom mt-auto d-flex flex-wrap justify-content-center align-items-center">
+
+    
+      <button class="mode-toggle btn" aria-label="Switch Mode">
+        <i class="fas fa-adjust"></i>
+      </button>
+
+      
+        <span class="icon-border"></span>
+      
+    
+
+    
+      
+
+      
+      <a href="https://github.com/github_username" aria-label="github"
+        target="_blank" rel="noopener">
+        <i class="fab fa-github"></i>
+      </a>
+      
+
+    
+      
+
+      
+      <a href="https://twitter.com/twitter_username" aria-label="twitter"
+        target="_blank" rel="noopener">
+        <i class="fab fa-twitter"></i>
+      </a>
+      
+
+    
+      
+
+      
+      <a href="
+          javascript:location.href = 'mailto:' + ['ryomawithlst','gmail.com'].join('@')" aria-label="email"
+        >
+        <i class="fas fa-envelope"></i>
+      </a>
+      
+
+    
+      
+
+      
+      <a href="/feed.xml" aria-label="rss"
+        >
+        <i class="fas fa-rss"></i>
+      </a>
+      
+
+    
+
+  </div> <!-- .sidebar-bottom -->
+
+</div><!-- #sidebar -->
+
+
+    <!--
+  The Top Bar
+-->
+
+<div id="topbar-wrapper" class="row justify-content-center">
+  <div id="topbar" class="col-11 d-flex h-100 align-items-center justify-content-between">
+    <span id="breadcrumb">
+
+    
+
+    
+
+      
+
+        
+          <span>
+            <a href="/">
+              Home
+            </a>
+          </span>
+
+        
+
+      
+
+        
+
+      
+
+        
+
+          
+            <span>Sampling Methods</span>
+          
+
+        
+
+      
+
+    
+
+    </span><!-- endof #breadcrumb -->
+
+    <i id="sidebar-trigger" class="fas fa-bars fa-fw"></i>
+
+    <div id="topbar-title">
+      Post
+    </div>
+
+    <i id="search-trigger" class="fas fa-search fa-fw"></i>
+    <span id="search-wrapper" class="align-items-center">
+      <i class="fas fa-search fa-fw"></i>
+      <input class="form-control" id="search-input" type="search"
+        aria-label="search" autocomplete="off" placeholder="Search...">
+    </span>
+    <span id="search-cancel" >Cancel</span>
+  </div>
+
+</div>
+
+
+    <div id="main-wrapper">
+      <div id="main">
+
+        
+
+
+
+
+
+
+
+
+
+<div class="row">
+
+  <!-- core -->
+  <div id="core-wrapper" class="col-12 col-lg-11 col-xl-8">
+    <div class="post pl-1 pr-1 pl-sm-2 pr-sm-2 pl-md-4 pr-md-4">
+
+    
+
+    
+      
+      
+        <!--
+  Refactor the HTML structure.
+-->
+
+
+
+<!--
+  In order to allow a wide table to scroll horizontally,
+  we suround the markdown table with `<div class="table-wrapper">` and `</div>`
+-->
+
+
+
+<!--
+  Fixed kramdown code highlight rendering:
+  https://github.com/penibelst/jekyll-compress-html/issues/101
+  https://github.com/penibelst/jekyll-compress-html/issues/71#issuecomment-188144901
+-->
+
+
+
+<!-- Add attribute 'hide-bullet' to the checkbox list -->
+
+
+
+<!-- images -->
+
+
+
+
+
+<!-- Add header for code snippets -->
+
+
+
+<!-- Create heading anchors -->
+
+
+
+
+
+  
+  
+
+  
+    
+    
+
+    
+      
+        
+        
+      
+
+      
+      
+
+      
+      
+      
+
+      
+
+    
+
+    
+
+  
+
+  
+  
+
+  
+    
+    
+
+    
+      
+        
+        
+      
+
+      
+      
+
+      
+      
+      
+
+      
+
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+
+    
+
+    
+
+  
+
+  
+  
+
+  
+
+  
+  
+
+  
+
+
+
+
+<!-- Wrap prompt element of blockquote with the <div> tag -->
+
+
+
+
+
+
+
+<!-- return -->
+
+
+
+
+
+
+
+<h1 data-toc-skip>Sampling Methods</h1>
+
+<div class="post-meta text-muted">
+
+  <!-- author -->
+  <div>
+    
+    
+
+    
+
+    By
+    <em>
+      
+        <a href="https://github.com/luo-songtao">luo-songtao</a>
+      
+    </em>
+  </div>
+
+  <div class="d-flex">
+    <div>
+      <!-- published date -->
+      <span>
+        Posted
+        <!--
+  Date format snippet
+  See: ${JS_ROOT}/utils/timeago.js
+-->
+
+<em class="timeago"
+    data-ts="1645401600"
+    
+      data-toggle="tooltip" data-placement="bottom" data-tooltip-df="llll"
+    
+    >
+  2022-02-21
+</em>
+
+      </span>
+
+      <!-- lastmod date -->
+      
+
+      <!-- read time -->
+      <!--
+  Calculate the post's reading time, and display the word count in tooltip
+ -->
+
+
+
+<!-- words per minute  -->
+
+
+
+
+
+
+
+
+
+
+<!-- return element -->
+<span class="readtime" data-toggle="tooltip" data-placement="bottom"
+  title="1177 words">
+  <em>6 min</em> read</span>
+
+
+      <!-- page views -->
+      
+    </div>
+
+  </div> <!-- .d-flex -->
+
+</div> <!-- .post-meta -->
+
+<div class="post-content">
+  <h2 id="sampling-methods"><span class="mr-2">Sampling Methods</span><a href="#sampling-methods" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2></h2>
+
+<h3 id="ancestral-sampling-approach"><span class="mr-2">Ancestral Sampling Approach</span><a href="#ancestral-sampling-approach" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3></h3>
+
+<p>Directed Graph</p>
+
+\[\begin{aligned} p(\boldsymbol{z}) = \prod_{i}^M p(\boldsymbol{z} \vert pa_i) \end{aligned}\]
+
+<div class="table-wrapper"><table>
+  <tbody>
+    <tr>
+      <td>make one pass through the set of variables in the order $z_1, . . . , z_M$ sampling from the conditional distributions $p(\boldsymbol{z}_i</td>
+      <td>pa_i)$</td>
+    </tr>
+  </tbody>
+</table></div>
+
+<p>if some of the nodes are instantiated with observed values:</p>
+<ul>
+  <li>logic sampling approach: which can be seen as a special case of importance sampling
+    <ul>
+      <li>At each step, when a sampled value is obtained for a variable zi whose value is observed, the sampled value is compared to the observed value, and if they agree then the sample value is retained and the algorithm proceeds to the next variable in turn. However, if the sampled value and the observed value disagree, then the whole sample so far is discarded and the algorithm starts again with the first node in the graph.</li>
+    </ul>
+  </li>
+</ul>
+
+<p>UDG: Gibbs sampling</p>
+
+<p>For marginonal: If we already have a strategy for sampling from a joint distribution $p(u, v)$, then it is straightforward to obtain samples from the marginal distribution $p(u)$ simply by ignoring the values for $v$ in each sample.</p>
+
+<h3 id="inverse-function"><span class="mr-2">Inverse function</span><a href="#inverse-function" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3></h3>
+
+<p>通过分布函数逆函数的解析形式，使用均匀分布随机数求解。同时利用：</p>
+
+\[p(y) = p(z) \left \vert \frac {dz}{dy} \right\vert\]
+
+<ul>
+  <li>exponential distribution</li>
+  <li>Cauchy distribution</li>
+</ul>
+
+<h3 id="sampling-from-gaussian"><span class="mr-2">Sampling from Gaussian</span><a href="#sampling-from-gaussian" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3></h3>
+
+<p>使用专属抽样算法</p>
+<ul>
+  <li>Box-muller</li>
+  <li>Marsaglia Polar method</li>
+</ul>
+
+<h3 id="rejection-sampling"><span class="mr-2">Rejection Sampling</span><a href="#rejection-sampling" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3></h3>
+
+\[\begin{aligned} p(z) = \frac {1}{Z_p} \tilde{p}(z) \end{aligned}\]
+
+<ul>
+  <li>proposal distribution $q(z)$</li>
+  <li>$kq(z) \ge p(z)$</li>
+</ul>
+
+\[\begin{aligned} &amp;q(z) \rightarrow z_0 \\ &amp; u_0 = \text{random}(0,kq(z_0)) \\ &amp; \text{if } u_0 &gt; \tilde p(z_0), \text{then accept} \\\\ p(\text{accept}) &amp;= \int \frac {\tilde p(z)}{kq(z)} q(z) dz = \frac 1k \int \tilde p(z) dz \end{aligned}\]
+
+<p>the fraction of points that are rejected by this method depends on the ratio of the area under the unnormalized distribution $p(z)$ to the area under the curve $kq(z)$.</p>
+
+<h3 id="adaptive-rejection-sampling"><span class="mr-2">Adaptive Rejection Sampling</span><a href="#adaptive-rejection-sampling" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3></h3>
+
+<p>when difficult to determine a suitable analytic form for the envelope distribution $q(z)$</p>
+
+<p>Construction of an envelope function is particularly straightforward for cases in which p(z) is log concave
+(梯度持续下降的类型)</p>
+
+<p>The function $ln p(z)$ and its gradient are evaluated at some initial set of grid points, and the intersections of the resulting tangent lines are used to construct the envelope function.</p>
+
+<p>其他变种，用于处理梯度不是持续下降的类型</p>
+
+<p>Rejection Sampling 对高维采样的困难：高维下，拒绝率将会非常高 （直观解释：因为高维中一个球的体积主要集中在离球面近的区域，相对于近球心的区域，是指数级差距） 从而导致拒绝率可能接近1</p>
+
+<h3 id="importance-sampling"><span class="mr-2">Importance Sampling</span><a href="#importance-sampling" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3></h3>
+
+<p>The technique of importance sampling provides a framework for approximating expectations directly but does not itself provide a mechanism for drawing samples from distribution</p>
+
+<p>also using proposal distribution $q(z)$</p>
+
+<ul>
+  <li>
+    <p>Importance Weights</p>
+
+\[\begin{aligned} \mathbb{E}[f] &amp;= \int f(z)p(z)dz \\  &amp;= \int f(z) \frac {p(z)}{q(z)}q(z) dz \\ &amp;\simeq \frac 1L \sum_{l=1}^L \frac {p(z^{(l)})}{q(z^{(l)})} f(z^{(l)}) \end{aligned}\]
+
+    <p>$r_l = \frac {p(z^{(l)})}{q(z^{(l)})}$ are known as <strong>Importance Weights</strong></p>
+  </li>
+  <li>
+    <p>work on unnormoalized distribution</p>
+
+\[\begin{aligned} \mathbb{E}[f] &amp;= \int f(z)p(z)dz \\  &amp;= \frac{Z_p}{Z_q}  \int f(z) \frac {\tilde p(z)}{\tilde q(z)} q(z) dz \\ &amp;\simeq \frac{Z_q}{Z_p} \frac 1L \sum_{l=1}^L \frac {\tilde p(z)}{\tilde q(z)} f(z^{(l)}) \\\\ \frac{Z_q}{Z_p} &amp;= \frac {1}{Z_q} \int \tilde p(z) dz \\ &amp;= \int \frac {\tilde p(z)}{\tilde q(z)}q(z) dz \\ &amp;\simeq \frac 1L \sum_{l=1}^L \frac {\tilde p(z)}{\tilde q(z)} \\ \\ \mathbb{E}[f] &amp;\simeq \frac {1}{\sum_{l=1}^L \frac {\tilde p(z^{(l)})}{\tilde q(z^{(l)})}}\sum_{l=1}^L \frac {\tilde p(z^{(l)})}{\tilde q(z^{(l)})} f(z^{(l)}) \end{aligned}\]
+  </li>
+</ul>
+
+<p>注意：</p>
+<ul>
+  <li>如果通常情况下，在$p(z)f(z)$ 变化很大并且在$z$空间的相对较小区域上具有显着的集中的值存在，则重要性权重 ${rl}$ 的集合可能由一些具有较大值的权重控制，其余权重相对无关紧要</li>
+  <li>也可能存在着在$p(z)f(z)$很大时，但却没有样本对应此区间</li>
+</ul>
+
+<p>Hence a major drawback of the importance sampling method is the potential to produce results that are arbitrarily in error and with no diagnostic indication.</p>
+
+<p>因此需要保证$p(z)$可能取值较大时，$q(z)$不能很小或者为0，否则将使抽样结果与真实值存在很大差异</p>
+
+<p>In Graphical Model:</p>
+<ul>
+  <li>Likelihood Weighted Sampling
+    <ul>
+      <li>This is based on ancestral sampling of the variables. - Each sample from the joint distribution is obtained by first setting those variables zi that are in the evidence set equal to their observed values.</li>
+      <li>
+        <div class="table-wrapper"><table>
+          <tbody>
+            <tr>
+              <td>For each variable in turn, if that variable is in the evidence set, then it is just set to its instantiated value. If it is not in the evidence set, then it is sampled from the conditional distribution $p(z_i</td>
+              <td>pa_i)$ in which the conditioning variables are set to their currently sampled values. The weighting associated with the resulting sample $z$ is then given by</td>
+            </tr>
+          </tbody>
+        </table></div>
+
+\[\begin{aligned} r(z) = \prod_{z_i\in e} p(z_i\vert pa_i) \end{aligned}\]
+      </li>
+      <li>self-importance sampling</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="sampling-importance-resampling"><span class="mr-2">Sampling-Importance-resampling</span><a href="#sampling-importance-resampling" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3></h3>
+
+<ul>
+  <li>Step 1: Use proposal distribution generate $L$ samples $z^{(1)},…,z^{(L)}$</li>
+  <li>
+    <p>Step 2: A second set of $L$ samples is drawn from the discrete distribution $z^{(1)},…,z^{(L)}$ with probabilities</p>
+
+\[\begin{aligned} \frac {\frac {\tilde p(z^{(l)})}{\tilde q(z^{(l)})}}{\sum_{l=1}^L \frac {\tilde p(z^{(l)})}{\tilde q(z^{(l)})}} \end{aligned}\]
+  </li>
+</ul>
+
+<p>Note: the discrete distribution $z^{(1)},…,z^{(L)}$ are only approximately distributed according to $p(z)$, but the distribution becomes correct in the limit $L \rightarrow \infty$</p>
+
+<h3 id="monte-carlo-em-algorithm"><span class="mr-2">Monte Carlo EM algorithm</span><a href="#monte-carlo-em-algorithm" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3></h3>
+
+<p>In particular, sampling methods can be used to approximate the E step of the EM algorithm for models in which the E step cannot be performed analytically.</p>
+
+\[\begin{aligned} \mathcal{Q}(\boldsymbol{\theta}, \boldsymbol{\theta}^{old}) = \sum_{\mathbf{Z}} p(\mathbf{Z} \mid \mathbf{X}, \boldsymbol{\theta}^{old})  \ln p(\mathbf{X},\mathbf{Z} \mid \boldsymbol{\theta}) \end{aligned}\]
+
+<ul>
+  <li>
+    <p>using sampling methods to generate ${\mathbf{Z}^{(L)}}$ and then:</p>
+
+\[\begin{aligned} \mathcal{Q}(\boldsymbol{\theta}, \boldsymbol{\theta}^{old}) \simeq \frac 1L \sum_{l=1}^L \ln p(\mathbf{X},\mathbf{Z}^{(L)} \mid \boldsymbol{\theta}) \end{aligned}\]
+  </li>
+</ul>
+
+<p>A particular instance of the Monte Carlo EM algorithm, called stochastic EM, arises if we consider a finite mixture model, and draw just one sample at each E step</p>
+
+<h3 id="imputation-posterior-algorithm"><span class="mr-2">Imputation-Posterior Algorithm</span><a href="#imputation-posterior-algorithm" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3></h3>
+
+<p>This inspires the data augmentation algorithm, which alternates between two steps known as the I-step (imputation step, analogous to an E step) and the P-step (posterior step, analogous to an M step).</p>
+
+<p>$Z$ hidden variables, $\theta$ parameter (random variables)</p>
+
+<ul>
+  <li>I-step:
+    <ul>
+      <li>
+        <p>wish to sample from $p(Z\vert X)$ but we cannot do this disectly</p>
+
+\[\begin{aligned} p(Z\vert X) = \int p(Z\vert \theta, X)p(\theta \vert X) d\theta \end{aligned}\]
+      </li>
+      <li>
+        <p>and hence for $1,…,L$, $p(\theta\vert X) \rightarrow \theta^{(l)}$, and then $p(Z\vert \theta^{(l)}, X)\rightarrow Z^{(l)}$</p>
+      </li>
+    </ul>
+  </li>
+  <li>P-step
+    <ul>
+      <li>
+        <p>Given the relation</p>
+
+\[\begin{aligned} p(\theta \vert X) = \int p(\theta\vert Z, X) p(Z\vert X) dZ \end{aligned}\]
+      </li>
+      <li>
+        <p>then</p>
+
+\[\begin{aligned} p(\theta\vert X) \simeq p(\theta\vert Z^{(l)}, X) \end{aligned}\]
+      </li>
+    </ul>
+  </li>
+</ul>
+
+</div>
+
+<div class="post-tail-wrapper text-muted">
+
+  <!-- categories -->
+  
+  <div class="post-meta mb-3">
+    <i class="far fa-folder-open fa-fw mr-1"></i>
+    
+      <a href='/categories/machine-learning/'>Machine Learning</a>,
+      <a href='/categories/sampling-methods/'>Sampling Methods</a>
+  </div>
+  
+
+  <!-- tags -->
+  
+  <div class="post-tags">
+    <i class="fa fa-tags fa-fw mr-1"></i>
+      
+      <a href="/tags/monte-carlo/"
+          class="post-tag no-text-decoration" >Monte Carlo</a>
+      
+  </div>
+  
+
+  <div class="post-tail-bottom
+    d-flex justify-content-between align-items-center mt-3 pt-5 pb-2">
+    <div class="license-wrapper">
+
+      
+
+        
+
+        This post is licensed under 
+        <a href="https://creativecommons.org/licenses/by/4.0/">
+          CC BY 4.0
+        </a>
+         by the author.
+
+      
+    </div>
+
+    <!--
+ Post sharing snippet
+-->
+
+<div class="share-wrapper">
+  <span class="share-label text-muted mr-1">Share</span>
+  <span class="share-icons">
+    
+    
+
+    
+      
+        <a href="https://twitter.com/intent/tweet?text=Sampling Methods - Candy Note&amp;url=http://0.0.0.0:4000/posts/sampling_methods/" data-toggle="tooltip" data-placement="top"
+          title="Twitter" target="_blank" rel="noopener" aria-label="Twitter">
+          <i class="fa-fw fab fa-twitter"></i>
+        </a>
+    
+      
+        <a href="https://www.facebook.com/sharer/sharer.php?title=Sampling Methods - Candy Note&amp;u=http://0.0.0.0:4000/posts/sampling_methods/" data-toggle="tooltip" data-placement="top"
+          title="Facebook" target="_blank" rel="noopener" aria-label="Facebook">
+          <i class="fa-fw fab fa-facebook-square"></i>
+        </a>
+    
+      
+        <a href="https://t.me/share/url?url=http://0.0.0.0:4000/posts/sampling_methods/&amp;text=Sampling Methods - Candy Note" data-toggle="tooltip" data-placement="top"
+          title="Telegram" target="_blank" rel="noopener" aria-label="Telegram">
+          <i class="fa-fw fab fa-telegram"></i>
+        </a>
+    
+
+    <i id="copy-link" class="fa-fw fas fa-link small"
+        data-toggle="tooltip" data-placement="top"
+        title="Copy link"
+        data-title-succeed="Link copied successfully!">
+    </i>
+
+  </span>
+</div>
+
+
+  </div><!-- .post-tail-bottom -->
+
+</div><!-- div.post-tail-wrapper -->
+
+
+      
+    
+    
+
+    </div>
+  </div> <!-- #core-wrapper -->
+
+  <!-- pannel -->
+  <div id="panel-wrapper" class="col-xl-3 pl-2 text-muted">
+
+    <div class="access">
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+
+
+  <div id="access-tags">
+    <div class="panel-heading">Trending Tags</div>
+    <div class="d-flex flex-wrap mt-3 mb-1 mr-3">
+
+    
+      
+      <a class="post-tag" href="/tags/gaussian-distribution/">Gaussian Distribution</a>
+    
+      
+      <a class="post-tag" href="/tags/pca/">PCA</a>
+    
+      
+      <a class="post-tag" href="/tags/em/">EM</a>
+    
+      
+      <a class="post-tag" href="/tags/bayesian/">Bayesian</a>
+    
+      
+      <a class="post-tag" href="/tags/markov-chain/">Markov Chain</a>
+    
+      
+      <a class="post-tag" href="/tags/bernoulli/">Bernoulli</a>
+    
+      
+      <a class="post-tag" href="/tags/binomial/">Binomial</a>
+    
+      
+      <a class="post-tag" href="/tags/gamma-distribution/">Gamma Distribution</a>
+    
+      
+      <a class="post-tag" href="/tags/gmm/">GMM</a>
+    
+      
+      <a class="post-tag" href="/tags/kernel/">Kernel</a>
+    
+
+    </div>
+  </div>
+
+
+    </div>
+
+    
+      
+      
+
+
+
+<!-- BS-toc.js will be loaded at medium priority -->
+<script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@1.0.1/dist/bootstrap-toc.min.js"></script>
+
+<div id="toc-wrapper" class="pl-0 pr-4 mb-5">
+  <div class="panel-heading pl-3 pt-2 mb-2">Contents</div>
+  <nav id="toc" data-toggle="toc"></nav>
+</div>
+
+
+    
+  </div>
+
+</div>
+
+<!-- tail -->
+
+<div class="row">
+  <div class="col-12 col-lg-11 col-xl-8">
+    <div id="tail-wrapper" class="pl-1 pr-1 pl-sm-2 pr-sm-2 pl-md-4 pr-md-4">
+      
+        
+        <!--
+ Recommend the other 3 posts according to the tags and categories of the current post,
+ if the number is not enough, use the other latest posts to supplement.
+-->
+
+<!-- The total size of related posts  -->
+
+
+<!-- An random integer that bigger than 0  -->
+
+
+<!-- Equals to TAG_SCORE / {max_categories_hierarchy}  -->
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+
+
+
+<!-- Fill with the other newlest posts  -->
+
+
+
+
+
+
+  <div id="related-posts" class="mt-5 mb-2 mb-sm-4">
+    <h3 class="pt-2 mt-1 mb-4 ml-1"
+      data-toc-skip>Further Reading</h3>
+    <div class="card-deck mb-4">
+    
+      
+      
+      <div class="card">
+        <a href="/posts/markov_chain_monte_carlo_methods/">
+          <div class="card-body">
+            <!--
+  Date format snippet
+  See: ${JS_ROOT}/utils/timeago.js
+-->
+
+<em class="timeago small"
+    data-ts="1645401600"
+    
+    >
+  2022-02-21
+</em>
+
+            <h3 class="pt-0 mt-1 mb-3" data-toc-skip>Markov Chain Monte Carlo</h3>
+            <div class="text-muted small">
+              <p>
+                
+
+
+
+
+
+                Markov Chain Monte Carlo
+
+As with rejection and importance sampling, we again sample from a proposal distribution.
+
+
+  
+    
+      This time, however, we maintain a record of the current state $z(\...
+              </p>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+      
+      
+      <div class="card">
+        <a href="/posts/HMM/">
+          <div class="card-body">
+            <!--
+  Date format snippet
+  See: ${JS_ROOT}/utils/timeago.js
+-->
+
+<em class="timeago small"
+    data-ts="1645401600"
+    
+    >
+  2022-02-21
+</em>
+
+            <h3 class="pt-0 mt-1 mb-3" data-toc-skip>Hidden Markov Model</h3>
+            <div class="text-muted small">
+              <p>
+                
+
+
+
+
+
+                Hidden Markov Model
+
+Assume that all latent variables form a Markov chain, giving rise to the graphical structure, this is known as a state space model.
+
+If the latent variables are discrete, then ...
+              </p>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+      
+      
+      <div class="card">
+        <a href="/posts/markov_chain/">
+          <div class="card-body">
+            <!--
+  Date format snippet
+  See: ${JS_ROOT}/utils/timeago.js
+-->
+
+<em class="timeago small"
+    data-ts="1645401600"
+    
+    >
+  2022-02-21
+</em>
+
+            <h3 class="pt-0 mt-1 mb-3" data-toc-skip>Markov Chain</h3>
+            <div class="text-muted small">
+              <p>
+                
+
+
+
+
+
+                Markov Chain
+
+A first-Order Markov Chain
+
+[\begin{aligned} p(z^{(m+1)}\vert z^{(m)}, …,z^{(1)} )  = p(z^{(m+1)}\vert z^{(m)})\end{aligned}]
+
+then given
+
+  initial variable: $p(z^{(0)})$
+  transitio...
+              </p>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+    </div> <!-- .card-deck -->
+  </div> <!-- #related-posts -->
+
+
+      
+        
+        <!--
+  Navigation buttons at the bottom of the post.
+-->
+
+<div class="post-navigation d-flex justify-content-between">
+  
+  <a href="/posts/markov_chain_monte_carlo_methods/" class="btn btn-outline-primary"
+    prompt="Older">
+    <p>Markov Chain Monte Carlo</p>
+  </a>
+  
+
+  
+  <a href="/posts/gaussian_mixture_model/" class="btn btn-outline-primary"
+    prompt="Newer">
+    <p>Gaussian Mixture Model</p>
+  </a>
+  
+
+</div>
+
+      
+        
+        <!--  The comments switcher -->
+
+
+      
+    </div>
+  </div>
+</div> <!-- .row -->
+
+
+
+        <!--
+  The Footer
+-->
+
+<footer class="d-flex w-100 justify-content-center">
+  <div class="d-flex justify-content-between align-items-center text-muted">
+    <div class="footer-left">
+      <p class="mb-0">
+        © 2022
+        <a href="https://twitter.com/username">luo-songtao</a>.
+        
+        <span data-toggle="tooltip" data-placement="top"
+          title="Except where otherwise noted, the blog posts on this site are licensed under the Creative Commons Attribution 4.0 International (CC BY 4.0) License by the author.">Some rights reserved.</span>
+        
+      </p>
+    </div>
+
+    <div class="footer-right">
+      <p class="mb-0">
+        
+
+        
+
+        Powered by 
+          <a href="https://jekyllrb.com" target="_blank" rel="noopener">Jekyll</a>
+         with 
+          <a href="https://github.com/cotes2020/jekyll-theme-chirpy" target="_blank" rel="noopener">Chirpy</a>
+         theme.
+
+      </p>
+    </div>
+
+  </div> <!-- div.d-flex -->
+</footer>
+
+
+      </div>
+
+      <!--
+  The Search results
+-->
+<div id="search-result-wrapper" class="d-flex justify-content-center unloaded">
+  <div class="col-12 col-sm-11 post-content">
+    <div id="search-hints">
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+
+
+  <div id="access-tags">
+    <div class="panel-heading">Trending Tags</div>
+    <div class="d-flex flex-wrap mt-3 mb-1 mr-3">
+
+    
+      
+      <a class="post-tag" href="/tags/gaussian-distribution/">Gaussian Distribution</a>
+    
+      
+      <a class="post-tag" href="/tags/pca/">PCA</a>
+    
+      
+      <a class="post-tag" href="/tags/em/">EM</a>
+    
+      
+      <a class="post-tag" href="/tags/bayesian/">Bayesian</a>
+    
+      
+      <a class="post-tag" href="/tags/markov-chain/">Markov Chain</a>
+    
+      
+      <a class="post-tag" href="/tags/bernoulli/">Bernoulli</a>
+    
+      
+      <a class="post-tag" href="/tags/binomial/">Binomial</a>
+    
+      
+      <a class="post-tag" href="/tags/gamma-distribution/">Gamma Distribution</a>
+    
+      
+      <a class="post-tag" href="/tags/gmm/">GMM</a>
+    
+      
+      <a class="post-tag" href="/tags/kernel/">Kernel</a>
+    
+
+    </div>
+  </div>
+
+
+    </div>
+    <div id="search-results" class="d-flex flex-wrap justify-content-center text-muted mt-3"></div>
+  </div>
+</div>
+
+
+    </div> <!-- #main-wrapper -->
+
+    
+      <!--
+  mermaid-js loader
+-->
+
+<script src="https://cdn.jsdelivr.net/npm/mermaid@8/dist/mermaid.min.js"></script>
+
+<script>
+  $(function() {
+    function updateMermaid(event) {
+      if (event.source === window && event.data &&
+            event.data.direction === ModeToggle.ID) {
+
+        const mode = event.data.message;
+
+        if (typeof mermaid === "undefined") {
+          return;
+        }
+
+        let expectedTheme = (mode === ModeToggle.DARK_MODE? "dark" : "default");
+        let config = { theme: expectedTheme };
+
+        /* Re-render the SVG › <https://github.com/mermaid-js/mermaid/issues/311#issuecomment-332557344> */
+        $(".mermaid").each(function() {
+          let svgCode = $(this).prev().children().html();
+          $(this).removeAttr("data-processed");
+          $(this).html(svgCode);
+        });
+
+        mermaid.initialize(config);
+        mermaid.init(undefined, ".mermaid");
+      }
+    }
+
+    let initTheme = "default";
+
+    if ($("html[data-mode=dark]").length > 0
+      || ($("html[data-mode]").length == 0
+        && window.matchMedia("(prefers-color-scheme: dark)").matches ) ) {
+      initTheme = "dark";
+    }
+
+    let mermaidConf = {
+      theme: initTheme  /* <default|dark|forest|neutral> */
+    };
+
+    /* Markdown converts to HTML */
+    $("pre").has("code.language-mermaid").each(function() {
+      let svgCode = $(this).children().html();
+      $(this).addClass("unloaded");
+      $(this).after(`<div class=\"mermaid\">${svgCode}</div>`);
+    });
+
+    mermaid.initialize(mermaidConf);
+
+    window.addEventListener("message", updateMermaid);
+  });
+</script>
+
+    
+
+    <div id="mask"></div>
+
+    <a id="back-to-top" href="#" aria-label="back-to-top" class="btn btn-lg btn-box-shadow" role="button">
+      <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!--
+  Jekyll Simple Search loader
+  See: <https://github.com/christian-fei/Simple-Jekyll-Search>
+-->
+
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/simple-jekyll-search@1.10.0/dest/simple-jekyll-search.min.js"></script>
+
+<script>
+SimpleJekyllSearch({
+  searchInput: document.getElementById('search-input'),
+  resultsContainer: document.getElementById('search-results'),
+  json: '/assets/js/data/search.json',
+  searchResultTemplate: '<div class="pl-1 pr-1 pl-sm-2 pr-sm-2 pl-lg-4 pr-lg-4 pl-xl-0 pr-xl-0">  <a href="{url}">{title}</a>  <div class="post-meta d-flex flex-column flex-sm-row text-muted mt-1 mb-1">    {categories}    {tags}  </div>  <p>{snippet}</p></div>',
+  noResultsText: '<p class="mt-5">Oops! No result founds.</p>',
+  templateMiddleware: function(prop, value, template) {
+    if (prop === 'categories') {
+      if (value === '') {
+        return `${value}`;
+      } else {
+        return `<div class="mr-sm-4"><i class="far fa-folder fa-fw"></i>${value}</div>`;
+      }
+    }
+
+    if (prop === 'tags') {
+      if (value === '') {
+        return `${value}`;
+      } else {
+        return `<div><i class="fa fa-tag fa-fw"></i>${value}</div>`;
+      }
+    }
+  }
+});
+</script>
+
+
+    <!--
+  JS selector for site.
+-->
+
+<!-- layout specified -->
+
+
+  
+
+
+
+  <!-- image lazy-loading & popup & clipboard -->
+  
+
+  
+
+
+
+
+
+
+
+  
+    
+
+    
+
+  
+
+
+
+  
+    
+
+    
+
+  
+
+
+
+  
+    
+
+    
+
+  
+
+
+
+
+  <script src="https://cdn.jsdelivr.net/combine/npm/magnific-popup@1/dist/jquery.magnific-popup.min.js,npm/lozad/dist/lozad.min.js,npm/clipboard@2/dist/clipboard.min.js"></script>
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+
+
+
+
+
+  
+    
+
+    
+
+  
+
+
+
+  
+    
+
+    
+
+  
+
+
+
+  
+    
+
+    
+
+  
+
+
+
+  
+    
+
+    
+
+  
+
+
+
+
+  <script src="https://cdn.jsdelivr.net/combine/npm/dayjs@1/dayjs.min.js,npm/dayjs@1/locale/en.min.js,npm/dayjs@1/plugin/relativeTime.min.js,npm/dayjs@1/plugin/localizedFormat.min.js"></script>
+
+
+
+
+
+
+
+
+<script defer src="/assets/js/dist/post.min.js"></script>
+
+
+  <!-- MathJax -->
+  <script>
+  /* see: <https://docs.mathjax.org/en/latest/options/input/tex.html#tex-options> */
+  MathJax = {
+    tex: {
+      inlineMath: [              /* start/end delimiter pairs for in-line math */
+        ['$','$'],
+        ['\\(','\\)']
+      ],
+      displayMath: [             /* start/end delimiter pairs for display math */
+        ['$$', '$$'],
+        ['\\[', '\\]']
+      ]
+    }
+  };
+  </script>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+  </script>
+
+
+<!-- commons -->
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.bundle.min.js"></script>
+
+
+
+
+  </body>
+
+</html>
+

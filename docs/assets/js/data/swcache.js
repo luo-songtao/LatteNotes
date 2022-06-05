@@ -23,6 +23,7 @@ const resource = [
   /* --- Favicons & compressed JS --- */
   
   
+    '/assets/img/favicons/Listary.exe',
     '/assets/img/favicons/android-chrome-192x192.png',
     '/assets/img/favicons/android-chrome-512x512.png',
     '/assets/img/favicons/apple-touch-icon.png',

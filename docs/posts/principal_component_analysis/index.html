@@ -1,0 +1,3844 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html lang="en"
+  
+>
+
+  <!--
+  The Head
+-->
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Allow having a localized datetime different from the appearance language -->
+  
+
+  
+
+    
+
+    
+
+  
+
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+<meta name="generator" content="Jekyll v4.2.1" />
+<meta property="og:title" content="Principal Component Analysis" />
+<meta name="author" content="luo-songtao" />
+<meta property="og:locale" content="en" />
+<meta name="description" content="Principal Component Analysis Maximum Variance formulation PCA can be defined as the Orthogonal projection of the data into a lower dimensional linear space, known as the principal subspace, such that the variance of the projected data is maximized. for $M = 1$, suppose the direction of this space is $\boldsymbol{u}_1$, and $|\boldsymbol{u}_1|^2=1$ \[\begin{aligned} &amp;\overline{\boldsymbol{x}} = \frac 1N\sum_{n=1}^N x_n \\ &amp;\frac 1N \sum_{n=1}^N \{ \boldsymbol{u}_1^T\boldsymbol{x}_n - \boldsymbol{u}_1^T\overline{\boldsymbol{x}}\} = \boldsymbol{u}_1^T S\boldsymbol{u}_1 \\ &amp; S = \frac 1N \sum_{n=1}^N (\boldsymbol{x_n}-\overline{\boldsymbol{x}})(\boldsymbol{x_n}-\overline{\boldsymbol{x}})^T \end{aligned}\] Note: the term $\boldsymbol{u}_1^T S\boldsymbol{u}_1$ is the variance of the projected data, to maximize it we need to introduce a Lagrange multiplier: \(\begin{aligned} \max \qquad \boldsymbol{u}_1^T + \lambda S\boldsymbol{u}_1 + \lambda_1(1-\boldsymbol{u}_1^T\boldsymbol{u}_1) \end{aligned}\) By setting the derivative with respect $\boldsymbol{u}_1$ to zero, we have: \[\begin{aligned} S\boldsymbol{u}_1 = \lambda_1 \boldsymbol{u}_1 \end{aligned}\] this means that firstly the $\boldsymbol{u}_1$ must be an eigenvector of $S$ and further more, we also can see: \[\begin{aligned} \boldsymbol{u}_1^TS\boldsymbol{u}_1 = \lambda_1 \end{aligned}\] this means that $\lambda_1$ is the largest eigenvalue of $S$ and it corresponds to the eigenvector $\boldsymbol{u}_1$ Then we can easily draw the conclusion that orthogonal projection of the data into a lower $M$-dimensional linear space, from the viewpoint of maximizing the variance of the projected data, and this problem equals to find the $M$-largest eigenvalues and the corresponding eigenvectors. Minimum-error formulation We now discuss an alternative formulation of PCA based on projection error minimization. We define: $X$: $N\times D$ certered data set matrix $Z$: $(D-M)\times D$ linear transform matrix and if we also denote: $\mathcal{Y}$ represents the $M$-dimension Orthogonal Projection Subspace, i.e. principal subspace. $\boldsymbol{z}_n = Z\boldsymbol{x}_n, \boldsymbol{z}_n \in \mathcal{Y}^{\perp}$ in PCA, the best orthogonal projection problem can be writen as minimizing the distortion measure $J$: [\begin{aligned} \min &amp;\qquad J(Z) = \frac 1N \sum_{n=1}^N |Z\boldsymbol{x}_n|^2 = \text{Tr}(XZ^TZX^T) \ &amp;\qquad |z_i|^2 = 1, i=M+1,…,D \end{aligned}] Introduce Lagrange multiplier, this is equals to \[\begin{aligned} \min_{Z,\boldsymbol{\lambda}} \qquad \text{Tr}(XZ^TZX^T) + \boldsymbol{\lambda}^T(ZZ^T - I) \end{aligned}\] $\lambda$ is a $D-M$-dim vector setting derivative respect to $Z$ equals to zero, we have: \(\begin{aligned} X^TXZ^T &amp;= Z^T\boldsymbol{\lambda}\\ \Longrightarrow X^TX \boldsymbol{z}_i &amp;= \lambda_i \boldsymbol{z}_i, \qquad i=M+1,...,D \end{aligned}\) we can see that the set of ${\lambda_i}$ are the eigenvaues of $X^TX$ and corresponding to eigenvectors ${\boldsymbol{z}_i}$ then we can obtain the minimum value of $J$ is : \[\begin{aligned} J^* = \text{Tr}(XZ^TZX^T) = \text{Tr}(\boldsymbol{\lambda}I) = \sum_{i=M+1}^D \lambda_i \end{aligned}\] that means ${\lambda_i}$ are the $D-M$ smallest eigenvalues of $X^TX$ hence the eigenvectors defining the principal subspace are those corresponding to the $M$ largest eigenvalues. SVD for PCA [\begin{aligned} \mathbf{X} = \mathbf{U}\mathbf{D}\mathbf{V}^T \end{aligned}] $\mathbf{X}: N\times D$: Center data set matrix then the $M$-larget principal components are first $M$ columns of $\mathbf{V}$ Application of PCA Data Compression Data Pre-processing in the general, the standardizing is made by a separate linear re-scaling of the individual variables such that each variable had zero mean and unit variance, and the correlation matrix(covariance matrix) is \(\begin{aligned} \rho_{ij} = \frac 1N \sum_{n=1}^N \frac {x_{ni}-\overline{x}_i}{\sigma_i}\frac {x_{nj}-\overline{x}_j}{\sigma_j} \end{aligned}\) but if using PCA we can make a more substantial normalization of the data to give it zero mean and unit covariance, and different variables become decorrelated Eigenvector equation \[\begin{aligned} SU = UL \end{aligned}\] $L$ is a $D\times D$ diagonal matrix with elements $\lambda_i$, and $U$ is a $D\times D$ orthogonal matrix with columns given by $\boldsymbol{u}_i$ next, we defined a transform on data given by: \[\begin{aligned} \boldsymbol{y}_n = L^{-1/2}U^T(\boldsymbol{x}_n -\overline{\boldsymbol{x}}) \end{aligned}\] then its covariance is given by identity matrix: \[\begin{aligned} \boldsymbol{y}_n\boldsymbol{y}_n^T = L^{-1/2}U^T(\boldsymbol{x}_n -\overline{\boldsymbol{x}}) (\boldsymbol{x}_n -\overline{\boldsymbol{x}})^TUL^{-1/2} \end{aligned}\] This operation is known as whitening or sphereing Data Visualization Here each data point is projected onto a two-dimensional $(M = 2)$ principal subspace PCA for high-dimensional data if $N&lt; D$, then the linear subspace whise dimensionality is at most $N-1$, and there is little point in applying PCA for values of $M$ that are greater than $N-1$ Let $X$ be $N\times D$ centred data matrix, then [\begin{aligned} \frac 1N X^TX\boldsymbol{u}_i &amp;= \lambda_i \boldsymbol{u}_i \ \frac 1N XX^T(X\boldsymbol{u}_i) &amp;= \lambda_iX\boldsymbol{u}_i \ \text{Let: }\boldsymbol{v_i} &amp;= X\boldsymbol{u}_i \ \frac 1N XX^T \boldsymbol{v}_i &amp;= \boldsymbol{v}_i \ \ \frac 1N XX^T X^T\boldsymbol{v}_i &amp;= \lambda_i X^T\boldsymbol{v}_i \ \boldsymbol{u}_i &amp;= \frac 1{(N\lambda_i)^{1/2}}X^T\boldsymbol{v}_i \end{aligned}] so we can firstly work on $R^N$ to find the $N$-dim eigenvectors of $XX^T$ and then compute the $D$-dim eigenvectors of $X^TX$" />
+<meta property="og:description" content="Principal Component Analysis Maximum Variance formulation PCA can be defined as the Orthogonal projection of the data into a lower dimensional linear space, known as the principal subspace, such that the variance of the projected data is maximized. for $M = 1$, suppose the direction of this space is $\boldsymbol{u}_1$, and $|\boldsymbol{u}_1|^2=1$ \[\begin{aligned} &amp;\overline{\boldsymbol{x}} = \frac 1N\sum_{n=1}^N x_n \\ &amp;\frac 1N \sum_{n=1}^N \{ \boldsymbol{u}_1^T\boldsymbol{x}_n - \boldsymbol{u}_1^T\overline{\boldsymbol{x}}\} = \boldsymbol{u}_1^T S\boldsymbol{u}_1 \\ &amp; S = \frac 1N \sum_{n=1}^N (\boldsymbol{x_n}-\overline{\boldsymbol{x}})(\boldsymbol{x_n}-\overline{\boldsymbol{x}})^T \end{aligned}\] Note: the term $\boldsymbol{u}_1^T S\boldsymbol{u}_1$ is the variance of the projected data, to maximize it we need to introduce a Lagrange multiplier: \(\begin{aligned} \max \qquad \boldsymbol{u}_1^T + \lambda S\boldsymbol{u}_1 + \lambda_1(1-\boldsymbol{u}_1^T\boldsymbol{u}_1) \end{aligned}\) By setting the derivative with respect $\boldsymbol{u}_1$ to zero, we have: \[\begin{aligned} S\boldsymbol{u}_1 = \lambda_1 \boldsymbol{u}_1 \end{aligned}\] this means that firstly the $\boldsymbol{u}_1$ must be an eigenvector of $S$ and further more, we also can see: \[\begin{aligned} \boldsymbol{u}_1^TS\boldsymbol{u}_1 = \lambda_1 \end{aligned}\] this means that $\lambda_1$ is the largest eigenvalue of $S$ and it corresponds to the eigenvector $\boldsymbol{u}_1$ Then we can easily draw the conclusion that orthogonal projection of the data into a lower $M$-dimensional linear space, from the viewpoint of maximizing the variance of the projected data, and this problem equals to find the $M$-largest eigenvalues and the corresponding eigenvectors. Minimum-error formulation We now discuss an alternative formulation of PCA based on projection error minimization. We define: $X$: $N\times D$ certered data set matrix $Z$: $(D-M)\times D$ linear transform matrix and if we also denote: $\mathcal{Y}$ represents the $M$-dimension Orthogonal Projection Subspace, i.e. principal subspace. $\boldsymbol{z}_n = Z\boldsymbol{x}_n, \boldsymbol{z}_n \in \mathcal{Y}^{\perp}$ in PCA, the best orthogonal projection problem can be writen as minimizing the distortion measure $J$: [\begin{aligned} \min &amp;\qquad J(Z) = \frac 1N \sum_{n=1}^N |Z\boldsymbol{x}_n|^2 = \text{Tr}(XZ^TZX^T) \ &amp;\qquad |z_i|^2 = 1, i=M+1,…,D \end{aligned}] Introduce Lagrange multiplier, this is equals to \[\begin{aligned} \min_{Z,\boldsymbol{\lambda}} \qquad \text{Tr}(XZ^TZX^T) + \boldsymbol{\lambda}^T(ZZ^T - I) \end{aligned}\] $\lambda$ is a $D-M$-dim vector setting derivative respect to $Z$ equals to zero, we have: \(\begin{aligned} X^TXZ^T &amp;= Z^T\boldsymbol{\lambda}\\ \Longrightarrow X^TX \boldsymbol{z}_i &amp;= \lambda_i \boldsymbol{z}_i, \qquad i=M+1,...,D \end{aligned}\) we can see that the set of ${\lambda_i}$ are the eigenvaues of $X^TX$ and corresponding to eigenvectors ${\boldsymbol{z}_i}$ then we can obtain the minimum value of $J$ is : \[\begin{aligned} J^* = \text{Tr}(XZ^TZX^T) = \text{Tr}(\boldsymbol{\lambda}I) = \sum_{i=M+1}^D \lambda_i \end{aligned}\] that means ${\lambda_i}$ are the $D-M$ smallest eigenvalues of $X^TX$ hence the eigenvectors defining the principal subspace are those corresponding to the $M$ largest eigenvalues. SVD for PCA [\begin{aligned} \mathbf{X} = \mathbf{U}\mathbf{D}\mathbf{V}^T \end{aligned}] $\mathbf{X}: N\times D$: Center data set matrix then the $M$-larget principal components are first $M$ columns of $\mathbf{V}$ Application of PCA Data Compression Data Pre-processing in the general, the standardizing is made by a separate linear re-scaling of the individual variables such that each variable had zero mean and unit variance, and the correlation matrix(covariance matrix) is \(\begin{aligned} \rho_{ij} = \frac 1N \sum_{n=1}^N \frac {x_{ni}-\overline{x}_i}{\sigma_i}\frac {x_{nj}-\overline{x}_j}{\sigma_j} \end{aligned}\) but if using PCA we can make a more substantial normalization of the data to give it zero mean and unit covariance, and different variables become decorrelated Eigenvector equation \[\begin{aligned} SU = UL \end{aligned}\] $L$ is a $D\times D$ diagonal matrix with elements $\lambda_i$, and $U$ is a $D\times D$ orthogonal matrix with columns given by $\boldsymbol{u}_i$ next, we defined a transform on data given by: \[\begin{aligned} \boldsymbol{y}_n = L^{-1/2}U^T(\boldsymbol{x}_n -\overline{\boldsymbol{x}}) \end{aligned}\] then its covariance is given by identity matrix: \[\begin{aligned} \boldsymbol{y}_n\boldsymbol{y}_n^T = L^{-1/2}U^T(\boldsymbol{x}_n -\overline{\boldsymbol{x}}) (\boldsymbol{x}_n -\overline{\boldsymbol{x}})^TUL^{-1/2} \end{aligned}\] This operation is known as whitening or sphereing Data Visualization Here each data point is projected onto a two-dimensional $(M = 2)$ principal subspace PCA for high-dimensional data if $N&lt; D$, then the linear subspace whise dimensionality is at most $N-1$, and there is little point in applying PCA for values of $M$ that are greater than $N-1$ Let $X$ be $N\times D$ centred data matrix, then [\begin{aligned} \frac 1N X^TX\boldsymbol{u}_i &amp;= \lambda_i \boldsymbol{u}_i \ \frac 1N XX^T(X\boldsymbol{u}_i) &amp;= \lambda_iX\boldsymbol{u}_i \ \text{Let: }\boldsymbol{v_i} &amp;= X\boldsymbol{u}_i \ \frac 1N XX^T \boldsymbol{v}_i &amp;= \boldsymbol{v}_i \ \ \frac 1N XX^T X^T\boldsymbol{v}_i &amp;= \lambda_i X^T\boldsymbol{v}_i \ \boldsymbol{u}_i &amp;= \frac 1{(N\lambda_i)^{1/2}}X^T\boldsymbol{v}_i \end{aligned}] so we can firstly work on $R^N$ to find the $N$-dim eigenvectors of $XX^T$ and then compute the $D$-dim eigenvectors of $X^TX$" />
+<link rel="canonical" href="http://0.0.0.0:4000/posts/principal_component_analysis/" />
+<meta property="og:url" content="http://0.0.0.0:4000/posts/principal_component_analysis/" />
+<meta property="og:site_name" content="Candy Note" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-02-20T00:00:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Principal Component Analysis" />
+<meta name="twitter:site" content="@twitter_username" />
+<meta name="twitter:creator" content="@luo-songtao" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"luo-songtao"},"dateModified":"2022-02-20T00:00:00+00:00","datePublished":"2022-02-20T00:00:00+00:00","description":"Principal Component Analysis Maximum Variance formulation PCA can be defined as the Orthogonal projection of the data into a lower dimensional linear space, known as the principal subspace, such that the variance of the projected data is maximized. for $M = 1$, suppose the direction of this space is $\\boldsymbol{u}_1$, and $|\\boldsymbol{u}_1|^2=1$ \\[\\begin{aligned} &amp;\\overline{\\boldsymbol{x}} = \\frac 1N\\sum_{n=1}^N x_n \\\\ &amp;\\frac 1N \\sum_{n=1}^N \\{ \\boldsymbol{u}_1^T\\boldsymbol{x}_n - \\boldsymbol{u}_1^T\\overline{\\boldsymbol{x}}\\} = \\boldsymbol{u}_1^T S\\boldsymbol{u}_1 \\\\ &amp; S = \\frac 1N \\sum_{n=1}^N (\\boldsymbol{x_n}-\\overline{\\boldsymbol{x}})(\\boldsymbol{x_n}-\\overline{\\boldsymbol{x}})^T \\end{aligned}\\] Note: the term $\\boldsymbol{u}_1^T S\\boldsymbol{u}_1$ is the variance of the projected data, to maximize it we need to introduce a Lagrange multiplier: \\(\\begin{aligned} \\max \\qquad \\boldsymbol{u}_1^T + \\lambda S\\boldsymbol{u}_1 + \\lambda_1(1-\\boldsymbol{u}_1^T\\boldsymbol{u}_1) \\end{aligned}\\) By setting the derivative with respect $\\boldsymbol{u}_1$ to zero, we have: \\[\\begin{aligned} S\\boldsymbol{u}_1 = \\lambda_1 \\boldsymbol{u}_1 \\end{aligned}\\] this means that firstly the $\\boldsymbol{u}_1$ must be an eigenvector of $S$ and further more, we also can see: \\[\\begin{aligned} \\boldsymbol{u}_1^TS\\boldsymbol{u}_1 = \\lambda_1 \\end{aligned}\\] this means that $\\lambda_1$ is the largest eigenvalue of $S$ and it corresponds to the eigenvector $\\boldsymbol{u}_1$ Then we can easily draw the conclusion that orthogonal projection of the data into a lower $M$-dimensional linear space, from the viewpoint of maximizing the variance of the projected data, and this problem equals to find the $M$-largest eigenvalues and the corresponding eigenvectors. Minimum-error formulation We now discuss an alternative formulation of PCA based on projection error minimization. We define: $X$: $N\\times D$ certered data set matrix $Z$: $(D-M)\\times D$ linear transform matrix and if we also denote: $\\mathcal{Y}$ represents the $M$-dimension Orthogonal Projection Subspace, i.e. principal subspace. $\\boldsymbol{z}_n = Z\\boldsymbol{x}_n, \\boldsymbol{z}_n \\in \\mathcal{Y}^{\\perp}$ in PCA, the best orthogonal projection problem can be writen as minimizing the distortion measure $J$: [\\begin{aligned} \\min &amp;\\qquad J(Z) = \\frac 1N \\sum_{n=1}^N |Z\\boldsymbol{x}_n|^2 = \\text{Tr}(XZ^TZX^T) \\ &amp;\\qquad |z_i|^2 = 1, i=M+1,…,D \\end{aligned}] Introduce Lagrange multiplier, this is equals to \\[\\begin{aligned} \\min_{Z,\\boldsymbol{\\lambda}} \\qquad \\text{Tr}(XZ^TZX^T) + \\boldsymbol{\\lambda}^T(ZZ^T - I) \\end{aligned}\\] $\\lambda$ is a $D-M$-dim vector setting derivative respect to $Z$ equals to zero, we have: \\(\\begin{aligned} X^TXZ^T &amp;= Z^T\\boldsymbol{\\lambda}\\\\ \\Longrightarrow X^TX \\boldsymbol{z}_i &amp;= \\lambda_i \\boldsymbol{z}_i, \\qquad i=M+1,...,D \\end{aligned}\\) we can see that the set of ${\\lambda_i}$ are the eigenvaues of $X^TX$ and corresponding to eigenvectors ${\\boldsymbol{z}_i}$ then we can obtain the minimum value of $J$ is : \\[\\begin{aligned} J^* = \\text{Tr}(XZ^TZX^T) = \\text{Tr}(\\boldsymbol{\\lambda}I) = \\sum_{i=M+1}^D \\lambda_i \\end{aligned}\\] that means ${\\lambda_i}$ are the $D-M$ smallest eigenvalues of $X^TX$ hence the eigenvectors defining the principal subspace are those corresponding to the $M$ largest eigenvalues. SVD for PCA [\\begin{aligned} \\mathbf{X} = \\mathbf{U}\\mathbf{D}\\mathbf{V}^T \\end{aligned}] $\\mathbf{X}: N\\times D$: Center data set matrix then the $M$-larget principal components are first $M$ columns of $\\mathbf{V}$ Application of PCA Data Compression Data Pre-processing in the general, the standardizing is made by a separate linear re-scaling of the individual variables such that each variable had zero mean and unit variance, and the correlation matrix(covariance matrix) is \\(\\begin{aligned} \\rho_{ij} = \\frac 1N \\sum_{n=1}^N \\frac {x_{ni}-\\overline{x}_i}{\\sigma_i}\\frac {x_{nj}-\\overline{x}_j}{\\sigma_j} \\end{aligned}\\) but if using PCA we can make a more substantial normalization of the data to give it zero mean and unit covariance, and different variables become decorrelated Eigenvector equation \\[\\begin{aligned} SU = UL \\end{aligned}\\] $L$ is a $D\\times D$ diagonal matrix with elements $\\lambda_i$, and $U$ is a $D\\times D$ orthogonal matrix with columns given by $\\boldsymbol{u}_i$ next, we defined a transform on data given by: \\[\\begin{aligned} \\boldsymbol{y}_n = L^{-1/2}U^T(\\boldsymbol{x}_n -\\overline{\\boldsymbol{x}}) \\end{aligned}\\] then its covariance is given by identity matrix: \\[\\begin{aligned} \\boldsymbol{y}_n\\boldsymbol{y}_n^T = L^{-1/2}U^T(\\boldsymbol{x}_n -\\overline{\\boldsymbol{x}}) (\\boldsymbol{x}_n -\\overline{\\boldsymbol{x}})^TUL^{-1/2} \\end{aligned}\\] This operation is known as whitening or sphereing Data Visualization Here each data point is projected onto a two-dimensional $(M = 2)$ principal subspace PCA for high-dimensional data if $N&lt; D$, then the linear subspace whise dimensionality is at most $N-1$, and there is little point in applying PCA for values of $M$ that are greater than $N-1$ Let $X$ be $N\\times D$ centred data matrix, then [\\begin{aligned} \\frac 1N X^TX\\boldsymbol{u}_i &amp;= \\lambda_i \\boldsymbol{u}_i \\ \\frac 1N XX^T(X\\boldsymbol{u}_i) &amp;= \\lambda_iX\\boldsymbol{u}_i \\ \\text{Let: }\\boldsymbol{v_i} &amp;= X\\boldsymbol{u}_i \\ \\frac 1N XX^T \\boldsymbol{v}_i &amp;= \\boldsymbol{v}_i \\ \\ \\frac 1N XX^T X^T\\boldsymbol{v}_i &amp;= \\lambda_i X^T\\boldsymbol{v}_i \\ \\boldsymbol{u}_i &amp;= \\frac 1{(N\\lambda_i)^{1/2}}X^T\\boldsymbol{v}_i \\end{aligned}] so we can firstly work on $R^N$ to find the $N$-dim eigenvectors of $XX^T$ and then compute the $D$-dim eigenvectors of $X^TX$","headline":"Principal Component Analysis","mainEntityOfPage":{"@type":"WebPage","@id":"http://0.0.0.0:4000/posts/principal_component_analysis/"},"url":"http://0.0.0.0:4000/posts/principal_component_analysis/"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+  <title>Principal Component Analysis | Candy Note
+  </title>
+
+  <!--
+  The Favicons for Web, Android, Microsoft, and iOS (iPhone and iPad) Apps
+  Generated by: https://realfavicongenerator.net/
+-->
+
+
+
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/img/favicons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicons/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicons/favicon-16x16.png">
+<link rel="manifest" href="/assets/img/favicons/site.webmanifest">
+<link rel="shortcut icon" href="/assets/img/favicons/favicon.ico">
+<meta name="apple-mobile-web-app-title" content="Candy Note">
+<meta name="application-name" content="Candy Note">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="msapplication-config" content="/assets/img/favicons/browserconfig.xml">
+<meta name="theme-color" content="#ffffff">
+
+
+  
+
+    
+      <link rel="preconnect" href="https://fonts.googleapis.com" >
+      <link rel="dns-prefetch" href="https://fonts.googleapis.com" >
+    
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+      <link rel="dns-prefetch" href="https://fonts.gstatic.com" crossorigin>
+    
+      <link rel="preconnect" href="https://fonts.googleapis.com" >
+      <link rel="dns-prefetch" href="https://fonts.googleapis.com" >
+    
+      <link rel="preconnect" href="https://cdn.jsdelivr.net" >
+      <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" >
+    
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato&family=Source+Sans+Pro:wght@400;600;700;900&display=swap">
+
+  
+
+  <!-- GA -->
+  
+
+  <!-- Bootstrap -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.11.2/css/all.min.css">
+
+  <link rel="stylesheet" href="/assets/css/style.css">
+
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@1.0.1/dist/bootstrap-toc.min.css">
+  
+
+  
+    <!-- Manific Popup -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/magnific-popup@1/dist/magnific-popup.min.css">
+  
+
+  <!-- JavaScript -->
+
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+
+</head>
+
+
+  
+    <!--
+  Switch the mode between dark and light.
+-->
+
+<script type="text/javascript">
+  class ModeToggle {
+    static get MODE_KEY() { return "mode"; }
+    static get MODE_ATTR() { return "data-mode"; }
+    static get DARK_MODE() { return "dark"; }
+    static get LIGHT_MODE() { return "light"; }
+    static get ID() { return "mode-toggle"; }
+
+    constructor() {
+      if (this.hasMode) {
+        if (this.isDarkMode) {
+          if (!this.isSysDarkPrefer) {
+            this.setDark();
+          }
+        } else {
+          if (this.isSysDarkPrefer) {
+            this.setLight();
+          }
+        }
+      }
+
+      let self = this;
+
+      /* always follow the system prefers */
+      this.sysDarkPrefers.addEventListener("change", () => {
+        if (self.hasMode) {
+          if (self.isDarkMode) {
+            if (!self.isSysDarkPrefer) {
+              self.setDark();
+            }
+
+          } else {
+            if (self.isSysDarkPrefer) {
+              self.setLight();
+            }
+          }
+
+          self.clearMode();
+        }
+
+        self.notify();
+
+      });
+
+    } /* constructor() */
+
+    get sysDarkPrefers() { return window.matchMedia("(prefers-color-scheme: dark)"); }
+
+    get isSysDarkPrefer() { return this.sysDarkPrefers.matches; }
+
+    get isDarkMode() { return this.mode === ModeToggle.DARK_MODE; }
+
+    get isLightMode() { return this.mode === ModeToggle.LIGHT_MODE; }
+
+    get hasMode() { return this.mode != null; }
+
+    get mode() { return sessionStorage.getItem(ModeToggle.MODE_KEY); }
+
+    /* get the current mode on screen */
+    get modeStatus() {
+      if (this.isDarkMode
+        || (!this.hasMode && this.isSysDarkPrefer)) {
+        return ModeToggle.DARK_MODE;
+      } else {
+        return ModeToggle.LIGHT_MODE;
+      }
+    }
+
+    setDark() {
+      $('html').attr(ModeToggle.MODE_ATTR, ModeToggle.DARK_MODE);
+      sessionStorage.setItem(ModeToggle.MODE_KEY, ModeToggle.DARK_MODE);
+    }
+
+    setLight() {
+      $('html').attr(ModeToggle.MODE_ATTR, ModeToggle.LIGHT_MODE);
+      sessionStorage.setItem(ModeToggle.MODE_KEY, ModeToggle.LIGHT_MODE);
+    }
+
+    clearMode() {
+      $('html').removeAttr(ModeToggle.MODE_ATTR);
+      sessionStorage.removeItem(ModeToggle.MODE_KEY);
+    }
+
+    /* Notify another plugins that the theme mode has changed */
+    notify() {
+      window.postMessage({
+        direction: ModeToggle.ID,
+        message: this.modeStatus
+      }, "*");
+    }
+
+  } /* ModeToggle */
+
+  const toggle = new ModeToggle();
+
+  function flipMode() {
+    if (toggle.hasMode) {
+      if (toggle.isSysDarkPrefer) {
+        if (toggle.isLightMode) {
+          toggle.clearMode();
+        } else {
+          toggle.setLight();
+        }
+
+      } else {
+        if (toggle.isDarkMode) {
+          toggle.clearMode();
+        } else {
+          toggle.setDark();
+        }
+      }
+
+    } else {
+      if (toggle.isSysDarkPrefer) {
+        toggle.setLight();
+      } else {
+        toggle.setDark();
+      }
+    }
+
+    toggle.notify();
+
+  } /* flipMode() */
+
+</script>
+
+  
+
+  <body data-spy="scroll" data-target="#toc" data-topbar-visible="true">
+
+    <!--
+  The Side Bar
+-->
+
+<div id="sidebar" class="d-flex flex-column align-items-end">
+  <div class="profile-wrapper text-center">
+    <div id="avatar">
+      <a href="/" alt="avatar" class="mx-auto">
+        
+          
+          <img src="
+            
+              /assets/img/head.jpg
+            
+          " alt="avatar" onerror="this.style.display='none'">
+        
+      </a>
+    </div>
+
+    <div class="site-title mt-3">
+      <a href="/">Candy Note</a>
+    </div>
+    <div class="site-subtitle font-italic">Personal Notes</div>
+
+  </div><!-- .profile-wrapper -->
+
+  <ul class="w-100">
+
+    <!-- home -->
+    <li class="nav-item">
+      <a href="/" class="nav-link">
+        <i class="fa-fw fas fa-home ml-xl-3 mr-xl-3 unloaded"></i>
+        <span>HOME</span>
+      </a>
+    </li>
+    <!-- the real tabs -->
+    
+    <li class="nav-item">
+      <a href="/categories/" class="nav-link">
+        <i class="fa-fw fas fa-stream ml-xl-3 mr-xl-3 unloaded"></i>
+        
+
+        <span>CATEGORIES</span>
+      </a>
+    </li> <!-- .nav-item -->
+    
+    <li class="nav-item">
+      <a href="/tags/" class="nav-link">
+        <i class="fa-fw fas fa-tag ml-xl-3 mr-xl-3 unloaded"></i>
+        
+
+        <span>TAGS</span>
+      </a>
+    </li> <!-- .nav-item -->
+    
+    <li class="nav-item">
+      <a href="/archives/" class="nav-link">
+        <i class="fa-fw fas fa-archive ml-xl-3 mr-xl-3 unloaded"></i>
+        
+
+        <span>ARCHIVES</span>
+      </a>
+    </li> <!-- .nav-item -->
+    
+    <li class="nav-item">
+      <a href="/about/" class="nav-link">
+        <i class="fa-fw fas fa-info-circle ml-xl-3 mr-xl-3 unloaded"></i>
+        
+
+        <span>ABOUT</span>
+      </a>
+    </li> <!-- .nav-item -->
+    
+
+  </ul> <!-- ul.nav.flex-column -->
+
+  <div class="sidebar-bottom mt-auto d-flex flex-wrap justify-content-center align-items-center">
+
+    
+      <button class="mode-toggle btn" aria-label="Switch Mode">
+        <i class="fas fa-adjust"></i>
+      </button>
+
+      
+        <span class="icon-border"></span>
+      
+    
+
+    
+      
+
+      
+      <a href="https://github.com/github_username" aria-label="github"
+        target="_blank" rel="noopener">
+        <i class="fab fa-github"></i>
+      </a>
+      
+
+    
+      
+
+      
+      <a href="https://twitter.com/twitter_username" aria-label="twitter"
+        target="_blank" rel="noopener">
+        <i class="fab fa-twitter"></i>
+      </a>
+      
+
+    
+      
+
+      
+      <a href="
+          javascript:location.href = 'mailto:' + ['ryomawithlst','gmail.com'].join('@')" aria-label="email"
+        >
+        <i class="fas fa-envelope"></i>
+      </a>
+      
+
+    
+      
+
+      
+      <a href="/feed.xml" aria-label="rss"
+        >
+        <i class="fas fa-rss"></i>
+      </a>
+      
+
+    
+
+  </div> <!-- .sidebar-bottom -->
+
+</div><!-- #sidebar -->
+
+
+    <!--
+  The Top Bar
+-->
+
+<div id="topbar-wrapper" class="row justify-content-center">
+  <div id="topbar" class="col-11 d-flex h-100 align-items-center justify-content-between">
+    <span id="breadcrumb">
+
+    
+
+    
+
+      
+
+        
+          <span>
+            <a href="/">
+              Home
+            </a>
+          </span>
+
+        
+
+      
+
+        
+
+      
+
+        
+
+          
+            <span>Principal Component Analysis</span>
+          
+
+        
+
+      
+
+    
+
+    </span><!-- endof #breadcrumb -->
+
+    <i id="sidebar-trigger" class="fas fa-bars fa-fw"></i>
+
+    <div id="topbar-title">
+      Post
+    </div>
+
+    <i id="search-trigger" class="fas fa-search fa-fw"></i>
+    <span id="search-wrapper" class="align-items-center">
+      <i class="fas fa-search fa-fw"></i>
+      <input class="form-control" id="search-input" type="search"
+        aria-label="search" autocomplete="off" placeholder="Search...">
+    </span>
+    <span id="search-cancel" >Cancel</span>
+  </div>
+
+</div>
+
+
+    <div id="main-wrapper">
+      <div id="main">
+
+        
+
+
+
+
+
+
+
+
+
+<div class="row">
+
+  <!-- core -->
+  <div id="core-wrapper" class="col-12 col-lg-11 col-xl-8">
+    <div class="post pl-1 pr-1 pl-sm-2 pr-sm-2 pl-md-4 pr-md-4">
+
+    
+
+    
+      
+      
+        <!--
+  Refactor the HTML structure.
+-->
+
+
+
+<!--
+  In order to allow a wide table to scroll horizontally,
+  we suround the markdown table with `<div class="table-wrapper">` and `</div>`
+-->
+
+
+
+<!--
+  Fixed kramdown code highlight rendering:
+  https://github.com/penibelst/jekyll-compress-html/issues/101
+  https://github.com/penibelst/jekyll-compress-html/issues/71#issuecomment-188144901
+-->
+
+
+
+<!-- Add attribute 'hide-bullet' to the checkbox list -->
+
+
+
+<!-- images -->
+
+
+
+
+
+<!-- Add header for code snippets -->
+
+
+
+<!-- Create heading anchors -->
+
+
+
+
+
+  
+  
+
+  
+    
+    
+
+    
+      
+        
+        
+      
+
+      
+      
+
+      
+      
+      
+
+      
+
+    
+
+    
+
+  
+
+  
+  
+
+  
+    
+    
+
+    
+      
+        
+        
+      
+
+      
+      
+
+      
+      
+      
+
+      
+
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+
+    
+
+    
+
+  
+
+  
+  
+
+  
+
+  
+  
+
+  
+
+
+
+
+<!-- Wrap prompt element of blockquote with the <div> tag -->
+
+
+
+
+
+
+
+<!-- return -->
+
+
+
+
+
+
+
+<h1 data-toc-skip>Principal Component Analysis</h1>
+
+<div class="post-meta text-muted">
+
+  <!-- author -->
+  <div>
+    
+    
+
+    
+
+    By
+    <em>
+      
+        <a href="https://github.com/luo-songtao">luo-songtao</a>
+      
+    </em>
+  </div>
+
+  <div class="d-flex">
+    <div>
+      <!-- published date -->
+      <span>
+        Posted
+        <!--
+  Date format snippet
+  See: ${JS_ROOT}/utils/timeago.js
+-->
+
+<em class="timeago"
+    data-ts="1645315200"
+    
+      data-toggle="tooltip" data-placement="bottom" data-tooltip-df="llll"
+    
+    >
+  2022-02-20
+</em>
+
+      </span>
+
+      <!-- lastmod date -->
+      
+
+      <!-- read time -->
+      <!--
+  Calculate the post's reading time, and display the word count in tooltip
+ -->
+
+
+
+<!-- words per minute  -->
+
+
+
+
+
+
+
+
+
+
+<!-- return element -->
+<span class="readtime" data-toggle="tooltip" data-placement="bottom"
+  title="696 words">
+  <em>3 min</em> read</span>
+
+
+      <!-- page views -->
+      
+    </div>
+
+  </div> <!-- .d-flex -->
+
+</div> <!-- .post-meta -->
+
+<div class="post-content">
+  <h2 id="principal-component-analysis"><span class="mr-2">Principal Component Analysis</span><a href="#principal-component-analysis" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2></h2>
+
+<h3 id="maximum-variance-formulation"><span class="mr-2">Maximum Variance formulation</span><a href="#maximum-variance-formulation" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3></h3>
+
+<p>PCA can be defined as the Orthogonal projection of the data into a lower dimensional linear space, known as the principal subspace, such that the variance of the projected data is maximized.</p>
+
+<ul>
+  <li>
+    <p>for $M = 1$, suppose the direction of this space is $\boldsymbol{u}_1$, and $|\boldsymbol{u}_1|^2=1$</p>
+
+\[\begin{aligned} &amp;\overline{\boldsymbol{x}} = \frac 1N\sum_{n=1}^N x_n \\ &amp;\frac 1N \sum_{n=1}^N \{ \boldsymbol{u}_1^T\boldsymbol{x}_n - \boldsymbol{u}_1^T\overline{\boldsymbol{x}}\} = \boldsymbol{u}_1^T S\boldsymbol{u}_1 \\ &amp; S = \frac 1N \sum_{n=1}^N (\boldsymbol{x_n}-\overline{\boldsymbol{x}})(\boldsymbol{x_n}-\overline{\boldsymbol{x}})^T \end{aligned}\]
+  </li>
+  <li>
+    <p>Note: the term $\boldsymbol{u}_1^T S\boldsymbol{u}_1$ is the variance of the projected data, to maximize it we need to introduce a Lagrange multiplier:</p>
+
+    <p>\(\begin{aligned} \max \qquad \boldsymbol{u}_1^T + \lambda S\boldsymbol{u}_1 + \lambda_1(1-\boldsymbol{u}_1^T\boldsymbol{u}_1) \end{aligned}\)</p>
+    <ul>
+      <li>
+        <p>By setting the derivative with respect $\boldsymbol{u}_1$ to zero, we have:</p>
+
+\[\begin{aligned} S\boldsymbol{u}_1 = \lambda_1 \boldsymbol{u}_1 \end{aligned}\]
+      </li>
+      <li>
+        <p>this means that firstly the $\boldsymbol{u}_1$ must be an eigenvector of $S$</p>
+      </li>
+      <li>
+        <p>and further more, we also can see:</p>
+
+\[\begin{aligned} \boldsymbol{u}_1^TS\boldsymbol{u}_1 = \lambda_1 \end{aligned}\]
+      </li>
+      <li>
+        <p>this means that $\lambda_1$ is the largest eigenvalue of $S$ and it corresponds to the eigenvector $\boldsymbol{u}_1$</p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>Then we can easily draw the conclusion that orthogonal projection of the data into a lower $M$-dimensional linear space, from the viewpoint of maximizing the variance of the projected data, and this problem equals to find the $M$-largest eigenvalues and the corresponding eigenvectors.</p>
+  </li>
+</ul>
+
+<h3 id="minimum-error-formulation"><span class="mr-2">Minimum-error formulation</span><a href="#minimum-error-formulation" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3></h3>
+
+<p>We now discuss an alternative formulation of PCA based on projection error minimization.</p>
+
+<p>We define:</p>
+<ul>
+  <li>$X$: $N\times D$ <strong>certered</strong> data set matrix</li>
+  <li>$Z$: $(D-M)\times D$ linear transform matrix</li>
+</ul>
+
+<p>and if we also denote:</p>
+<ul>
+  <li>$\mathcal{Y}$ represents the $M$-dimension Orthogonal Projection Subspace, i.e. principal subspace.</li>
+  <li>$\boldsymbol{z}_n = Z\boldsymbol{x}_n, \boldsymbol{z}_n \in \mathcal{Y}^{\perp}$</li>
+</ul>
+
+<p>in PCA, the best orthogonal projection problem can be writen as minimizing the distortion measure $J$:</p>
+
+\[\begin{aligned} \min &amp;\qquad J(Z) = \frac 1N \sum_{n=1}^N \|Z\boldsymbol{x}_n\|^2 = \text{Tr}(XZ^TZX^T) \\ &amp;\qquad \|z_i\|^2 = 1, i=M+1,...,D \end{aligned}\]
+
+<ul>
+  <li>
+    <p>Introduce Lagrange multiplier, this is equals to</p>
+
+\[\begin{aligned} \min_{Z,\boldsymbol{\lambda}} \qquad \text{Tr}(XZ^TZX^T) + \boldsymbol{\lambda}^T(ZZ^T - I) \end{aligned}\]
+
+    <ul>
+      <li>$\lambda$ is a $D-M$-dim vector</li>
+    </ul>
+  </li>
+  <li>
+    <p>setting derivative respect to $Z$ equals to zero, we have:</p>
+
+    <p>\(\begin{aligned} X^TXZ^T &amp;= Z^T\boldsymbol{\lambda}\\ \Longrightarrow X^TX \boldsymbol{z}_i &amp;= \lambda_i \boldsymbol{z}_i, \qquad i=M+1,...,D \end{aligned}\)</p>
+    <ul>
+      <li>we can see that the set of ${\lambda_i}$ are the eigenvaues of $X^TX$ and corresponding to eigenvectors  ${\boldsymbol{z}_i}$</li>
+    </ul>
+  </li>
+  <li>
+    <p>then we can obtain the minimum value of $J$ is :</p>
+
+\[\begin{aligned} J^* =  \text{Tr}(XZ^TZX^T) = \text{Tr}(\boldsymbol{\lambda}I) = \sum_{i=M+1}^D \lambda_i \end{aligned}\]
+  </li>
+  <li>
+    <p>that means ${\lambda_i}$ are the $D-M$ smallest eigenvalues of $X^TX$</p>
+  </li>
+</ul>
+
+<p>hence the eigenvectors defining the principal subspace are those corresponding to the $M$ largest eigenvalues.</p>
+
+<h3 id="svd-for-pca"><span class="mr-2">SVD for PCA</span><a href="#svd-for-pca" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3></h3>
+
+\[\begin{aligned} \mathbf{X} = \mathbf{U}\mathbf{D}\mathbf{V}^T \end{aligned}\]
+
+<ul>
+  <li>$\mathbf{X}: N\times D$: Center data set matrix</li>
+</ul>
+
+<p>then the $M$-larget principal components are first $M$ columns of $\mathbf{V}$</p>
+
+<h3 id="application-of-pca"><span class="mr-2">Application of PCA</span><a href="#application-of-pca" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3></h3>
+
+<ul>
+  <li>Data Compression</li>
+  <li>Data Pre-processing
+    <ul>
+      <li>in the general, the standardizing is made by a separate linear re-scaling of the individual variables such that each variable had zero mean and unit variance, and the correlation matrix(covariance matrix) is
+\(\begin{aligned} \rho_{ij} = \frac 1N \sum_{n=1}^N \frac {x_{ni}-\overline{x}_i}{\sigma_i}\frac {x_{nj}-\overline{x}_j}{\sigma_j}  \end{aligned}\)</li>
+      <li>but if using PCA we can make a more substantial normalization of the data to give it zero mean and unit covariance, and different variables become decorrelated
+        <ul>
+          <li>
+            <p>Eigenvector equation</p>
+
+\[\begin{aligned} SU = UL \end{aligned}\]
+          </li>
+          <li>$L$ is a $D\times D$ diagonal matrix with elements $\lambda_i$, and $U$ is a $D\times D$ orthogonal matrix with columns given by $\boldsymbol{u}_i$</li>
+          <li>
+            <p>next, we defined a transform on data given by:</p>
+
+\[\begin{aligned} \boldsymbol{y}_n = L^{-1/2}U^T(\boldsymbol{x}_n -\overline{\boldsymbol{x}}) \end{aligned}\]
+          </li>
+          <li>
+            <p>then its covariance is given by identity matrix:</p>
+
+\[\begin{aligned} \boldsymbol{y}_n\boldsymbol{y}_n^T = L^{-1/2}U^T(\boldsymbol{x}_n -\overline{\boldsymbol{x}}) (\boldsymbol{x}_n -\overline{\boldsymbol{x}})^TUL^{-1/2} \end{aligned}\]
+          </li>
+          <li>This operation is known as <strong>whitening</strong> or <strong>sphereing</strong></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Data Visualization
+    <ul>
+      <li>Here each data point is projected onto a  two-dimensional $(M = 2)$ principal subspace</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="pca-for-high-dimensional-data"><span class="mr-2">PCA for high-dimensional data</span><a href="#pca-for-high-dimensional-data" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3></h3>
+
+<p>if $N&lt; D$, then the linear subspace whise dimensionality is at most $N-1$, and there is little point in applying PCA for values of $M$ that are greater than $N-1$</p>
+
+<p>Let $X$ be $N\times D$ centred data matrix, then</p>
+
+\[\begin{aligned} \frac 1N X^TX\boldsymbol{u}_i &amp;= \lambda_i \boldsymbol{u}_i \\ \frac 1N XX^T(X\boldsymbol{u}_i) &amp;= \lambda_iX\boldsymbol{u}_i \\ \text{Let: }\boldsymbol{v_i} &amp;= X\boldsymbol{u}_i \\ \frac 1N XX^T \boldsymbol{v}_i &amp;= \boldsymbol{v}_i \\ \\ \frac 1N XX^T X^T\boldsymbol{v}_i &amp;= \lambda_i X^T\boldsymbol{v}_i \\ \boldsymbol{u}_i &amp;=  \frac 1{(N\lambda_i)^{1/2}}X^T\boldsymbol{v}_i \end{aligned}\]
+
+<ul>
+  <li>so we can firstly work on $R^N$ to find the $N$-dim eigenvectors of $XX^T$ and then compute the $D$-dim eigenvectors of $X^TX$</li>
+</ul>
+
+
+</div>
+
+<div class="post-tail-wrapper text-muted">
+
+  <!-- categories -->
+  
+  <div class="post-meta mb-3">
+    <i class="far fa-folder-open fa-fw mr-1"></i>
+    
+      <a href='/categories/machine-learning/'>Machine Learning</a>,
+      <a href='/categories/pca/'>PCA</a>
+  </div>
+  
+
+  <!-- tags -->
+  
+  <div class="post-tags">
+    <i class="fa fa-tags fa-fw mr-1"></i>
+      
+      <a href="/tags/pca/"
+          class="post-tag no-text-decoration" >PCA</a>
+      
+  </div>
+  
+
+  <div class="post-tail-bottom
+    d-flex justify-content-between align-items-center mt-3 pt-5 pb-2">
+    <div class="license-wrapper">
+
+      
+
+        
+
+        This post is licensed under 
+        <a href="https://creativecommons.org/licenses/by/4.0/">
+          CC BY 4.0
+        </a>
+         by the author.
+
+      
+    </div>
+
+    <!--
+ Post sharing snippet
+-->
+
+<div class="share-wrapper">
+  <span class="share-label text-muted mr-1">Share</span>
+  <span class="share-icons">
+    
+    
+
+    
+      
+        <a href="https://twitter.com/intent/tweet?text=Principal Component Analysis - Candy Note&amp;url=http://0.0.0.0:4000/posts/principal_component_analysis/" data-toggle="tooltip" data-placement="top"
+          title="Twitter" target="_blank" rel="noopener" aria-label="Twitter">
+          <i class="fa-fw fab fa-twitter"></i>
+        </a>
+    
+      
+        <a href="https://www.facebook.com/sharer/sharer.php?title=Principal Component Analysis - Candy Note&amp;u=http://0.0.0.0:4000/posts/principal_component_analysis/" data-toggle="tooltip" data-placement="top"
+          title="Facebook" target="_blank" rel="noopener" aria-label="Facebook">
+          <i class="fa-fw fab fa-facebook-square"></i>
+        </a>
+    
+      
+        <a href="https://t.me/share/url?url=http://0.0.0.0:4000/posts/principal_component_analysis/&amp;text=Principal Component Analysis - Candy Note" data-toggle="tooltip" data-placement="top"
+          title="Telegram" target="_blank" rel="noopener" aria-label="Telegram">
+          <i class="fa-fw fab fa-telegram"></i>
+        </a>
+    
+
+    <i id="copy-link" class="fa-fw fas fa-link small"
+        data-toggle="tooltip" data-placement="top"
+        title="Copy link"
+        data-title-succeed="Link copied successfully!">
+    </i>
+
+  </span>
+</div>
+
+
+  </div><!-- .post-tail-bottom -->
+
+</div><!-- div.post-tail-wrapper -->
+
+
+      
+    
+    
+
+    </div>
+  </div> <!-- #core-wrapper -->
+
+  <!-- pannel -->
+  <div id="panel-wrapper" class="col-xl-3 pl-2 text-muted">
+
+    <div class="access">
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+
+
+  <div id="access-tags">
+    <div class="panel-heading">Trending Tags</div>
+    <div class="d-flex flex-wrap mt-3 mb-1 mr-3">
+
+    
+      
+      <a class="post-tag" href="/tags/gaussian-distribution/">Gaussian Distribution</a>
+    
+      
+      <a class="post-tag" href="/tags/pca/">PCA</a>
+    
+      
+      <a class="post-tag" href="/tags/em/">EM</a>
+    
+      
+      <a class="post-tag" href="/tags/bayesian/">Bayesian</a>
+    
+      
+      <a class="post-tag" href="/tags/markov-chain/">Markov Chain</a>
+    
+      
+      <a class="post-tag" href="/tags/bernoulli/">Bernoulli</a>
+    
+      
+      <a class="post-tag" href="/tags/binomial/">Binomial</a>
+    
+      
+      <a class="post-tag" href="/tags/gamma-distribution/">Gamma Distribution</a>
+    
+      
+      <a class="post-tag" href="/tags/gmm/">GMM</a>
+    
+      
+      <a class="post-tag" href="/tags/kernel/">Kernel</a>
+    
+
+    </div>
+  </div>
+
+
+    </div>
+
+    
+      
+      
+
+
+
+<!-- BS-toc.js will be loaded at medium priority -->
+<script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@1.0.1/dist/bootstrap-toc.min.js"></script>
+
+<div id="toc-wrapper" class="pl-0 pr-4 mb-5">
+  <div class="panel-heading pl-3 pt-2 mb-2">Contents</div>
+  <nav id="toc" data-toggle="toc"></nav>
+</div>
+
+
+    
+  </div>
+
+</div>
+
+<!-- tail -->
+
+<div class="row">
+  <div class="col-12 col-lg-11 col-xl-8">
+    <div id="tail-wrapper" class="pl-1 pr-1 pl-sm-2 pr-sm-2 pl-md-4 pr-md-4">
+      
+        
+        <!--
+ Recommend the other 3 posts according to the tags and categories of the current post,
+ if the number is not enough, use the other latest posts to supplement.
+-->
+
+<!-- The total size of related posts  -->
+
+
+<!-- An random integer that bigger than 0  -->
+
+
+<!-- Equals to TAG_SCORE / {max_categories_hierarchy}  -->
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+
+
+
+<!-- Fill with the other newlest posts  -->
+
+
+
+
+
+
+  <div id="related-posts" class="mt-5 mb-2 mb-sm-4">
+    <h3 class="pt-2 mt-1 mb-4 ml-1"
+      data-toc-skip>Further Reading</h3>
+    <div class="card-deck mb-4">
+    
+      
+      
+      <div class="card">
+        <a href="/posts/Bayesian_pca/">
+          <div class="card-body">
+            <!--
+  Date format snippet
+  See: ${JS_ROOT}/utils/timeago.js
+-->
+
+<em class="timeago small"
+    data-ts="1645315200"
+    
+    >
+  2022-02-20
+</em>
+
+            <h3 class="pt-0 mt-1 mb-3" data-toc-skip>Bayesian PCA</h3>
+            <div class="text-muted small">
+              <p>
+                
+
+
+
+
+
+                Bayesian PCA
+
+Given that we have a probabilistic formulation of PCA, it seems natural to seek a Bayesian approach to model selection.
+
+But to do this, we need to marginalize out the model parameter...
+              </p>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+      
+      
+      <div class="card">
+        <a href="/posts/factor_analysis/">
+          <div class="card-body">
+            <!--
+  Date format snippet
+  See: ${JS_ROOT}/utils/timeago.js
+-->
+
+<em class="timeago small"
+    data-ts="1645315200"
+    
+    >
+  2022-02-20
+</em>
+
+            <h3 class="pt-0 mt-1 mb-3" data-toc-skip>Factor Analysis</h3>
+            <div class="text-muted small">
+              <p>
+                
+
+
+
+
+
+                Factor Analysis
+
+Factor analysis is a linear-Gaussian latent variable model that is closely related to probabilistic PCA.
+
+
+  
+    in probabilistic PCA:
+
+\[\begin{aligned} \boldsymbol{x} &amp;amp;= \ma...
+              </p>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+      
+      
+      <div class="card">
+        <a href="/posts/kernel_pca/">
+          <div class="card-body">
+            <!--
+  Date format snippet
+  See: ${JS_ROOT}/utils/timeago.js
+-->
+
+<em class="timeago small"
+    data-ts="1645315200"
+    
+    >
+  2022-02-20
+</em>
+
+            <h3 class="pt-0 mt-1 mb-3" data-toc-skip>Kernel PCA</h3>
+            <div class="text-muted small">
+              <p>
+                
+
+
+
+
+
+                Kernel PCA
+
+Centered case analysis
+
+
+  
+    Let $\mathbf{S}$ be $D\times D$ sample covariance matrix, as discussed at conventional PCA: (assume $\mathbf{X}$ are Centered data set)
+  
+  
+    Recall ...
+              </p>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+    </div> <!-- .card-deck -->
+  </div> <!-- #related-posts -->
+
+
+      
+        
+        <!--
+  Navigation buttons at the bottom of the post.
+-->
+
+<div class="post-navigation d-flex justify-content-between">
+  
+  <a href="/posts/kernel_pca/" class="btn btn-outline-primary"
+    prompt="Older">
+    <p>Kernel PCA</p>
+  </a>
+  
+
+  
+  <a href="/posts/probabilistic_pca/" class="btn btn-outline-primary"
+    prompt="Newer">
+    <p>Probabilistic PCA</p>
+  </a>
+  
+
+</div>
+
+      
+        
+        <!--  The comments switcher -->
+
+
+      
+    </div>
+  </div>
+</div> <!-- .row -->
+
+
+
+        <!--
+  The Footer
+-->
+
+<footer class="d-flex w-100 justify-content-center">
+  <div class="d-flex justify-content-between align-items-center text-muted">
+    <div class="footer-left">
+      <p class="mb-0">
+        © 2022
+        <a href="https://twitter.com/username">luo-songtao</a>.
+        
+        <span data-toggle="tooltip" data-placement="top"
+          title="Except where otherwise noted, the blog posts on this site are licensed under the Creative Commons Attribution 4.0 International (CC BY 4.0) License by the author.">Some rights reserved.</span>
+        
+      </p>
+    </div>
+
+    <div class="footer-right">
+      <p class="mb-0">
+        
+
+        
+
+        Powered by 
+          <a href="https://jekyllrb.com" target="_blank" rel="noopener">Jekyll</a>
+         with 
+          <a href="https://github.com/cotes2020/jekyll-theme-chirpy" target="_blank" rel="noopener">Chirpy</a>
+         theme.
+
+      </p>
+    </div>
+
+  </div> <!-- div.d-flex -->
+</footer>
+
+
+      </div>
+
+      <!--
+  The Search results
+-->
+<div id="search-result-wrapper" class="d-flex justify-content-center unloaded">
+  <div class="col-12 col-sm-11 post-content">
+    <div id="search-hints">
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+
+
+  <div id="access-tags">
+    <div class="panel-heading">Trending Tags</div>
+    <div class="d-flex flex-wrap mt-3 mb-1 mr-3">
+
+    
+      
+      <a class="post-tag" href="/tags/gaussian-distribution/">Gaussian Distribution</a>
+    
+      
+      <a class="post-tag" href="/tags/pca/">PCA</a>
+    
+      
+      <a class="post-tag" href="/tags/em/">EM</a>
+    
+      
+      <a class="post-tag" href="/tags/bayesian/">Bayesian</a>
+    
+      
+      <a class="post-tag" href="/tags/markov-chain/">Markov Chain</a>
+    
+      
+      <a class="post-tag" href="/tags/bernoulli/">Bernoulli</a>
+    
+      
+      <a class="post-tag" href="/tags/binomial/">Binomial</a>
+    
+      
+      <a class="post-tag" href="/tags/gamma-distribution/">Gamma Distribution</a>
+    
+      
+      <a class="post-tag" href="/tags/gmm/">GMM</a>
+    
+      
+      <a class="post-tag" href="/tags/kernel/">Kernel</a>
+    
+
+    </div>
+  </div>
+
+
+    </div>
+    <div id="search-results" class="d-flex flex-wrap justify-content-center text-muted mt-3"></div>
+  </div>
+</div>
+
+
+    </div> <!-- #main-wrapper -->
+
+    
+      <!--
+  mermaid-js loader
+-->
+
+<script src="https://cdn.jsdelivr.net/npm/mermaid@8/dist/mermaid.min.js"></script>
+
+<script>
+  $(function() {
+    function updateMermaid(event) {
+      if (event.source === window && event.data &&
+            event.data.direction === ModeToggle.ID) {
+
+        const mode = event.data.message;
+
+        if (typeof mermaid === "undefined") {
+          return;
+        }
+
+        let expectedTheme = (mode === ModeToggle.DARK_MODE? "dark" : "default");
+        let config = { theme: expectedTheme };
+
+        /* Re-render the SVG › <https://github.com/mermaid-js/mermaid/issues/311#issuecomment-332557344> */
+        $(".mermaid").each(function() {
+          let svgCode = $(this).prev().children().html();
+          $(this).removeAttr("data-processed");
+          $(this).html(svgCode);
+        });
+
+        mermaid.initialize(config);
+        mermaid.init(undefined, ".mermaid");
+      }
+    }
+
+    let initTheme = "default";
+
+    if ($("html[data-mode=dark]").length > 0
+      || ($("html[data-mode]").length == 0
+        && window.matchMedia("(prefers-color-scheme: dark)").matches ) ) {
+      initTheme = "dark";
+    }
+
+    let mermaidConf = {
+      theme: initTheme  /* <default|dark|forest|neutral> */
+    };
+
+    /* Markdown converts to HTML */
+    $("pre").has("code.language-mermaid").each(function() {
+      let svgCode = $(this).children().html();
+      $(this).addClass("unloaded");
+      $(this).after(`<div class=\"mermaid\">${svgCode}</div>`);
+    });
+
+    mermaid.initialize(mermaidConf);
+
+    window.addEventListener("message", updateMermaid);
+  });
+</script>
+
+    
+
+    <div id="mask"></div>
+
+    <a id="back-to-top" href="#" aria-label="back-to-top" class="btn btn-lg btn-box-shadow" role="button">
+      <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!--
+  Jekyll Simple Search loader
+  See: <https://github.com/christian-fei/Simple-Jekyll-Search>
+-->
+
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/simple-jekyll-search@1.10.0/dest/simple-jekyll-search.min.js"></script>
+
+<script>
+SimpleJekyllSearch({
+  searchInput: document.getElementById('search-input'),
+  resultsContainer: document.getElementById('search-results'),
+  json: '/assets/js/data/search.json',
+  searchResultTemplate: '<div class="pl-1 pr-1 pl-sm-2 pr-sm-2 pl-lg-4 pr-lg-4 pl-xl-0 pr-xl-0">  <a href="{url}">{title}</a>  <div class="post-meta d-flex flex-column flex-sm-row text-muted mt-1 mb-1">    {categories}    {tags}  </div>  <p>{snippet}</p></div>',
+  noResultsText: '<p class="mt-5">Oops! No result founds.</p>',
+  templateMiddleware: function(prop, value, template) {
+    if (prop === 'categories') {
+      if (value === '') {
+        return `${value}`;
+      } else {
+        return `<div class="mr-sm-4"><i class="far fa-folder fa-fw"></i>${value}</div>`;
+      }
+    }
+
+    if (prop === 'tags') {
+      if (value === '') {
+        return `${value}`;
+      } else {
+        return `<div><i class="fa fa-tag fa-fw"></i>${value}</div>`;
+      }
+    }
+  }
+});
+</script>
+
+
+    <!--
+  JS selector for site.
+-->
+
+<!-- layout specified -->
+
+
+  
+
+
+
+  <!-- image lazy-loading & popup & clipboard -->
+  
+
+  
+
+
+
+
+
+
+
+  
+    
+
+    
+
+  
+
+
+
+  
+    
+
+    
+
+  
+
+
+
+  
+    
+
+    
+
+  
+
+
+
+
+  <script src="https://cdn.jsdelivr.net/combine/npm/magnific-popup@1/dist/jquery.magnific-popup.min.js,npm/lozad/dist/lozad.min.js,npm/clipboard@2/dist/clipboard.min.js"></script>
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+
+
+
+
+
+  
+    
+
+    
+
+  
+
+
+
+  
+    
+
+    
+
+  
+
+
+
+  
+    
+
+    
+
+  
+
+
+
+  
+    
+
+    
+
+  
+
+
+
+
+  <script src="https://cdn.jsdelivr.net/combine/npm/dayjs@1/dayjs.min.js,npm/dayjs@1/locale/en.min.js,npm/dayjs@1/plugin/relativeTime.min.js,npm/dayjs@1/plugin/localizedFormat.min.js"></script>
+
+
+
+
+
+
+
+
+<script defer src="/assets/js/dist/post.min.js"></script>
+
+
+  <!-- MathJax -->
+  <script>
+  /* see: <https://docs.mathjax.org/en/latest/options/input/tex.html#tex-options> */
+  MathJax = {
+    tex: {
+      inlineMath: [              /* start/end delimiter pairs for in-line math */
+        ['$','$'],
+        ['\\(','\\)']
+      ],
+      displayMath: [             /* start/end delimiter pairs for display math */
+        ['$$', '$$'],
+        ['\\[', '\\]']
+      ]
+    }
+  };
+  </script>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+  </script>
+
+
+<!-- commons -->
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.bundle.min.js"></script>
+
+
+
+
+  </body>
+
+</html>
+

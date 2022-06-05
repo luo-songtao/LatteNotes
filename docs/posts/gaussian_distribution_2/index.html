@@ -1,0 +1,3923 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html lang="en"
+  
+>
+
+  <!--
+  The Head
+-->
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Allow having a localized datetime different from the appearance language -->
+  
+
+  
+
+    
+
+    
+
+  
+
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+<meta name="generator" content="Jekyll v4.2.1" />
+<meta property="og:title" content="Gaussian Distribution (2)" />
+<meta name="author" content="luo-songtao" />
+<meta property="og:locale" content="en" />
+<meta name="description" content="Maximum Likelihood for the Gaussian Given a data set $\mathbf{X} = {\mathbf{x}_1,\mathbf{x}_2,\cdots, \mathbf{x}_N}$ which are drawn independently from a multivariate Gaussian distribution, then we can estimate the parameters of the distribution by maximum likelihood. \[\begin{aligned} \ln p(\mathbf{X} \vert \boldsymbol{\mu}, \Sigma) = -\frac 12\left(ND\ln(2\pi) + N\ln(\vert\Sigma\vert) + \sum_{i=1}^N(\mathbf{x}_i-\boldsymbol{\mu})^T\Sigma^{-1}(\mathbf{x}_i-\boldsymbol{\mu}) \right) \end{aligned}\] We can see, the likelihood function depends on the data set only through the two quantities: \[\begin{aligned} \sum_{i=1}^N x_i, \qquad \sum_{i=1}^N x_ix_i^T \end{aligned}\] these are known as the sufficient statistics for the Gaussian distribution The Maximum Likelihood solutions: [\begin{aligned} \frac {\partial \ln p(\mathbf{X} \vert \mathbf{\mu}, \Sigma)}{\partial \boldsymbol{\mu}} &amp;= \sum_{i=1}^N \Sigma^{-1}(\mathbf{x}i - \boldsymbol{\mu}) \ \ \Rightarrow\qquad \boldsymbol{\mu}{ml} &amp;= \frac{1}{N} \sum_{i=1}^N \mathbf{x}_i \end{aligned}] [\begin{aligned} \frac {\partial \ln p(\mathbf{X} \vert \mathbf{\mu}, \Sigma)}{\partial \Sigma} &amp;= -\frac 12\left(N\frac {\partial}{\partial \Sigma}\ln(\vert\Sigma\vert) + \frac {\partial}{\partial \Sigma}\sum_{i=1}^N(\mathbf{x}i-\boldsymbol{\mu})^T\Sigma^{-1}(\mathbf{x}_i-\boldsymbol{\mu}) \right) \&amp;= -\frac 12\left(N\Sigma^{-1} + \sum{i=1}^N -\Sigma^{-1}(\mathbf{x}i-\boldsymbol{\mu})(\mathbf{x}_i-\boldsymbol{\mu})^T\Sigma^{-1} \right) \ &amp;= -\frac 12 \left(NI - \Sigma^{-1}\sum{i=1}^N(\mathbf{x}i-\boldsymbol{\mu})(\mathbf{x}_i-\boldsymbol{\mu})^T\right)\Sigma^{-1} \ \ \Rightarrow\qquad \Sigma{ml} &amp;= \frac 1N \sum_{i=1}^N(\mathbf{x}i-\boldsymbol{\mu}{ml})(\mathbf{x}i-\boldsymbol{\mu}{ml})^T\end{aligned}] The Expectation of Maximum Likelihood solutions: \[\begin{aligned} \mathbb{E}[\boldsymbol{\mu}_{ml}] &amp;= \frac 1N \sum_{i=1}^N \mathbb{E}[\mathbf{x}_i] =\boldsymbol{\mu} \\ \mathbb{E}[\Sigma_{ml}] &amp;= \frac 1N \sum_{i=1}^N \mathbb{E}[(\mathbf{x}_i-\boldsymbol{\mu}_{ml})(\mathbf{x}_i-\boldsymbol{\mu}_{ml})^T] = \frac {N-1}{N} \Sigma \end{aligned}\] We the ml estimate of covariance has expeectation is less than the true value, and hence it is biased. But we can let $\tilde{\Sigma} = \frac {1}{N-1} \Sigma_{ml}$ to correct this bias. \[\begin{aligned} \mathbb{E}[\tilde{\Sigma}] = \frac {N}{N-1} \mathbb{E}[\Sigma_{ml}] = \Sigma \end{aligned}\] Proof of the $\mathbb{E}[\Sigma_{ml}]$: \[\begin{aligned} \frac 1N \sum_{i=1}^N\mathbb{E}[(\mathbf{x}_i-\boldsymbol{\mu}_{ml})(\mathbf{x}_i-\boldsymbol{\mu}_{ml})^T] &amp;= \frac 1N \sum_{i=1}^N\left(\mathbb{E}[\mathbf{x}_i\mathbf{x}_i^T] -\mathbb{E}[\mathbf{x}_i\mathbf{\mu}_{ml}^T]-\mathbb{E}[\mathbf{\mu}_{ml}\mathbf{x}_i^T]+ \mathbb{E}[\mathbf{\mu}_{ml}\mathbf{\mu}_{ml}^T] \right) \end{aligned}\] $\mathbb{E}[\mathbf{x}i\mathbf{\mu}{ml}^T]$, according to the iid property of the data set, (means: $\forall i\neq j,\mathbb{E}[\mathbf{x}_i\mathbf{x}_j^T]=\boldsymbol{\mu}\boldsymbol{\mu}^T; \forall i=j, \mathbb{E}[\mathbf{x}_i\mathbf{x}_j^T]=\mathbb{E}[\mathbf{x}_i\mathbf{x}_i^T]=\Sigma+\boldsymbol{\mu}\boldsymbol{\mu}^T$): \(\begin{aligned} \mathbb{E}[\mathbf{x}_i\mathbf{\mu}_{ml}^T] = \frac 1N \sum_{j=1}^N \mathbb{E}[\mathbf{x}_i\mathbf{x}_j] = \frac 1N [(N-1)\boldsymbol{\mu}\boldsymbol{\mu}^T + \Sigma+\boldsymbol{\mu}\boldsymbol{\mu}^T] = \boldsymbol{\mu}\boldsymbol{\mu}^T+\frac 1N \Sigma \end{aligned}\) With the same procdure: \[\begin{aligned} \mathbb{E}[\mathbf{\mu}_{ml}\mathbf{x}_i^T] = \mathbb{E}[\mathbf{\mu}_{ml}\mathbf{\mu}_{ml}^T] = \boldsymbol{\mu}\boldsymbol{\mu}^T+\frac 1N \Sigma \end{aligned}\] Thus: \[\begin{aligned} \frac 1N \sum_{i=1}^N\mathbb{E}[(\mathbf{x}_i-\boldsymbol{\mu}_{ml})(\mathbf{x}_i-\boldsymbol{\mu}_{ml})^T] = \frac 1N \sum_{i=1}^N (\Sigma + \boldsymbol{\mu}\boldsymbol{\mu}^T - (\boldsymbol{\mu}\boldsymbol{\mu}^T+\frac 1N \Sigma)) = \frac {N-1}{N} \Sigma \end{aligned}\] Sequential Estimation the sequential estimation of the Maximum Likelihood solution \[\begin{aligned} \boldsymbol{\mu}_{ml}^{(N)} &amp;= \frac 1N \sum_{i=1}^N \mathbf{x}_i \\&amp;= \frac 1N \mathbf{x}_N + \frac 1N \sum_{i=1}^{N-1} \mathbf{x}_i \\&amp;= \frac 1N \mathbf{x}_N + \frac {N-1}{N}\boldsymbol{\mu}_{ml}^{(N-1)} \\&amp;= \boldsymbol{\mu}_{ml}^{(N-1)} + \frac 1N (\mathbf{x}_N-\boldsymbol{\mu}_{ml}^{(N-1)})\end{aligned}\] But this is not always be able to derive a sequential algorithm by this route. Robbins-Monro Algorithm: this is a stochastic approximation. Consider the function: \[\begin{aligned} f(\boldsymbol{\theta}) = \mathbb{E}_\boldsymbol{x}[\phi(\boldsymbol{\theta}, \boldsymbol{x})\vert \boldsymbol{\theta}] , \qquad \boldsymbol{\theta} \in R^D \end{aligned}\] $\boldsymbol{x}$ is a random vector of unknown statistics. the goal is to compute a root of $f(\boldsymbol{\theta})$ The Robbins-Monro Algorithm \[\begin{aligned} \boldsymbol{\theta}_{n} &amp;= \boldsymbol{\theta}_{n-1}+ \alpha_{n-1} \phi(\boldsymbol{\theta}_{n-1}, \mathbf{x}_{n}) \end{aligned}\] the convergence conditions \(\begin{aligned} \lim_{N \rightarrow \infty} \alpha_{N-1} &amp;= 0 \\ \sum_{N=1}^\infty a_N &amp;= \infty \\ \sum_{N=1}^\infty a_N^2 &amp; \lt \infty \end{aligned}\) Using Robbins-Monro Algorithm to solve a general maximum likelihood problem sequentially \[\begin{aligned} \frac {\partial}{\partial \boldsymbol{\theta}} \left.\left( \frac 1N \sum_{i=1}^N \ln p(\mathbf{x}_i\vert \boldsymbol{\theta}) \right)\right\vert_{\boldsymbol{\theta}_{ml}} &amp;= 0 \\ \\ \lim_{N\rightarrow \infty} \frac 1N \sum_{i=1}^N \frac {\partial}{\partial \boldsymbol{\theta}} \ln p(\boldsymbol{x}_i\vert \boldsymbol{\theta}) &amp;= \mathbb{E}_{\boldsymbol{x}}[\frac {\partial}{\partial \boldsymbol{\theta}}\ln p(\boldsymbol{x}\vert \boldsymbol{\theta})] \end{aligned}\] Then: \[\begin{aligned} \boldsymbol{\theta}_{n} &amp;= \boldsymbol{\theta}_{n-1} + \alpha_{n-1}\frac {\partial}{\partial \boldsymbol{\theta}}\ln p(\boldsymbol{x}_n\vert \boldsymbol{\theta}) \end{aligned}\] the sequential estimation of the mean of a gaussian distribution \(\begin{aligned} \frac {\partial}{\partial \boldsymbol{\mu}_{ml}}\ln p(\boldsymbol{x}_n\vert \boldsymbol{\mu}_{ml}, \Sigma) = \Sigma^{-1}(\mathbf{x}_i - \boldsymbol{\mu}) \end{aligned}\) then, we let $\alpha_{n-1}=\frac \Sigma N$, we can also obtain the sequential estimation of the Maximum Likelihood solution. Parameter Estimate of Gaussian Distribution [p(x) = \mathcal{N}(x\vert \mu, \sigma^2) = \frac {1}{(2\pi \sigma^2)^{1/2}} \exp\left( -\frac {1}{2\sigma^2} (x-\mu)^2\right)] Suppose we have an i.i.d data set of observation $\mathbf{X} = {x_1, x_2, \cdots, x_N }$, we shall determine values from the unknown parameters $\mu$ and $\sigma^2$ in Gaussian by maximizing the likelihood function. Likelihood function: \[L(\mu, \sigma^2) = p(\mathbf{X} \vert \mu, \sigma^2) = \prod_{i=1}^N \mathcal{N}(x_i\vert \mu, \sigma^2)\] The log likelihood funciton: \[LL(\mu, \sigma^2) = \ln p(\mathbf{X} \vert \mu, \sigma^2) = -\frac {1}{2\sigma^2} \sum_{i=1}^N (x_i - \mu)^2 - \frac N2 \ln \sigma^2 - \frac N2 \ln (2\pi)\] The partial derivative \[\begin{aligned} \frac {\partial LL}{\partial \mu} &amp;= \frac {1}{\sigma^2} \sum_{i=1}^N (x_i -\mu) \\ \frac {\partial LL}{\partial \sigma^2} &amp;= \frac {1}{2\sigma^2}( \frac {1}{\sigma^2}\sum_{i=1}^N (x_i - \mu)^2 - N)\end{aligned}\] Then we have: \[\begin{aligned} \mu_{ml} &amp;= \arg \max_{\mu} LL(\mu, \sigma^2) = \frac 1N \sum_{i=1}^N x_i \\ \sigma^2_{ml} &amp;= \arg \max_{\sigma^2} LL(\mu, \sigma^2) = \frac 1N \sum_{i=1}^N (x_i - \mu)^2 = \frac 1N \sum_{i=1}^N (x_i - \mu_{ml})^2 \end{aligned}\] They are respectively the sample mean and sample variance. The expectation of $\mu_{ml}$ and $\sigma^2_{ml}$. \[\begin{aligned} \mathbb{E}[\mu_{ml}] &amp;= \frac 1N \sum_{i=1}^N \mathbb{E}[x_i] \\ &amp;= \frac 1N N\mu \\ &amp;= \mu \\ \mathbb{E}[\sigma^2_{ml}] &amp;= \frac 1N \sum_{i=1}^N \mathbb{E}[(x_i-\mu_{ml})^2] \\&amp; = \frac 1N \sum_{i=1}^N \mathbb{E}[x_i^2] - \frac 2N \sum_{i=1}^N \mathbb{E}[x_i\mu_{ml}] + \frac 1N \sum_{i=1}^N\mathbb{E}[\mu_{ml}^2] \\&amp;= \sigma^2 + \mu^2 - \frac 2N \mathbb{E}[\sum_{i=1}^Nx_i \mu_{ml}] + \mathbb{E}[\mu_{ml}^2] \\&amp;= \sigma^2 + \mu^2 - \frac 2N \mathbb{E}[N\mu_{ml}^2] + \mathbb{E}[\mu_{ml}^2] \\&amp;= \sigma^2 + \mu^2 - \mathbb{E}[\mu_{ml}^2] \\&amp;= \sigma^2 + \mu^2 - \mathbb{E}[(\frac 1N \sum_{i=1}^N x_i)^2] \\ &amp;= \sigma^2 + \mu^2 - \frac {1}{N^2} [(N^2-N)\mu^2 + N(\mu^2+\sigma^2)] \\ &amp;= \sigma^2 - \frac 1N \sigma^2 \\&amp;= \frac {N-1}{N} \sigma^2 \end{aligned}\] The result is attained according to the i.i.d assuming of the data set. Then we see that the estimate for mean is unbiased, but for variance is not. The maximum likelihood approach systematically underestimates the variance of the distribution. On average the maximum likelihood estiamte will obtain the correct mean but will underestimate the true variance by a factor $\frac {N-1}{N}$. But if let the estiamte for the variance be \[\tilde{\sigma}^2 = \frac {N}{N-1} \sigma_{ml}^2 = \frac 1{N-1} \sum_{i=1}^N (x_i -\mu_{ml})^2\] then it will be unbiased. Actually we also can see, in the limit $N\rightarrow \infty$ the maximum likelihhod solution for the variance equals the true variance of the distribution that generated the data. 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 # Parameter Estimate import numpy as np class GaussianParameterEstimator(object): def __init__(self): pass def estimate_mean_by_ml(self, x): &quot;&quot;&quot;estimate mean by maximum likehood: obtained by simple mean&quot;&quot;&quot; return np.mean(x, axis=0) def estimate_variance_by_ml(self, x, mu): &quot;&quot;&quot;estiamte variance by maximum likelihood: obtained by simple variance&quot;&quot;&quot; return np.mean((x-mu)**2, axis=0) true_mean = 1 true_sigma = 10 estimator = GaussianParameterEstimator() print(&quot;True mean: {} and True variance: {}&quot;.format(true_mean, true_sigma**2)) for N in [10, 100, 1e4, 1e6, 1e8]: iid_data = np.random.normal(true_mean, true_sigma, int(N)) # generate data mean = estimator.estimate_mean_by_ml(iid_data) variance = estimator.estimate_variance_by_ml(iid_data, mean) print(&quot;mean_error: {}, variance_error: {}, N: {}, &quot;.format(round(abs(mean-true_mean), 4), round(abs(variance-true_sigma**2), 4), N)) # Output &quot;&quot;&quot; True mean: 1 and True variance: 100 mean_error: 4.166, variance_error: 41.0061, N: 10, mean_error: 1.2388, variance_error: 15.1728, N: 100, mean_error: 0.0142, variance_error: 0.7322, N: 10000.0, mean_error: 0.0045, variance_error: 0.1071, N: 1000000.0, mean_error: 0.0003, variance_error: 0.0037, N: 100000000.0, &quot;&quot;&quot; Then we can see as $N\rightarrow \infty$, the maximum solution of mean and variance getting closer the mean and variance of the distribution that generated the data." />
+<meta property="og:description" content="Maximum Likelihood for the Gaussian Given a data set $\mathbf{X} = {\mathbf{x}_1,\mathbf{x}_2,\cdots, \mathbf{x}_N}$ which are drawn independently from a multivariate Gaussian distribution, then we can estimate the parameters of the distribution by maximum likelihood. \[\begin{aligned} \ln p(\mathbf{X} \vert \boldsymbol{\mu}, \Sigma) = -\frac 12\left(ND\ln(2\pi) + N\ln(\vert\Sigma\vert) + \sum_{i=1}^N(\mathbf{x}_i-\boldsymbol{\mu})^T\Sigma^{-1}(\mathbf{x}_i-\boldsymbol{\mu}) \right) \end{aligned}\] We can see, the likelihood function depends on the data set only through the two quantities: \[\begin{aligned} \sum_{i=1}^N x_i, \qquad \sum_{i=1}^N x_ix_i^T \end{aligned}\] these are known as the sufficient statistics for the Gaussian distribution The Maximum Likelihood solutions: [\begin{aligned} \frac {\partial \ln p(\mathbf{X} \vert \mathbf{\mu}, \Sigma)}{\partial \boldsymbol{\mu}} &amp;= \sum_{i=1}^N \Sigma^{-1}(\mathbf{x}i - \boldsymbol{\mu}) \ \ \Rightarrow\qquad \boldsymbol{\mu}{ml} &amp;= \frac{1}{N} \sum_{i=1}^N \mathbf{x}_i \end{aligned}] [\begin{aligned} \frac {\partial \ln p(\mathbf{X} \vert \mathbf{\mu}, \Sigma)}{\partial \Sigma} &amp;= -\frac 12\left(N\frac {\partial}{\partial \Sigma}\ln(\vert\Sigma\vert) + \frac {\partial}{\partial \Sigma}\sum_{i=1}^N(\mathbf{x}i-\boldsymbol{\mu})^T\Sigma^{-1}(\mathbf{x}_i-\boldsymbol{\mu}) \right) \&amp;= -\frac 12\left(N\Sigma^{-1} + \sum{i=1}^N -\Sigma^{-1}(\mathbf{x}i-\boldsymbol{\mu})(\mathbf{x}_i-\boldsymbol{\mu})^T\Sigma^{-1} \right) \ &amp;= -\frac 12 \left(NI - \Sigma^{-1}\sum{i=1}^N(\mathbf{x}i-\boldsymbol{\mu})(\mathbf{x}_i-\boldsymbol{\mu})^T\right)\Sigma^{-1} \ \ \Rightarrow\qquad \Sigma{ml} &amp;= \frac 1N \sum_{i=1}^N(\mathbf{x}i-\boldsymbol{\mu}{ml})(\mathbf{x}i-\boldsymbol{\mu}{ml})^T\end{aligned}] The Expectation of Maximum Likelihood solutions: \[\begin{aligned} \mathbb{E}[\boldsymbol{\mu}_{ml}] &amp;= \frac 1N \sum_{i=1}^N \mathbb{E}[\mathbf{x}_i] =\boldsymbol{\mu} \\ \mathbb{E}[\Sigma_{ml}] &amp;= \frac 1N \sum_{i=1}^N \mathbb{E}[(\mathbf{x}_i-\boldsymbol{\mu}_{ml})(\mathbf{x}_i-\boldsymbol{\mu}_{ml})^T] = \frac {N-1}{N} \Sigma \end{aligned}\] We the ml estimate of covariance has expeectation is less than the true value, and hence it is biased. But we can let $\tilde{\Sigma} = \frac {1}{N-1} \Sigma_{ml}$ to correct this bias. \[\begin{aligned} \mathbb{E}[\tilde{\Sigma}] = \frac {N}{N-1} \mathbb{E}[\Sigma_{ml}] = \Sigma \end{aligned}\] Proof of the $\mathbb{E}[\Sigma_{ml}]$: \[\begin{aligned} \frac 1N \sum_{i=1}^N\mathbb{E}[(\mathbf{x}_i-\boldsymbol{\mu}_{ml})(\mathbf{x}_i-\boldsymbol{\mu}_{ml})^T] &amp;= \frac 1N \sum_{i=1}^N\left(\mathbb{E}[\mathbf{x}_i\mathbf{x}_i^T] -\mathbb{E}[\mathbf{x}_i\mathbf{\mu}_{ml}^T]-\mathbb{E}[\mathbf{\mu}_{ml}\mathbf{x}_i^T]+ \mathbb{E}[\mathbf{\mu}_{ml}\mathbf{\mu}_{ml}^T] \right) \end{aligned}\] $\mathbb{E}[\mathbf{x}i\mathbf{\mu}{ml}^T]$, according to the iid property of the data set, (means: $\forall i\neq j,\mathbb{E}[\mathbf{x}_i\mathbf{x}_j^T]=\boldsymbol{\mu}\boldsymbol{\mu}^T; \forall i=j, \mathbb{E}[\mathbf{x}_i\mathbf{x}_j^T]=\mathbb{E}[\mathbf{x}_i\mathbf{x}_i^T]=\Sigma+\boldsymbol{\mu}\boldsymbol{\mu}^T$): \(\begin{aligned} \mathbb{E}[\mathbf{x}_i\mathbf{\mu}_{ml}^T] = \frac 1N \sum_{j=1}^N \mathbb{E}[\mathbf{x}_i\mathbf{x}_j] = \frac 1N [(N-1)\boldsymbol{\mu}\boldsymbol{\mu}^T + \Sigma+\boldsymbol{\mu}\boldsymbol{\mu}^T] = \boldsymbol{\mu}\boldsymbol{\mu}^T+\frac 1N \Sigma \end{aligned}\) With the same procdure: \[\begin{aligned} \mathbb{E}[\mathbf{\mu}_{ml}\mathbf{x}_i^T] = \mathbb{E}[\mathbf{\mu}_{ml}\mathbf{\mu}_{ml}^T] = \boldsymbol{\mu}\boldsymbol{\mu}^T+\frac 1N \Sigma \end{aligned}\] Thus: \[\begin{aligned} \frac 1N \sum_{i=1}^N\mathbb{E}[(\mathbf{x}_i-\boldsymbol{\mu}_{ml})(\mathbf{x}_i-\boldsymbol{\mu}_{ml})^T] = \frac 1N \sum_{i=1}^N (\Sigma + \boldsymbol{\mu}\boldsymbol{\mu}^T - (\boldsymbol{\mu}\boldsymbol{\mu}^T+\frac 1N \Sigma)) = \frac {N-1}{N} \Sigma \end{aligned}\] Sequential Estimation the sequential estimation of the Maximum Likelihood solution \[\begin{aligned} \boldsymbol{\mu}_{ml}^{(N)} &amp;= \frac 1N \sum_{i=1}^N \mathbf{x}_i \\&amp;= \frac 1N \mathbf{x}_N + \frac 1N \sum_{i=1}^{N-1} \mathbf{x}_i \\&amp;= \frac 1N \mathbf{x}_N + \frac {N-1}{N}\boldsymbol{\mu}_{ml}^{(N-1)} \\&amp;= \boldsymbol{\mu}_{ml}^{(N-1)} + \frac 1N (\mathbf{x}_N-\boldsymbol{\mu}_{ml}^{(N-1)})\end{aligned}\] But this is not always be able to derive a sequential algorithm by this route. Robbins-Monro Algorithm: this is a stochastic approximation. Consider the function: \[\begin{aligned} f(\boldsymbol{\theta}) = \mathbb{E}_\boldsymbol{x}[\phi(\boldsymbol{\theta}, \boldsymbol{x})\vert \boldsymbol{\theta}] , \qquad \boldsymbol{\theta} \in R^D \end{aligned}\] $\boldsymbol{x}$ is a random vector of unknown statistics. the goal is to compute a root of $f(\boldsymbol{\theta})$ The Robbins-Monro Algorithm \[\begin{aligned} \boldsymbol{\theta}_{n} &amp;= \boldsymbol{\theta}_{n-1}+ \alpha_{n-1} \phi(\boldsymbol{\theta}_{n-1}, \mathbf{x}_{n}) \end{aligned}\] the convergence conditions \(\begin{aligned} \lim_{N \rightarrow \infty} \alpha_{N-1} &amp;= 0 \\ \sum_{N=1}^\infty a_N &amp;= \infty \\ \sum_{N=1}^\infty a_N^2 &amp; \lt \infty \end{aligned}\) Using Robbins-Monro Algorithm to solve a general maximum likelihood problem sequentially \[\begin{aligned} \frac {\partial}{\partial \boldsymbol{\theta}} \left.\left( \frac 1N \sum_{i=1}^N \ln p(\mathbf{x}_i\vert \boldsymbol{\theta}) \right)\right\vert_{\boldsymbol{\theta}_{ml}} &amp;= 0 \\ \\ \lim_{N\rightarrow \infty} \frac 1N \sum_{i=1}^N \frac {\partial}{\partial \boldsymbol{\theta}} \ln p(\boldsymbol{x}_i\vert \boldsymbol{\theta}) &amp;= \mathbb{E}_{\boldsymbol{x}}[\frac {\partial}{\partial \boldsymbol{\theta}}\ln p(\boldsymbol{x}\vert \boldsymbol{\theta})] \end{aligned}\] Then: \[\begin{aligned} \boldsymbol{\theta}_{n} &amp;= \boldsymbol{\theta}_{n-1} + \alpha_{n-1}\frac {\partial}{\partial \boldsymbol{\theta}}\ln p(\boldsymbol{x}_n\vert \boldsymbol{\theta}) \end{aligned}\] the sequential estimation of the mean of a gaussian distribution \(\begin{aligned} \frac {\partial}{\partial \boldsymbol{\mu}_{ml}}\ln p(\boldsymbol{x}_n\vert \boldsymbol{\mu}_{ml}, \Sigma) = \Sigma^{-1}(\mathbf{x}_i - \boldsymbol{\mu}) \end{aligned}\) then, we let $\alpha_{n-1}=\frac \Sigma N$, we can also obtain the sequential estimation of the Maximum Likelihood solution. Parameter Estimate of Gaussian Distribution [p(x) = \mathcal{N}(x\vert \mu, \sigma^2) = \frac {1}{(2\pi \sigma^2)^{1/2}} \exp\left( -\frac {1}{2\sigma^2} (x-\mu)^2\right)] Suppose we have an i.i.d data set of observation $\mathbf{X} = {x_1, x_2, \cdots, x_N }$, we shall determine values from the unknown parameters $\mu$ and $\sigma^2$ in Gaussian by maximizing the likelihood function. Likelihood function: \[L(\mu, \sigma^2) = p(\mathbf{X} \vert \mu, \sigma^2) = \prod_{i=1}^N \mathcal{N}(x_i\vert \mu, \sigma^2)\] The log likelihood funciton: \[LL(\mu, \sigma^2) = \ln p(\mathbf{X} \vert \mu, \sigma^2) = -\frac {1}{2\sigma^2} \sum_{i=1}^N (x_i - \mu)^2 - \frac N2 \ln \sigma^2 - \frac N2 \ln (2\pi)\] The partial derivative \[\begin{aligned} \frac {\partial LL}{\partial \mu} &amp;= \frac {1}{\sigma^2} \sum_{i=1}^N (x_i -\mu) \\ \frac {\partial LL}{\partial \sigma^2} &amp;= \frac {1}{2\sigma^2}( \frac {1}{\sigma^2}\sum_{i=1}^N (x_i - \mu)^2 - N)\end{aligned}\] Then we have: \[\begin{aligned} \mu_{ml} &amp;= \arg \max_{\mu} LL(\mu, \sigma^2) = \frac 1N \sum_{i=1}^N x_i \\ \sigma^2_{ml} &amp;= \arg \max_{\sigma^2} LL(\mu, \sigma^2) = \frac 1N \sum_{i=1}^N (x_i - \mu)^2 = \frac 1N \sum_{i=1}^N (x_i - \mu_{ml})^2 \end{aligned}\] They are respectively the sample mean and sample variance. The expectation of $\mu_{ml}$ and $\sigma^2_{ml}$. \[\begin{aligned} \mathbb{E}[\mu_{ml}] &amp;= \frac 1N \sum_{i=1}^N \mathbb{E}[x_i] \\ &amp;= \frac 1N N\mu \\ &amp;= \mu \\ \mathbb{E}[\sigma^2_{ml}] &amp;= \frac 1N \sum_{i=1}^N \mathbb{E}[(x_i-\mu_{ml})^2] \\&amp; = \frac 1N \sum_{i=1}^N \mathbb{E}[x_i^2] - \frac 2N \sum_{i=1}^N \mathbb{E}[x_i\mu_{ml}] + \frac 1N \sum_{i=1}^N\mathbb{E}[\mu_{ml}^2] \\&amp;= \sigma^2 + \mu^2 - \frac 2N \mathbb{E}[\sum_{i=1}^Nx_i \mu_{ml}] + \mathbb{E}[\mu_{ml}^2] \\&amp;= \sigma^2 + \mu^2 - \frac 2N \mathbb{E}[N\mu_{ml}^2] + \mathbb{E}[\mu_{ml}^2] \\&amp;= \sigma^2 + \mu^2 - \mathbb{E}[\mu_{ml}^2] \\&amp;= \sigma^2 + \mu^2 - \mathbb{E}[(\frac 1N \sum_{i=1}^N x_i)^2] \\ &amp;= \sigma^2 + \mu^2 - \frac {1}{N^2} [(N^2-N)\mu^2 + N(\mu^2+\sigma^2)] \\ &amp;= \sigma^2 - \frac 1N \sigma^2 \\&amp;= \frac {N-1}{N} \sigma^2 \end{aligned}\] The result is attained according to the i.i.d assuming of the data set. Then we see that the estimate for mean is unbiased, but for variance is not. The maximum likelihood approach systematically underestimates the variance of the distribution. On average the maximum likelihood estiamte will obtain the correct mean but will underestimate the true variance by a factor $\frac {N-1}{N}$. But if let the estiamte for the variance be \[\tilde{\sigma}^2 = \frac {N}{N-1} \sigma_{ml}^2 = \frac 1{N-1} \sum_{i=1}^N (x_i -\mu_{ml})^2\] then it will be unbiased. Actually we also can see, in the limit $N\rightarrow \infty$ the maximum likelihhod solution for the variance equals the true variance of the distribution that generated the data. 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 # Parameter Estimate import numpy as np class GaussianParameterEstimator(object): def __init__(self): pass def estimate_mean_by_ml(self, x): &quot;&quot;&quot;estimate mean by maximum likehood: obtained by simple mean&quot;&quot;&quot; return np.mean(x, axis=0) def estimate_variance_by_ml(self, x, mu): &quot;&quot;&quot;estiamte variance by maximum likelihood: obtained by simple variance&quot;&quot;&quot; return np.mean((x-mu)**2, axis=0) true_mean = 1 true_sigma = 10 estimator = GaussianParameterEstimator() print(&quot;True mean: {} and True variance: {}&quot;.format(true_mean, true_sigma**2)) for N in [10, 100, 1e4, 1e6, 1e8]: iid_data = np.random.normal(true_mean, true_sigma, int(N)) # generate data mean = estimator.estimate_mean_by_ml(iid_data) variance = estimator.estimate_variance_by_ml(iid_data, mean) print(&quot;mean_error: {}, variance_error: {}, N: {}, &quot;.format(round(abs(mean-true_mean), 4), round(abs(variance-true_sigma**2), 4), N)) # Output &quot;&quot;&quot; True mean: 1 and True variance: 100 mean_error: 4.166, variance_error: 41.0061, N: 10, mean_error: 1.2388, variance_error: 15.1728, N: 100, mean_error: 0.0142, variance_error: 0.7322, N: 10000.0, mean_error: 0.0045, variance_error: 0.1071, N: 1000000.0, mean_error: 0.0003, variance_error: 0.0037, N: 100000000.0, &quot;&quot;&quot; Then we can see as $N\rightarrow \infty$, the maximum solution of mean and variance getting closer the mean and variance of the distribution that generated the data." />
+<link rel="canonical" href="http://0.0.0.0:4000/posts/gaussian_distribution_2/" />
+<meta property="og:url" content="http://0.0.0.0:4000/posts/gaussian_distribution_2/" />
+<meta property="og:site_name" content="Candy Note" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-02-20T00:00:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Gaussian Distribution (2)" />
+<meta name="twitter:site" content="@twitter_username" />
+<meta name="twitter:creator" content="@luo-songtao" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"luo-songtao"},"dateModified":"2021-02-20T00:00:00+00:00","datePublished":"2021-02-20T00:00:00+00:00","description":"Maximum Likelihood for the Gaussian Given a data set $\\mathbf{X} = {\\mathbf{x}_1,\\mathbf{x}_2,\\cdots, \\mathbf{x}_N}$ which are drawn independently from a multivariate Gaussian distribution, then we can estimate the parameters of the distribution by maximum likelihood. \\[\\begin{aligned} \\ln p(\\mathbf{X} \\vert \\boldsymbol{\\mu}, \\Sigma) = -\\frac 12\\left(ND\\ln(2\\pi) + N\\ln(\\vert\\Sigma\\vert) + \\sum_{i=1}^N(\\mathbf{x}_i-\\boldsymbol{\\mu})^T\\Sigma^{-1}(\\mathbf{x}_i-\\boldsymbol{\\mu}) \\right) \\end{aligned}\\] We can see, the likelihood function depends on the data set only through the two quantities: \\[\\begin{aligned} \\sum_{i=1}^N x_i, \\qquad \\sum_{i=1}^N x_ix_i^T \\end{aligned}\\] these are known as the sufficient statistics for the Gaussian distribution The Maximum Likelihood solutions: [\\begin{aligned} \\frac {\\partial \\ln p(\\mathbf{X} \\vert \\mathbf{\\mu}, \\Sigma)}{\\partial \\boldsymbol{\\mu}} &amp;= \\sum_{i=1}^N \\Sigma^{-1}(\\mathbf{x}i - \\boldsymbol{\\mu}) \\ \\ \\Rightarrow\\qquad \\boldsymbol{\\mu}{ml} &amp;= \\frac{1}{N} \\sum_{i=1}^N \\mathbf{x}_i \\end{aligned}] [\\begin{aligned} \\frac {\\partial \\ln p(\\mathbf{X} \\vert \\mathbf{\\mu}, \\Sigma)}{\\partial \\Sigma} &amp;= -\\frac 12\\left(N\\frac {\\partial}{\\partial \\Sigma}\\ln(\\vert\\Sigma\\vert) + \\frac {\\partial}{\\partial \\Sigma}\\sum_{i=1}^N(\\mathbf{x}i-\\boldsymbol{\\mu})^T\\Sigma^{-1}(\\mathbf{x}_i-\\boldsymbol{\\mu}) \\right) \\&amp;= -\\frac 12\\left(N\\Sigma^{-1} + \\sum{i=1}^N -\\Sigma^{-1}(\\mathbf{x}i-\\boldsymbol{\\mu})(\\mathbf{x}_i-\\boldsymbol{\\mu})^T\\Sigma^{-1} \\right) \\ &amp;= -\\frac 12 \\left(NI - \\Sigma^{-1}\\sum{i=1}^N(\\mathbf{x}i-\\boldsymbol{\\mu})(\\mathbf{x}_i-\\boldsymbol{\\mu})^T\\right)\\Sigma^{-1} \\ \\ \\Rightarrow\\qquad \\Sigma{ml} &amp;= \\frac 1N \\sum_{i=1}^N(\\mathbf{x}i-\\boldsymbol{\\mu}{ml})(\\mathbf{x}i-\\boldsymbol{\\mu}{ml})^T\\end{aligned}] The Expectation of Maximum Likelihood solutions: \\[\\begin{aligned} \\mathbb{E}[\\boldsymbol{\\mu}_{ml}] &amp;= \\frac 1N \\sum_{i=1}^N \\mathbb{E}[\\mathbf{x}_i] =\\boldsymbol{\\mu} \\\\ \\mathbb{E}[\\Sigma_{ml}] &amp;= \\frac 1N \\sum_{i=1}^N \\mathbb{E}[(\\mathbf{x}_i-\\boldsymbol{\\mu}_{ml})(\\mathbf{x}_i-\\boldsymbol{\\mu}_{ml})^T] = \\frac {N-1}{N} \\Sigma \\end{aligned}\\] We the ml estimate of covariance has expeectation is less than the true value, and hence it is biased. But we can let $\\tilde{\\Sigma} = \\frac {1}{N-1} \\Sigma_{ml}$ to correct this bias. \\[\\begin{aligned} \\mathbb{E}[\\tilde{\\Sigma}] = \\frac {N}{N-1} \\mathbb{E}[\\Sigma_{ml}] = \\Sigma \\end{aligned}\\] Proof of the $\\mathbb{E}[\\Sigma_{ml}]$: \\[\\begin{aligned} \\frac 1N \\sum_{i=1}^N\\mathbb{E}[(\\mathbf{x}_i-\\boldsymbol{\\mu}_{ml})(\\mathbf{x}_i-\\boldsymbol{\\mu}_{ml})^T] &amp;= \\frac 1N \\sum_{i=1}^N\\left(\\mathbb{E}[\\mathbf{x}_i\\mathbf{x}_i^T] -\\mathbb{E}[\\mathbf{x}_i\\mathbf{\\mu}_{ml}^T]-\\mathbb{E}[\\mathbf{\\mu}_{ml}\\mathbf{x}_i^T]+ \\mathbb{E}[\\mathbf{\\mu}_{ml}\\mathbf{\\mu}_{ml}^T] \\right) \\end{aligned}\\] $\\mathbb{E}[\\mathbf{x}i\\mathbf{\\mu}{ml}^T]$, according to the iid property of the data set, (means: $\\forall i\\neq j,\\mathbb{E}[\\mathbf{x}_i\\mathbf{x}_j^T]=\\boldsymbol{\\mu}\\boldsymbol{\\mu}^T; \\forall i=j, \\mathbb{E}[\\mathbf{x}_i\\mathbf{x}_j^T]=\\mathbb{E}[\\mathbf{x}_i\\mathbf{x}_i^T]=\\Sigma+\\boldsymbol{\\mu}\\boldsymbol{\\mu}^T$): \\(\\begin{aligned} \\mathbb{E}[\\mathbf{x}_i\\mathbf{\\mu}_{ml}^T] = \\frac 1N \\sum_{j=1}^N \\mathbb{E}[\\mathbf{x}_i\\mathbf{x}_j] = \\frac 1N [(N-1)\\boldsymbol{\\mu}\\boldsymbol{\\mu}^T + \\Sigma+\\boldsymbol{\\mu}\\boldsymbol{\\mu}^T] = \\boldsymbol{\\mu}\\boldsymbol{\\mu}^T+\\frac 1N \\Sigma \\end{aligned}\\) With the same procdure: \\[\\begin{aligned} \\mathbb{E}[\\mathbf{\\mu}_{ml}\\mathbf{x}_i^T] = \\mathbb{E}[\\mathbf{\\mu}_{ml}\\mathbf{\\mu}_{ml}^T] = \\boldsymbol{\\mu}\\boldsymbol{\\mu}^T+\\frac 1N \\Sigma \\end{aligned}\\] Thus: \\[\\begin{aligned} \\frac 1N \\sum_{i=1}^N\\mathbb{E}[(\\mathbf{x}_i-\\boldsymbol{\\mu}_{ml})(\\mathbf{x}_i-\\boldsymbol{\\mu}_{ml})^T] = \\frac 1N \\sum_{i=1}^N (\\Sigma + \\boldsymbol{\\mu}\\boldsymbol{\\mu}^T - (\\boldsymbol{\\mu}\\boldsymbol{\\mu}^T+\\frac 1N \\Sigma)) = \\frac {N-1}{N} \\Sigma \\end{aligned}\\] Sequential Estimation the sequential estimation of the Maximum Likelihood solution \\[\\begin{aligned} \\boldsymbol{\\mu}_{ml}^{(N)} &amp;= \\frac 1N \\sum_{i=1}^N \\mathbf{x}_i \\\\&amp;= \\frac 1N \\mathbf{x}_N + \\frac 1N \\sum_{i=1}^{N-1} \\mathbf{x}_i \\\\&amp;= \\frac 1N \\mathbf{x}_N + \\frac {N-1}{N}\\boldsymbol{\\mu}_{ml}^{(N-1)} \\\\&amp;= \\boldsymbol{\\mu}_{ml}^{(N-1)} + \\frac 1N (\\mathbf{x}_N-\\boldsymbol{\\mu}_{ml}^{(N-1)})\\end{aligned}\\] But this is not always be able to derive a sequential algorithm by this route. Robbins-Monro Algorithm: this is a stochastic approximation. Consider the function: \\[\\begin{aligned} f(\\boldsymbol{\\theta}) = \\mathbb{E}_\\boldsymbol{x}[\\phi(\\boldsymbol{\\theta}, \\boldsymbol{x})\\vert \\boldsymbol{\\theta}] , \\qquad \\boldsymbol{\\theta} \\in R^D \\end{aligned}\\] $\\boldsymbol{x}$ is a random vector of unknown statistics. the goal is to compute a root of $f(\\boldsymbol{\\theta})$ The Robbins-Monro Algorithm \\[\\begin{aligned} \\boldsymbol{\\theta}_{n} &amp;= \\boldsymbol{\\theta}_{n-1}+ \\alpha_{n-1} \\phi(\\boldsymbol{\\theta}_{n-1}, \\mathbf{x}_{n}) \\end{aligned}\\] the convergence conditions \\(\\begin{aligned} \\lim_{N \\rightarrow \\infty} \\alpha_{N-1} &amp;= 0 \\\\ \\sum_{N=1}^\\infty a_N &amp;= \\infty \\\\ \\sum_{N=1}^\\infty a_N^2 &amp; \\lt \\infty \\end{aligned}\\) Using Robbins-Monro Algorithm to solve a general maximum likelihood problem sequentially \\[\\begin{aligned} \\frac {\\partial}{\\partial \\boldsymbol{\\theta}} \\left.\\left( \\frac 1N \\sum_{i=1}^N \\ln p(\\mathbf{x}_i\\vert \\boldsymbol{\\theta}) \\right)\\right\\vert_{\\boldsymbol{\\theta}_{ml}} &amp;= 0 \\\\ \\\\ \\lim_{N\\rightarrow \\infty} \\frac 1N \\sum_{i=1}^N \\frac {\\partial}{\\partial \\boldsymbol{\\theta}} \\ln p(\\boldsymbol{x}_i\\vert \\boldsymbol{\\theta}) &amp;= \\mathbb{E}_{\\boldsymbol{x}}[\\frac {\\partial}{\\partial \\boldsymbol{\\theta}}\\ln p(\\boldsymbol{x}\\vert \\boldsymbol{\\theta})] \\end{aligned}\\] Then: \\[\\begin{aligned} \\boldsymbol{\\theta}_{n} &amp;= \\boldsymbol{\\theta}_{n-1} + \\alpha_{n-1}\\frac {\\partial}{\\partial \\boldsymbol{\\theta}}\\ln p(\\boldsymbol{x}_n\\vert \\boldsymbol{\\theta}) \\end{aligned}\\] the sequential estimation of the mean of a gaussian distribution \\(\\begin{aligned} \\frac {\\partial}{\\partial \\boldsymbol{\\mu}_{ml}}\\ln p(\\boldsymbol{x}_n\\vert \\boldsymbol{\\mu}_{ml}, \\Sigma) = \\Sigma^{-1}(\\mathbf{x}_i - \\boldsymbol{\\mu}) \\end{aligned}\\) then, we let $\\alpha_{n-1}=\\frac \\Sigma N$, we can also obtain the sequential estimation of the Maximum Likelihood solution. Parameter Estimate of Gaussian Distribution [p(x) = \\mathcal{N}(x\\vert \\mu, \\sigma^2) = \\frac {1}{(2\\pi \\sigma^2)^{1/2}} \\exp\\left( -\\frac {1}{2\\sigma^2} (x-\\mu)^2\\right)] Suppose we have an i.i.d data set of observation $\\mathbf{X} = {x_1, x_2, \\cdots, x_N }$, we shall determine values from the unknown parameters $\\mu$ and $\\sigma^2$ in Gaussian by maximizing the likelihood function. Likelihood function: \\[L(\\mu, \\sigma^2) = p(\\mathbf{X} \\vert \\mu, \\sigma^2) = \\prod_{i=1}^N \\mathcal{N}(x_i\\vert \\mu, \\sigma^2)\\] The log likelihood funciton: \\[LL(\\mu, \\sigma^2) = \\ln p(\\mathbf{X} \\vert \\mu, \\sigma^2) = -\\frac {1}{2\\sigma^2} \\sum_{i=1}^N (x_i - \\mu)^2 - \\frac N2 \\ln \\sigma^2 - \\frac N2 \\ln (2\\pi)\\] The partial derivative \\[\\begin{aligned} \\frac {\\partial LL}{\\partial \\mu} &amp;= \\frac {1}{\\sigma^2} \\sum_{i=1}^N (x_i -\\mu) \\\\ \\frac {\\partial LL}{\\partial \\sigma^2} &amp;= \\frac {1}{2\\sigma^2}( \\frac {1}{\\sigma^2}\\sum_{i=1}^N (x_i - \\mu)^2 - N)\\end{aligned}\\] Then we have: \\[\\begin{aligned} \\mu_{ml} &amp;= \\arg \\max_{\\mu} LL(\\mu, \\sigma^2) = \\frac 1N \\sum_{i=1}^N x_i \\\\ \\sigma^2_{ml} &amp;= \\arg \\max_{\\sigma^2} LL(\\mu, \\sigma^2) = \\frac 1N \\sum_{i=1}^N (x_i - \\mu)^2 = \\frac 1N \\sum_{i=1}^N (x_i - \\mu_{ml})^2 \\end{aligned}\\] They are respectively the sample mean and sample variance. The expectation of $\\mu_{ml}$ and $\\sigma^2_{ml}$. \\[\\begin{aligned} \\mathbb{E}[\\mu_{ml}] &amp;= \\frac 1N \\sum_{i=1}^N \\mathbb{E}[x_i] \\\\ &amp;= \\frac 1N N\\mu \\\\ &amp;= \\mu \\\\ \\mathbb{E}[\\sigma^2_{ml}] &amp;= \\frac 1N \\sum_{i=1}^N \\mathbb{E}[(x_i-\\mu_{ml})^2] \\\\&amp; = \\frac 1N \\sum_{i=1}^N \\mathbb{E}[x_i^2] - \\frac 2N \\sum_{i=1}^N \\mathbb{E}[x_i\\mu_{ml}] + \\frac 1N \\sum_{i=1}^N\\mathbb{E}[\\mu_{ml}^2] \\\\&amp;= \\sigma^2 + \\mu^2 - \\frac 2N \\mathbb{E}[\\sum_{i=1}^Nx_i \\mu_{ml}] + \\mathbb{E}[\\mu_{ml}^2] \\\\&amp;= \\sigma^2 + \\mu^2 - \\frac 2N \\mathbb{E}[N\\mu_{ml}^2] + \\mathbb{E}[\\mu_{ml}^2] \\\\&amp;= \\sigma^2 + \\mu^2 - \\mathbb{E}[\\mu_{ml}^2] \\\\&amp;= \\sigma^2 + \\mu^2 - \\mathbb{E}[(\\frac 1N \\sum_{i=1}^N x_i)^2] \\\\ &amp;= \\sigma^2 + \\mu^2 - \\frac {1}{N^2} [(N^2-N)\\mu^2 + N(\\mu^2+\\sigma^2)] \\\\ &amp;= \\sigma^2 - \\frac 1N \\sigma^2 \\\\&amp;= \\frac {N-1}{N} \\sigma^2 \\end{aligned}\\] The result is attained according to the i.i.d assuming of the data set. Then we see that the estimate for mean is unbiased, but for variance is not. The maximum likelihood approach systematically underestimates the variance of the distribution. On average the maximum likelihood estiamte will obtain the correct mean but will underestimate the true variance by a factor $\\frac {N-1}{N}$. But if let the estiamte for the variance be \\[\\tilde{\\sigma}^2 = \\frac {N}{N-1} \\sigma_{ml}^2 = \\frac 1{N-1} \\sum_{i=1}^N (x_i -\\mu_{ml})^2\\] then it will be unbiased. Actually we also can see, in the limit $N\\rightarrow \\infty$ the maximum likelihhod solution for the variance equals the true variance of the distribution that generated the data. 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 # Parameter Estimate import numpy as np class GaussianParameterEstimator(object): def __init__(self): pass def estimate_mean_by_ml(self, x): &quot;&quot;&quot;estimate mean by maximum likehood: obtained by simple mean&quot;&quot;&quot; return np.mean(x, axis=0) def estimate_variance_by_ml(self, x, mu): &quot;&quot;&quot;estiamte variance by maximum likelihood: obtained by simple variance&quot;&quot;&quot; return np.mean((x-mu)**2, axis=0) true_mean = 1 true_sigma = 10 estimator = GaussianParameterEstimator() print(&quot;True mean: {} and True variance: {}&quot;.format(true_mean, true_sigma**2)) for N in [10, 100, 1e4, 1e6, 1e8]: iid_data = np.random.normal(true_mean, true_sigma, int(N)) # generate data mean = estimator.estimate_mean_by_ml(iid_data) variance = estimator.estimate_variance_by_ml(iid_data, mean) print(&quot;mean_error: {}, variance_error: {}, N: {}, &quot;.format(round(abs(mean-true_mean), 4), round(abs(variance-true_sigma**2), 4), N)) # Output &quot;&quot;&quot; True mean: 1 and True variance: 100 mean_error: 4.166, variance_error: 41.0061, N: 10, mean_error: 1.2388, variance_error: 15.1728, N: 100, mean_error: 0.0142, variance_error: 0.7322, N: 10000.0, mean_error: 0.0045, variance_error: 0.1071, N: 1000000.0, mean_error: 0.0003, variance_error: 0.0037, N: 100000000.0, &quot;&quot;&quot; Then we can see as $N\\rightarrow \\infty$, the maximum solution of mean and variance getting closer the mean and variance of the distribution that generated the data.","headline":"Gaussian Distribution (2)","mainEntityOfPage":{"@type":"WebPage","@id":"http://0.0.0.0:4000/posts/gaussian_distribution_2/"},"url":"http://0.0.0.0:4000/posts/gaussian_distribution_2/"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+  <title>Gaussian Distribution (2) | Candy Note
+  </title>
+
+  <!--
+  The Favicons for Web, Android, Microsoft, and iOS (iPhone and iPad) Apps
+  Generated by: https://realfavicongenerator.net/
+-->
+
+
+
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/img/favicons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicons/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicons/favicon-16x16.png">
+<link rel="manifest" href="/assets/img/favicons/site.webmanifest">
+<link rel="shortcut icon" href="/assets/img/favicons/favicon.ico">
+<meta name="apple-mobile-web-app-title" content="Candy Note">
+<meta name="application-name" content="Candy Note">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="msapplication-config" content="/assets/img/favicons/browserconfig.xml">
+<meta name="theme-color" content="#ffffff">
+
+
+  
+
+    
+      <link rel="preconnect" href="https://fonts.googleapis.com" >
+      <link rel="dns-prefetch" href="https://fonts.googleapis.com" >
+    
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+      <link rel="dns-prefetch" href="https://fonts.gstatic.com" crossorigin>
+    
+      <link rel="preconnect" href="https://fonts.googleapis.com" >
+      <link rel="dns-prefetch" href="https://fonts.googleapis.com" >
+    
+      <link rel="preconnect" href="https://cdn.jsdelivr.net" >
+      <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" >
+    
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato&family=Source+Sans+Pro:wght@400;600;700;900&display=swap">
+
+  
+
+  <!-- GA -->
+  
+
+  <!-- Bootstrap -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.11.2/css/all.min.css">
+
+  <link rel="stylesheet" href="/assets/css/style.css">
+
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@1.0.1/dist/bootstrap-toc.min.css">
+  
+
+  
+    <!-- Manific Popup -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/magnific-popup@1/dist/magnific-popup.min.css">
+  
+
+  <!-- JavaScript -->
+
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+
+</head>
+
+
+  
+    <!--
+  Switch the mode between dark and light.
+-->
+
+<script type="text/javascript">
+  class ModeToggle {
+    static get MODE_KEY() { return "mode"; }
+    static get MODE_ATTR() { return "data-mode"; }
+    static get DARK_MODE() { return "dark"; }
+    static get LIGHT_MODE() { return "light"; }
+    static get ID() { return "mode-toggle"; }
+
+    constructor() {
+      if (this.hasMode) {
+        if (this.isDarkMode) {
+          if (!this.isSysDarkPrefer) {
+            this.setDark();
+          }
+        } else {
+          if (this.isSysDarkPrefer) {
+            this.setLight();
+          }
+        }
+      }
+
+      let self = this;
+
+      /* always follow the system prefers */
+      this.sysDarkPrefers.addEventListener("change", () => {
+        if (self.hasMode) {
+          if (self.isDarkMode) {
+            if (!self.isSysDarkPrefer) {
+              self.setDark();
+            }
+
+          } else {
+            if (self.isSysDarkPrefer) {
+              self.setLight();
+            }
+          }
+
+          self.clearMode();
+        }
+
+        self.notify();
+
+      });
+
+    } /* constructor() */
+
+    get sysDarkPrefers() { return window.matchMedia("(prefers-color-scheme: dark)"); }
+
+    get isSysDarkPrefer() { return this.sysDarkPrefers.matches; }
+
+    get isDarkMode() { return this.mode === ModeToggle.DARK_MODE; }
+
+    get isLightMode() { return this.mode === ModeToggle.LIGHT_MODE; }
+
+    get hasMode() { return this.mode != null; }
+
+    get mode() { return sessionStorage.getItem(ModeToggle.MODE_KEY); }
+
+    /* get the current mode on screen */
+    get modeStatus() {
+      if (this.isDarkMode
+        || (!this.hasMode && this.isSysDarkPrefer)) {
+        return ModeToggle.DARK_MODE;
+      } else {
+        return ModeToggle.LIGHT_MODE;
+      }
+    }
+
+    setDark() {
+      $('html').attr(ModeToggle.MODE_ATTR, ModeToggle.DARK_MODE);
+      sessionStorage.setItem(ModeToggle.MODE_KEY, ModeToggle.DARK_MODE);
+    }
+
+    setLight() {
+      $('html').attr(ModeToggle.MODE_ATTR, ModeToggle.LIGHT_MODE);
+      sessionStorage.setItem(ModeToggle.MODE_KEY, ModeToggle.LIGHT_MODE);
+    }
+
+    clearMode() {
+      $('html').removeAttr(ModeToggle.MODE_ATTR);
+      sessionStorage.removeItem(ModeToggle.MODE_KEY);
+    }
+
+    /* Notify another plugins that the theme mode has changed */
+    notify() {
+      window.postMessage({
+        direction: ModeToggle.ID,
+        message: this.modeStatus
+      }, "*");
+    }
+
+  } /* ModeToggle */
+
+  const toggle = new ModeToggle();
+
+  function flipMode() {
+    if (toggle.hasMode) {
+      if (toggle.isSysDarkPrefer) {
+        if (toggle.isLightMode) {
+          toggle.clearMode();
+        } else {
+          toggle.setLight();
+        }
+
+      } else {
+        if (toggle.isDarkMode) {
+          toggle.clearMode();
+        } else {
+          toggle.setDark();
+        }
+      }
+
+    } else {
+      if (toggle.isSysDarkPrefer) {
+        toggle.setLight();
+      } else {
+        toggle.setDark();
+      }
+    }
+
+    toggle.notify();
+
+  } /* flipMode() */
+
+</script>
+
+  
+
+  <body data-spy="scroll" data-target="#toc" data-topbar-visible="true">
+
+    <!--
+  The Side Bar
+-->
+
+<div id="sidebar" class="d-flex flex-column align-items-end">
+  <div class="profile-wrapper text-center">
+    <div id="avatar">
+      <a href="/" alt="avatar" class="mx-auto">
+        
+          
+          <img src="
+            
+              /assets/img/head.jpg
+            
+          " alt="avatar" onerror="this.style.display='none'">
+        
+      </a>
+    </div>
+
+    <div class="site-title mt-3">
+      <a href="/">Candy Note</a>
+    </div>
+    <div class="site-subtitle font-italic">Personal Notes</div>
+
+  </div><!-- .profile-wrapper -->
+
+  <ul class="w-100">
+
+    <!-- home -->
+    <li class="nav-item">
+      <a href="/" class="nav-link">
+        <i class="fa-fw fas fa-home ml-xl-3 mr-xl-3 unloaded"></i>
+        <span>HOME</span>
+      </a>
+    </li>
+    <!-- the real tabs -->
+    
+    <li class="nav-item">
+      <a href="/categories/" class="nav-link">
+        <i class="fa-fw fas fa-stream ml-xl-3 mr-xl-3 unloaded"></i>
+        
+
+        <span>CATEGORIES</span>
+      </a>
+    </li> <!-- .nav-item -->
+    
+    <li class="nav-item">
+      <a href="/tags/" class="nav-link">
+        <i class="fa-fw fas fa-tag ml-xl-3 mr-xl-3 unloaded"></i>
+        
+
+        <span>TAGS</span>
+      </a>
+    </li> <!-- .nav-item -->
+    
+    <li class="nav-item">
+      <a href="/archives/" class="nav-link">
+        <i class="fa-fw fas fa-archive ml-xl-3 mr-xl-3 unloaded"></i>
+        
+
+        <span>ARCHIVES</span>
+      </a>
+    </li> <!-- .nav-item -->
+    
+    <li class="nav-item">
+      <a href="/about/" class="nav-link">
+        <i class="fa-fw fas fa-info-circle ml-xl-3 mr-xl-3 unloaded"></i>
+        
+
+        <span>ABOUT</span>
+      </a>
+    </li> <!-- .nav-item -->
+    
+
+  </ul> <!-- ul.nav.flex-column -->
+
+  <div class="sidebar-bottom mt-auto d-flex flex-wrap justify-content-center align-items-center">
+
+    
+      <button class="mode-toggle btn" aria-label="Switch Mode">
+        <i class="fas fa-adjust"></i>
+      </button>
+
+      
+        <span class="icon-border"></span>
+      
+    
+
+    
+      
+
+      
+      <a href="https://github.com/github_username" aria-label="github"
+        target="_blank" rel="noopener">
+        <i class="fab fa-github"></i>
+      </a>
+      
+
+    
+      
+
+      
+      <a href="https://twitter.com/twitter_username" aria-label="twitter"
+        target="_blank" rel="noopener">
+        <i class="fab fa-twitter"></i>
+      </a>
+      
+
+    
+      
+
+      
+      <a href="
+          javascript:location.href = 'mailto:' + ['ryomawithlst','gmail.com'].join('@')" aria-label="email"
+        >
+        <i class="fas fa-envelope"></i>
+      </a>
+      
+
+    
+      
+
+      
+      <a href="/feed.xml" aria-label="rss"
+        >
+        <i class="fas fa-rss"></i>
+      </a>
+      
+
+    
+
+  </div> <!-- .sidebar-bottom -->
+
+</div><!-- #sidebar -->
+
+
+    <!--
+  The Top Bar
+-->
+
+<div id="topbar-wrapper" class="row justify-content-center">
+  <div id="topbar" class="col-11 d-flex h-100 align-items-center justify-content-between">
+    <span id="breadcrumb">
+
+    
+
+    
+
+      
+
+        
+          <span>
+            <a href="/">
+              Home
+            </a>
+          </span>
+
+        
+
+      
+
+        
+
+      
+
+        
+
+          
+            <span>Gaussian Distribution (2)</span>
+          
+
+        
+
+      
+
+    
+
+    </span><!-- endof #breadcrumb -->
+
+    <i id="sidebar-trigger" class="fas fa-bars fa-fw"></i>
+
+    <div id="topbar-title">
+      Post
+    </div>
+
+    <i id="search-trigger" class="fas fa-search fa-fw"></i>
+    <span id="search-wrapper" class="align-items-center">
+      <i class="fas fa-search fa-fw"></i>
+      <input class="form-control" id="search-input" type="search"
+        aria-label="search" autocomplete="off" placeholder="Search...">
+    </span>
+    <span id="search-cancel" >Cancel</span>
+  </div>
+
+</div>
+
+
+    <div id="main-wrapper">
+      <div id="main">
+
+        
+
+
+
+
+
+
+
+
+
+<div class="row">
+
+  <!-- core -->
+  <div id="core-wrapper" class="col-12 col-lg-11 col-xl-8">
+    <div class="post pl-1 pr-1 pl-sm-2 pr-sm-2 pl-md-4 pr-md-4">
+
+    
+
+    
+      
+      
+        <!--
+  Refactor the HTML structure.
+-->
+
+
+
+<!--
+  In order to allow a wide table to scroll horizontally,
+  we suround the markdown table with `<div class="table-wrapper">` and `</div>`
+-->
+
+
+
+<!--
+  Fixed kramdown code highlight rendering:
+  https://github.com/penibelst/jekyll-compress-html/issues/101
+  https://github.com/penibelst/jekyll-compress-html/issues/71#issuecomment-188144901
+-->
+
+
+
+<!-- Add attribute 'hide-bullet' to the checkbox list -->
+
+
+
+<!-- images -->
+
+
+
+
+
+<!-- Add header for code snippets -->
+
+
+
+<!-- Create heading anchors -->
+
+
+
+
+
+  
+  
+
+  
+    
+    
+
+    
+      
+        
+        
+      
+
+      
+      
+
+      
+      
+      
+
+      
+
+    
+
+    
+
+  
+
+  
+  
+
+  
+    
+    
+
+    
+      
+        
+        
+      
+
+      
+      
+
+      
+      
+      
+
+      
+
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+
+    
+
+    
+
+  
+
+  
+  
+
+  
+
+  
+  
+
+  
+
+
+
+
+<!-- Wrap prompt element of blockquote with the <div> tag -->
+
+
+
+
+
+
+
+<!-- return -->
+
+
+
+
+
+
+
+<h1 data-toc-skip>Gaussian Distribution (2)</h1>
+
+<div class="post-meta text-muted">
+
+  <!-- author -->
+  <div>
+    
+    
+
+    
+
+    By
+    <em>
+      
+        <a href="https://github.com/luo-songtao">luo-songtao</a>
+      
+    </em>
+  </div>
+
+  <div class="d-flex">
+    <div>
+      <!-- published date -->
+      <span>
+        Posted
+        <!--
+  Date format snippet
+  See: ${JS_ROOT}/utils/timeago.js
+-->
+
+<em class="timeago"
+    data-ts="1613779200"
+    
+      data-toggle="tooltip" data-placement="bottom" data-tooltip-df="llll"
+    
+    >
+  2021-02-20
+</em>
+
+      </span>
+
+      <!-- lastmod date -->
+      
+
+      <!-- read time -->
+      <!--
+  Calculate the post's reading time, and display the word count in tooltip
+ -->
+
+
+
+<!-- words per minute  -->
+
+
+
+
+
+
+
+
+
+
+<!-- return element -->
+<span class="readtime" data-toggle="tooltip" data-placement="bottom"
+  title="1113 words">
+  <em>6 min</em> read</span>
+
+
+      <!-- page views -->
+      
+    </div>
+
+  </div> <!-- .d-flex -->
+
+</div> <!-- .post-meta -->
+
+<div class="post-content">
+  <h2 id="maximum-likelihood-for-the-gaussian"><span class="mr-2">Maximum Likelihood for the Gaussian</span><a href="#maximum-likelihood-for-the-gaussian" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2></h2>
+
+<ul>
+  <li>
+    <p>Given a data set $\mathbf{X} = {\mathbf{x}_1,\mathbf{x}_2,\cdots, \mathbf{x}_N}$ which are drawn independently from a multivariate Gaussian distribution, then we can estimate the parameters of the distribution by maximum likelihood.</p>
+
+\[\begin{aligned} \ln p(\mathbf{X} \vert \boldsymbol{\mu}, \Sigma) = -\frac 12\left(ND\ln(2\pi) + N\ln(\vert\Sigma\vert) + \sum_{i=1}^N(\mathbf{x}_i-\boldsymbol{\mu})^T\Sigma^{-1}(\mathbf{x}_i-\boldsymbol{\mu}) \right) \end{aligned}\]
+  </li>
+  <li>
+    <p>We can see, the likelihood function depends on the data set only through the two quantities:</p>
+
+\[\begin{aligned} \sum_{i=1}^N x_i, \qquad \sum_{i=1}^N x_ix_i^T  \end{aligned}\]
+
+    <ul>
+      <li>these are known as the sufficient statistics for the Gaussian distribution</li>
+    </ul>
+  </li>
+  <li>
+    <p>The Maximum Likelihood solutions:</p>
+  </li>
+</ul>
+
+\[\begin{aligned} \frac {\partial \ln p(\mathbf{X} \vert \mathbf{\mu}, \Sigma)}{\partial \boldsymbol{\mu}} &amp;= \sum_{i=1}^N \Sigma^{-1}(\mathbf{x}_i - \boldsymbol{\mu}) \\ \\ \Rightarrow\qquad \boldsymbol{\mu}_{ml} &amp;= \frac{1}{N} \sum_{i=1}^N \mathbf{x}_i \end{aligned}\]
+
+\[\begin{aligned} \frac {\partial \ln p(\mathbf{X} \vert \mathbf{\mu}, \Sigma)}{\partial \Sigma} &amp;= -\frac 12\left(N\frac {\partial}{\partial \Sigma}\ln(\vert\Sigma\vert) + \frac {\partial}{\partial \Sigma}\sum_{i=1}^N(\mathbf{x}_i-\boldsymbol{\mu})^T\Sigma^{-1}(\mathbf{x}_i-\boldsymbol{\mu}) \right) \\&amp;= -\frac 12\left(N\Sigma^{-1} + \sum_{i=1}^N -\Sigma^{-1}(\mathbf{x}_i-\boldsymbol{\mu})(\mathbf{x}_i-\boldsymbol{\mu})^T\Sigma^{-1}  \right) \\ &amp;= -\frac 12 \left(NI - \Sigma^{-1}\sum_{i=1}^N(\mathbf{x}_i-\boldsymbol{\mu})(\mathbf{x}_i-\boldsymbol{\mu})^T\right)\Sigma^{-1} \\ \\  \Rightarrow\qquad \Sigma_{ml} &amp;= \frac 1N \sum_{i=1}^N(\mathbf{x}_i-\boldsymbol{\mu}_{ml})(\mathbf{x}_i-\boldsymbol{\mu}_{ml})^T\end{aligned}\]
+
+<ul>
+  <li>
+    <p>The Expectation of Maximum Likelihood solutions:</p>
+
+\[\begin{aligned} \mathbb{E}[\boldsymbol{\mu}_{ml}] &amp;= \frac 1N \sum_{i=1}^N \mathbb{E}[\mathbf{x}_i] =\boldsymbol{\mu} \\ \mathbb{E}[\Sigma_{ml}] &amp;= \frac 1N \sum_{i=1}^N \mathbb{E}[(\mathbf{x}_i-\boldsymbol{\mu}_{ml})(\mathbf{x}_i-\boldsymbol{\mu}_{ml})^T] = \frac {N-1}{N} \Sigma \end{aligned}\]
+
+    <ul>
+      <li>
+        <p>We the ml estimate of covariance has expeectation is less than the true value, and hence it is biased. But we can let $\tilde{\Sigma} = \frac {1}{N-1} \Sigma_{ml}$ to correct this bias.</p>
+
+\[\begin{aligned} \mathbb{E}[\tilde{\Sigma}] = \frac {N}{N-1} \mathbb{E}[\Sigma_{ml}] = \Sigma \end{aligned}\]
+      </li>
+      <li>
+        <p>Proof of the $\mathbb{E}[\Sigma_{ml}]$:</p>
+
+\[\begin{aligned} \frac 1N \sum_{i=1}^N\mathbb{E}[(\mathbf{x}_i-\boldsymbol{\mu}_{ml})(\mathbf{x}_i-\boldsymbol{\mu}_{ml})^T] &amp;=  \frac 1N \sum_{i=1}^N\left(\mathbb{E}[\mathbf{x}_i\mathbf{x}_i^T] -\mathbb{E}[\mathbf{x}_i\mathbf{\mu}_{ml}^T]-\mathbb{E}[\mathbf{\mu}_{ml}\mathbf{x}_i^T]+ \mathbb{E}[\mathbf{\mu}_{ml}\mathbf{\mu}_{ml}^T] \right) \end{aligned}\]
+
+        <ul>
+          <li>
+            <p>$\mathbb{E}[\mathbf{x}<em>i\mathbf{\mu}</em>{ml}^T]$, according to the iid property of the data set, (means: $\forall i\neq j,\mathbb{E}[\mathbf{x}_i\mathbf{x}_j^T]=\boldsymbol{\mu}\boldsymbol{\mu}^T; \forall i=j, \mathbb{E}[\mathbf{x}_i\mathbf{x}_j^T]=\mathbb{E}[\mathbf{x}_i\mathbf{x}_i^T]=\Sigma+\boldsymbol{\mu}\boldsymbol{\mu}^T$): 
+  \(\begin{aligned} \mathbb{E}[\mathbf{x}_i\mathbf{\mu}_{ml}^T] = \frac 1N \sum_{j=1}^N \mathbb{E}[\mathbf{x}_i\mathbf{x}_j] = \frac 1N [(N-1)\boldsymbol{\mu}\boldsymbol{\mu}^T + \Sigma+\boldsymbol{\mu}\boldsymbol{\mu}^T] = \boldsymbol{\mu}\boldsymbol{\mu}^T+\frac 1N \Sigma \end{aligned}\)</p>
+          </li>
+          <li>
+            <p>With the same procdure:</p>
+
+\[\begin{aligned} \mathbb{E}[\mathbf{\mu}_{ml}\mathbf{x}_i^T] = \mathbb{E}[\mathbf{\mu}_{ml}\mathbf{\mu}_{ml}^T] = \boldsymbol{\mu}\boldsymbol{\mu}^T+\frac 1N \Sigma  \end{aligned}\]
+          </li>
+          <li>
+            <p>Thus:</p>
+
+\[\begin{aligned} \frac 1N \sum_{i=1}^N\mathbb{E}[(\mathbf{x}_i-\boldsymbol{\mu}_{ml})(\mathbf{x}_i-\boldsymbol{\mu}_{ml})^T] = \frac 1N \sum_{i=1}^N (\Sigma + \boldsymbol{\mu}\boldsymbol{\mu}^T - (\boldsymbol{\mu}\boldsymbol{\mu}^T+\frac 1N \Sigma)) = \frac {N-1}{N} \Sigma \end{aligned}\]
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="sequential-estimation"><span class="mr-2">Sequential Estimation</span><a href="#sequential-estimation" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3></h3>
+
+<ul>
+  <li>
+    <p>the sequential estimation of the Maximum Likelihood solution</p>
+
+\[\begin{aligned} \boldsymbol{\mu}_{ml}^{(N)} &amp;= \frac 1N \sum_{i=1}^N \mathbf{x}_i \\&amp;= \frac 1N \mathbf{x}_N + \frac 1N \sum_{i=1}^{N-1} \mathbf{x}_i \\&amp;= \frac 1N \mathbf{x}_N + \frac {N-1}{N}\boldsymbol{\mu}_{ml}^{(N-1)}  \\&amp;= \boldsymbol{\mu}_{ml}^{(N-1)} + \frac 1N (\mathbf{x}_N-\boldsymbol{\mu}_{ml}^{(N-1)})\end{aligned}\]
+
+    <ul>
+      <li>But this is not always be able to derive a sequential algorithm by this route.</li>
+    </ul>
+  </li>
+  <li>
+    <p>Robbins-Monro Algorithm: this is a stochastic approximation.</p>
+
+    <ul>
+      <li>
+        <p>Consider the function:</p>
+
+\[\begin{aligned} f(\boldsymbol{\theta}) = \mathbb{E}_\boldsymbol{x}[\phi(\boldsymbol{\theta}, \boldsymbol{x})\vert \boldsymbol{\theta}] , \qquad \boldsymbol{\theta} \in R^D \end{aligned}\]
+
+        <ul>
+          <li>$\boldsymbol{x}$ is a random vector of unknown statistics.</li>
+          <li>the goal is to compute a root of $f(\boldsymbol{\theta})$</li>
+        </ul>
+      </li>
+      <li>
+        <p>The Robbins-Monro Algorithm</p>
+
+\[\begin{aligned} \boldsymbol{\theta}_{n} &amp;= \boldsymbol{\theta}_{n-1}+ \alpha_{n-1} \phi(\boldsymbol{\theta}_{n-1}, \mathbf{x}_{n})  \end{aligned}\]
+
+        <ul>
+          <li>the convergence conditions
+  \(\begin{aligned} \lim_{N \rightarrow \infty} \alpha_{N-1} &amp;= 0 \\ \sum_{N=1}^\infty a_N &amp;= \infty \\ \sum_{N=1}^\infty a_N^2 &amp; \lt \infty \end{aligned}\)</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>Using Robbins-Monro Algorithm to solve a general maximum likelihood problem sequentially</p>
+
+\[\begin{aligned} \frac {\partial}{\partial \boldsymbol{\theta}} \left.\left( \frac 1N \sum_{i=1}^N \ln p(\mathbf{x}_i\vert \boldsymbol{\theta}) \right)\right\vert_{\boldsymbol{\theta}_{ml}} &amp;= 0 \\ \\  \lim_{N\rightarrow \infty} \frac 1N \sum_{i=1}^N \frac {\partial}{\partial \boldsymbol{\theta}} \ln p(\boldsymbol{x}_i\vert \boldsymbol{\theta}) &amp;= \mathbb{E}_{\boldsymbol{x}}[\frac {\partial}{\partial \boldsymbol{\theta}}\ln p(\boldsymbol{x}\vert \boldsymbol{\theta})] \end{aligned}\]
+
+    <ul>
+      <li>
+        <p>Then:</p>
+
+\[\begin{aligned} \boldsymbol{\theta}_{n} &amp;= \boldsymbol{\theta}_{n-1} + \alpha_{n-1}\frac {\partial}{\partial \boldsymbol{\theta}}\ln p(\boldsymbol{x}_n\vert \boldsymbol{\theta}) \end{aligned}\]
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>the sequential estimation of the mean of a gaussian distribution</p>
+
+    <p>\(\begin{aligned}  \frac {\partial}{\partial \boldsymbol{\mu}_{ml}}\ln p(\boldsymbol{x}_n\vert \boldsymbol{\mu}_{ml}, \Sigma) = \Sigma^{-1}(\mathbf{x}_i - \boldsymbol{\mu})  \end{aligned}\)</p>
+    <ul>
+      <li>then, we let $\alpha_{n-1}=\frac \Sigma N$, we can also obtain the sequential estimation of the Maximum Likelihood solution.</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="parameter-estimate-of-gaussian-distribution"><span class="mr-2">Parameter Estimate of Gaussian Distribution</span><a href="#parameter-estimate-of-gaussian-distribution" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3></h3>
+
+\[p(x) = \mathcal{N}(x\vert \mu, \sigma^2) = \frac {1}{(2\pi \sigma^2)^{1/2}} \exp\left( -\frac {1}{2\sigma^2} (x-\mu)^2\right)\]
+
+<ul>
+  <li>
+    <p>Suppose we have an <strong>i.i.d</strong> data set of observation $\mathbf{X} = {x_1, x_2, \cdots, x_N }$, we shall determine values from the unknown parameters $\mu$ and $\sigma^2$ in Gaussian by maximizing the likelihood function.</p>
+  </li>
+  <li>
+    <p>Likelihood function:</p>
+
+\[L(\mu, \sigma^2) = p(\mathbf{X} \vert \mu, \sigma^2) = \prod_{i=1}^N \mathcal{N}(x_i\vert \mu, \sigma^2)\]
+  </li>
+  <li>
+    <p>The log likelihood funciton:</p>
+
+\[LL(\mu, \sigma^2) = \ln p(\mathbf{X} \vert \mu, \sigma^2)  = -\frac {1}{2\sigma^2} \sum_{i=1}^N (x_i - \mu)^2 - \frac N2 \ln \sigma^2 - \frac N2 \ln (2\pi)\]
+  </li>
+  <li>
+    <p>The partial derivative</p>
+
+\[\begin{aligned} \frac {\partial LL}{\partial \mu} &amp;= \frac {1}{\sigma^2} \sum_{i=1}^N (x_i -\mu) \\ \frac {\partial LL}{\partial \sigma^2} &amp;= \frac {1}{2\sigma^2}( \frac {1}{\sigma^2}\sum_{i=1}^N (x_i - \mu)^2  - N)\end{aligned}\]
+  </li>
+  <li>
+    <p>Then we have:</p>
+
+\[\begin{aligned} \mu_{ml} &amp;= \arg \max_{\mu} LL(\mu, \sigma^2) = \frac 1N \sum_{i=1}^N x_i \\ \sigma^2_{ml} &amp;= \arg \max_{\sigma^2} LL(\mu, \sigma^2) = \frac 1N \sum_{i=1}^N (x_i - \mu)^2 = \frac 1N \sum_{i=1}^N (x_i - \mu_{ml})^2 \end{aligned}\]
+
+    <ul>
+      <li>They are respectively the sample mean and sample variance.</li>
+    </ul>
+  </li>
+  <li>
+    <p>The expectation of $\mu_{ml}$ and $\sigma^2_{ml}$.</p>
+
+\[\begin{aligned} \mathbb{E}[\mu_{ml}] &amp;= \frac 1N \sum_{i=1}^N \mathbb{E}[x_i] \\ &amp;= \frac 1N N\mu  \\ &amp;= \mu \\ \mathbb{E}[\sigma^2_{ml}] &amp;= \frac 1N \sum_{i=1}^N \mathbb{E}[(x_i-\mu_{ml})^2]  \\&amp; = \frac 1N \sum_{i=1}^N \mathbb{E}[x_i^2] - \frac 2N \sum_{i=1}^N \mathbb{E}[x_i\mu_{ml}] + \frac 1N \sum_{i=1}^N\mathbb{E}[\mu_{ml}^2] \\&amp;= \sigma^2 + \mu^2 - \frac 2N \mathbb{E}[\sum_{i=1}^Nx_i \mu_{ml}] + \mathbb{E}[\mu_{ml}^2] \\&amp;= \sigma^2 + \mu^2 - \frac 2N \mathbb{E}[N\mu_{ml}^2] + \mathbb{E}[\mu_{ml}^2] \\&amp;= \sigma^2 + \mu^2 - \mathbb{E}[\mu_{ml}^2] \\&amp;= \sigma^2 + \mu^2 - \mathbb{E}[(\frac 1N \sum_{i=1}^N x_i)^2] \\ &amp;= \sigma^2 + \mu^2 - \frac {1}{N^2} [(N^2-N)\mu^2 + N(\mu^2+\sigma^2)] \\ &amp;= \sigma^2 - \frac 1N \sigma^2 \\&amp;= \frac {N-1}{N} \sigma^2 \end{aligned}\]
+
+    <ul>
+      <li>The result is attained according to the i.i.d assuming of the data set.</li>
+      <li>
+        <p>Then we see that the estimate for mean is unbiased, but for variance is not. The maximum likelihood approach systematically underestimates the variance of the distribution. On average the maximum likelihood estiamte will obtain the correct mean but will underestimate the true variance by a factor $\frac {N-1}{N}$.</p>
+
+        <ul>
+          <li>
+            <p>But if let the estiamte for the variance be</p>
+
+\[\tilde{\sigma}^2 = \frac {N}{N-1} \sigma_{ml}^2 = \frac 1{N-1} \sum_{i=1}^N (x_i -\mu_{ml})^2\]
+
+            <p>then it will be unbiased.</p>
+          </li>
+          <li>
+            <p>Actually we also can see, in the limit $N\rightarrow \infty$ the maximum likelihhod solution for the variance equals the true variance of the distribution that generated the data.</p>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="code-header">
+        <span data-label-text="Python"><i class="fas fa-code small"></i></span>
+      <button aria-label="copy" data-title-succeed="Copied!"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+</pre></td><td class="rouge-code"><pre><span class="c1"># Parameter Estimate
+</span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+
+
+<span class="k">class</span> <span class="nc">GaussianParameterEstimator</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span>
+    
+    <span class="k">def</span> <span class="nf">estimate_mean_by_ml</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="s">"""estimate mean by maximum likehood: obtained by simple mean"""</span>
+        <span class="k">return</span> <span class="n">np</span><span class="p">.</span><span class="n">mean</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    
+    <span class="k">def</span> <span class="nf">estimate_variance_by_ml</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">mu</span><span class="p">):</span>
+        <span class="s">"""estiamte variance by maximum likelihood: obtained by simple variance"""</span>
+        <span class="k">return</span> <span class="n">np</span><span class="p">.</span><span class="n">mean</span><span class="p">((</span><span class="n">x</span><span class="o">-</span><span class="n">mu</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+
+<span class="n">true_mean</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">true_sigma</span> <span class="o">=</span> <span class="mi">10</span>
+
+<span class="n">estimator</span> <span class="o">=</span> <span class="n">GaussianParameterEstimator</span><span class="p">()</span>
+
+<span class="k">print</span><span class="p">(</span><span class="s">"True mean: {} and True variance: {}"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">true_mean</span><span class="p">,</span> <span class="n">true_sigma</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">N</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mf">1e4</span><span class="p">,</span> <span class="mf">1e6</span><span class="p">,</span> <span class="mf">1e8</span><span class="p">]:</span>
+    <span class="n">iid_data</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">normal</span><span class="p">(</span><span class="n">true_mean</span><span class="p">,</span> <span class="n">true_sigma</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">N</span><span class="p">))</span> <span class="c1"># generate data
+</span>    <span class="n">mean</span> <span class="o">=</span> <span class="n">estimator</span><span class="p">.</span><span class="n">estimate_mean_by_ml</span><span class="p">(</span><span class="n">iid_data</span><span class="p">)</span>
+    <span class="n">variance</span> <span class="o">=</span> <span class="n">estimator</span><span class="p">.</span><span class="n">estimate_variance_by_ml</span><span class="p">(</span><span class="n">iid_data</span><span class="p">,</span> <span class="n">mean</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"mean_error: {}, variance_error: {}, N: {}, "</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">mean</span><span class="o">-</span><span class="n">true_mean</span><span class="p">),</span> <span class="mi">4</span><span class="p">),</span> <span class="nb">round</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">variance</span><span class="o">-</span><span class="n">true_sigma</span><span class="o">**</span><span class="mi">2</span><span class="p">),</span> <span class="mi">4</span><span class="p">),</span> <span class="n">N</span><span class="p">))</span>
+
+<span class="c1"># Output
+</span><span class="s">"""
+True mean: 1 and True variance: 100
+mean_error: 4.166, variance_error: 41.0061, N: 10, 
+mean_error: 1.2388, variance_error: 15.1728, N: 100, 
+mean_error: 0.0142, variance_error: 0.7322, N: 10000.0, 
+mean_error: 0.0045, variance_error: 0.1071, N: 1000000.0, 
+mean_error: 0.0003, variance_error: 0.0037, N: 100000000.0, 
+"""</span>
+</pre></td></tr></tbody></table></code></div></div>
+
+<ul>
+  <li>Then we can see as $N\rightarrow \infty$, the maximum solution of mean and variance getting closer the mean and variance of the distribution that generated the data.</li>
+</ul>
+
+
+</div>
+
+<div class="post-tail-wrapper text-muted">
+
+  <!-- categories -->
+  
+  <div class="post-meta mb-3">
+    <i class="far fa-folder-open fa-fw mr-1"></i>
+    
+      <a href='/categories/probability/'>Probability</a>,
+      <a href='/categories/distribution/'>Distribution</a>
+  </div>
+  
+
+  <!-- tags -->
+  
+  <div class="post-tags">
+    <i class="fa fa-tags fa-fw mr-1"></i>
+      
+      <a href="/tags/gaussian-distribution/"
+          class="post-tag no-text-decoration" >Gaussian Distribution</a>
+      
+  </div>
+  
+
+  <div class="post-tail-bottom
+    d-flex justify-content-between align-items-center mt-3 pt-5 pb-2">
+    <div class="license-wrapper">
+
+      
+
+        
+
+        This post is licensed under 
+        <a href="https://creativecommons.org/licenses/by/4.0/">
+          CC BY 4.0
+        </a>
+         by the author.
+
+      
+    </div>
+
+    <!--
+ Post sharing snippet
+-->
+
+<div class="share-wrapper">
+  <span class="share-label text-muted mr-1">Share</span>
+  <span class="share-icons">
+    
+    
+
+    
+      
+        <a href="https://twitter.com/intent/tweet?text=Gaussian Distribution (2) - Candy Note&amp;url=http://0.0.0.0:4000/posts/gaussian_distribution_2/" data-toggle="tooltip" data-placement="top"
+          title="Twitter" target="_blank" rel="noopener" aria-label="Twitter">
+          <i class="fa-fw fab fa-twitter"></i>
+        </a>
+    
+      
+        <a href="https://www.facebook.com/sharer/sharer.php?title=Gaussian Distribution (2) - Candy Note&amp;u=http://0.0.0.0:4000/posts/gaussian_distribution_2/" data-toggle="tooltip" data-placement="top"
+          title="Facebook" target="_blank" rel="noopener" aria-label="Facebook">
+          <i class="fa-fw fab fa-facebook-square"></i>
+        </a>
+    
+      
+        <a href="https://t.me/share/url?url=http://0.0.0.0:4000/posts/gaussian_distribution_2/&amp;text=Gaussian Distribution (2) - Candy Note" data-toggle="tooltip" data-placement="top"
+          title="Telegram" target="_blank" rel="noopener" aria-label="Telegram">
+          <i class="fa-fw fab fa-telegram"></i>
+        </a>
+    
+
+    <i id="copy-link" class="fa-fw fas fa-link small"
+        data-toggle="tooltip" data-placement="top"
+        title="Copy link"
+        data-title-succeed="Link copied successfully!">
+    </i>
+
+  </span>
+</div>
+
+
+  </div><!-- .post-tail-bottom -->
+
+</div><!-- div.post-tail-wrapper -->
+
+
+      
+    
+    
+
+    </div>
+  </div> <!-- #core-wrapper -->
+
+  <!-- pannel -->
+  <div id="panel-wrapper" class="col-xl-3 pl-2 text-muted">
+
+    <div class="access">
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+
+
+  <div id="access-tags">
+    <div class="panel-heading">Trending Tags</div>
+    <div class="d-flex flex-wrap mt-3 mb-1 mr-3">
+
+    
+      
+      <a class="post-tag" href="/tags/gaussian-distribution/">Gaussian Distribution</a>
+    
+      
+      <a class="post-tag" href="/tags/pca/">PCA</a>
+    
+      
+      <a class="post-tag" href="/tags/em/">EM</a>
+    
+      
+      <a class="post-tag" href="/tags/bayesian/">Bayesian</a>
+    
+      
+      <a class="post-tag" href="/tags/markov-chain/">Markov Chain</a>
+    
+      
+      <a class="post-tag" href="/tags/bernoulli/">Bernoulli</a>
+    
+      
+      <a class="post-tag" href="/tags/binomial/">Binomial</a>
+    
+      
+      <a class="post-tag" href="/tags/gamma-distribution/">Gamma Distribution</a>
+    
+      
+      <a class="post-tag" href="/tags/gmm/">GMM</a>
+    
+      
+      <a class="post-tag" href="/tags/kernel/">Kernel</a>
+    
+
+    </div>
+  </div>
+
+
+    </div>
+
+    
+      
+      
+
+
+
+<!-- BS-toc.js will be loaded at medium priority -->
+<script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@1.0.1/dist/bootstrap-toc.min.js"></script>
+
+<div id="toc-wrapper" class="pl-0 pr-4 mb-5">
+  <div class="panel-heading pl-3 pt-2 mb-2">Contents</div>
+  <nav id="toc" data-toggle="toc"></nav>
+</div>
+
+
+    
+  </div>
+
+</div>
+
+<!-- tail -->
+
+<div class="row">
+  <div class="col-12 col-lg-11 col-xl-8">
+    <div id="tail-wrapper" class="pl-1 pr-1 pl-sm-2 pr-sm-2 pl-md-4 pr-md-4">
+      
+        
+        <!--
+ Recommend the other 3 posts according to the tags and categories of the current post,
+ if the number is not enough, use the other latest posts to supplement.
+-->
+
+<!-- The total size of related posts  -->
+
+
+<!-- An random integer that bigger than 0  -->
+
+
+<!-- Equals to TAG_SCORE / {max_categories_hierarchy}  -->
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+
+
+
+<!-- Fill with the other newlest posts  -->
+
+
+
+
+
+
+  <div id="related-posts" class="mt-5 mb-2 mb-sm-4">
+    <h3 class="pt-2 mt-1 mb-4 ml-1"
+      data-toc-skip>Further Reading</h3>
+    <div class="card-deck mb-4">
+    
+      
+      
+      <div class="card">
+        <a href="/posts/gaussian_distribution_1/">
+          <div class="card-body">
+            <!--
+  Date format snippet
+  See: ${JS_ROOT}/utils/timeago.js
+-->
+
+<em class="timeago small"
+    data-ts="1613779200"
+    
+    >
+  2021-02-20
+</em>
+
+            <h3 class="pt-0 mt-1 mb-3" data-toc-skip>Gaussian Distribution (1)</h3>
+            <div class="text-muted small">
+              <p>
+                
+
+
+
+
+
+                Gaussian Distribution
+
+Univariate
+
+[\begin{aligned} \mathcal{N}(x\vert \mu, \sigma^2) = \frac {1}{\sqrt{2\pi \sigma^2}} \exp\left(- \frac {1}{2\sigma^2} (x-\mu)^2 \right) \end{aligned}]
+
+
+  
+    Th...
+              </p>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+      
+      
+      <div class="card">
+        <a href="/posts/gaussian_distribution_3/">
+          <div class="card-body">
+            <!--
+  Date format snippet
+  See: ${JS_ROOT}/utils/timeago.js
+-->
+
+<em class="timeago small"
+    data-ts="1613779200"
+    
+    >
+  2021-02-20
+</em>
+
+            <h3 class="pt-0 mt-1 mb-3" data-toc-skip>Gaussian Distribution (3)</h3>
+            <div class="text-muted small">
+              <p>
+                
+
+
+
+
+
+                Conditional Gaussian Distribution
+
+
+  
+    we partition $\boldsymbol{x}$ into disjoint subsets $\boldsymbol{x}_a, \boldsymbol{x}_b$
+
+    \(\begin{aligned} \boldsymbol{x} &amp;amp;= \binom{\boldsymbol{x...
+              </p>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+      
+      
+      <div class="card">
+        <a href="/posts/gaussian_gamma_distribution/">
+          <div class="card-body">
+            <!--
+  Date format snippet
+  See: ${JS_ROOT}/utils/timeago.js
+-->
+
+<em class="timeago small"
+    data-ts="1613779200"
+    
+    >
+  2021-02-20
+</em>
+
+            <h3 class="pt-0 mt-1 mb-3" data-toc-skip>Gaussian-Gamma Distribution</h3>
+            <div class="text-muted small">
+              <p>
+                
+
+
+
+
+
+                Gaussian-Gamma distribution
+
+\[\begin{aligned} \mathrm{GausGam}(\mu, \lambda  \vert \mu_0, \tau , a, b) &amp;amp;= \mathcal{N}(\mu \vert \mu_0, (\tau\lambda)^{-1}) \mathrm{Gam}(\lambda \vert a,b)  \\ &amp;...
+              </p>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+    </div> <!-- .card-deck -->
+  </div> <!-- #related-posts -->
+
+
+      
+        
+        <!--
+  Navigation buttons at the bottom of the post.
+-->
+
+<div class="post-navigation d-flex justify-content-between">
+  
+  <a href="/posts/gaussian_distribution_1/" class="btn btn-outline-primary"
+    prompt="Older">
+    <p>Gaussian Distribution (1)</p>
+  </a>
+  
+
+  
+  <a href="/posts/gaussian_distribution_3/" class="btn btn-outline-primary"
+    prompt="Newer">
+    <p>Gaussian Distribution (3)</p>
+  </a>
+  
+
+</div>
+
+      
+        
+        <!--  The comments switcher -->
+
+
+      
+    </div>
+  </div>
+</div> <!-- .row -->
+
+
+
+        <!--
+  The Footer
+-->
+
+<footer class="d-flex w-100 justify-content-center">
+  <div class="d-flex justify-content-between align-items-center text-muted">
+    <div class="footer-left">
+      <p class="mb-0">
+        © 2022
+        <a href="https://twitter.com/username">luo-songtao</a>.
+        
+        <span data-toggle="tooltip" data-placement="top"
+          title="Except where otherwise noted, the blog posts on this site are licensed under the Creative Commons Attribution 4.0 International (CC BY 4.0) License by the author.">Some rights reserved.</span>
+        
+      </p>
+    </div>
+
+    <div class="footer-right">
+      <p class="mb-0">
+        
+
+        
+
+        Powered by 
+          <a href="https://jekyllrb.com" target="_blank" rel="noopener">Jekyll</a>
+         with 
+          <a href="https://github.com/cotes2020/jekyll-theme-chirpy" target="_blank" rel="noopener">Chirpy</a>
+         theme.
+
+      </p>
+    </div>
+
+  </div> <!-- div.d-flex -->
+</footer>
+
+
+      </div>
+
+      <!--
+  The Search results
+-->
+<div id="search-result-wrapper" class="d-flex justify-content-center unloaded">
+  <div class="col-12 col-sm-11 post-content">
+    <div id="search-hints">
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+
+
+  <div id="access-tags">
+    <div class="panel-heading">Trending Tags</div>
+    <div class="d-flex flex-wrap mt-3 mb-1 mr-3">
+
+    
+      
+      <a class="post-tag" href="/tags/gaussian-distribution/">Gaussian Distribution</a>
+    
+      
+      <a class="post-tag" href="/tags/pca/">PCA</a>
+    
+      
+      <a class="post-tag" href="/tags/em/">EM</a>
+    
+      
+      <a class="post-tag" href="/tags/bayesian/">Bayesian</a>
+    
+      
+      <a class="post-tag" href="/tags/markov-chain/">Markov Chain</a>
+    
+      
+      <a class="post-tag" href="/tags/bernoulli/">Bernoulli</a>
+    
+      
+      <a class="post-tag" href="/tags/binomial/">Binomial</a>
+    
+      
+      <a class="post-tag" href="/tags/gamma-distribution/">Gamma Distribution</a>
+    
+      
+      <a class="post-tag" href="/tags/gmm/">GMM</a>
+    
+      
+      <a class="post-tag" href="/tags/kernel/">Kernel</a>
+    
+
+    </div>
+  </div>
+
+
+    </div>
+    <div id="search-results" class="d-flex flex-wrap justify-content-center text-muted mt-3"></div>
+  </div>
+</div>
+
+
+    </div> <!-- #main-wrapper -->
+
+    
+      <!--
+  mermaid-js loader
+-->
+
+<script src="https://cdn.jsdelivr.net/npm/mermaid@8/dist/mermaid.min.js"></script>
+
+<script>
+  $(function() {
+    function updateMermaid(event) {
+      if (event.source === window && event.data &&
+            event.data.direction === ModeToggle.ID) {
+
+        const mode = event.data.message;
+
+        if (typeof mermaid === "undefined") {
+          return;
+        }
+
+        let expectedTheme = (mode === ModeToggle.DARK_MODE? "dark" : "default");
+        let config = { theme: expectedTheme };
+
+        /* Re-render the SVG › <https://github.com/mermaid-js/mermaid/issues/311#issuecomment-332557344> */
+        $(".mermaid").each(function() {
+          let svgCode = $(this).prev().children().html();
+          $(this).removeAttr("data-processed");
+          $(this).html(svgCode);
+        });
+
+        mermaid.initialize(config);
+        mermaid.init(undefined, ".mermaid");
+      }
+    }
+
+    let initTheme = "default";
+
+    if ($("html[data-mode=dark]").length > 0
+      || ($("html[data-mode]").length == 0
+        && window.matchMedia("(prefers-color-scheme: dark)").matches ) ) {
+      initTheme = "dark";
+    }
+
+    let mermaidConf = {
+      theme: initTheme  /* <default|dark|forest|neutral> */
+    };
+
+    /* Markdown converts to HTML */
+    $("pre").has("code.language-mermaid").each(function() {
+      let svgCode = $(this).children().html();
+      $(this).addClass("unloaded");
+      $(this).after(`<div class=\"mermaid\">${svgCode}</div>`);
+    });
+
+    mermaid.initialize(mermaidConf);
+
+    window.addEventListener("message", updateMermaid);
+  });
+</script>
+
+    
+
+    <div id="mask"></div>
+
+    <a id="back-to-top" href="#" aria-label="back-to-top" class="btn btn-lg btn-box-shadow" role="button">
+      <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!--
+  Jekyll Simple Search loader
+  See: <https://github.com/christian-fei/Simple-Jekyll-Search>
+-->
+
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/simple-jekyll-search@1.10.0/dest/simple-jekyll-search.min.js"></script>
+
+<script>
+SimpleJekyllSearch({
+  searchInput: document.getElementById('search-input'),
+  resultsContainer: document.getElementById('search-results'),
+  json: '/assets/js/data/search.json',
+  searchResultTemplate: '<div class="pl-1 pr-1 pl-sm-2 pr-sm-2 pl-lg-4 pr-lg-4 pl-xl-0 pr-xl-0">  <a href="{url}">{title}</a>  <div class="post-meta d-flex flex-column flex-sm-row text-muted mt-1 mb-1">    {categories}    {tags}  </div>  <p>{snippet}</p></div>',
+  noResultsText: '<p class="mt-5">Oops! No result founds.</p>',
+  templateMiddleware: function(prop, value, template) {
+    if (prop === 'categories') {
+      if (value === '') {
+        return `${value}`;
+      } else {
+        return `<div class="mr-sm-4"><i class="far fa-folder fa-fw"></i>${value}</div>`;
+      }
+    }
+
+    if (prop === 'tags') {
+      if (value === '') {
+        return `${value}`;
+      } else {
+        return `<div><i class="fa fa-tag fa-fw"></i>${value}</div>`;
+      }
+    }
+  }
+});
+</script>
+
+
+    <!--
+  JS selector for site.
+-->
+
+<!-- layout specified -->
+
+
+  
+
+
+
+  <!-- image lazy-loading & popup & clipboard -->
+  
+
+  
+
+
+
+
+
+
+
+  
+    
+
+    
+
+  
+
+
+
+  
+    
+
+    
+
+  
+
+
+
+  
+    
+
+    
+
+  
+
+
+
+
+  <script src="https://cdn.jsdelivr.net/combine/npm/magnific-popup@1/dist/jquery.magnific-popup.min.js,npm/lozad/dist/lozad.min.js,npm/clipboard@2/dist/clipboard.min.js"></script>
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+
+
+
+
+
+  
+    
+
+    
+
+  
+
+
+
+  
+    
+
+    
+
+  
+
+
+
+  
+    
+
+    
+
+  
+
+
+
+  
+    
+
+    
+
+  
+
+
+
+
+  <script src="https://cdn.jsdelivr.net/combine/npm/dayjs@1/dayjs.min.js,npm/dayjs@1/locale/en.min.js,npm/dayjs@1/plugin/relativeTime.min.js,npm/dayjs@1/plugin/localizedFormat.min.js"></script>
+
+
+
+
+
+
+
+
+<script defer src="/assets/js/dist/post.min.js"></script>
+
+
+  <!-- MathJax -->
+  <script>
+  /* see: <https://docs.mathjax.org/en/latest/options/input/tex.html#tex-options> */
+  MathJax = {
+    tex: {
+      inlineMath: [              /* start/end delimiter pairs for in-line math */
+        ['$','$'],
+        ['\\(','\\)']
+      ],
+      displayMath: [             /* start/end delimiter pairs for display math */
+        ['$$', '$$'],
+        ['\\[', '\\]']
+      ]
+    }
+  };
+  </script>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+  </script>
+
+
+<!-- commons -->
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.bundle.min.js"></script>
+
+
+
+
+  </body>
+
+</html>
+

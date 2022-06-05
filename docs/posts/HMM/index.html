@@ -1,0 +1,4564 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html lang="en"
+  
+>
+
+  <!--
+  The Head
+-->
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Allow having a localized datetime different from the appearance language -->
+  
+
+  
+
+    
+
+    
+
+  
+
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+<meta name="generator" content="Jekyll v4.2.1" />
+<meta property="og:title" content="Hidden Markov Model" />
+<meta name="author" content="luo-songtao" />
+<meta property="og:locale" content="en" />
+<meta name="description" content="Hidden Markov Model Assume that all latent variables form a Markov chain, giving rise to the graphical structure, this is known as a state space model. If the latent variables are discrete, then we obtain the hidden Markov model, or HMM. Note that the observed variables in an HMM may be discrete or continuous, and a variety of different conditional distributions can be used to model them. Transition and Emmission Probabilities If we allow the probability distribution of $z_n$ to depend on the state of the previous latent variable $z_{n-1}$ through a conditional distribution $p(z_n\vert z_{n−1})$. Because the latent variables are K-dimensional binary variables, this conditional distribution corresponds to a table of numbers that we denote by $\mathbf{A}$, the elements of which are known as transition probabilities Transition Probabilities Transition Probabilities is defined as: [\begin{aligned} p(\boldsymbol{z}n\vert \boldsymbol{z}{n-1}, \mathbf{A}) &amp;= \prod_{k=1}^K \prod_{k=1}^K A_{jk}^{z_{n-1,j},z_{nk}} \ p(\boldsymbol{z_1}\vert \boldsymbol{\pi}) &amp;= \prod_{k=1}^K \pi_k^{z_{1k}} \end{aligned}] where $\sum_k z_{1k} = 1$ A state transition diagram of HMM as shown follow A Lattice or Trellis diagram of HMM as shown follow Emmission Probabilities Emmission Probabilities: [\begin{aligned} p(\boldsymbol{x}n\vert \boldsymbol{z}{n}, \boldsymbol{w}) &amp;= \prod_{k=1}^K p(\boldsymbol{x}n\vert \boldsymbol{w})^{z{nk}} \end{aligned}] $\boldsymbol{w}$ is a set of parameter of Homogeneous Model We shall focuss attention on homogeneous models for which all of the conditional distributions governing the latent variables share the same parameters $\mathbf{A}$, and similarly all of the emission distributions share the same parameters $\boldsymbol{w}$ (the extension to more general cases is straightforward). HMM and Mixture Model Note that a mixture model for an i.i.d data set corresponds to the special case in which the parameters $A_{jk}$ are the same for all values of $j$, so that the conditional distribution $p(z_n\vert z_n−1)$ is independent of $z_{n−1}$. Under the Homogeneous Model assumption, the joint probability distribution over both latent and observed variables is then given by [\begin{aligned} p(\boldsymbol{X} ,\boldsymbol{Z} \vert \boldsymbol{\theta}) = p(\boldsymbol{z}1\vert \boldsymbol{\pi}) \left[ \prod{n=1}^N p(\boldsymbol{z}n\vert \boldsymbol{z}{n-1}, \mathbf{A}) \right] \prod_{n=1}^N p(\boldsymbol{x}_m\vert \boldsymbol{z}_m, \boldsymbol{w}) \end{aligned}] \[\boldsymbol{\theta} = \{\boldsymbol{\pi}, \mathbf{A}, \boldsymbol{w}\}\] Most of our discussion of the hidden Markov model will be independent of the particular choice of the emission probabilities. Indeed, the model is tractable for a wide range of emission distributions including discrete tables, Gaussians, and mixtures of Gaussians. It is also possible to exploit discriminative models such as neural networks. These can be used to model the emission density $p(x\vert z)$ directly, or to provide a representation for $p(z\vert x)$ that can be converted into the required emission density $p(x\vert z) $ using Bayes’ theorem. We also can gain a better understanding of the hidden Markov model by considering it from a generative point of view. Just like a ancestral sampling for a directed graphical model. Left-to-Right Model By setting the elements of $A_{jk}$ of $\mathbf{A}$ to zero if $j &gt; k$ the Transition Diagram and Lattice or Trellis Diagram of Left-to-Right Model Inference and Learning of HMM Given a data set $\mathbf{X} = {\boldsymbol{x}_1, . . . , \boldsymbol{x}_N}$ Likelihood Function The likelihood function is obtained from the joint distribution by marginalizing over the latent variables [\begin{aligned} p(\mathbf{X} \vert \boldsymbol{\theta}) = \sum_{\mathbf{Z}} p(\mathbf{X} ,\mathbf{Z} \vert \boldsymbol{\theta}) \end{aligned}] EM for HMM E-step [\begin{aligned} \mathcal{Q}(\boldsymbol{\theta}, \boldsymbol{\theta}^{old}) =&amp; \sum_{\mathbf{Z}} p(\mathbf{Z}\vert \mathbf{X}, \boldsymbol{\theta}^{old}) \ln p(\mathbf{X} ,\mathbf{Z} \vert \boldsymbol{\theta}) \\ =&amp; \sum_{k=1}^K \mathbb{E}[z_{1k}]\ln \pi_k + \sum_{n=2}^N\sum_{j=1}^K\sum_{k=1}^K \mathbb{E}[z_{n-1,j},z_{nk}]\ln A_{jk} \ &amp; + \sum_{n=1}^N \sum_{k=1}^K \mathbb{E}[z_{nk}] \ln p(\boldsymbol{x}_n \vert \boldsymbol{w}_k) \end{aligned}] To simplify notion, we define: \[\begin{aligned} \gamma_{nk} &amp;= \mathbb{E}[z_{nk}] = \sum_{\boldsymbol{z}_n} \gamma(\boldsymbol{z}_n) z_{nk} \\ \xi_{z_{n-1,j}, z_{nk}} &amp;= \mathbb{E}[z_{n-1,j}, z_{nk}] = \sum_{\boldsymbol{z}_n} \xi(\boldsymbol{z}_{n-1}, \boldsymbol{z}_{n})z_{n-1,j}z_{nk} \end{aligned}\] M-Step [\begin{aligned} \boldsymbol{\theta} = \arg \max_{\boldsymbol{\theta}} \mathcal{Q}(\boldsymbol{\theta}, \boldsymbol{\theta}^{old}) \end{aligned}] then we can obtain: \[\begin{aligned} \pi_k &amp;= \frac {\gamma_{1k}}{\sum_{j=1}^K \gamma_{1j}} \\ A_{jk} &amp;= \frac {\sum_{n=2}^N \xi_{z_{n-1,j}z_{nk}}}{\sum_{l=1}^K\sum_{n=2}^K\xi_{z_{n-1,j}z_{nl}}} \end{aligned}\] The EM algorithm must be initialized by choosing starting values for $\boldsymbol{\pi}$ and $\mathbf{A}$, which should of course respect the summation constraints associated with their probabilistic interpretation. To maximize $\mathcal{Q}(\boldsymbol{\theta}, \boldsymbol{\theta}^{old})$ with respect to $\boldsymbol{w}_k$, we notice that only the final term depends on $\boldsymbol{w}_k$ and furthermore this term has exactly the same form as the data-dependent term in the corresponding function for a standard mixture distribution for i.i.d data, If the parameters $\boldsymbol{w}_k$ are independent for the different components, then this term decouples into a sum of terms one for each value of $k$, each of which can be maximized independently The EM algorithm requires initial values for the parameters of the emission distribution. One way to set these is first to treat the data initially as i.i.d. and fit the emission density by maximum likelihood, and then use the resulting values to initialize the parameters for EM. The forward-backward algorithm Next we seek an efficient procedure for evaluating the quantities $\gamma_{nk}$ and $\xi_{z_{n-1,j}, z_{nk}}$, corresponding to the E step of the EM algorithm. The graph for the hidden Markov model is a tree, and so we know that the posterior distribution of the latent variables can be obtained efficiently using a two-stage message passing algorithm In the particular context of the hidden Markov model, this is known as the forward-backward algorithm or the Baum-Welch algorithm. There are in fact several variants of the basic algorithm, all of which lead to the exact marginals, according to the precise form of the messages that are propagated along the chain. Alpha-beta algorithm. Evaluate $\gamma_{nk}$ Recall that for a discrete multinomial random variable the expected value of one of its components is just the probability of that component having the value 1. Thus we are interested in finding the posterior distribution $p(\boldsymbol{z}_n\vert \mathbf{X})$. This represents a vector of length $K$ whose entries correspond to the expected values of $z_{nk}$. [\begin{aligned} \gamma_{\boldsymbol{z}_n} = p(\boldsymbol{z}_n\vert \mathbf{X}) = \frac {p(\mathbf{X}\vert \boldsymbol{z}_n) P(\boldsymbol{z}_n)}{p(\mathbf{X})} \end{aligned}] Note that the denominator $p(\mathbf{X})$ is implicitly conditioned on the parameters $\boldsymbol{\theta}^{old}$ of the HMM and hence represents the likelihood function. Using some conditional independence property: \[\begin{aligned} \gamma_{\boldsymbol{z}_n} &amp;= \frac {p(\boldsymbol{x}_1,...,\boldsymbol{x}_n, \boldsymbol{z}_n)p(\boldsymbol{x}_{n+1},...,\boldsymbol{x}_N \vert \boldsymbol{z}_n)}{p(\mathbf{X})} = \frac {\alpha(\boldsymbol{z}_n)\beta(\boldsymbol{z}_n)}{p(\mathbf{X})} \\ \\ \alpha(\boldsymbol{z}_n) &amp;= p(\boldsymbol{x}_1,...,\boldsymbol{x}_n, \boldsymbol{z}_n) \\ \beta(\boldsymbol{z}_n) &amp;= p(\boldsymbol{x}_{n+1},...,\boldsymbol{x}_N \vert \boldsymbol{z}_n) \end{aligned}\] recursion formula of $\alpha(\boldsymbol{z}_n)$ \[\begin{aligned} \alpha(\boldsymbol{z}_n) &amp;= p(\boldsymbol{x}_1,...,\boldsymbol{x}_n, \boldsymbol{z}_n) \\ &amp;= p(\boldsymbol{x}_1,...,\boldsymbol{x}_n\vert \boldsymbol{z}_n)p(\boldsymbol{z}_n) \\&amp;= p(\boldsymbol{x}_n\vert \boldsymbol{z}_n)p(\boldsymbol{x}_1,...,\boldsymbol{x}_{n-1}\vert \boldsymbol{z}_n) p(\boldsymbol{z}_n) \\ &amp;= p(\boldsymbol{x}_n\vert \boldsymbol{z}_n)p(\boldsymbol{x}_1,...,\boldsymbol{x}_{n-1}, \boldsymbol{z}_n) \\ &amp;= p(\boldsymbol{x}_n\vert \boldsymbol{z}_n)\sum_{\boldsymbol{z}_{n-1}} p(\boldsymbol{x}_1,...,\boldsymbol{x}_{n-1}, \boldsymbol{z}_{n-1} ,\boldsymbol{z}_n) \\ &amp;= p(\boldsymbol{x}_n\vert \boldsymbol{z}_n)\sum_{\boldsymbol{z}_{n-1}} p(\boldsymbol{x}_1,...,\boldsymbol{x}_{n-1}, \boldsymbol{z}_{n-1})p(\boldsymbol{z}_n\vert \boldsymbol{z}_{n-1}) \\ &amp;= p(\boldsymbol{x}_n\vert \boldsymbol{z}_n)\sum_{\boldsymbol{z}_{n-1}} \alpha(\boldsymbol{z}_{n-1})p(\boldsymbol{z}_n\vert \boldsymbol{z}_{n-1}) \\ \\ \alpha(\boldsymbol{z}_1) &amp;= p(\boldsymbol{x}_1 \vert \boldsymbol{z}_1)p(\boldsymbol{z}_1) = \prod_{k=1}^K (\pi_k p(\boldsymbol{x}_1\vert \boldsymbol{w}_k))^{z_{1k}} \end{aligned}\] forward message passing: $1 \rightarrow n$ recursion formula of $\beta(\boldsymbol{z}_n)$ \[\begin{aligned} \beta(\boldsymbol{z}_n) &amp;= p(\boldsymbol{x}_{n+1},...,\boldsymbol{x}_N \vert \boldsymbol{z}_n) \\&amp;= \sum_{\boldsymbol{z}_{n+1}} p(\boldsymbol{x}_{n+2},...,\boldsymbol{x}_N \vert \boldsymbol{z}_{n+1}) p(\boldsymbol{x}_{n+1}\vert \boldsymbol{z}_{n+1}) p(\boldsymbol{z}_{n+1}\vert \boldsymbol{z}_{n}) \\ &amp;= p(\boldsymbol{x}_{n+1},...,\boldsymbol{x}_N \vert \boldsymbol{z}_n) \\&amp;= \sum_{\boldsymbol{z}_{n+1}} \beta(\boldsymbol{z}_{n+1}) p(\boldsymbol{x}_{n+1}\vert \boldsymbol{z}_{n+1}) p(\boldsymbol{z}_{n+1}\vert \boldsymbol{z}_{n}) \end{aligned}\] backward message passing: $N \rightarrow n$ here we also need a strarting condition for the recursion, and we can be obtained by setting $n=N$, and easily obtain: $\beta(\boldsymbol{Z}_N) = 1$ However, the quantity $p(\mathbf{X})$ represents the likelihood function whose value we typically wish to monitor during the EM optimization, and so it is useful to be able to evaluate it. \[\begin{aligned} p(\mathbf{X}) &amp;= \sum_{\boldsymbol{z}_n} \alpha(\boldsymbol{z}_n)\beta(\boldsymbol{z}_n)\\ &amp;= \sum_{\boldsymbol{z}_N} \alpha(\boldsymbol{z}_N) \end{aligned}\] Evaluate $\xi_{z_{n-1,j}, z_{nk}}$ [\begin{aligned}\xi(\boldsymbol{z}{n-1}, \boldsymbol{z}{n}) = p(\boldsymbol{z}{n-1}, \boldsymbol{z}{n} \vert \mathbf{X})\end{aligned}] for each of the $K \times K$ settings for $(\boldsymbol{z}{n-1}, \boldsymbol{z}{n})$. [\begin{aligned} \xi(\boldsymbol{z}{n-1}, \boldsymbol{z}{n}) &amp;= p(\boldsymbol{z}{n-1}, \boldsymbol{z}{n} \vert \mathbf{X}) \ &amp;= \frac {p(\mathbf{X}\vert \boldsymbol{z}{n-1}, \boldsymbol{z}{n})p(\boldsymbol{z}{n-1}, \boldsymbol{z}{n})}{p(\mathbf{X})} \ &amp;= \frac {p(\boldsymbol{x}{n+1}, …,\boldsymbol{x}{n-1} \vert \boldsymbol{z}{n-1})p(\boldsymbol{z}{n-1})p(\boldsymbol{x}n\vert \boldsymbol{z}_n) p(\boldsymbol{x}{n+1}, …,\boldsymbol{x}{N}\vert \boldsymbol{z}_n)p(\boldsymbol{z}{n}\vert \boldsymbol{z}{n-1})}{p(\mathbf{X})} \ &amp;= \frac {\alpha(\boldsymbol{z}{n-1}) p(\boldsymbol{x}n\vert \boldsymbol{z}_n) p(\boldsymbol{z}{n}\vert \boldsymbol{z}{n-1}) \beta(\boldsymbol{z}{n})}{p(\mathbf{X})} \end{aligned}] Predictive Distribution [\begin{aligned} p(\boldsymbol{x}{N+1}\vert \mathbf{X}) &amp;= \sum{\boldsymbol{z}{N+1}} p(\boldsymbol{x}{N+1}, \boldsymbol{z}{N+1} \vert \mathbf{X}) \ &amp;= \sum{\boldsymbol{z}{N+1}} p(\boldsymbol{x}{N+1} \vert \boldsymbol{z}{N+1}) \sum{\boldsymbol{z}N} p(\boldsymbol{z}{N+1}, \boldsymbol{z}N \vert \mathbf{X}) \ &amp;= \sum{\boldsymbol{z}{N+1}} p(\boldsymbol{x}{N+1} \vert \boldsymbol{z}{N+1}) \sum{\boldsymbol{z}N} p(\boldsymbol{z}{N+1}\vert \boldsymbol{z}N) p(\boldsymbol{z}_N \vert \mathbf{X}) \ &amp;= \sum{\boldsymbol{z}{N+1}} p(\boldsymbol{x}{N+1} \vert \boldsymbol{z}{N+1}) \sum{\boldsymbol{z}N} p(\boldsymbol{z}{N+1}\vert \boldsymbol{z}N) \frac {p(\boldsymbol{z}_N, \mathbf{X}) }{p(\mathbf{X})} \ &amp;= \frac {1}{p(\mathbf{X})} \sum{\boldsymbol{z}{N+1}} p(\boldsymbol{x}{N+1} \vert \boldsymbol{z}{N+1}) \sum{\boldsymbol{z}N} p(\boldsymbol{z}{N+1}\vert \boldsymbol{z}_N) \alpha(\boldsymbol{z}_N) \end{aligned}] Scaling Factors There is an important issue that must be addressed before we can make use of the forward backward algorithm in practice. Because these probabilities are often significantly less than unity, as we work our way forward along the chain, the values of $α(\boldsymbol{z}_{n})$ can go to zero exponentially quickly. In the case of i.i.d. data, we implicitly circumvented this problem with the evaluation of likelihood functions by taking logarithms. Unfortunately, this will not help here because we are forming sums of products of small numbers (we are in fact implicitly summing over all possible paths through the lattice diagram re-scale: [\begin{aligned}&amp;\alpha(\boldsymbol{z}{n}) \ &amp;\beta(\boldsymbol{z}{n})\end{aligned}] this leads their values remain of order unity \[\begin{aligned} \widehat{\alpha}(\boldsymbol{z}_n) = p(\boldsymbol{z}_n \vert \boldsymbol{x}_1,...,\boldsymbol{x}_n) =\frac {\alpha(\boldsymbol{z}_n)}{p(\boldsymbol{x}_1,...,\boldsymbol{x}_n)} \end{aligned}\] In order to relate the scaled and original alpha variables, we introduce scaling factors defined by conditional distributions over the observed variables \[\begin{aligned} c_n = p(\boldsymbol{x}_n\vert \boldsymbol{x}_1,...,\boldsymbol{x}_{n-1}) \end{aligned}\] Easily, we have: \[\begin{aligned} p( \boldsymbol{x}_1,...,\boldsymbol{x}_{n}) &amp;=\prod_{m=1}^n c_m \\ \alpha(\boldsymbol{z}_n) &amp;= \widehat{\alpha}(\boldsymbol{z}_n)\prod_{m=1}^n c_m \\ \\ c_n \widehat{\alpha}(\boldsymbol{z}_n) &amp;= p(\boldsymbol{x}_n\vert \boldsymbol{z}_n)\sum_{\boldsymbol{z}_{n-1}} \widehat{\alpha}(\boldsymbol{z}_{n-1})p(\boldsymbol{z}_n\vert \boldsymbol{z}_{n-1}) \end{aligned}\] Note: we also have to evaluate and store $c_n$, but it is easily done because it is the coefficient that normalizes the right-hand side to give $\widehat{\alpha}(\boldsymbol{z}_{n})$ Also, for $\beta(\boldsymbol{z}_n)$ \[\begin{aligned} \beta(\boldsymbol{z}_n) &amp;= \widehat{\beta}(\boldsymbol{z}_n) \prod_{m=n+1}^N c_m \\ \widehat{\beta}(\boldsymbol{z}_n) &amp;= \frac {p(\boldsymbol{x}_{n+1}, ..., \boldsymbol{x}_{N}\vert \boldsymbol{z}_{n})}{p(\boldsymbol{x}_{n+1},...\boldsymbol{x}_{N}\vert \boldsymbol{x}_{1},...,\boldsymbol{x}_{n})} \\ c_{n+1}\widehat{\beta}(\boldsymbol{z}_{n}) &amp;= \sum_{\boldsymbol{z}_{n+1}} \widehat{\beta}(\boldsymbol{z}_{n+1}) p(\boldsymbol{x}_{n+1}\vert \boldsymbol{z}_{n+1}) p(\boldsymbol{z}_{n+1}\vert \boldsymbol{z}_{n}) \end{aligned}\] we also have a approximation of $p(\mathbf{X})$: \[\begin{aligned} p(\mathbf{X}) = \prod_{n=1}^N c_n \end{aligned}\] in the end, we got two iterative equations as follow: \[\begin{aligned} \gamma(\boldsymbol{z}_n) &amp;= \widehat{\alpha}(\boldsymbol{z}_n) \widehat{\beta}(\boldsymbol{z}_{n}) \\ \xi(\boldsymbol{z}_{n-1}, \boldsymbol{z}_n) &amp;= c_n\widehat{\alpha}(\boldsymbol{z}_{n-1})p(\boldsymbol{x}_n\vert \boldsymbol{z}_n)p(\boldsymbol{z}_n\vert \boldsymbol{z}_{n-1}) \widehat{\beta}(\boldsymbol{z}_{n}) \end{aligned}\] The Viterbi Algorithm [\begin{aligned} \end{aligned}]" />
+<meta property="og:description" content="Hidden Markov Model Assume that all latent variables form a Markov chain, giving rise to the graphical structure, this is known as a state space model. If the latent variables are discrete, then we obtain the hidden Markov model, or HMM. Note that the observed variables in an HMM may be discrete or continuous, and a variety of different conditional distributions can be used to model them. Transition and Emmission Probabilities If we allow the probability distribution of $z_n$ to depend on the state of the previous latent variable $z_{n-1}$ through a conditional distribution $p(z_n\vert z_{n−1})$. Because the latent variables are K-dimensional binary variables, this conditional distribution corresponds to a table of numbers that we denote by $\mathbf{A}$, the elements of which are known as transition probabilities Transition Probabilities Transition Probabilities is defined as: [\begin{aligned} p(\boldsymbol{z}n\vert \boldsymbol{z}{n-1}, \mathbf{A}) &amp;= \prod_{k=1}^K \prod_{k=1}^K A_{jk}^{z_{n-1,j},z_{nk}} \ p(\boldsymbol{z_1}\vert \boldsymbol{\pi}) &amp;= \prod_{k=1}^K \pi_k^{z_{1k}} \end{aligned}] where $\sum_k z_{1k} = 1$ A state transition diagram of HMM as shown follow A Lattice or Trellis diagram of HMM as shown follow Emmission Probabilities Emmission Probabilities: [\begin{aligned} p(\boldsymbol{x}n\vert \boldsymbol{z}{n}, \boldsymbol{w}) &amp;= \prod_{k=1}^K p(\boldsymbol{x}n\vert \boldsymbol{w})^{z{nk}} \end{aligned}] $\boldsymbol{w}$ is a set of parameter of Homogeneous Model We shall focuss attention on homogeneous models for which all of the conditional distributions governing the latent variables share the same parameters $\mathbf{A}$, and similarly all of the emission distributions share the same parameters $\boldsymbol{w}$ (the extension to more general cases is straightforward). HMM and Mixture Model Note that a mixture model for an i.i.d data set corresponds to the special case in which the parameters $A_{jk}$ are the same for all values of $j$, so that the conditional distribution $p(z_n\vert z_n−1)$ is independent of $z_{n−1}$. Under the Homogeneous Model assumption, the joint probability distribution over both latent and observed variables is then given by [\begin{aligned} p(\boldsymbol{X} ,\boldsymbol{Z} \vert \boldsymbol{\theta}) = p(\boldsymbol{z}1\vert \boldsymbol{\pi}) \left[ \prod{n=1}^N p(\boldsymbol{z}n\vert \boldsymbol{z}{n-1}, \mathbf{A}) \right] \prod_{n=1}^N p(\boldsymbol{x}_m\vert \boldsymbol{z}_m, \boldsymbol{w}) \end{aligned}] \[\boldsymbol{\theta} = \{\boldsymbol{\pi}, \mathbf{A}, \boldsymbol{w}\}\] Most of our discussion of the hidden Markov model will be independent of the particular choice of the emission probabilities. Indeed, the model is tractable for a wide range of emission distributions including discrete tables, Gaussians, and mixtures of Gaussians. It is also possible to exploit discriminative models such as neural networks. These can be used to model the emission density $p(x\vert z)$ directly, or to provide a representation for $p(z\vert x)$ that can be converted into the required emission density $p(x\vert z) $ using Bayes’ theorem. We also can gain a better understanding of the hidden Markov model by considering it from a generative point of view. Just like a ancestral sampling for a directed graphical model. Left-to-Right Model By setting the elements of $A_{jk}$ of $\mathbf{A}$ to zero if $j &gt; k$ the Transition Diagram and Lattice or Trellis Diagram of Left-to-Right Model Inference and Learning of HMM Given a data set $\mathbf{X} = {\boldsymbol{x}_1, . . . , \boldsymbol{x}_N}$ Likelihood Function The likelihood function is obtained from the joint distribution by marginalizing over the latent variables [\begin{aligned} p(\mathbf{X} \vert \boldsymbol{\theta}) = \sum_{\mathbf{Z}} p(\mathbf{X} ,\mathbf{Z} \vert \boldsymbol{\theta}) \end{aligned}] EM for HMM E-step [\begin{aligned} \mathcal{Q}(\boldsymbol{\theta}, \boldsymbol{\theta}^{old}) =&amp; \sum_{\mathbf{Z}} p(\mathbf{Z}\vert \mathbf{X}, \boldsymbol{\theta}^{old}) \ln p(\mathbf{X} ,\mathbf{Z} \vert \boldsymbol{\theta}) \\ =&amp; \sum_{k=1}^K \mathbb{E}[z_{1k}]\ln \pi_k + \sum_{n=2}^N\sum_{j=1}^K\sum_{k=1}^K \mathbb{E}[z_{n-1,j},z_{nk}]\ln A_{jk} \ &amp; + \sum_{n=1}^N \sum_{k=1}^K \mathbb{E}[z_{nk}] \ln p(\boldsymbol{x}_n \vert \boldsymbol{w}_k) \end{aligned}] To simplify notion, we define: \[\begin{aligned} \gamma_{nk} &amp;= \mathbb{E}[z_{nk}] = \sum_{\boldsymbol{z}_n} \gamma(\boldsymbol{z}_n) z_{nk} \\ \xi_{z_{n-1,j}, z_{nk}} &amp;= \mathbb{E}[z_{n-1,j}, z_{nk}] = \sum_{\boldsymbol{z}_n} \xi(\boldsymbol{z}_{n-1}, \boldsymbol{z}_{n})z_{n-1,j}z_{nk} \end{aligned}\] M-Step [\begin{aligned} \boldsymbol{\theta} = \arg \max_{\boldsymbol{\theta}} \mathcal{Q}(\boldsymbol{\theta}, \boldsymbol{\theta}^{old}) \end{aligned}] then we can obtain: \[\begin{aligned} \pi_k &amp;= \frac {\gamma_{1k}}{\sum_{j=1}^K \gamma_{1j}} \\ A_{jk} &amp;= \frac {\sum_{n=2}^N \xi_{z_{n-1,j}z_{nk}}}{\sum_{l=1}^K\sum_{n=2}^K\xi_{z_{n-1,j}z_{nl}}} \end{aligned}\] The EM algorithm must be initialized by choosing starting values for $\boldsymbol{\pi}$ and $\mathbf{A}$, which should of course respect the summation constraints associated with their probabilistic interpretation. To maximize $\mathcal{Q}(\boldsymbol{\theta}, \boldsymbol{\theta}^{old})$ with respect to $\boldsymbol{w}_k$, we notice that only the final term depends on $\boldsymbol{w}_k$ and furthermore this term has exactly the same form as the data-dependent term in the corresponding function for a standard mixture distribution for i.i.d data, If the parameters $\boldsymbol{w}_k$ are independent for the different components, then this term decouples into a sum of terms one for each value of $k$, each of which can be maximized independently The EM algorithm requires initial values for the parameters of the emission distribution. One way to set these is first to treat the data initially as i.i.d. and fit the emission density by maximum likelihood, and then use the resulting values to initialize the parameters for EM. The forward-backward algorithm Next we seek an efficient procedure for evaluating the quantities $\gamma_{nk}$ and $\xi_{z_{n-1,j}, z_{nk}}$, corresponding to the E step of the EM algorithm. The graph for the hidden Markov model is a tree, and so we know that the posterior distribution of the latent variables can be obtained efficiently using a two-stage message passing algorithm In the particular context of the hidden Markov model, this is known as the forward-backward algorithm or the Baum-Welch algorithm. There are in fact several variants of the basic algorithm, all of which lead to the exact marginals, according to the precise form of the messages that are propagated along the chain. Alpha-beta algorithm. Evaluate $\gamma_{nk}$ Recall that for a discrete multinomial random variable the expected value of one of its components is just the probability of that component having the value 1. Thus we are interested in finding the posterior distribution $p(\boldsymbol{z}_n\vert \mathbf{X})$. This represents a vector of length $K$ whose entries correspond to the expected values of $z_{nk}$. [\begin{aligned} \gamma_{\boldsymbol{z}_n} = p(\boldsymbol{z}_n\vert \mathbf{X}) = \frac {p(\mathbf{X}\vert \boldsymbol{z}_n) P(\boldsymbol{z}_n)}{p(\mathbf{X})} \end{aligned}] Note that the denominator $p(\mathbf{X})$ is implicitly conditioned on the parameters $\boldsymbol{\theta}^{old}$ of the HMM and hence represents the likelihood function. Using some conditional independence property: \[\begin{aligned} \gamma_{\boldsymbol{z}_n} &amp;= \frac {p(\boldsymbol{x}_1,...,\boldsymbol{x}_n, \boldsymbol{z}_n)p(\boldsymbol{x}_{n+1},...,\boldsymbol{x}_N \vert \boldsymbol{z}_n)}{p(\mathbf{X})} = \frac {\alpha(\boldsymbol{z}_n)\beta(\boldsymbol{z}_n)}{p(\mathbf{X})} \\ \\ \alpha(\boldsymbol{z}_n) &amp;= p(\boldsymbol{x}_1,...,\boldsymbol{x}_n, \boldsymbol{z}_n) \\ \beta(\boldsymbol{z}_n) &amp;= p(\boldsymbol{x}_{n+1},...,\boldsymbol{x}_N \vert \boldsymbol{z}_n) \end{aligned}\] recursion formula of $\alpha(\boldsymbol{z}_n)$ \[\begin{aligned} \alpha(\boldsymbol{z}_n) &amp;= p(\boldsymbol{x}_1,...,\boldsymbol{x}_n, \boldsymbol{z}_n) \\ &amp;= p(\boldsymbol{x}_1,...,\boldsymbol{x}_n\vert \boldsymbol{z}_n)p(\boldsymbol{z}_n) \\&amp;= p(\boldsymbol{x}_n\vert \boldsymbol{z}_n)p(\boldsymbol{x}_1,...,\boldsymbol{x}_{n-1}\vert \boldsymbol{z}_n) p(\boldsymbol{z}_n) \\ &amp;= p(\boldsymbol{x}_n\vert \boldsymbol{z}_n)p(\boldsymbol{x}_1,...,\boldsymbol{x}_{n-1}, \boldsymbol{z}_n) \\ &amp;= p(\boldsymbol{x}_n\vert \boldsymbol{z}_n)\sum_{\boldsymbol{z}_{n-1}} p(\boldsymbol{x}_1,...,\boldsymbol{x}_{n-1}, \boldsymbol{z}_{n-1} ,\boldsymbol{z}_n) \\ &amp;= p(\boldsymbol{x}_n\vert \boldsymbol{z}_n)\sum_{\boldsymbol{z}_{n-1}} p(\boldsymbol{x}_1,...,\boldsymbol{x}_{n-1}, \boldsymbol{z}_{n-1})p(\boldsymbol{z}_n\vert \boldsymbol{z}_{n-1}) \\ &amp;= p(\boldsymbol{x}_n\vert \boldsymbol{z}_n)\sum_{\boldsymbol{z}_{n-1}} \alpha(\boldsymbol{z}_{n-1})p(\boldsymbol{z}_n\vert \boldsymbol{z}_{n-1}) \\ \\ \alpha(\boldsymbol{z}_1) &amp;= p(\boldsymbol{x}_1 \vert \boldsymbol{z}_1)p(\boldsymbol{z}_1) = \prod_{k=1}^K (\pi_k p(\boldsymbol{x}_1\vert \boldsymbol{w}_k))^{z_{1k}} \end{aligned}\] forward message passing: $1 \rightarrow n$ recursion formula of $\beta(\boldsymbol{z}_n)$ \[\begin{aligned} \beta(\boldsymbol{z}_n) &amp;= p(\boldsymbol{x}_{n+1},...,\boldsymbol{x}_N \vert \boldsymbol{z}_n) \\&amp;= \sum_{\boldsymbol{z}_{n+1}} p(\boldsymbol{x}_{n+2},...,\boldsymbol{x}_N \vert \boldsymbol{z}_{n+1}) p(\boldsymbol{x}_{n+1}\vert \boldsymbol{z}_{n+1}) p(\boldsymbol{z}_{n+1}\vert \boldsymbol{z}_{n}) \\ &amp;= p(\boldsymbol{x}_{n+1},...,\boldsymbol{x}_N \vert \boldsymbol{z}_n) \\&amp;= \sum_{\boldsymbol{z}_{n+1}} \beta(\boldsymbol{z}_{n+1}) p(\boldsymbol{x}_{n+1}\vert \boldsymbol{z}_{n+1}) p(\boldsymbol{z}_{n+1}\vert \boldsymbol{z}_{n}) \end{aligned}\] backward message passing: $N \rightarrow n$ here we also need a strarting condition for the recursion, and we can be obtained by setting $n=N$, and easily obtain: $\beta(\boldsymbol{Z}_N) = 1$ However, the quantity $p(\mathbf{X})$ represents the likelihood function whose value we typically wish to monitor during the EM optimization, and so it is useful to be able to evaluate it. \[\begin{aligned} p(\mathbf{X}) &amp;= \sum_{\boldsymbol{z}_n} \alpha(\boldsymbol{z}_n)\beta(\boldsymbol{z}_n)\\ &amp;= \sum_{\boldsymbol{z}_N} \alpha(\boldsymbol{z}_N) \end{aligned}\] Evaluate $\xi_{z_{n-1,j}, z_{nk}}$ [\begin{aligned}\xi(\boldsymbol{z}{n-1}, \boldsymbol{z}{n}) = p(\boldsymbol{z}{n-1}, \boldsymbol{z}{n} \vert \mathbf{X})\end{aligned}] for each of the $K \times K$ settings for $(\boldsymbol{z}{n-1}, \boldsymbol{z}{n})$. [\begin{aligned} \xi(\boldsymbol{z}{n-1}, \boldsymbol{z}{n}) &amp;= p(\boldsymbol{z}{n-1}, \boldsymbol{z}{n} \vert \mathbf{X}) \ &amp;= \frac {p(\mathbf{X}\vert \boldsymbol{z}{n-1}, \boldsymbol{z}{n})p(\boldsymbol{z}{n-1}, \boldsymbol{z}{n})}{p(\mathbf{X})} \ &amp;= \frac {p(\boldsymbol{x}{n+1}, …,\boldsymbol{x}{n-1} \vert \boldsymbol{z}{n-1})p(\boldsymbol{z}{n-1})p(\boldsymbol{x}n\vert \boldsymbol{z}_n) p(\boldsymbol{x}{n+1}, …,\boldsymbol{x}{N}\vert \boldsymbol{z}_n)p(\boldsymbol{z}{n}\vert \boldsymbol{z}{n-1})}{p(\mathbf{X})} \ &amp;= \frac {\alpha(\boldsymbol{z}{n-1}) p(\boldsymbol{x}n\vert \boldsymbol{z}_n) p(\boldsymbol{z}{n}\vert \boldsymbol{z}{n-1}) \beta(\boldsymbol{z}{n})}{p(\mathbf{X})} \end{aligned}] Predictive Distribution [\begin{aligned} p(\boldsymbol{x}{N+1}\vert \mathbf{X}) &amp;= \sum{\boldsymbol{z}{N+1}} p(\boldsymbol{x}{N+1}, \boldsymbol{z}{N+1} \vert \mathbf{X}) \ &amp;= \sum{\boldsymbol{z}{N+1}} p(\boldsymbol{x}{N+1} \vert \boldsymbol{z}{N+1}) \sum{\boldsymbol{z}N} p(\boldsymbol{z}{N+1}, \boldsymbol{z}N \vert \mathbf{X}) \ &amp;= \sum{\boldsymbol{z}{N+1}} p(\boldsymbol{x}{N+1} \vert \boldsymbol{z}{N+1}) \sum{\boldsymbol{z}N} p(\boldsymbol{z}{N+1}\vert \boldsymbol{z}N) p(\boldsymbol{z}_N \vert \mathbf{X}) \ &amp;= \sum{\boldsymbol{z}{N+1}} p(\boldsymbol{x}{N+1} \vert \boldsymbol{z}{N+1}) \sum{\boldsymbol{z}N} p(\boldsymbol{z}{N+1}\vert \boldsymbol{z}N) \frac {p(\boldsymbol{z}_N, \mathbf{X}) }{p(\mathbf{X})} \ &amp;= \frac {1}{p(\mathbf{X})} \sum{\boldsymbol{z}{N+1}} p(\boldsymbol{x}{N+1} \vert \boldsymbol{z}{N+1}) \sum{\boldsymbol{z}N} p(\boldsymbol{z}{N+1}\vert \boldsymbol{z}_N) \alpha(\boldsymbol{z}_N) \end{aligned}] Scaling Factors There is an important issue that must be addressed before we can make use of the forward backward algorithm in practice. Because these probabilities are often significantly less than unity, as we work our way forward along the chain, the values of $α(\boldsymbol{z}_{n})$ can go to zero exponentially quickly. In the case of i.i.d. data, we implicitly circumvented this problem with the evaluation of likelihood functions by taking logarithms. Unfortunately, this will not help here because we are forming sums of products of small numbers (we are in fact implicitly summing over all possible paths through the lattice diagram re-scale: [\begin{aligned}&amp;\alpha(\boldsymbol{z}{n}) \ &amp;\beta(\boldsymbol{z}{n})\end{aligned}] this leads their values remain of order unity \[\begin{aligned} \widehat{\alpha}(\boldsymbol{z}_n) = p(\boldsymbol{z}_n \vert \boldsymbol{x}_1,...,\boldsymbol{x}_n) =\frac {\alpha(\boldsymbol{z}_n)}{p(\boldsymbol{x}_1,...,\boldsymbol{x}_n)} \end{aligned}\] In order to relate the scaled and original alpha variables, we introduce scaling factors defined by conditional distributions over the observed variables \[\begin{aligned} c_n = p(\boldsymbol{x}_n\vert \boldsymbol{x}_1,...,\boldsymbol{x}_{n-1}) \end{aligned}\] Easily, we have: \[\begin{aligned} p( \boldsymbol{x}_1,...,\boldsymbol{x}_{n}) &amp;=\prod_{m=1}^n c_m \\ \alpha(\boldsymbol{z}_n) &amp;= \widehat{\alpha}(\boldsymbol{z}_n)\prod_{m=1}^n c_m \\ \\ c_n \widehat{\alpha}(\boldsymbol{z}_n) &amp;= p(\boldsymbol{x}_n\vert \boldsymbol{z}_n)\sum_{\boldsymbol{z}_{n-1}} \widehat{\alpha}(\boldsymbol{z}_{n-1})p(\boldsymbol{z}_n\vert \boldsymbol{z}_{n-1}) \end{aligned}\] Note: we also have to evaluate and store $c_n$, but it is easily done because it is the coefficient that normalizes the right-hand side to give $\widehat{\alpha}(\boldsymbol{z}_{n})$ Also, for $\beta(\boldsymbol{z}_n)$ \[\begin{aligned} \beta(\boldsymbol{z}_n) &amp;= \widehat{\beta}(\boldsymbol{z}_n) \prod_{m=n+1}^N c_m \\ \widehat{\beta}(\boldsymbol{z}_n) &amp;= \frac {p(\boldsymbol{x}_{n+1}, ..., \boldsymbol{x}_{N}\vert \boldsymbol{z}_{n})}{p(\boldsymbol{x}_{n+1},...\boldsymbol{x}_{N}\vert \boldsymbol{x}_{1},...,\boldsymbol{x}_{n})} \\ c_{n+1}\widehat{\beta}(\boldsymbol{z}_{n}) &amp;= \sum_{\boldsymbol{z}_{n+1}} \widehat{\beta}(\boldsymbol{z}_{n+1}) p(\boldsymbol{x}_{n+1}\vert \boldsymbol{z}_{n+1}) p(\boldsymbol{z}_{n+1}\vert \boldsymbol{z}_{n}) \end{aligned}\] we also have a approximation of $p(\mathbf{X})$: \[\begin{aligned} p(\mathbf{X}) = \prod_{n=1}^N c_n \end{aligned}\] in the end, we got two iterative equations as follow: \[\begin{aligned} \gamma(\boldsymbol{z}_n) &amp;= \widehat{\alpha}(\boldsymbol{z}_n) \widehat{\beta}(\boldsymbol{z}_{n}) \\ \xi(\boldsymbol{z}_{n-1}, \boldsymbol{z}_n) &amp;= c_n\widehat{\alpha}(\boldsymbol{z}_{n-1})p(\boldsymbol{x}_n\vert \boldsymbol{z}_n)p(\boldsymbol{z}_n\vert \boldsymbol{z}_{n-1}) \widehat{\beta}(\boldsymbol{z}_{n}) \end{aligned}\] The Viterbi Algorithm [\begin{aligned} \end{aligned}]" />
+<link rel="canonical" href="http://0.0.0.0:4000/posts/HMM/" />
+<meta property="og:url" content="http://0.0.0.0:4000/posts/HMM/" />
+<meta property="og:site_name" content="Candy Note" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-02-21T00:00:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Hidden Markov Model" />
+<meta name="twitter:site" content="@twitter_username" />
+<meta name="twitter:creator" content="@luo-songtao" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"luo-songtao"},"dateModified":"2022-02-21T00:00:00+00:00","datePublished":"2022-02-21T00:00:00+00:00","description":"Hidden Markov Model Assume that all latent variables form a Markov chain, giving rise to the graphical structure, this is known as a state space model. If the latent variables are discrete, then we obtain the hidden Markov model, or HMM. Note that the observed variables in an HMM may be discrete or continuous, and a variety of different conditional distributions can be used to model them. Transition and Emmission Probabilities If we allow the probability distribution of $z_n$ to depend on the state of the previous latent variable $z_{n-1}$ through a conditional distribution $p(z_n\\vert z_{n−1})$. Because the latent variables are K-dimensional binary variables, this conditional distribution corresponds to a table of numbers that we denote by $\\mathbf{A}$, the elements of which are known as transition probabilities Transition Probabilities Transition Probabilities is defined as: [\\begin{aligned} p(\\boldsymbol{z}n\\vert \\boldsymbol{z}{n-1}, \\mathbf{A}) &amp;= \\prod_{k=1}^K \\prod_{k=1}^K A_{jk}^{z_{n-1,j},z_{nk}} \\ p(\\boldsymbol{z_1}\\vert \\boldsymbol{\\pi}) &amp;= \\prod_{k=1}^K \\pi_k^{z_{1k}} \\end{aligned}] where $\\sum_k z_{1k} = 1$ A state transition diagram of HMM as shown follow A Lattice or Trellis diagram of HMM as shown follow Emmission Probabilities Emmission Probabilities: [\\begin{aligned} p(\\boldsymbol{x}n\\vert \\boldsymbol{z}{n}, \\boldsymbol{w}) &amp;= \\prod_{k=1}^K p(\\boldsymbol{x}n\\vert \\boldsymbol{w})^{z{nk}} \\end{aligned}] $\\boldsymbol{w}$ is a set of parameter of Homogeneous Model We shall focuss attention on homogeneous models for which all of the conditional distributions governing the latent variables share the same parameters $\\mathbf{A}$, and similarly all of the emission distributions share the same parameters $\\boldsymbol{w}$ (the extension to more general cases is straightforward). HMM and Mixture Model Note that a mixture model for an i.i.d data set corresponds to the special case in which the parameters $A_{jk}$ are the same for all values of $j$, so that the conditional distribution $p(z_n\\vert z_n−1)$ is independent of $z_{n−1}$. Under the Homogeneous Model assumption, the joint probability distribution over both latent and observed variables is then given by [\\begin{aligned} p(\\boldsymbol{X} ,\\boldsymbol{Z} \\vert \\boldsymbol{\\theta}) = p(\\boldsymbol{z}1\\vert \\boldsymbol{\\pi}) \\left[ \\prod{n=1}^N p(\\boldsymbol{z}n\\vert \\boldsymbol{z}{n-1}, \\mathbf{A}) \\right] \\prod_{n=1}^N p(\\boldsymbol{x}_m\\vert \\boldsymbol{z}_m, \\boldsymbol{w}) \\end{aligned}] \\[\\boldsymbol{\\theta} = \\{\\boldsymbol{\\pi}, \\mathbf{A}, \\boldsymbol{w}\\}\\] Most of our discussion of the hidden Markov model will be independent of the particular choice of the emission probabilities. Indeed, the model is tractable for a wide range of emission distributions including discrete tables, Gaussians, and mixtures of Gaussians. It is also possible to exploit discriminative models such as neural networks. These can be used to model the emission density $p(x\\vert z)$ directly, or to provide a representation for $p(z\\vert x)$ that can be converted into the required emission density $p(x\\vert z) $ using Bayes’ theorem. We also can gain a better understanding of the hidden Markov model by considering it from a generative point of view. Just like a ancestral sampling for a directed graphical model. Left-to-Right Model By setting the elements of $A_{jk}$ of $\\mathbf{A}$ to zero if $j &gt; k$ the Transition Diagram and Lattice or Trellis Diagram of Left-to-Right Model Inference and Learning of HMM Given a data set $\\mathbf{X} = {\\boldsymbol{x}_1, . . . , \\boldsymbol{x}_N}$ Likelihood Function The likelihood function is obtained from the joint distribution by marginalizing over the latent variables [\\begin{aligned} p(\\mathbf{X} \\vert \\boldsymbol{\\theta}) = \\sum_{\\mathbf{Z}} p(\\mathbf{X} ,\\mathbf{Z} \\vert \\boldsymbol{\\theta}) \\end{aligned}] EM for HMM E-step [\\begin{aligned} \\mathcal{Q}(\\boldsymbol{\\theta}, \\boldsymbol{\\theta}^{old}) =&amp; \\sum_{\\mathbf{Z}} p(\\mathbf{Z}\\vert \\mathbf{X}, \\boldsymbol{\\theta}^{old}) \\ln p(\\mathbf{X} ,\\mathbf{Z} \\vert \\boldsymbol{\\theta}) \\\\ =&amp; \\sum_{k=1}^K \\mathbb{E}[z_{1k}]\\ln \\pi_k + \\sum_{n=2}^N\\sum_{j=1}^K\\sum_{k=1}^K \\mathbb{E}[z_{n-1,j},z_{nk}]\\ln A_{jk} \\ &amp; + \\sum_{n=1}^N \\sum_{k=1}^K \\mathbb{E}[z_{nk}] \\ln p(\\boldsymbol{x}_n \\vert \\boldsymbol{w}_k) \\end{aligned}] To simplify notion, we define: \\[\\begin{aligned} \\gamma_{nk} &amp;= \\mathbb{E}[z_{nk}] = \\sum_{\\boldsymbol{z}_n} \\gamma(\\boldsymbol{z}_n) z_{nk} \\\\ \\xi_{z_{n-1,j}, z_{nk}} &amp;= \\mathbb{E}[z_{n-1,j}, z_{nk}] = \\sum_{\\boldsymbol{z}_n} \\xi(\\boldsymbol{z}_{n-1}, \\boldsymbol{z}_{n})z_{n-1,j}z_{nk} \\end{aligned}\\] M-Step [\\begin{aligned} \\boldsymbol{\\theta} = \\arg \\max_{\\boldsymbol{\\theta}} \\mathcal{Q}(\\boldsymbol{\\theta}, \\boldsymbol{\\theta}^{old}) \\end{aligned}] then we can obtain: \\[\\begin{aligned} \\pi_k &amp;= \\frac {\\gamma_{1k}}{\\sum_{j=1}^K \\gamma_{1j}} \\\\ A_{jk} &amp;= \\frac {\\sum_{n=2}^N \\xi_{z_{n-1,j}z_{nk}}}{\\sum_{l=1}^K\\sum_{n=2}^K\\xi_{z_{n-1,j}z_{nl}}} \\end{aligned}\\] The EM algorithm must be initialized by choosing starting values for $\\boldsymbol{\\pi}$ and $\\mathbf{A}$, which should of course respect the summation constraints associated with their probabilistic interpretation. To maximize $\\mathcal{Q}(\\boldsymbol{\\theta}, \\boldsymbol{\\theta}^{old})$ with respect to $\\boldsymbol{w}_k$, we notice that only the final term depends on $\\boldsymbol{w}_k$ and furthermore this term has exactly the same form as the data-dependent term in the corresponding function for a standard mixture distribution for i.i.d data, If the parameters $\\boldsymbol{w}_k$ are independent for the different components, then this term decouples into a sum of terms one for each value of $k$, each of which can be maximized independently The EM algorithm requires initial values for the parameters of the emission distribution. One way to set these is first to treat the data initially as i.i.d. and fit the emission density by maximum likelihood, and then use the resulting values to initialize the parameters for EM. The forward-backward algorithm Next we seek an efficient procedure for evaluating the quantities $\\gamma_{nk}$ and $\\xi_{z_{n-1,j}, z_{nk}}$, corresponding to the E step of the EM algorithm. The graph for the hidden Markov model is a tree, and so we know that the posterior distribution of the latent variables can be obtained efficiently using a two-stage message passing algorithm In the particular context of the hidden Markov model, this is known as the forward-backward algorithm or the Baum-Welch algorithm. There are in fact several variants of the basic algorithm, all of which lead to the exact marginals, according to the precise form of the messages that are propagated along the chain. Alpha-beta algorithm. Evaluate $\\gamma_{nk}$ Recall that for a discrete multinomial random variable the expected value of one of its components is just the probability of that component having the value 1. Thus we are interested in finding the posterior distribution $p(\\boldsymbol{z}_n\\vert \\mathbf{X})$. This represents a vector of length $K$ whose entries correspond to the expected values of $z_{nk}$. [\\begin{aligned} \\gamma_{\\boldsymbol{z}_n} = p(\\boldsymbol{z}_n\\vert \\mathbf{X}) = \\frac {p(\\mathbf{X}\\vert \\boldsymbol{z}_n) P(\\boldsymbol{z}_n)}{p(\\mathbf{X})} \\end{aligned}] Note that the denominator $p(\\mathbf{X})$ is implicitly conditioned on the parameters $\\boldsymbol{\\theta}^{old}$ of the HMM and hence represents the likelihood function. Using some conditional independence property: \\[\\begin{aligned} \\gamma_{\\boldsymbol{z}_n} &amp;= \\frac {p(\\boldsymbol{x}_1,...,\\boldsymbol{x}_n, \\boldsymbol{z}_n)p(\\boldsymbol{x}_{n+1},...,\\boldsymbol{x}_N \\vert \\boldsymbol{z}_n)}{p(\\mathbf{X})} = \\frac {\\alpha(\\boldsymbol{z}_n)\\beta(\\boldsymbol{z}_n)}{p(\\mathbf{X})} \\\\ \\\\ \\alpha(\\boldsymbol{z}_n) &amp;= p(\\boldsymbol{x}_1,...,\\boldsymbol{x}_n, \\boldsymbol{z}_n) \\\\ \\beta(\\boldsymbol{z}_n) &amp;= p(\\boldsymbol{x}_{n+1},...,\\boldsymbol{x}_N \\vert \\boldsymbol{z}_n) \\end{aligned}\\] recursion formula of $\\alpha(\\boldsymbol{z}_n)$ \\[\\begin{aligned} \\alpha(\\boldsymbol{z}_n) &amp;= p(\\boldsymbol{x}_1,...,\\boldsymbol{x}_n, \\boldsymbol{z}_n) \\\\ &amp;= p(\\boldsymbol{x}_1,...,\\boldsymbol{x}_n\\vert \\boldsymbol{z}_n)p(\\boldsymbol{z}_n) \\\\&amp;= p(\\boldsymbol{x}_n\\vert \\boldsymbol{z}_n)p(\\boldsymbol{x}_1,...,\\boldsymbol{x}_{n-1}\\vert \\boldsymbol{z}_n) p(\\boldsymbol{z}_n) \\\\ &amp;= p(\\boldsymbol{x}_n\\vert \\boldsymbol{z}_n)p(\\boldsymbol{x}_1,...,\\boldsymbol{x}_{n-1}, \\boldsymbol{z}_n) \\\\ &amp;= p(\\boldsymbol{x}_n\\vert \\boldsymbol{z}_n)\\sum_{\\boldsymbol{z}_{n-1}} p(\\boldsymbol{x}_1,...,\\boldsymbol{x}_{n-1}, \\boldsymbol{z}_{n-1} ,\\boldsymbol{z}_n) \\\\ &amp;= p(\\boldsymbol{x}_n\\vert \\boldsymbol{z}_n)\\sum_{\\boldsymbol{z}_{n-1}} p(\\boldsymbol{x}_1,...,\\boldsymbol{x}_{n-1}, \\boldsymbol{z}_{n-1})p(\\boldsymbol{z}_n\\vert \\boldsymbol{z}_{n-1}) \\\\ &amp;= p(\\boldsymbol{x}_n\\vert \\boldsymbol{z}_n)\\sum_{\\boldsymbol{z}_{n-1}} \\alpha(\\boldsymbol{z}_{n-1})p(\\boldsymbol{z}_n\\vert \\boldsymbol{z}_{n-1}) \\\\ \\\\ \\alpha(\\boldsymbol{z}_1) &amp;= p(\\boldsymbol{x}_1 \\vert \\boldsymbol{z}_1)p(\\boldsymbol{z}_1) = \\prod_{k=1}^K (\\pi_k p(\\boldsymbol{x}_1\\vert \\boldsymbol{w}_k))^{z_{1k}} \\end{aligned}\\] forward message passing: $1 \\rightarrow n$ recursion formula of $\\beta(\\boldsymbol{z}_n)$ \\[\\begin{aligned} \\beta(\\boldsymbol{z}_n) &amp;= p(\\boldsymbol{x}_{n+1},...,\\boldsymbol{x}_N \\vert \\boldsymbol{z}_n) \\\\&amp;= \\sum_{\\boldsymbol{z}_{n+1}} p(\\boldsymbol{x}_{n+2},...,\\boldsymbol{x}_N \\vert \\boldsymbol{z}_{n+1}) p(\\boldsymbol{x}_{n+1}\\vert \\boldsymbol{z}_{n+1}) p(\\boldsymbol{z}_{n+1}\\vert \\boldsymbol{z}_{n}) \\\\ &amp;= p(\\boldsymbol{x}_{n+1},...,\\boldsymbol{x}_N \\vert \\boldsymbol{z}_n) \\\\&amp;= \\sum_{\\boldsymbol{z}_{n+1}} \\beta(\\boldsymbol{z}_{n+1}) p(\\boldsymbol{x}_{n+1}\\vert \\boldsymbol{z}_{n+1}) p(\\boldsymbol{z}_{n+1}\\vert \\boldsymbol{z}_{n}) \\end{aligned}\\] backward message passing: $N \\rightarrow n$ here we also need a strarting condition for the recursion, and we can be obtained by setting $n=N$, and easily obtain: $\\beta(\\boldsymbol{Z}_N) = 1$ However, the quantity $p(\\mathbf{X})$ represents the likelihood function whose value we typically wish to monitor during the EM optimization, and so it is useful to be able to evaluate it. \\[\\begin{aligned} p(\\mathbf{X}) &amp;= \\sum_{\\boldsymbol{z}_n} \\alpha(\\boldsymbol{z}_n)\\beta(\\boldsymbol{z}_n)\\\\ &amp;= \\sum_{\\boldsymbol{z}_N} \\alpha(\\boldsymbol{z}_N) \\end{aligned}\\] Evaluate $\\xi_{z_{n-1,j}, z_{nk}}$ [\\begin{aligned}\\xi(\\boldsymbol{z}{n-1}, \\boldsymbol{z}{n}) = p(\\boldsymbol{z}{n-1}, \\boldsymbol{z}{n} \\vert \\mathbf{X})\\end{aligned}] for each of the $K \\times K$ settings for $(\\boldsymbol{z}{n-1}, \\boldsymbol{z}{n})$. [\\begin{aligned} \\xi(\\boldsymbol{z}{n-1}, \\boldsymbol{z}{n}) &amp;= p(\\boldsymbol{z}{n-1}, \\boldsymbol{z}{n} \\vert \\mathbf{X}) \\ &amp;= \\frac {p(\\mathbf{X}\\vert \\boldsymbol{z}{n-1}, \\boldsymbol{z}{n})p(\\boldsymbol{z}{n-1}, \\boldsymbol{z}{n})}{p(\\mathbf{X})} \\ &amp;= \\frac {p(\\boldsymbol{x}{n+1}, …,\\boldsymbol{x}{n-1} \\vert \\boldsymbol{z}{n-1})p(\\boldsymbol{z}{n-1})p(\\boldsymbol{x}n\\vert \\boldsymbol{z}_n) p(\\boldsymbol{x}{n+1}, …,\\boldsymbol{x}{N}\\vert \\boldsymbol{z}_n)p(\\boldsymbol{z}{n}\\vert \\boldsymbol{z}{n-1})}{p(\\mathbf{X})} \\ &amp;= \\frac {\\alpha(\\boldsymbol{z}{n-1}) p(\\boldsymbol{x}n\\vert \\boldsymbol{z}_n) p(\\boldsymbol{z}{n}\\vert \\boldsymbol{z}{n-1}) \\beta(\\boldsymbol{z}{n})}{p(\\mathbf{X})} \\end{aligned}] Predictive Distribution [\\begin{aligned} p(\\boldsymbol{x}{N+1}\\vert \\mathbf{X}) &amp;= \\sum{\\boldsymbol{z}{N+1}} p(\\boldsymbol{x}{N+1}, \\boldsymbol{z}{N+1} \\vert \\mathbf{X}) \\ &amp;= \\sum{\\boldsymbol{z}{N+1}} p(\\boldsymbol{x}{N+1} \\vert \\boldsymbol{z}{N+1}) \\sum{\\boldsymbol{z}N} p(\\boldsymbol{z}{N+1}, \\boldsymbol{z}N \\vert \\mathbf{X}) \\ &amp;= \\sum{\\boldsymbol{z}{N+1}} p(\\boldsymbol{x}{N+1} \\vert \\boldsymbol{z}{N+1}) \\sum{\\boldsymbol{z}N} p(\\boldsymbol{z}{N+1}\\vert \\boldsymbol{z}N) p(\\boldsymbol{z}_N \\vert \\mathbf{X}) \\ &amp;= \\sum{\\boldsymbol{z}{N+1}} p(\\boldsymbol{x}{N+1} \\vert \\boldsymbol{z}{N+1}) \\sum{\\boldsymbol{z}N} p(\\boldsymbol{z}{N+1}\\vert \\boldsymbol{z}N) \\frac {p(\\boldsymbol{z}_N, \\mathbf{X}) }{p(\\mathbf{X})} \\ &amp;= \\frac {1}{p(\\mathbf{X})} \\sum{\\boldsymbol{z}{N+1}} p(\\boldsymbol{x}{N+1} \\vert \\boldsymbol{z}{N+1}) \\sum{\\boldsymbol{z}N} p(\\boldsymbol{z}{N+1}\\vert \\boldsymbol{z}_N) \\alpha(\\boldsymbol{z}_N) \\end{aligned}] Scaling Factors There is an important issue that must be addressed before we can make use of the forward backward algorithm in practice. Because these probabilities are often significantly less than unity, as we work our way forward along the chain, the values of $α(\\boldsymbol{z}_{n})$ can go to zero exponentially quickly. In the case of i.i.d. data, we implicitly circumvented this problem with the evaluation of likelihood functions by taking logarithms. Unfortunately, this will not help here because we are forming sums of products of small numbers (we are in fact implicitly summing over all possible paths through the lattice diagram re-scale: [\\begin{aligned}&amp;\\alpha(\\boldsymbol{z}{n}) \\ &amp;\\beta(\\boldsymbol{z}{n})\\end{aligned}] this leads their values remain of order unity \\[\\begin{aligned} \\widehat{\\alpha}(\\boldsymbol{z}_n) = p(\\boldsymbol{z}_n \\vert \\boldsymbol{x}_1,...,\\boldsymbol{x}_n) =\\frac {\\alpha(\\boldsymbol{z}_n)}{p(\\boldsymbol{x}_1,...,\\boldsymbol{x}_n)} \\end{aligned}\\] In order to relate the scaled and original alpha variables, we introduce scaling factors defined by conditional distributions over the observed variables \\[\\begin{aligned} c_n = p(\\boldsymbol{x}_n\\vert \\boldsymbol{x}_1,...,\\boldsymbol{x}_{n-1}) \\end{aligned}\\] Easily, we have: \\[\\begin{aligned} p( \\boldsymbol{x}_1,...,\\boldsymbol{x}_{n}) &amp;=\\prod_{m=1}^n c_m \\\\ \\alpha(\\boldsymbol{z}_n) &amp;= \\widehat{\\alpha}(\\boldsymbol{z}_n)\\prod_{m=1}^n c_m \\\\ \\\\ c_n \\widehat{\\alpha}(\\boldsymbol{z}_n) &amp;= p(\\boldsymbol{x}_n\\vert \\boldsymbol{z}_n)\\sum_{\\boldsymbol{z}_{n-1}} \\widehat{\\alpha}(\\boldsymbol{z}_{n-1})p(\\boldsymbol{z}_n\\vert \\boldsymbol{z}_{n-1}) \\end{aligned}\\] Note: we also have to evaluate and store $c_n$, but it is easily done because it is the coefficient that normalizes the right-hand side to give $\\widehat{\\alpha}(\\boldsymbol{z}_{n})$ Also, for $\\beta(\\boldsymbol{z}_n)$ \\[\\begin{aligned} \\beta(\\boldsymbol{z}_n) &amp;= \\widehat{\\beta}(\\boldsymbol{z}_n) \\prod_{m=n+1}^N c_m \\\\ \\widehat{\\beta}(\\boldsymbol{z}_n) &amp;= \\frac {p(\\boldsymbol{x}_{n+1}, ..., \\boldsymbol{x}_{N}\\vert \\boldsymbol{z}_{n})}{p(\\boldsymbol{x}_{n+1},...\\boldsymbol{x}_{N}\\vert \\boldsymbol{x}_{1},...,\\boldsymbol{x}_{n})} \\\\ c_{n+1}\\widehat{\\beta}(\\boldsymbol{z}_{n}) &amp;= \\sum_{\\boldsymbol{z}_{n+1}} \\widehat{\\beta}(\\boldsymbol{z}_{n+1}) p(\\boldsymbol{x}_{n+1}\\vert \\boldsymbol{z}_{n+1}) p(\\boldsymbol{z}_{n+1}\\vert \\boldsymbol{z}_{n}) \\end{aligned}\\] we also have a approximation of $p(\\mathbf{X})$: \\[\\begin{aligned} p(\\mathbf{X}) = \\prod_{n=1}^N c_n \\end{aligned}\\] in the end, we got two iterative equations as follow: \\[\\begin{aligned} \\gamma(\\boldsymbol{z}_n) &amp;= \\widehat{\\alpha}(\\boldsymbol{z}_n) \\widehat{\\beta}(\\boldsymbol{z}_{n}) \\\\ \\xi(\\boldsymbol{z}_{n-1}, \\boldsymbol{z}_n) &amp;= c_n\\widehat{\\alpha}(\\boldsymbol{z}_{n-1})p(\\boldsymbol{x}_n\\vert \\boldsymbol{z}_n)p(\\boldsymbol{z}_n\\vert \\boldsymbol{z}_{n-1}) \\widehat{\\beta}(\\boldsymbol{z}_{n}) \\end{aligned}\\] The Viterbi Algorithm [\\begin{aligned} \\end{aligned}]","headline":"Hidden Markov Model","mainEntityOfPage":{"@type":"WebPage","@id":"http://0.0.0.0:4000/posts/HMM/"},"url":"http://0.0.0.0:4000/posts/HMM/"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+  <title>Hidden Markov Model | Candy Note
+  </title>
+
+  <!--
+  The Favicons for Web, Android, Microsoft, and iOS (iPhone and iPad) Apps
+  Generated by: https://realfavicongenerator.net/
+-->
+
+
+
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/img/favicons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicons/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicons/favicon-16x16.png">
+<link rel="manifest" href="/assets/img/favicons/site.webmanifest">
+<link rel="shortcut icon" href="/assets/img/favicons/favicon.ico">
+<meta name="apple-mobile-web-app-title" content="Candy Note">
+<meta name="application-name" content="Candy Note">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="msapplication-config" content="/assets/img/favicons/browserconfig.xml">
+<meta name="theme-color" content="#ffffff">
+
+
+  
+
+    
+      <link rel="preconnect" href="https://fonts.googleapis.com" >
+      <link rel="dns-prefetch" href="https://fonts.googleapis.com" >
+    
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+      <link rel="dns-prefetch" href="https://fonts.gstatic.com" crossorigin>
+    
+      <link rel="preconnect" href="https://fonts.googleapis.com" >
+      <link rel="dns-prefetch" href="https://fonts.googleapis.com" >
+    
+      <link rel="preconnect" href="https://cdn.jsdelivr.net" >
+      <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" >
+    
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato&family=Source+Sans+Pro:wght@400;600;700;900&display=swap">
+
+  
+
+  <!-- GA -->
+  
+
+  <!-- Bootstrap -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.11.2/css/all.min.css">
+
+  <link rel="stylesheet" href="/assets/css/style.css">
+
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@1.0.1/dist/bootstrap-toc.min.css">
+  
+
+  
+    <!-- Manific Popup -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/magnific-popup@1/dist/magnific-popup.min.css">
+  
+
+  <!-- JavaScript -->
+
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+
+</head>
+
+
+  
+    <!--
+  Switch the mode between dark and light.
+-->
+
+<script type="text/javascript">
+  class ModeToggle {
+    static get MODE_KEY() { return "mode"; }
+    static get MODE_ATTR() { return "data-mode"; }
+    static get DARK_MODE() { return "dark"; }
+    static get LIGHT_MODE() { return "light"; }
+    static get ID() { return "mode-toggle"; }
+
+    constructor() {
+      if (this.hasMode) {
+        if (this.isDarkMode) {
+          if (!this.isSysDarkPrefer) {
+            this.setDark();
+          }
+        } else {
+          if (this.isSysDarkPrefer) {
+            this.setLight();
+          }
+        }
+      }
+
+      let self = this;
+
+      /* always follow the system prefers */
+      this.sysDarkPrefers.addEventListener("change", () => {
+        if (self.hasMode) {
+          if (self.isDarkMode) {
+            if (!self.isSysDarkPrefer) {
+              self.setDark();
+            }
+
+          } else {
+            if (self.isSysDarkPrefer) {
+              self.setLight();
+            }
+          }
+
+          self.clearMode();
+        }
+
+        self.notify();
+
+      });
+
+    } /* constructor() */
+
+    get sysDarkPrefers() { return window.matchMedia("(prefers-color-scheme: dark)"); }
+
+    get isSysDarkPrefer() { return this.sysDarkPrefers.matches; }
+
+    get isDarkMode() { return this.mode === ModeToggle.DARK_MODE; }
+
+    get isLightMode() { return this.mode === ModeToggle.LIGHT_MODE; }
+
+    get hasMode() { return this.mode != null; }
+
+    get mode() { return sessionStorage.getItem(ModeToggle.MODE_KEY); }
+
+    /* get the current mode on screen */
+    get modeStatus() {
+      if (this.isDarkMode
+        || (!this.hasMode && this.isSysDarkPrefer)) {
+        return ModeToggle.DARK_MODE;
+      } else {
+        return ModeToggle.LIGHT_MODE;
+      }
+    }
+
+    setDark() {
+      $('html').attr(ModeToggle.MODE_ATTR, ModeToggle.DARK_MODE);
+      sessionStorage.setItem(ModeToggle.MODE_KEY, ModeToggle.DARK_MODE);
+    }
+
+    setLight() {
+      $('html').attr(ModeToggle.MODE_ATTR, ModeToggle.LIGHT_MODE);
+      sessionStorage.setItem(ModeToggle.MODE_KEY, ModeToggle.LIGHT_MODE);
+    }
+
+    clearMode() {
+      $('html').removeAttr(ModeToggle.MODE_ATTR);
+      sessionStorage.removeItem(ModeToggle.MODE_KEY);
+    }
+
+    /* Notify another plugins that the theme mode has changed */
+    notify() {
+      window.postMessage({
+        direction: ModeToggle.ID,
+        message: this.modeStatus
+      }, "*");
+    }
+
+  } /* ModeToggle */
+
+  const toggle = new ModeToggle();
+
+  function flipMode() {
+    if (toggle.hasMode) {
+      if (toggle.isSysDarkPrefer) {
+        if (toggle.isLightMode) {
+          toggle.clearMode();
+        } else {
+          toggle.setLight();
+        }
+
+      } else {
+        if (toggle.isDarkMode) {
+          toggle.clearMode();
+        } else {
+          toggle.setDark();
+        }
+      }
+
+    } else {
+      if (toggle.isSysDarkPrefer) {
+        toggle.setLight();
+      } else {
+        toggle.setDark();
+      }
+    }
+
+    toggle.notify();
+
+  } /* flipMode() */
+
+</script>
+
+  
+
+  <body data-spy="scroll" data-target="#toc" data-topbar-visible="true">
+
+    <!--
+  The Side Bar
+-->
+
+<div id="sidebar" class="d-flex flex-column align-items-end">
+  <div class="profile-wrapper text-center">
+    <div id="avatar">
+      <a href="/" alt="avatar" class="mx-auto">
+        
+          
+          <img src="
+            
+              /assets/img/head.jpg
+            
+          " alt="avatar" onerror="this.style.display='none'">
+        
+      </a>
+    </div>
+
+    <div class="site-title mt-3">
+      <a href="/">Candy Note</a>
+    </div>
+    <div class="site-subtitle font-italic">Personal Notes</div>
+
+  </div><!-- .profile-wrapper -->
+
+  <ul class="w-100">
+
+    <!-- home -->
+    <li class="nav-item">
+      <a href="/" class="nav-link">
+        <i class="fa-fw fas fa-home ml-xl-3 mr-xl-3 unloaded"></i>
+        <span>HOME</span>
+      </a>
+    </li>
+    <!-- the real tabs -->
+    
+    <li class="nav-item">
+      <a href="/categories/" class="nav-link">
+        <i class="fa-fw fas fa-stream ml-xl-3 mr-xl-3 unloaded"></i>
+        
+
+        <span>CATEGORIES</span>
+      </a>
+    </li> <!-- .nav-item -->
+    
+    <li class="nav-item">
+      <a href="/tags/" class="nav-link">
+        <i class="fa-fw fas fa-tag ml-xl-3 mr-xl-3 unloaded"></i>
+        
+
+        <span>TAGS</span>
+      </a>
+    </li> <!-- .nav-item -->
+    
+    <li class="nav-item">
+      <a href="/archives/" class="nav-link">
+        <i class="fa-fw fas fa-archive ml-xl-3 mr-xl-3 unloaded"></i>
+        
+
+        <span>ARCHIVES</span>
+      </a>
+    </li> <!-- .nav-item -->
+    
+    <li class="nav-item">
+      <a href="/about/" class="nav-link">
+        <i class="fa-fw fas fa-info-circle ml-xl-3 mr-xl-3 unloaded"></i>
+        
+
+        <span>ABOUT</span>
+      </a>
+    </li> <!-- .nav-item -->
+    
+
+  </ul> <!-- ul.nav.flex-column -->
+
+  <div class="sidebar-bottom mt-auto d-flex flex-wrap justify-content-center align-items-center">
+
+    
+      <button class="mode-toggle btn" aria-label="Switch Mode">
+        <i class="fas fa-adjust"></i>
+      </button>
+
+      
+        <span class="icon-border"></span>
+      
+    
+
+    
+      
+
+      
+      <a href="https://github.com/github_username" aria-label="github"
+        target="_blank" rel="noopener">
+        <i class="fab fa-github"></i>
+      </a>
+      
+
+    
+      
+
+      
+      <a href="https://twitter.com/twitter_username" aria-label="twitter"
+        target="_blank" rel="noopener">
+        <i class="fab fa-twitter"></i>
+      </a>
+      
+
+    
+      
+
+      
+      <a href="
+          javascript:location.href = 'mailto:' + ['ryomawithlst','gmail.com'].join('@')" aria-label="email"
+        >
+        <i class="fas fa-envelope"></i>
+      </a>
+      
+
+    
+      
+
+      
+      <a href="/feed.xml" aria-label="rss"
+        >
+        <i class="fas fa-rss"></i>
+      </a>
+      
+
+    
+
+  </div> <!-- .sidebar-bottom -->
+
+</div><!-- #sidebar -->
+
+
+    <!--
+  The Top Bar
+-->
+
+<div id="topbar-wrapper" class="row justify-content-center">
+  <div id="topbar" class="col-11 d-flex h-100 align-items-center justify-content-between">
+    <span id="breadcrumb">
+
+    
+
+    
+
+      
+
+        
+          <span>
+            <a href="/">
+              Home
+            </a>
+          </span>
+
+        
+
+      
+
+        
+
+      
+
+        
+
+          
+            <span>Hidden Markov Model</span>
+          
+
+        
+
+      
+
+    
+
+    </span><!-- endof #breadcrumb -->
+
+    <i id="sidebar-trigger" class="fas fa-bars fa-fw"></i>
+
+    <div id="topbar-title">
+      Post
+    </div>
+
+    <i id="search-trigger" class="fas fa-search fa-fw"></i>
+    <span id="search-wrapper" class="align-items-center">
+      <i class="fas fa-search fa-fw"></i>
+      <input class="form-control" id="search-input" type="search"
+        aria-label="search" autocomplete="off" placeholder="Search...">
+    </span>
+    <span id="search-cancel" >Cancel</span>
+  </div>
+
+</div>
+
+
+    <div id="main-wrapper">
+      <div id="main">
+
+        
+
+
+
+
+
+
+
+
+
+<div class="row">
+
+  <!-- core -->
+  <div id="core-wrapper" class="col-12 col-lg-11 col-xl-8">
+    <div class="post pl-1 pr-1 pl-sm-2 pr-sm-2 pl-md-4 pr-md-4">
+
+    
+
+    
+      
+      
+        <!--
+  Refactor the HTML structure.
+-->
+
+
+
+<!--
+  In order to allow a wide table to scroll horizontally,
+  we suround the markdown table with `<div class="table-wrapper">` and `</div>`
+-->
+
+
+
+<!--
+  Fixed kramdown code highlight rendering:
+  https://github.com/penibelst/jekyll-compress-html/issues/101
+  https://github.com/penibelst/jekyll-compress-html/issues/71#issuecomment-188144901
+-->
+
+
+
+<!-- Add attribute 'hide-bullet' to the checkbox list -->
+
+
+
+<!-- images -->
+
+
+
+
+  
+  
+
+  
+    
+      
+      
+    
+
+    
+    
+    
+
+    
+    
+
+    
+    
+    
+
+    
+      
+      
+
+      
+      
+
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+
+      
+    
+      
+      
+        
+      
+      
+
+      
+      
+
+      
+
+      
+    
+      
+      
+        
+      
+      
+
+      
+      
+
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+
+      
+        
+
+    
+      
+
+        <!-- Add CDN URL -->
+        
+
+        <!-- Add image path -->
+        
+
+        
+        
+
+      
+
+      <!-- lazy-load images <https://github.com/ApoorvSaxena/lozad.js#usage> -->
+
+      
+
+    
+
+    <!-- Add SVG placehoder to prevent layout reflow -->
+
+    
+
+    <!-- Bypass the HTML-proofer test -->
+    
+
+    
+
+  
+    
+
+    
+    
+    
+
+    
+    
+
+    
+    
+    
+
+    
+      
+      
+
+      
+      
+
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+
+      
+    
+      
+      
+        
+
+    
+      
+
+        <!-- Add CDN URL -->
+        
+
+        <!-- Add image path -->
+        
+
+        
+        
+
+      
+
+      <!-- lazy-load images <https://github.com/ApoorvSaxena/lozad.js#usage> -->
+
+      
+
+    
+
+    <!-- Add SVG placehoder to prevent layout reflow -->
+
+    
+
+    <!-- Bypass the HTML-proofer test -->
+    
+
+    
+
+  
+    
+
+    
+    
+    
+
+    
+    
+
+    
+    
+    
+
+    
+      
+      
+
+      
+      
+
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+
+      
+    
+      
+      
+        
+      
+      
+        
+      
+      
+        
+
+    
+      
+
+        <!-- Add CDN URL -->
+        
+
+        <!-- Add image path -->
+        
+
+        
+        
+
+      
+
+      <!-- lazy-load images <https://github.com/ApoorvSaxena/lozad.js#usage> -->
+
+      
+
+    
+
+    <!-- Add SVG placehoder to prevent layout reflow -->
+
+    
+
+    <!-- Bypass the HTML-proofer test -->
+    
+
+    
+
+  
+    
+
+    
+    
+    
+
+    
+    
+
+    
+    
+    
+
+    
+      
+      
+
+      
+      
+
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+
+      
+    
+      
+      
+        
+
+    
+      
+
+        <!-- Add CDN URL -->
+        
+
+        <!-- Add image path -->
+        
+
+        
+        
+
+      
+
+      <!-- lazy-load images <https://github.com/ApoorvSaxena/lozad.js#usage> -->
+
+      
+
+    
+
+    <!-- Add SVG placehoder to prevent layout reflow -->
+
+    
+
+    <!-- Bypass the HTML-proofer test -->
+    
+
+    
+
+  
+    
+
+    
+    
+    
+
+    
+    
+
+    
+    
+    
+
+    
+      
+      
+
+      
+      
+
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+
+      
+    
+      
+      
+        
+      
+      
+        
+      
+      
+        
+
+    
+      
+
+        <!-- Add CDN URL -->
+        
+
+        <!-- Add image path -->
+        
+
+        
+        
+
+      
+
+      <!-- lazy-load images <https://github.com/ApoorvSaxena/lozad.js#usage> -->
+
+      
+
+    
+
+    <!-- Add SVG placehoder to prevent layout reflow -->
+
+    
+
+    <!-- Bypass the HTML-proofer test -->
+    
+
+    
+
+  
+
+  
+
+
+
+<!-- Add header for code snippets -->
+
+
+
+<!-- Create heading anchors -->
+
+
+
+
+
+  
+  
+
+  
+    
+    
+
+    
+      
+        
+        
+      
+
+      
+      
+
+      
+      
+      
+
+      
+
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+
+    
+
+    
+
+  
+
+  
+  
+
+  
+    
+    
+
+    
+      
+        
+        
+      
+
+      
+      
+
+      
+      
+      
+
+      
+
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+
+    
+
+    
+
+  
+
+  
+  
+
+  
+    
+    
+
+    
+      
+        
+        
+      
+
+      
+      
+
+      
+      
+      
+
+      
+
+    
+
+    
+
+  
+
+  
+  
+
+  
+
+
+
+
+<!-- Wrap prompt element of blockquote with the <div> tag -->
+
+
+
+
+
+
+
+  
+  
+
+  
+
+    
+      
+      
+
+    
+
+    
+    
+
+    
+    
+    
+
+    
+      
+        
+        
+
+    
+
+    
+    
+
+    
+
+  
+
+    
+
+    
+    
+
+    
+    
+    
+
+    
+      
+        
+        
+
+    
+
+    
+    
+
+    
+
+  
+
+  
+
+
+
+<!-- return -->
+
+
+
+
+
+
+  
+  <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 300'%3E%3C/svg%3E" data-src="/assets/images/graphical_model/hmm.png" class="preview-img bg"
+      alt="Preview Image"
+
+      
+        width="800"
+      
+
+      
+        height="300"
+       data-proofer-ignore>
+
+
+<h1 data-toc-skip>Hidden Markov Model</h1>
+
+<div class="post-meta text-muted">
+
+  <!-- author -->
+  <div>
+    
+    
+
+    
+
+    By
+    <em>
+      
+        <a href="https://github.com/luo-songtao">luo-songtao</a>
+      
+    </em>
+  </div>
+
+  <div class="d-flex">
+    <div>
+      <!-- published date -->
+      <span>
+        Posted
+        <!--
+  Date format snippet
+  See: ${JS_ROOT}/utils/timeago.js
+-->
+
+<em class="timeago"
+    data-ts="1645401600"
+    
+      data-toggle="tooltip" data-placement="bottom" data-tooltip-df="llll"
+    
+    >
+  2022-02-21
+</em>
+
+      </span>
+
+      <!-- lastmod date -->
+      
+
+      <!-- read time -->
+      <!--
+  Calculate the post's reading time, and display the word count in tooltip
+ -->
+
+
+
+<!-- words per minute  -->
+
+
+
+
+
+
+
+
+
+
+<!-- return element -->
+<span class="readtime" data-toggle="tooltip" data-placement="bottom"
+  title="1530 words">
+  <em>8 min</em> read</span>
+
+
+      <!-- page views -->
+      
+    </div>
+
+  </div> <!-- .d-flex -->
+
+</div> <!-- .post-meta -->
+
+<div class="post-content">
+  <h1 id="hidden-markov-model">Hidden Markov Model</h1>
+
+<p>Assume that all latent variables form a <strong>Markov chain</strong>, giving rise to the graphical structure, this is known as a state space model.</p>
+
+<p>If the latent variables are discrete, then we obtain the hidden Markov model, or HMM.</p>
+
+<blockquote class="prompt-tip"><div>
+  <p>Note that the observed variables in an HMM may be discrete or continuous, and a variety of different conditional distributions can be used to model them.</p>
+</div></blockquote>
+
+<h2 id="transition-and-emmission-probabilities"><span class="mr-2">Transition and Emmission Probabilities</span><a href="#transition-and-emmission-probabilities" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2></h2>
+
+<p>If we allow the probability distribution of $z_n$ to depend on the state of the previous latent variable $z_{n-1}$ through a conditional distribution $p(z_n\vert z_{n−1})$.</p>
+
+<p>Because the latent variables are K-dimensional binary variables, this conditional distribution corresponds to a table of numbers that we denote by $\mathbf{A}$, the elements of which are known as transition probabilities</p>
+
+<h3 id="transition-probabilities"><span class="mr-2">Transition Probabilities</span><a href="#transition-probabilities" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3></h3>
+
+<p><code class="language-plaintext highlighter-rouge">Transition Probabilities</code> is defined as:</p>
+
+\[\begin{aligned} p(\boldsymbol{z}_n\vert \boldsymbol{z}_{n-1}, \mathbf{A}) &amp;= \prod_{k=1}^K \prod_{k=1}^K A_{jk}^{z_{n-1,j},z_{nk}} \\ p(\boldsymbol{z_1}\vert \boldsymbol{\pi}) &amp;= \prod_{k=1}^K \pi_k^{z_{1k}} \end{aligned}\]
+
+<ul>
+  <li>
+    <p>where $\sum_k z_{1k} = 1$</p>
+  </li>
+  <li>
+    <p>A <code class="language-plaintext highlighter-rouge">state transition diagram</code> of HMM as shown follow</p>
+
+    <p><img data-src="/assets/images/graphical_model/hmm-transition-diagram.png" alt="Transition Diagram" data-proofer-ignore></p>
+  </li>
+  <li>
+    <p>A <code class="language-plaintext highlighter-rouge">Lattice</code> or <code class="language-plaintext highlighter-rouge">Trellis</code> diagram of HMM as shown follow</p>
+
+    <p><img data-src="/assets/images/graphical_model/hmm-lattice-diagram.png" alt="Lattice or Trellis Diagram" data-proofer-ignore></p>
+  </li>
+</ul>
+
+<h3 id="emmission-probabilities"><span class="mr-2">Emmission Probabilities</span><a href="#emmission-probabilities" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3></h3>
+
+<p><code class="language-plaintext highlighter-rouge">Emmission Probabilities</code>:</p>
+
+\[\begin{aligned} p(\boldsymbol{x}_n\vert \boldsymbol{z}_{n}, \boldsymbol{w}) &amp;= \prod_{k=1}^K p(\boldsymbol{x}_n\vert \boldsymbol{w})^{z_{nk}} \end{aligned}\]
+
+<ul>
+  <li>$\boldsymbol{w}$ is a set of parameter of</li>
+</ul>
+
+<h2 id="homogeneous-model"><span class="mr-2">Homogeneous Model</span><a href="#homogeneous-model" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2></h2>
+
+<p>We shall focuss attention on homogeneous models for which all of the conditional distributions governing the latent variables <strong>share the same parameters</strong> $\mathbf{A}$, and similarly all of the emission distributions share the same parameters $\boldsymbol{w}$ (the extension to more general cases is straightforward).</p>
+
+<h3 id="hmm-and-mixture-model"><span class="mr-2">HMM and Mixture Model</span><a href="#hmm-and-mixture-model" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3></h3>
+
+<p>Note that a mixture model for an <code class="language-plaintext highlighter-rouge">i.i.d</code> data set corresponds to the special case in which the parameters $A_{jk}$ are the same for all values of $j$, so that the conditional distribution $p(z_n\vert z_n−1)$ is independent of $z_{n−1}$.</p>
+
+<p>Under the <code class="language-plaintext highlighter-rouge">Homogeneous Model assumption</code>, the joint probability distribution over both latent and observed variables is then given by</p>
+
+\[\begin{aligned} p(\boldsymbol{X} ,\boldsymbol{Z} \vert \boldsymbol{\theta}) = p(\boldsymbol{z}_1\vert \boldsymbol{\pi}) \left[ \prod_{n=1}^N p(\boldsymbol{z}_n\vert \boldsymbol{z}_{n-1}, \mathbf{A}) \right] \prod_{n=1}^N p(\boldsymbol{x}_m\vert \boldsymbol{z}_m, \boldsymbol{w})  \end{aligned}\]
+
+<ul>
+  <li>
+\[\boldsymbol{\theta} = \{\boldsymbol{\pi}, \mathbf{A}, \boldsymbol{w}\}\]
+  </li>
+</ul>
+
+<p>Most of our discussion of the hidden Markov model will be independent of the particular choice of the emission probabilities.</p>
+
+<p>Indeed, the model is tractable for a wide range of emission distributions including discrete tables, Gaussians, and mixtures of Gaussians. It is also possible to exploit discriminative models such as neural networks.</p>
+
+<p>These can be used to model the emission density $p(x\vert z)$ directly, or to provide a representation for $p(z\vert x)$ that can be converted into the required emission density $p(x\vert z) $ using Bayes’ theorem.</p>
+
+<p>We also can gain a better understanding of the hidden Markov model by considering it from a generative point of view. Just like a ancestral sampling for a directed graphical model.</p>
+
+<h2 id="left-to-right-model"><span class="mr-2">Left-to-Right Model</span><a href="#left-to-right-model" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2></h2>
+
+<p>By setting the elements of $A_{jk}$ of $\mathbf{A}$ to zero if $j &gt; k$</p>
+<ul>
+  <li>
+    <p>the <code class="language-plaintext highlighter-rouge">Transition Diagram</code> and <code class="language-plaintext highlighter-rouge">Lattice or Trellis Diagram</code> of <code class="language-plaintext highlighter-rouge">Left-to-Right Model</code></p>
+
+    <p><img data-src="/assets/images/graphical_model/l2r-hmm-transition-diagram.png" alt="Transition Diagram" data-proofer-ignore></p>
+
+    <p><img data-src="/assets/images/graphical_model/l2r-hmm-lattice-diagram.png" alt="Lattice or Trellis Diagram" data-proofer-ignore></p>
+  </li>
+</ul>
+
+<h1 id="inference-and-learning-of-hmm">Inference and Learning of HMM</h1>
+
+<p>Given a data set $\mathbf{X} = {\boldsymbol{x}_1, . . . , \boldsymbol{x}_N}$</p>
+
+<h2 id="likelihood-function"><span class="mr-2">Likelihood Function</span><a href="#likelihood-function" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2></h2>
+
+<p>The likelihood function is obtained from the joint distribution by <code class="language-plaintext highlighter-rouge">marginalizing over the latent variables</code></p>
+
+\[\begin{aligned} p(\mathbf{X} \vert \boldsymbol{\theta}) = \sum_{\mathbf{Z}} p(\mathbf{X} ,\mathbf{Z} \vert \boldsymbol{\theta}) \end{aligned}\]
+
+<h2 id="em-for-hmm"><span class="mr-2">EM for HMM</span><a href="#em-for-hmm" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2></h2>
+
+<h3 id="e-step"><span class="mr-2">E-step</span><a href="#e-step" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3></h3>
+
+\[\begin{aligned} \mathcal{Q}(\boldsymbol{\theta}, \boldsymbol{\theta}^{old}) =&amp; \sum_{\mathbf{Z}} p(\mathbf{Z}\vert \mathbf{X}, \boldsymbol{\theta}^{old}) \ln p(\mathbf{X} ,\mathbf{Z} \vert \boldsymbol{\theta}) \\\\ =&amp; \sum_{k=1}^K \mathbb{E}[z_{1k}]\ln \pi_k + \sum_{n=2}^N\sum_{j=1}^K\sum_{k=1}^K \mathbb{E}[z_{n-1,j},z_{nk}]\ln A_{jk} \\ &amp; + \sum_{n=1}^N \sum_{k=1}^K \mathbb{E}[z_{nk}] \ln p(\boldsymbol{x}_n \vert \boldsymbol{w}_k) \end{aligned}\]
+
+<ul>
+  <li>
+    <p>To simplify notion, we define:</p>
+
+\[\begin{aligned} \gamma_{nk} &amp;= \mathbb{E}[z_{nk}] = \sum_{\boldsymbol{z}_n} \gamma(\boldsymbol{z}_n) z_{nk} \\ \xi_{z_{n-1,j}, z_{nk}} &amp;= \mathbb{E}[z_{n-1,j}, z_{nk}]  = \sum_{\boldsymbol{z}_n} \xi(\boldsymbol{z}_{n-1}, \boldsymbol{z}_{n})z_{n-1,j}z_{nk} \end{aligned}\]
+  </li>
+</ul>
+
+<h3 id="m-step"><span class="mr-2">M-Step</span><a href="#m-step" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3></h3>
+
+\[\begin{aligned} \boldsymbol{\theta} = \arg \max_{\boldsymbol{\theta}} \mathcal{Q}(\boldsymbol{\theta}, \boldsymbol{\theta}^{old}) \end{aligned}\]
+
+<ul>
+  <li>
+    <p>then we can obtain:</p>
+
+\[\begin{aligned} \pi_k &amp;= \frac {\gamma_{1k}}{\sum_{j=1}^K \gamma_{1j}} \\ A_{jk} &amp;= \frac {\sum_{n=2}^N \xi_{z_{n-1,j}z_{nk}}}{\sum_{l=1}^K\sum_{n=2}^K\xi_{z_{n-1,j}z_{nl}}}  \end{aligned}\]
+  </li>
+</ul>
+
+<p>The EM algorithm must be initialized by choosing starting values for $\boldsymbol{\pi}$ and $\mathbf{A}$, which should of course respect the <code class="language-plaintext highlighter-rouge">summation constraints associated with their probabilistic interpretation</code>.</p>
+
+<p>To maximize $\mathcal{Q}(\boldsymbol{\theta}, \boldsymbol{\theta}^{old})$ with respect to $\boldsymbol{w}_k$, we notice that only the final term depends on $\boldsymbol{w}_k$ and furthermore this term has exactly the same form as the data-dependent term in the corresponding function for a standard mixture distribution for i.i.d data,</p>
+
+<p>If the parameters $\boldsymbol{w}_k$ are independent for the different components, then this term decouples into a sum of terms one for each value of $k$, each of which can be
+maximized independently</p>
+
+<p>The EM algorithm requires initial values for the parameters of the emission distribution. One way to set these is first to treat the data initially as i.i.d. and fit the emission density by maximum likelihood, and then use the resulting values to initialize the parameters for EM.</p>
+
+<h2 id="the-forward-backward-algorithm"><span class="mr-2">The forward-backward algorithm</span><a href="#the-forward-backward-algorithm" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2></h2>
+
+<p>Next we seek an efficient procedure for evaluating the quantities $\gamma_{nk}$ and $\xi_{z_{n-1,j}, z_{nk}}$, corresponding to the E step of the EM algorithm.</p>
+
+<p>The graph for the hidden Markov model is a tree, and so we know that the posterior distribution of the latent variables can be obtained efficiently using a two-stage message passing algorithm</p>
+
+<p>In the particular context of the hidden Markov model, this is known as the <code class="language-plaintext highlighter-rouge">forward-backward algorithm</code> or the <code class="language-plaintext highlighter-rouge">Baum-Welch algorithm</code>.</p>
+
+<p>There are in fact several variants of the basic algorithm, all of which lead to the exact marginals, according to the precise form of the messages that are propagated along the chain. <code class="language-plaintext highlighter-rouge">Alpha-beta algorithm</code>.</p>
+
+<h3 id="evaluate-gamma_nk"><span class="mr-2">Evaluate $\gamma_{nk}$</span><a href="#evaluate-gamma_nk" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3></h3>
+
+<p>Recall that for a discrete multinomial random variable the expected value of one of its components is just the probability of that component having the value 1.</p>
+
+<p>Thus we are interested in <code class="language-plaintext highlighter-rouge">finding the posterior distribution</code> $p(\boldsymbol{z}_n\vert \mathbf{X})$.</p>
+
+<p>This represents a vector of length $K$ whose entries correspond to the expected values of $z_{nk}$.</p>
+
+\[\begin{aligned} \gamma_{\boldsymbol{z}_n} = p(\boldsymbol{z}_n\vert \mathbf{X}) = \frac {p(\mathbf{X}\vert \boldsymbol{z}_n) P(\boldsymbol{z}_n)}{p(\mathbf{X})} \end{aligned}\]
+
+<ul>
+  <li>
+    <p>Note that the denominator $p(\mathbf{X})$ is implicitly conditioned on the parameters $\boldsymbol{\theta}^{old}$ of the HMM and hence represents the likelihood function.</p>
+  </li>
+  <li>
+    <p>Using some <code class="language-plaintext highlighter-rouge">conditional independence property</code>:</p>
+
+\[\begin{aligned} \gamma_{\boldsymbol{z}_n} &amp;= \frac {p(\boldsymbol{x}_1,...,\boldsymbol{x}_n, \boldsymbol{z}_n)p(\boldsymbol{x}_{n+1},...,\boldsymbol{x}_N \vert \boldsymbol{z}_n)}{p(\mathbf{X})} = \frac {\alpha(\boldsymbol{z}_n)\beta(\boldsymbol{z}_n)}{p(\mathbf{X})} \\ \\ \alpha(\boldsymbol{z}_n) &amp;= p(\boldsymbol{x}_1,...,\boldsymbol{x}_n, \boldsymbol{z}_n) \\ \beta(\boldsymbol{z}_n) &amp;= p(\boldsymbol{x}_{n+1},...,\boldsymbol{x}_N \vert \boldsymbol{z}_n) \end{aligned}\]
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">recursion formula</code> of $\alpha(\boldsymbol{z}_n)$</p>
+
+\[\begin{aligned} \alpha(\boldsymbol{z}_n) &amp;= p(\boldsymbol{x}_1,...,\boldsymbol{x}_n, \boldsymbol{z}_n) \\ &amp;= p(\boldsymbol{x}_1,...,\boldsymbol{x}_n\vert \boldsymbol{z}_n)p(\boldsymbol{z}_n) \\&amp;= p(\boldsymbol{x}_n\vert \boldsymbol{z}_n)p(\boldsymbol{x}_1,...,\boldsymbol{x}_{n-1}\vert \boldsymbol{z}_n) p(\boldsymbol{z}_n) \\ &amp;= p(\boldsymbol{x}_n\vert \boldsymbol{z}_n)p(\boldsymbol{x}_1,...,\boldsymbol{x}_{n-1}, \boldsymbol{z}_n) \\ &amp;= p(\boldsymbol{x}_n\vert \boldsymbol{z}_n)\sum_{\boldsymbol{z}_{n-1}} p(\boldsymbol{x}_1,...,\boldsymbol{x}_{n-1}, \boldsymbol{z}_{n-1} ,\boldsymbol{z}_n) \\ &amp;= p(\boldsymbol{x}_n\vert \boldsymbol{z}_n)\sum_{\boldsymbol{z}_{n-1}} p(\boldsymbol{x}_1,...,\boldsymbol{x}_{n-1}, \boldsymbol{z}_{n-1})p(\boldsymbol{z}_n\vert \boldsymbol{z}_{n-1}) \\ &amp;= p(\boldsymbol{x}_n\vert \boldsymbol{z}_n)\sum_{\boldsymbol{z}_{n-1}} \alpha(\boldsymbol{z}_{n-1})p(\boldsymbol{z}_n\vert \boldsymbol{z}_{n-1}) \\ \\ \alpha(\boldsymbol{z}_1) &amp;= p(\boldsymbol{x}_1 \vert \boldsymbol{z}_1)p(\boldsymbol{z}_1) = \prod_{k=1}^K (\pi_k p(\boldsymbol{x}_1\vert \boldsymbol{w}_k))^{z_{1k}} \end{aligned}\]
+
+    <ul>
+      <li>forward message passing: $1 \rightarrow n$</li>
+    </ul>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">recursion formula</code> of $\beta(\boldsymbol{z}_n)$</p>
+
+\[\begin{aligned} \beta(\boldsymbol{z}_n) &amp;= p(\boldsymbol{x}_{n+1},...,\boldsymbol{x}_N \vert \boldsymbol{z}_n) \\&amp;= \sum_{\boldsymbol{z}_{n+1}} p(\boldsymbol{x}_{n+2},...,\boldsymbol{x}_N \vert \boldsymbol{z}_{n+1}) p(\boldsymbol{x}_{n+1}\vert \boldsymbol{z}_{n+1}) p(\boldsymbol{z}_{n+1}\vert \boldsymbol{z}_{n}) \\ &amp;= p(\boldsymbol{x}_{n+1},...,\boldsymbol{x}_N \vert \boldsymbol{z}_n) \\&amp;= \sum_{\boldsymbol{z}_{n+1}} \beta(\boldsymbol{z}_{n+1}) p(\boldsymbol{x}_{n+1}\vert \boldsymbol{z}_{n+1}) p(\boldsymbol{z}_{n+1}\vert \boldsymbol{z}_{n})  \end{aligned}\]
+
+    <ul>
+      <li>
+        <p>backward message passing: $N \rightarrow n$</p>
+      </li>
+      <li>
+        <p>here we also need a strarting condition for the recursion, and we can be obtained by setting $n=N$, and easily obtain: $\beta(\boldsymbol{Z}_N) = 1$</p>
+      </li>
+      <li>
+        <p>However, the quantity $p(\mathbf{X})$ represents the likelihood function whose value we typically wish to monitor during the EM optimization, and so it is useful to be able to evaluate it.</p>
+
+\[\begin{aligned} p(\mathbf{X}) &amp;= \sum_{\boldsymbol{z}_n} \alpha(\boldsymbol{z}_n)\beta(\boldsymbol{z}_n)\\ &amp;= \sum_{\boldsymbol{z}_N} \alpha(\boldsymbol{z}_N) \end{aligned}\]
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="evaluate-xi_z_n-1j-z_nk"><span class="mr-2">Evaluate $\xi_{z_{n-1,j}, z_{nk}}$</span><a href="#evaluate-xi_z_n-1j-z_nk" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3></h3>
+
+\[\begin{aligned}\xi(\boldsymbol{z}_{n-1}, \boldsymbol{z}_{n}) = p(\boldsymbol{z}_{n-1}, \boldsymbol{z}_{n} \vert \mathbf{X})\end{aligned}\]
+
+<ul>
+  <li>for each of the $K \times K$ settings for $(\boldsymbol{z}<em>{n-1}, \boldsymbol{z}</em>{n})$.</li>
+</ul>
+
+\[\begin{aligned} \xi(\boldsymbol{z}_{n-1}, \boldsymbol{z}_{n}) &amp;= p(\boldsymbol{z}_{n-1}, \boldsymbol{z}_{n} \vert \mathbf{X}) \\ &amp;= \frac {p(\mathbf{X}\vert \boldsymbol{z}_{n-1}, \boldsymbol{z}_{n})p(\boldsymbol{z}_{n-1}, \boldsymbol{z}_{n})}{p(\mathbf{X})} \\ &amp;= \frac {p(\boldsymbol{x}_{`n+1`}, ...,\boldsymbol{x}_{n-1} \vert \boldsymbol{z}_{n-1})p(\boldsymbol{z}_{n-1})p(\boldsymbol{x}_n\vert \boldsymbol{z}_n) p(\boldsymbol{x}_{n+1}, ...,\boldsymbol{x}_{N}\vert \boldsymbol{z}_n)p(\boldsymbol{z}_{n}\vert \boldsymbol{z}_{n-1})}{p(\mathbf{X})} \\ &amp;= \frac {\alpha(\boldsymbol{z}_{n-1}) p(\boldsymbol{x}_n\vert \boldsymbol{z}_n) p(\boldsymbol{z}_{n}\vert \boldsymbol{z}_{n-1}) \beta(\boldsymbol{z}_{n})}{p(\mathbf{X})} \end{aligned}\]
+
+<h4 id="predictive-distribution"><span class="mr-2">Predictive Distribution</span><a href="#predictive-distribution" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h4></h4>
+
+\[\begin{aligned} p(\boldsymbol{x}_{N+1}\vert \mathbf{X}) &amp;= \sum_{\boldsymbol{z}_{N+1}} p(\boldsymbol{x}_{N+1}, \boldsymbol{z}_{N+1} \vert \mathbf{X}) \\ &amp;= \sum_{\boldsymbol{z}_{N+1}} p(\boldsymbol{x}_{N+1} \vert \boldsymbol{z}_{N+1}) \sum_{\boldsymbol{z}_N} p(\boldsymbol{z}_{N+1}, \boldsymbol{z}_N \vert \mathbf{X}) \\ &amp;=  \sum_{\boldsymbol{z}_{N+1}} p(\boldsymbol{x}_{N+1} \vert \boldsymbol{z}_{N+1}) \sum_{\boldsymbol{z}_N} p(\boldsymbol{z}_{N+1}\vert \boldsymbol{z}_N) p(\boldsymbol{z}_N \vert \mathbf{X}) \\ &amp;=  \sum_{\boldsymbol{z}_{N+1}} p(\boldsymbol{x}_{N+1} \vert \boldsymbol{z}_{N+1}) \sum_{\boldsymbol{z}_N} p(\boldsymbol{z}_{N+1}\vert \boldsymbol{z}_N) \frac {p(\boldsymbol{z}_N, \mathbf{X}) }{p(\mathbf{X})} \\ &amp;= \frac {1}{p(\mathbf{X})} \sum_{\boldsymbol{z}_{N+1}} p(\boldsymbol{x}_{N+1} \vert \boldsymbol{z}_{N+1}) \sum_{\boldsymbol{z}_N} p(\boldsymbol{z}_{N+1}\vert \boldsymbol{z}_N) \alpha(\boldsymbol{z}_N) \end{aligned}\]
+
+<h3 id="scaling-factors"><span class="mr-2">Scaling Factors</span><a href="#scaling-factors" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3></h3>
+
+<p>There is an important issue that must be addressed before we can make use of the forward backward algorithm in practice.</p>
+
+<p>Because these probabilities are often significantly less than unity, as we work our way forward along the chain, the values of $α(\boldsymbol{z}_{n})$ can go to zero exponentially quickly.</p>
+
+<p>In the case of i.i.d. data, we implicitly circumvented this problem with the evaluation of likelihood functions by taking logarithms.</p>
+
+<blockquote class="prompt-warning"><div>
+  <p>Unfortunately, this will not help here because we are forming sums of products of small numbers (we are in fact implicitly summing over all possible paths through the lattice diagram</p>
+</div></blockquote>
+
+<p><code class="language-plaintext highlighter-rouge">re-scale</code>:</p>
+
+\[\begin{aligned}&amp;\alpha(\boldsymbol{z}_{n}) \\ &amp;\beta(\boldsymbol{z}_{n})\end{aligned}\]
+
+<ul>
+  <li>
+    <p>this leads their values remain of order unity</p>
+
+\[\begin{aligned} \widehat{\alpha}(\boldsymbol{z}_n) = p(\boldsymbol{z}_n \vert \boldsymbol{x}_1,...,\boldsymbol{x}_n) =\frac {\alpha(\boldsymbol{z}_n)}{p(\boldsymbol{x}_1,...,\boldsymbol{x}_n)} \end{aligned}\]
+  </li>
+  <li>
+    <p>In order to relate the scaled and original alpha variables, we introduce scaling factors defined by conditional distributions over the observed variables</p>
+
+\[\begin{aligned} c_n = p(\boldsymbol{x}_n\vert \boldsymbol{x}_1,...,\boldsymbol{x}_{n-1}) \end{aligned}\]
+
+    <ul>
+      <li>Easily, we have:</li>
+    </ul>
+
+\[\begin{aligned} p( \boldsymbol{x}_1,...,\boldsymbol{x}_{n}) &amp;=\prod_{m=1}^n c_m \\ \alpha(\boldsymbol{z}_n) &amp;= \widehat{\alpha}(\boldsymbol{z}_n)\prod_{m=1}^n c_m \\ \\ c_n \widehat{\alpha}(\boldsymbol{z}_n) &amp;= p(\boldsymbol{x}_n\vert \boldsymbol{z}_n)\sum_{\boldsymbol{z}_{n-1}} \widehat{\alpha}(\boldsymbol{z}_{n-1})p(\boldsymbol{z}_n\vert \boldsymbol{z}_{n-1}) \end{aligned}\]
+
+    <ul>
+      <li>Note: we also have to evaluate and store $c_n$, but it is easily done because it is the coefficient that normalizes the right-hand side to give $\widehat{\alpha}(\boldsymbol{z}_{n})$</li>
+    </ul>
+  </li>
+  <li>
+    <p>Also, for $\beta(\boldsymbol{z}_n)$</p>
+
+\[\begin{aligned} \beta(\boldsymbol{z}_n) &amp;= \widehat{\beta}(\boldsymbol{z}_n) \prod_{m=n+1}^N c_m \\ \widehat{\beta}(\boldsymbol{z}_n) &amp;= \frac {p(\boldsymbol{x}_{n+1}, ..., \boldsymbol{x}_{N}\vert \boldsymbol{z}_{n})}{p(\boldsymbol{x}_{n+1},...\boldsymbol{x}_{N}\vert \boldsymbol{x}_{1},...,\boldsymbol{x}_{n})} \\ c_{n+1}\widehat{\beta}(\boldsymbol{z}_{n}) &amp;=  \sum_{\boldsymbol{z}_{n+1}} \widehat{\beta}(\boldsymbol{z}_{n+1}) p(\boldsymbol{x}_{n+1}\vert \boldsymbol{z}_{n+1}) p(\boldsymbol{z}_{n+1}\vert \boldsymbol{z}_{n}) \end{aligned}\]
+  </li>
+  <li>
+    <p>we also have a approximation of $p(\mathbf{X})$:</p>
+
+\[\begin{aligned} p(\mathbf{X}) = \prod_{n=1}^N c_n \end{aligned}\]
+  </li>
+  <li>
+    <p>in the end, we got two iterative equations as follow:</p>
+
+\[\begin{aligned} \gamma(\boldsymbol{z}_n) &amp;= \widehat{\alpha}(\boldsymbol{z}_n) \widehat{\beta}(\boldsymbol{z}_{n}) \\ \xi(\boldsymbol{z}_{n-1}, \boldsymbol{z}_n) &amp;= c_n\widehat{\alpha}(\boldsymbol{z}_{n-1})p(\boldsymbol{x}_n\vert \boldsymbol{z}_n)p(\boldsymbol{z}_n\vert \boldsymbol{z}_{n-1})  \widehat{\beta}(\boldsymbol{z}_{n}) \end{aligned}\]
+  </li>
+</ul>
+
+<h3 id="the-viterbi-algorithm"><span class="mr-2">The Viterbi Algorithm</span><a href="#the-viterbi-algorithm" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3></h3>
+
+\[\begin{aligned}  \end{aligned}\]
+
+
+</div>
+
+<div class="post-tail-wrapper text-muted">
+
+  <!-- categories -->
+  
+  <div class="post-meta mb-3">
+    <i class="far fa-folder-open fa-fw mr-1"></i>
+    
+      <a href='/categories/machine-learning/'>Machine Learning</a>,
+      <a href='/categories/hmm/'>HMM</a>
+  </div>
+  
+
+  <!-- tags -->
+  
+  <div class="post-tags">
+    <i class="fa fa-tags fa-fw mr-1"></i>
+      
+      <a href="/tags/hmm/"
+          class="post-tag no-text-decoration" >HMM</a>
+      
+      <a href="/tags/em/"
+          class="post-tag no-text-decoration" >EM</a>
+      
+      <a href="/tags/markov-chain/"
+          class="post-tag no-text-decoration" >Markov Chain</a>
+      
+  </div>
+  
+
+  <div class="post-tail-bottom
+    d-flex justify-content-between align-items-center mt-3 pt-5 pb-2">
+    <div class="license-wrapper">
+
+      
+
+        
+
+        This post is licensed under 
+        <a href="https://creativecommons.org/licenses/by/4.0/">
+          CC BY 4.0
+        </a>
+         by the author.
+
+      
+    </div>
+
+    <!--
+ Post sharing snippet
+-->
+
+<div class="share-wrapper">
+  <span class="share-label text-muted mr-1">Share</span>
+  <span class="share-icons">
+    
+    
+
+    
+      
+        <a href="https://twitter.com/intent/tweet?text=Hidden Markov Model - Candy Note&amp;url=http://0.0.0.0:4000/posts/HMM/" data-toggle="tooltip" data-placement="top"
+          title="Twitter" target="_blank" rel="noopener" aria-label="Twitter">
+          <i class="fa-fw fab fa-twitter"></i>
+        </a>
+    
+      
+        <a href="https://www.facebook.com/sharer/sharer.php?title=Hidden Markov Model - Candy Note&amp;u=http://0.0.0.0:4000/posts/HMM/" data-toggle="tooltip" data-placement="top"
+          title="Facebook" target="_blank" rel="noopener" aria-label="Facebook">
+          <i class="fa-fw fab fa-facebook-square"></i>
+        </a>
+    
+      
+        <a href="https://t.me/share/url?url=http://0.0.0.0:4000/posts/HMM/&amp;text=Hidden Markov Model - Candy Note" data-toggle="tooltip" data-placement="top"
+          title="Telegram" target="_blank" rel="noopener" aria-label="Telegram">
+          <i class="fa-fw fab fa-telegram"></i>
+        </a>
+    
+
+    <i id="copy-link" class="fa-fw fas fa-link small"
+        data-toggle="tooltip" data-placement="top"
+        title="Copy link"
+        data-title-succeed="Link copied successfully!">
+    </i>
+
+  </span>
+</div>
+
+
+  </div><!-- .post-tail-bottom -->
+
+</div><!-- div.post-tail-wrapper -->
+
+
+      
+    
+    
+
+    </div>
+  </div> <!-- #core-wrapper -->
+
+  <!-- pannel -->
+  <div id="panel-wrapper" class="col-xl-3 pl-2 text-muted">
+
+    <div class="access">
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+
+
+  <div id="access-tags">
+    <div class="panel-heading">Trending Tags</div>
+    <div class="d-flex flex-wrap mt-3 mb-1 mr-3">
+
+    
+      
+      <a class="post-tag" href="/tags/gaussian-distribution/">Gaussian Distribution</a>
+    
+      
+      <a class="post-tag" href="/tags/pca/">PCA</a>
+    
+      
+      <a class="post-tag" href="/tags/em/">EM</a>
+    
+      
+      <a class="post-tag" href="/tags/bayesian/">Bayesian</a>
+    
+      
+      <a class="post-tag" href="/tags/markov-chain/">Markov Chain</a>
+    
+      
+      <a class="post-tag" href="/tags/bernoulli/">Bernoulli</a>
+    
+      
+      <a class="post-tag" href="/tags/binomial/">Binomial</a>
+    
+      
+      <a class="post-tag" href="/tags/gamma-distribution/">Gamma Distribution</a>
+    
+      
+      <a class="post-tag" href="/tags/gmm/">GMM</a>
+    
+      
+      <a class="post-tag" href="/tags/kernel/">Kernel</a>
+    
+
+    </div>
+  </div>
+
+
+    </div>
+
+    
+      
+      
+
+
+
+<!-- BS-toc.js will be loaded at medium priority -->
+<script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@1.0.1/dist/bootstrap-toc.min.js"></script>
+
+<div id="toc-wrapper" class="pl-0 pr-4 mb-5">
+  <div class="panel-heading pl-3 pt-2 mb-2">Contents</div>
+  <nav id="toc" data-toggle="toc"></nav>
+</div>
+
+
+    
+  </div>
+
+</div>
+
+<!-- tail -->
+
+<div class="row">
+  <div class="col-12 col-lg-11 col-xl-8">
+    <div id="tail-wrapper" class="pl-1 pr-1 pl-sm-2 pr-sm-2 pl-md-4 pr-md-4">
+      
+        
+        <!--
+ Recommend the other 3 posts according to the tags and categories of the current post,
+ if the number is not enough, use the other latest posts to supplement.
+-->
+
+<!-- The total size of related posts  -->
+
+
+<!-- An random integer that bigger than 0  -->
+
+
+<!-- Equals to TAG_SCORE / {max_categories_hierarchy}  -->
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+
+
+
+<!-- Fill with the other newlest posts  -->
+
+
+
+
+
+
+  <div id="related-posts" class="mt-5 mb-2 mb-sm-4">
+    <h3 class="pt-2 mt-1 mb-4 ml-1"
+      data-toc-skip>Further Reading</h3>
+    <div class="card-deck mb-4">
+    
+      
+      
+      <div class="card">
+        <a href="/posts/markov_chain/">
+          <div class="card-body">
+            <!--
+  Date format snippet
+  See: ${JS_ROOT}/utils/timeago.js
+-->
+
+<em class="timeago small"
+    data-ts="1645401600"
+    
+    >
+  2022-02-21
+</em>
+
+            <h3 class="pt-0 mt-1 mb-3" data-toc-skip>Markov Chain</h3>
+            <div class="text-muted small">
+              <p>
+                
+
+
+
+
+
+                Markov Chain
+
+A first-Order Markov Chain
+
+\[\begin{aligned} p(z^{(m+1)}\vert z^{(m)}, ...,z^{(1)} )  = p(z^{(m+1)}\vert z^{(m)})\end{aligned}\]
+
+then given
+
+  initial variable: $p(z^{(0)})$
+  trans...
+              </p>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+      
+      
+      <div class="card">
+        <a href="/posts/markov_chain_monte_carlo_methods/">
+          <div class="card-body">
+            <!--
+  Date format snippet
+  See: ${JS_ROOT}/utils/timeago.js
+-->
+
+<em class="timeago small"
+    data-ts="1645401600"
+    
+    >
+  2022-02-21
+</em>
+
+            <h3 class="pt-0 mt-1 mb-3" data-toc-skip>Markov Chain Monte Carlo</h3>
+            <div class="text-muted small">
+              <p>
+                
+
+
+
+
+
+                Markov Chain Monte Carlo
+
+As with rejection and importance sampling, we again sample from a proposal distribution.
+
+
+  
+    
+      This time, however, we maintain a record of the current state $z(\...
+              </p>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+      
+      
+      <div class="card">
+        <a href="/posts/factor_analysis/">
+          <div class="card-body">
+            <!--
+  Date format snippet
+  See: ${JS_ROOT}/utils/timeago.js
+-->
+
+<em class="timeago small"
+    data-ts="1645315200"
+    
+    >
+  2022-02-20
+</em>
+
+            <h3 class="pt-0 mt-1 mb-3" data-toc-skip>Factor Analysis</h3>
+            <div class="text-muted small">
+              <p>
+                
+
+
+
+
+
+                Factor Analysis
+
+Factor analysis is a linear-Gaussian latent variable model that is closely related to probabilistic PCA.
+
+
+  
+    in probabilistic PCA:
+
+\[\begin{aligned} \boldsymbol{x} &amp;amp;= \ma...
+              </p>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+    </div> <!-- .card-deck -->
+  </div> <!-- #related-posts -->
+
+
+      
+        
+        <!--
+  Navigation buttons at the bottom of the post.
+-->
+
+<div class="post-navigation d-flex justify-content-between">
+  
+  <a href="/posts/dual_representation_of_linear_models/" class="btn btn-outline-primary"
+    prompt="Older">
+    <p>Dual Representations of Linear Models</p>
+  </a>
+  
+
+  
+  <a href="/posts/markov_chain/" class="btn btn-outline-primary"
+    prompt="Newer">
+    <p>Markov Chain</p>
+  </a>
+  
+
+</div>
+
+      
+        
+        <!--  The comments switcher -->
+
+
+      
+    </div>
+  </div>
+</div> <!-- .row -->
+
+
+
+        <!--
+  The Footer
+-->
+
+<footer class="d-flex w-100 justify-content-center">
+  <div class="d-flex justify-content-between align-items-center text-muted">
+    <div class="footer-left">
+      <p class="mb-0">
+        © 2022
+        <a href="https://twitter.com/username">luo-songtao</a>.
+        
+        <span data-toggle="tooltip" data-placement="top"
+          title="Except where otherwise noted, the blog posts on this site are licensed under the Creative Commons Attribution 4.0 International (CC BY 4.0) License by the author.">Some rights reserved.</span>
+        
+      </p>
+    </div>
+
+    <div class="footer-right">
+      <p class="mb-0">
+        
+
+        
+
+        Powered by 
+          <a href="https://jekyllrb.com" target="_blank" rel="noopener">Jekyll</a>
+         with 
+          <a href="https://github.com/cotes2020/jekyll-theme-chirpy" target="_blank" rel="noopener">Chirpy</a>
+         theme.
+
+      </p>
+    </div>
+
+  </div> <!-- div.d-flex -->
+</footer>
+
+
+      </div>
+
+      <!--
+  The Search results
+-->
+<div id="search-result-wrapper" class="d-flex justify-content-center unloaded">
+  <div class="col-12 col-sm-11 post-content">
+    <div id="search-hints">
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+
+
+  <div id="access-tags">
+    <div class="panel-heading">Trending Tags</div>
+    <div class="d-flex flex-wrap mt-3 mb-1 mr-3">
+
+    
+      
+      <a class="post-tag" href="/tags/gaussian-distribution/">Gaussian Distribution</a>
+    
+      
+      <a class="post-tag" href="/tags/pca/">PCA</a>
+    
+      
+      <a class="post-tag" href="/tags/em/">EM</a>
+    
+      
+      <a class="post-tag" href="/tags/bayesian/">Bayesian</a>
+    
+      
+      <a class="post-tag" href="/tags/markov-chain/">Markov Chain</a>
+    
+      
+      <a class="post-tag" href="/tags/bernoulli/">Bernoulli</a>
+    
+      
+      <a class="post-tag" href="/tags/binomial/">Binomial</a>
+    
+      
+      <a class="post-tag" href="/tags/gamma-distribution/">Gamma Distribution</a>
+    
+      
+      <a class="post-tag" href="/tags/gmm/">GMM</a>
+    
+      
+      <a class="post-tag" href="/tags/kernel/">Kernel</a>
+    
+
+    </div>
+  </div>
+
+
+    </div>
+    <div id="search-results" class="d-flex flex-wrap justify-content-center text-muted mt-3"></div>
+  </div>
+</div>
+
+
+    </div> <!-- #main-wrapper -->
+
+    
+      <!--
+  mermaid-js loader
+-->
+
+<script src="https://cdn.jsdelivr.net/npm/mermaid@8/dist/mermaid.min.js"></script>
+
+<script>
+  $(function() {
+    function updateMermaid(event) {
+      if (event.source === window && event.data &&
+            event.data.direction === ModeToggle.ID) {
+
+        const mode = event.data.message;
+
+        if (typeof mermaid === "undefined") {
+          return;
+        }
+
+        let expectedTheme = (mode === ModeToggle.DARK_MODE? "dark" : "default");
+        let config = { theme: expectedTheme };
+
+        /* Re-render the SVG › <https://github.com/mermaid-js/mermaid/issues/311#issuecomment-332557344> */
+        $(".mermaid").each(function() {
+          let svgCode = $(this).prev().children().html();
+          $(this).removeAttr("data-processed");
+          $(this).html(svgCode);
+        });
+
+        mermaid.initialize(config);
+        mermaid.init(undefined, ".mermaid");
+      }
+    }
+
+    let initTheme = "default";
+
+    if ($("html[data-mode=dark]").length > 0
+      || ($("html[data-mode]").length == 0
+        && window.matchMedia("(prefers-color-scheme: dark)").matches ) ) {
+      initTheme = "dark";
+    }
+
+    let mermaidConf = {
+      theme: initTheme  /* <default|dark|forest|neutral> */
+    };
+
+    /* Markdown converts to HTML */
+    $("pre").has("code.language-mermaid").each(function() {
+      let svgCode = $(this).children().html();
+      $(this).addClass("unloaded");
+      $(this).after(`<div class=\"mermaid\">${svgCode}</div>`);
+    });
+
+    mermaid.initialize(mermaidConf);
+
+    window.addEventListener("message", updateMermaid);
+  });
+</script>
+
+    
+
+    <div id="mask"></div>
+
+    <a id="back-to-top" href="#" aria-label="back-to-top" class="btn btn-lg btn-box-shadow" role="button">
+      <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!--
+  Jekyll Simple Search loader
+  See: <https://github.com/christian-fei/Simple-Jekyll-Search>
+-->
+
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/simple-jekyll-search@1.10.0/dest/simple-jekyll-search.min.js"></script>
+
+<script>
+SimpleJekyllSearch({
+  searchInput: document.getElementById('search-input'),
+  resultsContainer: document.getElementById('search-results'),
+  json: '/assets/js/data/search.json',
+  searchResultTemplate: '<div class="pl-1 pr-1 pl-sm-2 pr-sm-2 pl-lg-4 pr-lg-4 pl-xl-0 pr-xl-0">  <a href="{url}">{title}</a>  <div class="post-meta d-flex flex-column flex-sm-row text-muted mt-1 mb-1">    {categories}    {tags}  </div>  <p>{snippet}</p></div>',
+  noResultsText: '<p class="mt-5">Oops! No result founds.</p>',
+  templateMiddleware: function(prop, value, template) {
+    if (prop === 'categories') {
+      if (value === '') {
+        return `${value}`;
+      } else {
+        return `<div class="mr-sm-4"><i class="far fa-folder fa-fw"></i>${value}</div>`;
+      }
+    }
+
+    if (prop === 'tags') {
+      if (value === '') {
+        return `${value}`;
+      } else {
+        return `<div><i class="fa fa-tag fa-fw"></i>${value}</div>`;
+      }
+    }
+  }
+});
+</script>
+
+
+    <!--
+  JS selector for site.
+-->
+
+<!-- layout specified -->
+
+
+  
+
+
+
+  <!-- image lazy-loading & popup & clipboard -->
+  
+
+  
+
+
+
+
+
+
+
+  
+    
+
+    
+
+  
+
+
+
+  
+    
+
+    
+
+  
+
+
+
+  
+    
+
+    
+
+  
+
+
+
+
+  <script src="https://cdn.jsdelivr.net/combine/npm/magnific-popup@1/dist/jquery.magnific-popup.min.js,npm/lozad/dist/lozad.min.js,npm/clipboard@2/dist/clipboard.min.js"></script>
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+
+
+
+
+
+  
+    
+
+    
+
+  
+
+
+
+  
+    
+
+    
+
+  
+
+
+
+  
+    
+
+    
+
+  
+
+
+
+  
+    
+
+    
+
+  
+
+
+
+
+  <script src="https://cdn.jsdelivr.net/combine/npm/dayjs@1/dayjs.min.js,npm/dayjs@1/locale/en.min.js,npm/dayjs@1/plugin/relativeTime.min.js,npm/dayjs@1/plugin/localizedFormat.min.js"></script>
+
+
+
+
+
+
+
+
+<script defer src="/assets/js/dist/post.min.js"></script>
+
+
+  <!-- MathJax -->
+  <script>
+  /* see: <https://docs.mathjax.org/en/latest/options/input/tex.html#tex-options> */
+  MathJax = {
+    tex: {
+      inlineMath: [              /* start/end delimiter pairs for in-line math */
+        ['$','$'],
+        ['\\(','\\)']
+      ],
+      displayMath: [             /* start/end delimiter pairs for display math */
+        ['$$', '$$'],
+        ['\\[', '\\]']
+      ]
+    }
+  };
+  </script>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+  </script>
+
+
+<!-- commons -->
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.bundle.min.js"></script>
+
+
+
+
+  </body>
+
+</html>
+

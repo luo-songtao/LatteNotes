@@ -484,7 +484,7 @@
 
   <div class="post-preview">
     <h1>
-      <a href="/posts/linear_equations/">Linear Equations</a>
+      <a href="/posts/kernel_pca/">Kernel PCA</a>
     </h1>
 
     <div class="post-content">
@@ -495,17 +495,16 @@
 
 
 
-        线性方程组
+        Kernel PCA
 
-线性子空间
+Centered case analysis
 
 
   
-    $F^n$的一个非空子集$U$如果满足：
-
-    
-      $\boldsymbol{\alpha}, \boldsymbol{\gamma} \in U \Longrightarrow \boldsymbol{\alpha}+\boldsymbol{\gamma}\in U \qquad (加法封闭)$
-      $\boldsymbol...
+    Let $\mathbf{S}$ be $D\times D$ sample covariance matrix, as discussed at conventional PCA: (assume $\mathbf{X}$ are Centered data set)
+  
+  
+    Recall ...
       </p>
     </div>
 
@@ -520,14 +519,14 @@
 -->
 
 <em class="timeago"
-    data-ts="1613779200"
+    data-ts="1645315200"
     
       data-toggle="tooltip" data-placement="bottom" data-tooltip-df="llll"
     
     
       data-capitalize="true"
     >
-  2021-02-20
+  2022-02-20
 </em>
 
 
@@ -552,7 +551,7 @@
 
 <!-- return element -->
 <span class="readtime" data-toggle="tooltip" data-placement="bottom"
-  title="442 words">
+  title="497 words">
   <em>2 min</em></span>
 
 
@@ -561,9 +560,8 @@
           <i class="far fa-folder-open fa-fw"></i>
           <span>
           
-            Mathematics,
-            Algebra,
-            Linear Equations
+            Machine Learning,
+            PCA
           </span>
         
       </div>
@@ -578,7 +576,7 @@
 
   <div class="post-preview">
     <h1>
-      <a href="/posts/inner_product_space_7_polar_decomposition_and_svd/">Inner Product Space (7) Polar Decomposition and SVD</a>
+      <a href="/posts/factor_analysis/">Factor Analysis</a>
     </h1>
 
     <div class="post-content">
@@ -589,19 +587,15 @@
 
 
 
-        极分解与奇异值分解
+        Factor Analysis
 
-如果将所有的算子集合与复数域$\C$进行类比（虽然并不十分恰当）：
-
-
-  一个复数$z$相应于一个算子$T$
-  实数$z=\overline{z}$相应于自伴算子$T=T^*$
+Factor analysis is a linear-Gaussian latent variable model that is closely related to probabilistic PCA.
 
 
-而复数域上一个重要的子集是单位圆
+  
+    in probabilistic PCA:
 
-
-  $\C$上的单位圆是由所有满足$\vert z\vert =1$的复数$z$组成，而$\vert z\vert =1$等价于$z\overlin...
+\[\begin{aligned} \boldsymbol{x} &amp;amp;= \ma...
       </p>
     </div>
 
@@ -616,14 +610,14 @@
 -->
 
 <em class="timeago"
-    data-ts="1613779200"
+    data-ts="1645315200"
     
       data-toggle="tooltip" data-placement="bottom" data-tooltip-df="llll"
     
     
       data-capitalize="true"
     >
-  2021-02-20
+  2022-02-20
 </em>
 
 
@@ -648,101 +642,7 @@
 
 <!-- return element -->
 <span class="readtime" data-toggle="tooltip" data-placement="bottom"
-  title="1132 words">
-  <em>6 min</em></span>
-
-
-        <!-- categories -->
-        
-          <i class="far fa-folder-open fa-fw"></i>
-          <span>
-          
-            Mathematics,
-            Algebra,
-            Inner Product Space
-          </span>
-        
-      </div>
-
-      
-
-    </div> <!-- .post-meta -->
-
-  </div> <!-- .post-review -->
-
-
-
-  <div class="post-preview">
-    <h1>
-      <a href="/posts/inner_product_space_6_positive_operator_and_isometric_isomorphism/">Inner Product Space (6) Positive Operator and Isometric Isomorphism</a>
-    </h1>
-
-    <div class="post-content">
-      <p>
-        
-
-
-
-
-
-        正算子与等距同构
-
-正算子（半正定算子）
-
-正算子（positive operator）	称算子$T\in \mathcal{L}(V)$是正的，如果$T$是自伴的，且对所有$v\in V$均有$\lang Tv,v\rang \ge 0$
-
-
-  正算子的矩阵是半正定矩阵，即$v^t\mathcal{M}(T)v\ge 0$
-    
-      在$\R$上，同时是实对称矩阵
-     ...
-      </p>
-    </div>
-
-    <div class="post-meta text-muted d-flex">
-
-      <div class="mr-auto">
-        <!-- posted date -->
-        <i class="far fa-calendar fa-fw"></i>
-        <!--
-  Date format snippet
-  See: ${JS_ROOT}/utils/timeago.js
--->
-
-<em class="timeago"
-    data-ts="1613779200"
-    
-      data-toggle="tooltip" data-placement="bottom" data-tooltip-df="llll"
-    
-    
-      data-capitalize="true"
-    >
-  2021-02-20
-</em>
-
-
-        <!-- time to read -->
-        <i class="far fa-clock fa-fw"></i>
-        <!--
-  Calculate the post's reading time, and display the word count in tooltip
- -->
-
-
-
-<!-- words per minute  -->
-
-
-
-
-
-
-
-
-
-
-<!-- return element -->
-<span class="readtime" data-toggle="tooltip" data-placement="bottom"
-  title="448 words">
+  title="472 words">
   <em>2 min</em></span>
 
 
@@ -751,9 +651,8 @@
           <i class="far fa-folder-open fa-fw"></i>
           <span>
           
-            Mathematics,
-            Algebra,
-            Inner Product Space
+            Machine Learning,
+            PCA
           </span>
         
       </div>
@@ -768,7 +667,7 @@
 
   <div class="post-preview">
     <h1>
-      <a href="/posts/inner_product_space_5_spectral_theorem/">Inner Product Space (5) Spectral Theorem</a>
+      <a href="/posts/Bayesian_pca/">Bayesian PCA</a>
     </h1>
 
     <div class="post-content">
@@ -779,16 +678,11 @@
 
 
 
-        谱定理
+        Bayesian PCA
 
-前言
+Given that we have a probabilistic formulation of PCA, it seems natural to seek a Bayesian approach to model selection.
 
-
-  $V$上的算子关于$V$的某个基有对角矩阵的充要条件是这个基是由该算子的特征向量组成的
-  关于$V$上的某个规范正交基，具有对角矩阵的算子，是$V$上最好的算子。这样算子$T$满足：$V$有一个由$T$的特征向量构成的规范正交基
-
-
-谱定理（spectral theorem） 谱定理表明，算子$T$若具有性质：$V$有一个由$T$的特征向量构成的规范正交基。则该算子...
+But to do this, we need to marginalize out the model parameter...
       </p>
     </div>
 
@@ -803,14 +697,14 @@
 -->
 
 <em class="timeago"
-    data-ts="1613779200"
+    data-ts="1645315200"
     
       data-toggle="tooltip" data-placement="bottom" data-tooltip-df="llll"
     
     
       data-capitalize="true"
     >
-  2021-02-20
+  2022-02-20
 </em>
 
 
@@ -835,7 +729,94 @@
 
 <!-- return element -->
 <span class="readtime" data-toggle="tooltip" data-placement="bottom"
-  title="827 words">
+  title="479 words">
+  <em>2 min</em></span>
+
+
+        <!-- categories -->
+        
+          <i class="far fa-folder-open fa-fw"></i>
+          <span>
+          
+            Machine Learning,
+            PCA
+          </span>
+        
+      </div>
+
+      
+
+    </div> <!-- .post-meta -->
+
+  </div> <!-- .post-review -->
+
+
+
+  <div class="post-preview">
+    <h1>
+      <a href="/posts/bayesian_linear_regression_single_output/">Bayesian Linear Regression (Single Output)</a>
+    </h1>
+
+    <div class="post-content">
+      <p>
+        
+
+
+
+
+
+        Bayesian Linear Regression (Single Output)
+
+
+  
+    The Linear Model of $f(\boldsymbol{x}, \boldsymbol{w}) = \boldsymbol{w}^T\phi(\boldsymbol{x})$, with Gaussian noise $p(\epsilon) = \mathcal{N}(\e...
+      </p>
+    </div>
+
+    <div class="post-meta text-muted d-flex">
+
+      <div class="mr-auto">
+        <!-- posted date -->
+        <i class="far fa-calendar fa-fw"></i>
+        <!--
+  Date format snippet
+  See: ${JS_ROOT}/utils/timeago.js
+-->
+
+<em class="timeago"
+    data-ts="1645315200"
+    
+      data-toggle="tooltip" data-placement="bottom" data-tooltip-df="llll"
+    
+    
+      data-capitalize="true"
+    >
+  2022-02-20
+</em>
+
+
+        <!-- time to read -->
+        <i class="far fa-clock fa-fw"></i>
+        <!--
+  Calculate the post's reading time, and display the word count in tooltip
+ -->
+
+
+
+<!-- words per minute  -->
+
+
+
+
+
+
+
+
+
+
+<!-- return element -->
+<span class="readtime" data-toggle="tooltip" data-placement="bottom"
+  title="886 words">
   <em>4 min</em></span>
 
 
@@ -844,9 +825,7 @@
           <i class="far fa-folder-open fa-fw"></i>
           <span>
           
-            Mathematics,
-            Algebra,
-            Inner Product Space
+            Bayesian Inference
           </span>
         
       </div>
@@ -861,7 +840,7 @@
 
   <div class="post-preview">
     <h1>
-      <a href="/posts/inner_product_space_4_operators_on_inner_space/">Inner Product Space (4) Operators on Inner Product Space</a>
+      <a href="/posts/bayesian_linear_regression_multiple_output/">Bayesian Linear Regression (Multiple Outputs)</a>
     </h1>
 
     <div class="post-content">
@@ -872,22 +851,11 @@
 
 
 
-        内积空间上的算子
-
-伴随
-
-伴随（adjoint）	设$T\in \mathcal{L}(V,W)$，$T$的伴随是满足如下条件的函数$T^*:W\rightarrow V$
-
-[\lang Tv,w \rang = \lang v,T^*w \rang,\qquad \forall v\in V,w\in W]
+        Bayesian Linear Regression (Multiple Output)
 
 
-  显然，伴随是一个线性映射
-
-
-伴随的性质
-
-
-  $\forall S...
+  
+    The Linear Model of $f(\boldsymbol{x}, W) = W\phi(\boldsymbol{x})$, with Gaussian noise $p(\boldsymbol{\epsilon}) = \mathcal{N}(\boldsymbol{\ep...
       </p>
     </div>
 
@@ -902,14 +870,14 @@
 -->
 
 <em class="timeago"
-    data-ts="1613779200"
+    data-ts="1645315200"
     
       data-toggle="tooltip" data-placement="bottom" data-tooltip-df="llll"
     
     
       data-capitalize="true"
     >
-  2021-02-20
+  2022-02-20
 </em>
 
 
@@ -934,8 +902,8 @@
 
 <!-- return element -->
 <span class="readtime" data-toggle="tooltip" data-placement="bottom"
-  title="1432 words">
-  <em>7 min</em></span>
+  title="526 words">
+  <em>2 min</em></span>
 
 
         <!-- categories -->
@@ -943,9 +911,7 @@
           <i class="far fa-folder-open fa-fw"></i>
           <span>
           
-            Mathematics,
-            Algebra,
-            Inner Product Space
+            Bayesian Inference
           </span>
         
       </div>
@@ -960,7 +926,7 @@
 
   <div class="post-preview">
     <h1>
-      <a href="/posts/inner_product_space_3_orthogonal_complement/">Inner Product Space (3) Orthogonal Complement</a>
+      <a href="/posts/bayesian_inference_for_gaussian/">Bayesian Inference for Gaussian</a>
     </h1>
 
     <div class="post-content">
@@ -971,18 +937,29 @@
 
 
 
-        正交补
-
-正交补（orthogonal complement）	设$U$是$V$的子集，则$U$的正交补是由$V$中与$U$的每个向量都正交的那些向量组成的集合：
-
-[U^{\perp} = {v\in V \space \vert \space \forall u\in U, \langle u,v \rangle = 0 }]
-
-正交补的性质
+        Univariate
+Unknown Mean, Known Variance/Precision
 
 
-  若$U$是$V$的子集
-    
- ...
+  Gaussian
+
+
+Known Mean, Unknown Variance
+
+
+  Gamma
+
+
+known Mean, Unknown Precision
+
+
+  Inverse-Gamma
+
+
+Unknown Mean, Unknown Precision
+
+
+  Gauss...
       </p>
     </div>
 
@@ -997,14 +974,14 @@
 -->
 
 <em class="timeago"
-    data-ts="1613779200"
+    data-ts="1645315200"
     
       data-toggle="tooltip" data-placement="bottom" data-tooltip-df="llll"
     
     
       data-capitalize="true"
     >
-  2021-02-20
+  2022-02-20
 </em>
 
 
@@ -1029,279 +1006,7 @@
 
 <!-- return element -->
 <span class="readtime" data-toggle="tooltip" data-placement="bottom"
-  title="871 words">
-  <em>4 min</em></span>
-
-
-        <!-- categories -->
-        
-          <i class="far fa-folder-open fa-fw"></i>
-          <span>
-          
-            Mathematics,
-            Algebra,
-            Inner Product Space
-          </span>
-        
-      </div>
-
-      
-
-    </div> <!-- .post-meta -->
-
-  </div> <!-- .post-review -->
-
-
-
-  <div class="post-preview">
-    <h1>
-      <a href="/posts/inner_product_space_2_orthogonal_basis/">Inner Product Space (2) Orthogonal  Basis</a>
-    </h1>
-
-    <div class="post-content">
-      <p>
-        
-
-
-
-
-
-        规范正交基 (canonical orthonormal basis)
-
-规范正交基	$V$上的规范正交基$e_1,\cdots,e_n$，是满足两两正交，且范数为1的线性无关向量组
-
-[\forall v \in V,均有：\qquad v = \langle v,e_1 \rangle e_1 + \cdots +\langle v,e_n \rangle e_n]
-
-格拉姆-施密特过程...
-      </p>
-    </div>
-
-    <div class="post-meta text-muted d-flex">
-
-      <div class="mr-auto">
-        <!-- posted date -->
-        <i class="far fa-calendar fa-fw"></i>
-        <!--
-  Date format snippet
-  See: ${JS_ROOT}/utils/timeago.js
--->
-
-<em class="timeago"
-    data-ts="1613779200"
-    
-      data-toggle="tooltip" data-placement="bottom" data-tooltip-df="llll"
-    
-    
-      data-capitalize="true"
-    >
-  2021-02-20
-</em>
-
-
-        <!-- time to read -->
-        <i class="far fa-clock fa-fw"></i>
-        <!--
-  Calculate the post's reading time, and display the word count in tooltip
- -->
-
-
-
-<!-- words per minute  -->
-
-
-
-
-
-
-
-
-
-
-<!-- return element -->
-<span class="readtime" data-toggle="tooltip" data-placement="bottom"
-  title="759 words">
-  <em>4 min</em></span>
-
-
-        <!-- categories -->
-        
-          <i class="far fa-folder-open fa-fw"></i>
-          <span>
-          
-            Mathematics,
-            Algebra,
-            Inner Product Space
-          </span>
-        
-      </div>
-
-      
-
-    </div> <!-- .post-meta -->
-
-  </div> <!-- .post-review -->
-
-
-
-  <div class="post-preview">
-    <h1>
-      <a href="/posts/inner_product_space_1_inner_product_and_norm/">Inner Product Space (1) Inner Product and Norm</a>
-    </h1>
-
-    <div class="post-content">
-      <p>
-        
-
-
-
-
-
-        内积与范数
-
-点积（dot product）	$x,y\in R^n$，$x$和$y$的点积（记作$x\cdot y$）定义为：
-
-[x\cdot y = x_1y_1 + \cdots + x_ny_n]
-
-内积（inner product）	内积是点积的推广。$x,y \in V$，$V$上的内积就是一个函数，把$V$中每一个有序对$(x,y)$都映成一个数：$\langle x,y\r...
-      </p>
-    </div>
-
-    <div class="post-meta text-muted d-flex">
-
-      <div class="mr-auto">
-        <!-- posted date -->
-        <i class="far fa-calendar fa-fw"></i>
-        <!--
-  Date format snippet
-  See: ${JS_ROOT}/utils/timeago.js
--->
-
-<em class="timeago"
-    data-ts="1613779200"
-    
-      data-toggle="tooltip" data-placement="bottom" data-tooltip-df="llll"
-    
-    
-      data-capitalize="true"
-    >
-  2021-02-20
-</em>
-
-
-        <!-- time to read -->
-        <i class="far fa-clock fa-fw"></i>
-        <!--
-  Calculate the post's reading time, and display the word count in tooltip
- -->
-
-
-
-<!-- words per minute  -->
-
-
-
-
-
-
-
-
-
-
-<!-- return element -->
-<span class="readtime" data-toggle="tooltip" data-placement="bottom"
-  title="1000 words">
-  <em>5 min</em></span>
-
-
-        <!-- categories -->
-        
-          <i class="far fa-folder-open fa-fw"></i>
-          <span>
-          
-            Mathematics,
-            Algebra,
-            Inner Product Space
-          </span>
-        
-      </div>
-
-      
-
-    </div> <!-- .post-meta -->
-
-  </div> <!-- .post-review -->
-
-
-
-  <div class="post-preview">
-    <h1>
-      <a href="/posts/hyperplanes/">Hyperplanes</a>
-    </h1>
-
-    <div class="post-content">
-      <p>
-        
-
-
-
-
-
-        超平面
-
-仿射超平面
-
-[\begin{aligned} \boldsymbol{a}^T\boldsymbol{x} = b \end{aligned}]
-
-点到超平面的距离
-
-令超平面外一点$\boldsymbol{x_1}$在超平面$\begin{aligned} \boldsymbol{a}^T\boldsymbol{x} = b \end{aligned}$的投影为$\boldsy...
-      </p>
-    </div>
-
-    <div class="post-meta text-muted d-flex">
-
-      <div class="mr-auto">
-        <!-- posted date -->
-        <i class="far fa-calendar fa-fw"></i>
-        <!--
-  Date format snippet
-  See: ${JS_ROOT}/utils/timeago.js
--->
-
-<em class="timeago"
-    data-ts="1613779200"
-    
-      data-toggle="tooltip" data-placement="bottom" data-tooltip-df="llll"
-    
-    
-      data-capitalize="true"
-    >
-  2021-02-20
-</em>
-
-
-        <!-- time to read -->
-        <i class="far fa-clock fa-fw"></i>
-        <!--
-  Calculate the post's reading time, and display the word count in tooltip
- -->
-
-
-
-<!-- words per minute  -->
-
-
-
-
-
-
-
-
-
-
-<!-- return element -->
-<span class="readtime" data-toggle="tooltip" data-placement="bottom"
-  title="106 words">
+  title="52 words">
   <em>1 min</em></span>
 
 
@@ -1310,9 +1015,7 @@
           <i class="far fa-folder-open fa-fw"></i>
           <span>
           
-            Mathematics,
-            Algebra,
-            Hyperplane
+            Bayesian Inference
           </span>
         
       </div>
@@ -1327,7 +1030,7 @@
 
   <div class="post-preview">
     <h1>
-      <a href="/posts/fourier_series_and_fourier_transform/">Fourier_Series_and_Fourier_Transform</a>
+      <a href="/posts/gaussian_gamma_distribution/">Gaussian-Gamma Distribution</a>
     </h1>
 
     <div class="post-content">
@@ -1338,11 +1041,9 @@
 
 
 
-        正交函数列
+        Gaussian-Gamma distribution
 
-（正交函数列）	设$g_n(x)$是定义在$[a,b]$上的一列函数$(n=0,1,2,\cdots)$，若对任意的$m$, $n$，有$g_m(x)g_n(x)$在$[a,b]$上可积，且有：
-
-[\begin{aligned} \int_a^b g_m(x)g_n(x) dx = \left{ \begin{matrix} &amp;amp;0, \qquad &amp;amp;m\neq...
+[\begin{aligned} \mathrm{GausGam}(\mu, \lambda  \vert \mu_0, \tau , a, b) &amp;amp;= \mathcal{N}(\mu \vert \mu_0, (\tau\lambda)^{-1}) \mathrm{Gam}(\lambda \vert a,b)  \ &amp;am...
       </p>
     </div>
 
@@ -1389,8 +1090,8 @@
 
 <!-- return element -->
 <span class="readtime" data-toggle="tooltip" data-placement="bottom"
-  title="1903 words">
-  <em>10 min</em></span>
+  title="263 words">
+  <em>1 min</em></span>
 
 
         <!-- categories -->
@@ -1398,7 +1099,275 @@
           <i class="far fa-folder-open fa-fw"></i>
           <span>
           
-            Mathematics
+            Probability,
+            Distribution
+          </span>
+        
+      </div>
+
+      
+
+    </div> <!-- .post-meta -->
+
+  </div> <!-- .post-review -->
+
+
+
+  <div class="post-preview">
+    <h1>
+      <a href="/posts/gaussian_distribution_3/">Gaussian Distribution (3)</a>
+    </h1>
+
+    <div class="post-content">
+      <p>
+        
+
+
+
+
+
+        Conditional Gaussian Distribution
+
+
+  
+    we partition $\boldsymbol{x}$ into disjoint subsets $\boldsymbol{x}_a, \boldsymbol{x}_b$
+
+    \(\begin{aligned} \boldsymbol{x} &amp;amp;= \binom{\boldsymbol{x...
+      </p>
+    </div>
+
+    <div class="post-meta text-muted d-flex">
+
+      <div class="mr-auto">
+        <!-- posted date -->
+        <i class="far fa-calendar fa-fw"></i>
+        <!--
+  Date format snippet
+  See: ${JS_ROOT}/utils/timeago.js
+-->
+
+<em class="timeago"
+    data-ts="1613779200"
+    
+      data-toggle="tooltip" data-placement="bottom" data-tooltip-df="llll"
+    
+    
+      data-capitalize="true"
+    >
+  2021-02-20
+</em>
+
+
+        <!-- time to read -->
+        <i class="far fa-clock fa-fw"></i>
+        <!--
+  Calculate the post's reading time, and display the word count in tooltip
+ -->
+
+
+
+<!-- words per minute  -->
+
+
+
+
+
+
+
+
+
+
+<!-- return element -->
+<span class="readtime" data-toggle="tooltip" data-placement="bottom"
+  title="463 words">
+  <em>2 min</em></span>
+
+
+        <!-- categories -->
+        
+          <i class="far fa-folder-open fa-fw"></i>
+          <span>
+          
+            Probability,
+            Distribution
+          </span>
+        
+      </div>
+
+      
+
+    </div> <!-- .post-meta -->
+
+  </div> <!-- .post-review -->
+
+
+
+  <div class="post-preview">
+    <h1>
+      <a href="/posts/gaussian_distribution_2/">Gaussian Distribution (2)</a>
+    </h1>
+
+    <div class="post-content">
+      <p>
+        
+
+
+
+
+
+        Maximum Likelihood for the Gaussian
+
+
+  
+    Given a data set $\mathbf{X} = {\mathbf{x}_1,\mathbf{x}_2,\cdots, \mathbf{x}_N}$ which are drawn independently from a multivariate Gaussian distribution...
+      </p>
+    </div>
+
+    <div class="post-meta text-muted d-flex">
+
+      <div class="mr-auto">
+        <!-- posted date -->
+        <i class="far fa-calendar fa-fw"></i>
+        <!--
+  Date format snippet
+  See: ${JS_ROOT}/utils/timeago.js
+-->
+
+<em class="timeago"
+    data-ts="1613779200"
+    
+      data-toggle="tooltip" data-placement="bottom" data-tooltip-df="llll"
+    
+    
+      data-capitalize="true"
+    >
+  2021-02-20
+</em>
+
+
+        <!-- time to read -->
+        <i class="far fa-clock fa-fw"></i>
+        <!--
+  Calculate the post's reading time, and display the word count in tooltip
+ -->
+
+
+
+<!-- words per minute  -->
+
+
+
+
+
+
+
+
+
+
+<!-- return element -->
+<span class="readtime" data-toggle="tooltip" data-placement="bottom"
+  title="1113 words">
+  <em>6 min</em></span>
+
+
+        <!-- categories -->
+        
+          <i class="far fa-folder-open fa-fw"></i>
+          <span>
+          
+            Probability,
+            Distribution
+          </span>
+        
+      </div>
+
+      
+
+    </div> <!-- .post-meta -->
+
+  </div> <!-- .post-review -->
+
+
+
+  <div class="post-preview">
+    <h1>
+      <a href="/posts/gaussian_distribution_1/">Gaussian Distribution (1)</a>
+    </h1>
+
+    <div class="post-content">
+      <p>
+        
+
+
+
+
+
+        Gaussian Distribution
+
+Univariate
+
+[\begin{aligned} \mathcal{N}(x\vert \mu, \sigma^2) = \frac {1}{\sqrt{2\pi \sigma^2}} \exp\left(- \frac {1}{2\sigma^2} (x-\mu)^2 \right) \end{aligned}]
+
+
+  
+    Th...
+      </p>
+    </div>
+
+    <div class="post-meta text-muted d-flex">
+
+      <div class="mr-auto">
+        <!-- posted date -->
+        <i class="far fa-calendar fa-fw"></i>
+        <!--
+  Date format snippet
+  See: ${JS_ROOT}/utils/timeago.js
+-->
+
+<em class="timeago"
+    data-ts="1613779200"
+    
+      data-toggle="tooltip" data-placement="bottom" data-tooltip-df="llll"
+    
+    
+      data-capitalize="true"
+    >
+  2021-02-20
+</em>
+
+
+        <!-- time to read -->
+        <i class="far fa-clock fa-fw"></i>
+        <!--
+  Calculate the post's reading time, and display the word count in tooltip
+ -->
+
+
+
+<!-- words per minute  -->
+
+
+
+
+
+
+
+
+
+
+<!-- return element -->
+<span class="readtime" data-toggle="tooltip" data-placement="bottom"
+  title="1123 words">
+  <em>6 min</em></span>
+
+
+        <!-- categories -->
+        
+          <i class="far fa-folder-open fa-fw"></i>
+          <span>
+          
+            Probability,
+            Distribution
           </span>
         
       </div>
@@ -1445,7 +1414,7 @@
     
       <!-- show number -->
       <li class="page-item ">
-        <a class="page-link btn-box-shadow" href="//">1</a>
+        <a class="page-link btn-box-shadow" href="/">1</a>
       </li>
     
 
@@ -1462,7 +1431,7 @@
     
       <!-- show number -->
       <li class="page-item ">
-        <a class="page-link btn-box-shadow" href="//page2/">2</a>
+        <a class="page-link btn-box-shadow" href="/page2/">2</a>
       </li>
     
 
@@ -1479,7 +1448,7 @@
     
       <!-- show number -->
       <li class="page-item  active">
-        <a class="page-link btn-box-shadow" href="//page3/">3</a>
+        <a class="page-link btn-box-shadow" href="/page3/">3</a>
       </li>
     
 
@@ -1496,43 +1465,8 @@
     
       <!-- show number -->
       <li class="page-item ">
-        <a class="page-link btn-box-shadow" href="//page4/">4</a>
+        <a class="page-link btn-box-shadow" href="/page4/">4</a>
       </li>
-    
-
-  
-
-    
-    
-    
-    
-    
-
-    
-
-    
-      <!-- hide number -->
-      
-        <li class="page-item disabled">
-          <span class="page-link btn-box-shadow">...</span>
-        </li>
-        
-      
-    
-
-  
-
-    
-    
-    
-    
-    
-
-    
-
-    
-      <!-- hide number -->
-      
     
 
   
@@ -1548,7 +1482,7 @@
     
       <!-- show number -->
       <li class="page-item ">
-        <a class="page-link btn-box-shadow" href="//page7/">7</a>
+        <a class="page-link btn-box-shadow" href="/page5/">5</a>
       </li>
     
 
@@ -1557,7 +1491,7 @@
   <!-- mobile pagination -->
   <li class="page-index align-middle">
     <span>3</span>
-    <span class="text-muted">/ 7</span>
+    <span class="text-muted">/ 5</span>
   </li>
 
   <!-- right arrow -->
@@ -1696,6 +1630,10 @@
     
     
     
+      
+        
+        
+
   
     
     
@@ -1776,85 +1714,7 @@
     
     
     
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
+      
     
   
     
@@ -2005,195 +1865,25 @@
     
     
     
+      
+        
+        
+
   
     
     
     
     
+      
+        
+        
+
   
     
     
     
     
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
+      
     
   
     
@@ -2344,6 +2034,10 @@
     
     
     
+      
+        
+        
+
   
     
     
@@ -2354,20 +2048,7 @@
     
     
     
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
+      
     
   
     
@@ -2398,114 +2079,6 @@
     
     
     
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-      
-    
-  
-    
-    
-    
-    
-      
-        
-        
-
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-      
-    
-  
-    
-    
-    
-    
       
     
   
@@ -2523,30 +2096,7 @@
     
     
     
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
+      
     
   
     
@@ -2607,124 +2157,7 @@
     
     
     
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
       
-    
-  
-    
-    
-    
-    
-      
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
     
   
     
@@ -2788,80 +2221,7 @@
     
     
     
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
+      
     
   
     
@@ -2902,53 +2262,6 @@
     
     
     
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-      
-    
-  
-    
-    
-    
-    
       
     
   
@@ -2966,30 +2279,7 @@
     
     
     
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
+      
     
   
     
@@ -3063,126 +2353,6 @@
     
     
     
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
       
     
   
@@ -3194,425 +2364,6 @@
     
     
     
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-      
-        
-        
-
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-      
-    
-  
-    
-    
-    
-    
-      
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-      
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-      
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-      
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-      
-        
-        
-
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-      
-        
-        
-
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-      
     
   
     
@@ -3636,34 +2387,34 @@
 
     
       
-      <a class="post-tag" href="/tags/%E6%95%B0%E5%AD%A6%E5%88%86%E6%9E%90/">数学分析</a>
+      <a class="post-tag" href="/tags/gaussian-distribution/">Gaussian Distribution</a>
     
       
-      <a class="post-tag" href="/tags/%E8%BF%9E%E7%BB%AD%E5%87%BD%E6%95%B0/">连续函数</a>
+      <a class="post-tag" href="/tags/pca/">PCA</a>
     
       
-      <a class="post-tag" href="/tags/eigenvalue/">Eigenvalue</a>
+      <a class="post-tag" href="/tags/em/">EM</a>
     
       
-      <a class="post-tag" href="/tags/eigenvector/">Eigenvector</a>
+      <a class="post-tag" href="/tags/bayesian/">Bayesian</a>
     
       
-      <a class="post-tag" href="/tags/matrix/">Matrix</a>
-    
-      
-      <a class="post-tag" href="/tags/%E5%AF%BC%E6%95%B0/">导数</a>
-    
-      
-      <a class="post-tag" href="/tags/%E6%95%B0%E5%88%97/">数列</a>
-    
-      
-      <a class="post-tag" href="/tags/%E6%97%A0%E7%A9%B7%E5%A4%A7%E9%87%8F/">无穷大量</a>
+      <a class="post-tag" href="/tags/markov-chain/">Markov Chain</a>
     
       
       <a class="post-tag" href="/tags/bernoulli/">Bernoulli</a>
     
       
       <a class="post-tag" href="/tags/binomial/">Binomial</a>
+    
+      
+      <a class="post-tag" href="/tags/gamma-distribution/">Gamma Distribution</a>
+    
+      
+      <a class="post-tag" href="/tags/gmm/">GMM</a>
+    
+      
+      <a class="post-tag" href="/tags/kernel/">Kernel</a>
     
 
     </div>
@@ -3821,6 +2572,10 @@
     
     
     
+      
+        
+        
+
   
     
     
@@ -3901,85 +2656,7 @@
     
     
     
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
+      
     
   
     
@@ -4130,195 +2807,25 @@
     
     
     
+      
+        
+        
+
   
     
     
     
     
+      
+        
+        
+
   
     
     
     
     
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
+      
     
   
     
@@ -4469,6 +2976,10 @@
     
     
     
+      
+        
+        
+
   
     
     
@@ -4479,20 +2990,7 @@
     
     
     
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
+      
     
   
     
@@ -4523,114 +3021,6 @@
     
     
     
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-      
-    
-  
-    
-    
-    
-    
-      
-        
-        
-
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-      
-    
-  
-    
-    
-    
-    
       
     
   
@@ -4648,30 +3038,7 @@
     
     
     
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
+      
     
   
     
@@ -4732,124 +3099,7 @@
     
     
     
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
       
-    
-  
-    
-    
-    
-    
-      
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
     
   
     
@@ -4913,80 +3163,7 @@
     
     
     
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
+      
     
   
     
@@ -5027,53 +3204,6 @@
     
     
     
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-      
-    
-  
-    
-    
-    
-    
       
     
   
@@ -5091,30 +3221,7 @@
     
     
     
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
+      
     
   
     
@@ -5188,126 +3295,6 @@
     
     
     
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
       
     
   
@@ -5319,425 +3306,6 @@
     
     
     
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-      
-        
-        
-
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-      
-    
-  
-    
-    
-    
-    
-      
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-      
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-      
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-      
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-      
-        
-        
-
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-      
-        
-        
-
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-      
     
   
     
@@ -5761,34 +3329,34 @@
 
     
       
-      <a class="post-tag" href="/tags/%E6%95%B0%E5%AD%A6%E5%88%86%E6%9E%90/">数学分析</a>
+      <a class="post-tag" href="/tags/gaussian-distribution/">Gaussian Distribution</a>
     
       
-      <a class="post-tag" href="/tags/%E8%BF%9E%E7%BB%AD%E5%87%BD%E6%95%B0/">连续函数</a>
+      <a class="post-tag" href="/tags/pca/">PCA</a>
     
       
-      <a class="post-tag" href="/tags/eigenvalue/">Eigenvalue</a>
+      <a class="post-tag" href="/tags/em/">EM</a>
     
       
-      <a class="post-tag" href="/tags/eigenvector/">Eigenvector</a>
+      <a class="post-tag" href="/tags/bayesian/">Bayesian</a>
     
       
-      <a class="post-tag" href="/tags/matrix/">Matrix</a>
-    
-      
-      <a class="post-tag" href="/tags/%E5%AF%BC%E6%95%B0/">导数</a>
-    
-      
-      <a class="post-tag" href="/tags/%E6%95%B0%E5%88%97/">数列</a>
-    
-      
-      <a class="post-tag" href="/tags/%E6%97%A0%E7%A9%B7%E5%A4%A7%E9%87%8F/">无穷大量</a>
+      <a class="post-tag" href="/tags/markov-chain/">Markov Chain</a>
     
       
       <a class="post-tag" href="/tags/bernoulli/">Bernoulli</a>
     
       
       <a class="post-tag" href="/tags/binomial/">Binomial</a>
+    
+      
+      <a class="post-tag" href="/tags/gamma-distribution/">Gamma Distribution</a>
+    
+      
+      <a class="post-tag" href="/tags/gmm/">GMM</a>
+    
+      
+      <a class="post-tag" href="/tags/kernel/">Kernel</a>
     
 
     </div>

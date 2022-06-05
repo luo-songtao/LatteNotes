@@ -37,26 +37,26 @@
 
   <!-- Begin Jekyll SEO tag v2.8.0 -->
 <meta name="generator" content="Jekyll v4.2.1" />
-<meta property="og:title" content="Polynomial Theorem" />
+<meta property="og:title" content="Information Theorem" />
 <meta name="author" content="luo-songtao" />
 <meta property="og:locale" content="en" />
-<meta name="description" content="信息（Information） ​ \(I(x) = -\log p(x)\) 负号确保了信息是非负的 信息单位： $bits$：如果对数是以2为底。$binary \space digits$ $nats$：如果对数是以$e$为底。$natural \space units$ 使用对数表示信息的一个直观理解是：两件独立统计事件的信息应当是二者的和 \[I(x,y) = - \log p(x,y) = -\log (p(x)p(y)) = -\log p(x) - \log p(y)\] 互信息（Mutual Information） [\begin{aligned} I(x,y) = \log \frac {p(x\vert y)}{p(x)} \end{aligned}] 度量两个随机变量之间的相互依赖的程度 后面还可以看到，互信息还表示这两个随机变量的联合概率分布与各自边缘分布乘积之间的差异(KL散度) 条件信息（Conditional Information） [\begin{aligned} I(x\vert y) = - \log p(x\vert y) \end{aligned}] ​ 可得： [\begin{aligned} I(x, y) = \log p(x\vert y) - \log p(x) = I(x)-I(x\vert y) \end{aligned}] 熵（Entropy） ​ \(\begin{aligned} H(x) = -\sum_{x\in \mathcal{X}}p(x)\log p(x) \end{aligned}\) 随机变量的信息的期望被称为熵。如果是连续随机变量，上式累加换为积分即可。 当随机变量的所有取值是等概率时(equiprobable)，熵取最大值 证明（基于拉格朗日乘子法） \[\begin{aligned} \rm{maximum} \qquad &amp;-\sum p_i\log p_i \qquad 令q(x)=q_i \\ \rm{subject.to} \qquad &amp;\sum p_i=1 \\ \space \\ L(p_i, \lambda) &amp;= -\sum p_i\log p_i + \lambda (\sum p_i -1) \\ \space \\ \frac {\partial L}{\partial p_i} &amp;= - \log p_i -1+\lambda \\ 令导数为0，可得:&amp; \\ p_i &amp;= e^{\lambda -1} \qquad 假设使用自然对数 \\ 则可知当熵取最大值时，&amp;所有的p_i都相等 \\\end{aligned}\] 条件熵（Conditional Entropy） [\begin{aligned} H(x\vert y) = -\sum_{x\in \mathcal{X}}\sum_{y\in \mathcal{Y}}p(x,y)\log \frac {p(x, y)}{p(y)} \end{aligned}] 证明： \[\begin{aligned} H(x\vert y) &amp;= \sum_{y\in \mathcal{Y}}p(y)H(x\vert y) \\&amp;= -\sum_{y\in \mathcal{Y}}p(y)\sum_{x\in \mathcal{X}}p(x\vert y)\log p(x\vert y) \\ &amp;= - \sum_{y\in \mathcal{Y}}\sum_{x\in \mathcal{X}}p(x,y)\log p(x\vert y) \\ &amp;= -\sum_{x\in \mathcal{X}}\sum_{y\in \mathcal{Y}}p(x,y)\log \frac {p(x, y)}{p(y)}\end{aligned}\] 互信息与熵：$I(x,y) = H(x)- H(x\vert y)$ 证明： \[\begin{aligned} H(x)- H(x\vert y) &amp;= -\sum_{x\in \mathcal{X}}p(x)\log p(x) + \sum_{x\in \mathcal{X}}\sum_{y\in \mathcal{Y}}p(x,y)\log \frac {p(x, y)}{p(y)} \\&amp;= -\sum_{x\in \mathcal{X}}\sum_{y\in \mathcal{Y}}p(x,y)\log p(x) + \sum_{x\in \mathcal{X}}\sum_{y\in \mathcal{Y}}p(x,y)\log \frac {p(x, y)}{p(y)} \\ &amp;= \sum_{x\in \mathcal{X}}\sum_{y\in \mathcal{Y}}p(x,y)\log \frac {p(x, y)}{p(y)p(x)} \\ &amp;= \sum_{x\in \mathcal{X}}\sum_{y\in \mathcal{Y}}p(x,y) \log \frac {p(x\vert y)}{p(x)} \\ &amp;= \sum_{x\in \mathcal{X}}\sum_{y\in \mathcal{Y}}p(x,y) I(x,y) \\&amp;= I(x,y) \end{aligned}\] 联合熵（Joint Entropy） [\begin{aligned} H(x,y) = -\sum_{x\in \mathcal{X}}\sum_{y\in \mathcal{Y}}p(x,y)\log p(x, y) \end{aligned}] 则有$H(x,y) = H(y\vert x) + H(x)$ 证明： \[\begin{aligned} H(y\vert x) + H(x) &amp;= -\sum_{x\in \mathcal{X}}\sum_{y\in \mathcal{Y}}p(x,y)\log \frac {p(x, y)}{p(x)} - H(x) \\&amp;= -\sum_{x\in \mathcal{X}}\sum_{y\in \mathcal{Y}}p(x,y)\log p(x, y) - \sum_{x\in \mathcal{X}}\sum_{y\in \mathcal{Y}}p(x,y)\log p(x) - H(x) \\&amp;= H(x,y)- \sum_{x\in \mathcal{X}}p(x)\log p(x) - H(x) \\&amp;= H(x,y) \end{aligned}\] $I(x,y) = H(x)- H(x\vert y) = H(x)+ H(y)-H(x,y)$ 相对熵（Relative Entropy） [\begin{aligned} KL(p\vert\vert q) &amp;= \sum_{x\in \mathcal{X}}p(x)\log \frac{p(x)}{q(x)} \&amp;= -\sum_{x\in \mathcal{X}}p(x)\log \frac{q(x)}{p(x)} \end{aligned}] 相对熵也称为KL散度（Kullback-Leibler divergence） 常用于度量两个概率分布之间的相似情况 $I(x,y)=KL(p(x,y)\vert\vert p(x)p(y))$ 证明： \[\begin{aligned} KL(p(x,y)\vert\vert p(x)p(y)) &amp;= \sum_{x,y} p(x,y)\log \frac{p(x,y)}{p(x)p(y)} \\&amp;= \sum_{x,y} p(x,y)\log \frac{p(x\vert y)}{p(x)} \\&amp;= I(x,y) \end{aligned}\] 注意相对熵不是对称的，即$KL(p\vert\vert q) \neq KL(q\vert\vert p)$ 交叉熵（Cross Entropy） [\begin{aligned} H(p,q) = -\mathbb{E}_p [\log q] \end{aligned}] 交叉熵主要用于度量两个概率分布间的差异性信息 $H(p,q) = H(p)+KL(p\vert\vert q)$ 证明： \[\begin{aligned} H(p,q) &amp;= -\mathbb{E}_p [\log q] \\&amp;= -\sum_x p(x)\log q(x) \\&amp;= -\sum_x p(x)\log [\frac{q(x)}{p(x)}p(x)] \\&amp;= -\sum_x p(x) \log \frac{q(x)}{p(x)} - \sum_x p(x)\log p(x) \\&amp;= H(p)+KL(p\vert\vert q) \end{aligned}\] 微分熵（Differential Entropy） 针对连续变量的熵成为微分熵，上述公式中，将累加替换为积分号，就对应着相应的微分熵" />
-<meta property="og:description" content="信息（Information） ​ \(I(x) = -\log p(x)\) 负号确保了信息是非负的 信息单位： $bits$：如果对数是以2为底。$binary \space digits$ $nats$：如果对数是以$e$为底。$natural \space units$ 使用对数表示信息的一个直观理解是：两件独立统计事件的信息应当是二者的和 \[I(x,y) = - \log p(x,y) = -\log (p(x)p(y)) = -\log p(x) - \log p(y)\] 互信息（Mutual Information） [\begin{aligned} I(x,y) = \log \frac {p(x\vert y)}{p(x)} \end{aligned}] 度量两个随机变量之间的相互依赖的程度 后面还可以看到，互信息还表示这两个随机变量的联合概率分布与各自边缘分布乘积之间的差异(KL散度) 条件信息（Conditional Information） [\begin{aligned} I(x\vert y) = - \log p(x\vert y) \end{aligned}] ​ 可得： [\begin{aligned} I(x, y) = \log p(x\vert y) - \log p(x) = I(x)-I(x\vert y) \end{aligned}] 熵（Entropy） ​ \(\begin{aligned} H(x) = -\sum_{x\in \mathcal{X}}p(x)\log p(x) \end{aligned}\) 随机变量的信息的期望被称为熵。如果是连续随机变量，上式累加换为积分即可。 当随机变量的所有取值是等概率时(equiprobable)，熵取最大值 证明（基于拉格朗日乘子法） \[\begin{aligned} \rm{maximum} \qquad &amp;-\sum p_i\log p_i \qquad 令q(x)=q_i \\ \rm{subject.to} \qquad &amp;\sum p_i=1 \\ \space \\ L(p_i, \lambda) &amp;= -\sum p_i\log p_i + \lambda (\sum p_i -1) \\ \space \\ \frac {\partial L}{\partial p_i} &amp;= - \log p_i -1+\lambda \\ 令导数为0，可得:&amp; \\ p_i &amp;= e^{\lambda -1} \qquad 假设使用自然对数 \\ 则可知当熵取最大值时，&amp;所有的p_i都相等 \\\end{aligned}\] 条件熵（Conditional Entropy） [\begin{aligned} H(x\vert y) = -\sum_{x\in \mathcal{X}}\sum_{y\in \mathcal{Y}}p(x,y)\log \frac {p(x, y)}{p(y)} \end{aligned}] 证明： \[\begin{aligned} H(x\vert y) &amp;= \sum_{y\in \mathcal{Y}}p(y)H(x\vert y) \\&amp;= -\sum_{y\in \mathcal{Y}}p(y)\sum_{x\in \mathcal{X}}p(x\vert y)\log p(x\vert y) \\ &amp;= - \sum_{y\in \mathcal{Y}}\sum_{x\in \mathcal{X}}p(x,y)\log p(x\vert y) \\ &amp;= -\sum_{x\in \mathcal{X}}\sum_{y\in \mathcal{Y}}p(x,y)\log \frac {p(x, y)}{p(y)}\end{aligned}\] 互信息与熵：$I(x,y) = H(x)- H(x\vert y)$ 证明： \[\begin{aligned} H(x)- H(x\vert y) &amp;= -\sum_{x\in \mathcal{X}}p(x)\log p(x) + \sum_{x\in \mathcal{X}}\sum_{y\in \mathcal{Y}}p(x,y)\log \frac {p(x, y)}{p(y)} \\&amp;= -\sum_{x\in \mathcal{X}}\sum_{y\in \mathcal{Y}}p(x,y)\log p(x) + \sum_{x\in \mathcal{X}}\sum_{y\in \mathcal{Y}}p(x,y)\log \frac {p(x, y)}{p(y)} \\ &amp;= \sum_{x\in \mathcal{X}}\sum_{y\in \mathcal{Y}}p(x,y)\log \frac {p(x, y)}{p(y)p(x)} \\ &amp;= \sum_{x\in \mathcal{X}}\sum_{y\in \mathcal{Y}}p(x,y) \log \frac {p(x\vert y)}{p(x)} \\ &amp;= \sum_{x\in \mathcal{X}}\sum_{y\in \mathcal{Y}}p(x,y) I(x,y) \\&amp;= I(x,y) \end{aligned}\] 联合熵（Joint Entropy） [\begin{aligned} H(x,y) = -\sum_{x\in \mathcal{X}}\sum_{y\in \mathcal{Y}}p(x,y)\log p(x, y) \end{aligned}] 则有$H(x,y) = H(y\vert x) + H(x)$ 证明： \[\begin{aligned} H(y\vert x) + H(x) &amp;= -\sum_{x\in \mathcal{X}}\sum_{y\in \mathcal{Y}}p(x,y)\log \frac {p(x, y)}{p(x)} - H(x) \\&amp;= -\sum_{x\in \mathcal{X}}\sum_{y\in \mathcal{Y}}p(x,y)\log p(x, y) - \sum_{x\in \mathcal{X}}\sum_{y\in \mathcal{Y}}p(x,y)\log p(x) - H(x) \\&amp;= H(x,y)- \sum_{x\in \mathcal{X}}p(x)\log p(x) - H(x) \\&amp;= H(x,y) \end{aligned}\] $I(x,y) = H(x)- H(x\vert y) = H(x)+ H(y)-H(x,y)$ 相对熵（Relative Entropy） [\begin{aligned} KL(p\vert\vert q) &amp;= \sum_{x\in \mathcal{X}}p(x)\log \frac{p(x)}{q(x)} \&amp;= -\sum_{x\in \mathcal{X}}p(x)\log \frac{q(x)}{p(x)} \end{aligned}] 相对熵也称为KL散度（Kullback-Leibler divergence） 常用于度量两个概率分布之间的相似情况 $I(x,y)=KL(p(x,y)\vert\vert p(x)p(y))$ 证明： \[\begin{aligned} KL(p(x,y)\vert\vert p(x)p(y)) &amp;= \sum_{x,y} p(x,y)\log \frac{p(x,y)}{p(x)p(y)} \\&amp;= \sum_{x,y} p(x,y)\log \frac{p(x\vert y)}{p(x)} \\&amp;= I(x,y) \end{aligned}\] 注意相对熵不是对称的，即$KL(p\vert\vert q) \neq KL(q\vert\vert p)$ 交叉熵（Cross Entropy） [\begin{aligned} H(p,q) = -\mathbb{E}_p [\log q] \end{aligned}] 交叉熵主要用于度量两个概率分布间的差异性信息 $H(p,q) = H(p)+KL(p\vert\vert q)$ 证明： \[\begin{aligned} H(p,q) &amp;= -\mathbb{E}_p [\log q] \\&amp;= -\sum_x p(x)\log q(x) \\&amp;= -\sum_x p(x)\log [\frac{q(x)}{p(x)}p(x)] \\&amp;= -\sum_x p(x) \log \frac{q(x)}{p(x)} - \sum_x p(x)\log p(x) \\&amp;= H(p)+KL(p\vert\vert q) \end{aligned}\] 微分熵（Differential Entropy） 针对连续变量的熵成为微分熵，上述公式中，将累加替换为积分号，就对应着相应的微分熵" />
+<meta name="description" content="Information Theory Information Content or Self-Information \(\begin{aligned} h(x) &amp;= -\log_2 p(x) \\ h(x) &amp;= -\ln p(x) \end{aligned}\) information Entropy: The average amount of information needed to specify the state of a random variable. (The average amount of information that they transmit in the process) \[\begin{aligned} H[X] &amp;= \mathbb{E}_{X}[h(x)] = -\sum_{x\in X} p(x)\log_2 p(x) \qquad bits \\ H[X]&amp;= \mathbb{E}_{X}[h(x)] = -\sum_{x\in X} p(x)\ln p(x) \qquad nats \end{aligned}\] Distributions $p(x)$ that are sharply peaked around a few values will have a relatively low entropy, where those that are speread more evenly across many values will have higher entropy. Differential Entropy \[H(X) = -\int p(x)\ln p(x)\] To specify a continuous variable very precisely requires a large number of bits Maximum Entropy Discrete variables: if $X$ is discrete variable, then $H(X)$ will have a maximum value when $p(x)$ is a uniform distribution. Proof with following: \[\begin{aligned} \max &amp; \qquad -\sum_{x\in X} p(x) \ln p(x) \\ s.t. &amp; \qquad \sum_{x} p(x) = 1, x\in X \end{aligned}\] To simplify notion, we assume $X = {x_1, x_2, \cdots, x_K}$, and let $p_i = p(x_i)$, $\mathbf{p} = {p_1,p_2,\cdots,p_K}$ Then introduce a Lagrange multiplier $\lambda \neq 0$, we obtained a Lagrange function: \(\begin{aligned} L(\mathbf{p}, \lambda) &amp;= -\sum_{i=1}^K p_i \ln p_i + \lambda(\sum_{i=1}^K p_i - 1)\end{aligned}\) and then: \(\begin{aligned} &amp; \frac {\partial L}{\partial p_i} = -\ln p_i - 1 + \lambda = 0 \\ \Leftrightarrow &amp; p_i = \exp(\lambda - 1) \end{aligned}\) back substitution of this result into constraint equations, we have: \[\begin{aligned}\lambda = 1 + \ln \frac 1N \end{aligned}\] finally, we have: \[\begin{aligned} p_i = \frac 1N, \qquad i=1,2,\cdots, K \end{aligned}\] Continuous Variable: if $X$ is continuous variable, then $H(X)$ will have a maximum value when $p(x)$ is a gaussian distribution. Proof with following: \[\begin{aligned} \max &amp;\qquad -\int p(x) \ln p(x) dx \\ s.t. &amp;\qquad \int p(x)dx = 1 \\ &amp;\qquad \int xp(x) dx = \mu \\ &amp;\qquad \int (x-\mu)^2xp(x) = \sigma^2 \end{aligned}\] Then introduce Lagrange multipliers $\lambda_1,\lambda_2,\lambda_3$, at least one of them not equal zero, we obtained a Lagrange function: \[\begin{aligned} L(p(x), \lambda_1,\lambda_2,\lambda_3) &amp;= -\int p(x) \ln p(x) dx + \lambda_1(\int p(x)dx - 1) + \lambda_2 (\int xp(x) dx - \mu) + \lambda_3(\int (x-\mu)^2p(x) - \sigma^2) \\ &amp;= -\int p(x) \left[ \ln p(x)-\lambda_1-\lambda_2 x - \lambda_3 (x-\mu)^2 \right] \end{aligned}\] Using the calculus of variations:: \[\begin{aligned} \frac {\delta L}{\delta p} = \ln p(x) - \lambda_1 -\lambda_2 x - \lambda_3 (x-\mu)^2 + 1 =0 \end{aligned}\] Then we have: \[\begin{aligned} p(x) = \exp(\lambda_1 + \lambda_2 x + \lambda_3 (x-\mu)^2 - 1) \end{aligned}\] So we can see $p(x)$ shall be a gaussian distribution, and \[\begin{aligned} p(x) &amp;= \exp(\lambda_1 + \lambda_2 x + \lambda_3 (x-\mu)^2 - 1) = \frac {1}{\sqrt{2\pi \sigma^2}} \exp\left( \frac 1{2\sigma^2} (x-\mu)^2 \right) \end{aligned}\] Joint Entropy \(\begin{aligned} H(X,Y) = \mathbb{E}_{X,Y} [-\ln p(x,y)] = \left\{\begin{aligned} &amp;-\sum_{x}\sum_{y} p(x,y)\ln p(x,y) \\ &amp;-\int\int p(x,y)\ln p(x,y)dxdy \end{aligned}\right. \end{aligned}\) Conditional Entropy \(\begin{aligned} H(Y\vert X) = \mathbb{E}_{X,Y} [-\ln p(y\vert x)] = \left\{\begin{aligned} &amp;-\sum_{x}\sum_{y} p(x,y)\ln p(y\vert x) \\ &amp;-\int\int p(x,y)\ln p(y\vert x)dxdy \end{aligned}\right. \end{aligned}\) $H(Y\vert X) = H(X, Y) - H(X)$ \(\begin{aligned} H(X,Y) &amp;= -\int\int p(x,y)\ln p(x,y)dxdy \\ &amp;= -\int\int p(x,y)\ln p(y\vert x)dxdy - \int\int p(x,y)\ln p(x)dxdy \\&amp;= H(Y\vert X) + H(X) \end{aligned}\) Mutual Information: Mutual information measures the amount of information that can be obtained about one random variable by observing another. \[\begin{aligned} I(X,Y) &amp;= I(Y,X) \\&amp;= H(X) + H(Y) - H(X,Y) \\&amp;= H(Y) - H(Y\vert X) \\&amp;= H(X) - H(X\vert Y) \\&amp;= \left\{\begin{aligned} &amp;-\sum_{x}\sum_{y} p(x,y)\ln \left(\frac {p(x)p(y)}{p(x,y)}\right) \\ &amp;-\int\int p(x,y)\ln \left(\frac {p(x)p(y)}{p(x,y)}\right)dxdy \end{aligned}\right. \end{aligned}\] Cross Entropy: It describes the difficulty of expressing probability distribution p through probability distribution q. Consider two distribution $p(X), q(X)$: i.e. consider some unknown distribution $p(X)$, and suppose that we have modelled this using an approximating distribution $q(X)$. \[\begin{aligned} H(p,q) = -\mathbb{E}_{p}[\log q] = \left\{\begin{aligned} &amp;-\sum_{x}p(x)\ln q(x) \\ &amp;-\int p(x)\ln q(x)dx \end{aligned}\right. \end{aligned}\] Relative Entropy or KL divergence (Kullback-Leibler divergence) or Information Gain: KL divergence is a way of comparing two distributions \(\begin{aligned} KL(p\vert\vert q) = H(p,q) - H(p) = \left\{\begin{aligned} &amp; -\sum_{x}p(x)\ln \left(\frac {q(x)}{p(x)}\right) \\ &amp;-\int p(x)\ln \left(\frac {q(x)}{p(x)}\right)dx \end{aligned}\right. \end{aligned}\) realtion with mutual information: \(\begin{aligned} I(X,Y) = KL\left( p(x,y) \vert\vert p(x)p(y) \right) \end{aligned}\) Attention: \(H(p,q) - H(p) = KL(p\vert\vert q) \neq KL(q\vert\vert p) = H(q,p) - H(q)\)" />
+<meta property="og:description" content="Information Theory Information Content or Self-Information \(\begin{aligned} h(x) &amp;= -\log_2 p(x) \\ h(x) &amp;= -\ln p(x) \end{aligned}\) information Entropy: The average amount of information needed to specify the state of a random variable. (The average amount of information that they transmit in the process) \[\begin{aligned} H[X] &amp;= \mathbb{E}_{X}[h(x)] = -\sum_{x\in X} p(x)\log_2 p(x) \qquad bits \\ H[X]&amp;= \mathbb{E}_{X}[h(x)] = -\sum_{x\in X} p(x)\ln p(x) \qquad nats \end{aligned}\] Distributions $p(x)$ that are sharply peaked around a few values will have a relatively low entropy, where those that are speread more evenly across many values will have higher entropy. Differential Entropy \[H(X) = -\int p(x)\ln p(x)\] To specify a continuous variable very precisely requires a large number of bits Maximum Entropy Discrete variables: if $X$ is discrete variable, then $H(X)$ will have a maximum value when $p(x)$ is a uniform distribution. Proof with following: \[\begin{aligned} \max &amp; \qquad -\sum_{x\in X} p(x) \ln p(x) \\ s.t. &amp; \qquad \sum_{x} p(x) = 1, x\in X \end{aligned}\] To simplify notion, we assume $X = {x_1, x_2, \cdots, x_K}$, and let $p_i = p(x_i)$, $\mathbf{p} = {p_1,p_2,\cdots,p_K}$ Then introduce a Lagrange multiplier $\lambda \neq 0$, we obtained a Lagrange function: \(\begin{aligned} L(\mathbf{p}, \lambda) &amp;= -\sum_{i=1}^K p_i \ln p_i + \lambda(\sum_{i=1}^K p_i - 1)\end{aligned}\) and then: \(\begin{aligned} &amp; \frac {\partial L}{\partial p_i} = -\ln p_i - 1 + \lambda = 0 \\ \Leftrightarrow &amp; p_i = \exp(\lambda - 1) \end{aligned}\) back substitution of this result into constraint equations, we have: \[\begin{aligned}\lambda = 1 + \ln \frac 1N \end{aligned}\] finally, we have: \[\begin{aligned} p_i = \frac 1N, \qquad i=1,2,\cdots, K \end{aligned}\] Continuous Variable: if $X$ is continuous variable, then $H(X)$ will have a maximum value when $p(x)$ is a gaussian distribution. Proof with following: \[\begin{aligned} \max &amp;\qquad -\int p(x) \ln p(x) dx \\ s.t. &amp;\qquad \int p(x)dx = 1 \\ &amp;\qquad \int xp(x) dx = \mu \\ &amp;\qquad \int (x-\mu)^2xp(x) = \sigma^2 \end{aligned}\] Then introduce Lagrange multipliers $\lambda_1,\lambda_2,\lambda_3$, at least one of them not equal zero, we obtained a Lagrange function: \[\begin{aligned} L(p(x), \lambda_1,\lambda_2,\lambda_3) &amp;= -\int p(x) \ln p(x) dx + \lambda_1(\int p(x)dx - 1) + \lambda_2 (\int xp(x) dx - \mu) + \lambda_3(\int (x-\mu)^2p(x) - \sigma^2) \\ &amp;= -\int p(x) \left[ \ln p(x)-\lambda_1-\lambda_2 x - \lambda_3 (x-\mu)^2 \right] \end{aligned}\] Using the calculus of variations:: \[\begin{aligned} \frac {\delta L}{\delta p} = \ln p(x) - \lambda_1 -\lambda_2 x - \lambda_3 (x-\mu)^2 + 1 =0 \end{aligned}\] Then we have: \[\begin{aligned} p(x) = \exp(\lambda_1 + \lambda_2 x + \lambda_3 (x-\mu)^2 - 1) \end{aligned}\] So we can see $p(x)$ shall be a gaussian distribution, and \[\begin{aligned} p(x) &amp;= \exp(\lambda_1 + \lambda_2 x + \lambda_3 (x-\mu)^2 - 1) = \frac {1}{\sqrt{2\pi \sigma^2}} \exp\left( \frac 1{2\sigma^2} (x-\mu)^2 \right) \end{aligned}\] Joint Entropy \(\begin{aligned} H(X,Y) = \mathbb{E}_{X,Y} [-\ln p(x,y)] = \left\{\begin{aligned} &amp;-\sum_{x}\sum_{y} p(x,y)\ln p(x,y) \\ &amp;-\int\int p(x,y)\ln p(x,y)dxdy \end{aligned}\right. \end{aligned}\) Conditional Entropy \(\begin{aligned} H(Y\vert X) = \mathbb{E}_{X,Y} [-\ln p(y\vert x)] = \left\{\begin{aligned} &amp;-\sum_{x}\sum_{y} p(x,y)\ln p(y\vert x) \\ &amp;-\int\int p(x,y)\ln p(y\vert x)dxdy \end{aligned}\right. \end{aligned}\) $H(Y\vert X) = H(X, Y) - H(X)$ \(\begin{aligned} H(X,Y) &amp;= -\int\int p(x,y)\ln p(x,y)dxdy \\ &amp;= -\int\int p(x,y)\ln p(y\vert x)dxdy - \int\int p(x,y)\ln p(x)dxdy \\&amp;= H(Y\vert X) + H(X) \end{aligned}\) Mutual Information: Mutual information measures the amount of information that can be obtained about one random variable by observing another. \[\begin{aligned} I(X,Y) &amp;= I(Y,X) \\&amp;= H(X) + H(Y) - H(X,Y) \\&amp;= H(Y) - H(Y\vert X) \\&amp;= H(X) - H(X\vert Y) \\&amp;= \left\{\begin{aligned} &amp;-\sum_{x}\sum_{y} p(x,y)\ln \left(\frac {p(x)p(y)}{p(x,y)}\right) \\ &amp;-\int\int p(x,y)\ln \left(\frac {p(x)p(y)}{p(x,y)}\right)dxdy \end{aligned}\right. \end{aligned}\] Cross Entropy: It describes the difficulty of expressing probability distribution p through probability distribution q. Consider two distribution $p(X), q(X)$: i.e. consider some unknown distribution $p(X)$, and suppose that we have modelled this using an approximating distribution $q(X)$. \[\begin{aligned} H(p,q) = -\mathbb{E}_{p}[\log q] = \left\{\begin{aligned} &amp;-\sum_{x}p(x)\ln q(x) \\ &amp;-\int p(x)\ln q(x)dx \end{aligned}\right. \end{aligned}\] Relative Entropy or KL divergence (Kullback-Leibler divergence) or Information Gain: KL divergence is a way of comparing two distributions \(\begin{aligned} KL(p\vert\vert q) = H(p,q) - H(p) = \left\{\begin{aligned} &amp; -\sum_{x}p(x)\ln \left(\frac {q(x)}{p(x)}\right) \\ &amp;-\int p(x)\ln \left(\frac {q(x)}{p(x)}\right)dx \end{aligned}\right. \end{aligned}\) realtion with mutual information: \(\begin{aligned} I(X,Y) = KL\left( p(x,y) \vert\vert p(x)p(y) \right) \end{aligned}\) Attention: \(H(p,q) - H(p) = KL(p\vert\vert q) \neq KL(q\vert\vert p) = H(q,p) - H(q)\)" />
 <link rel="canonical" href="http://0.0.0.0:4000/posts/Information_Theory/" />
 <meta property="og:url" content="http://0.0.0.0:4000/posts/Information_Theory/" />
 <meta property="og:site_name" content="Candy Note" />
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2021-02-20T00:00:00+00:00" />
 <meta name="twitter:card" content="summary" />
-<meta property="twitter:title" content="Polynomial Theorem" />
+<meta property="twitter:title" content="Information Theorem" />
 <meta name="twitter:site" content="@twitter_username" />
 <meta name="twitter:creator" content="@luo-songtao" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"luo-songtao"},"dateModified":"2021-02-20T00:00:00+00:00","datePublished":"2021-02-20T00:00:00+00:00","description":"信息（Information） ​ \\(I(x) = -\\log p(x)\\) 负号确保了信息是非负的 信息单位： $bits$：如果对数是以2为底。$binary \\space digits$ $nats$：如果对数是以$e$为底。$natural \\space units$ 使用对数表示信息的一个直观理解是：两件独立统计事件的信息应当是二者的和 \\[I(x,y) = - \\log p(x,y) = -\\log (p(x)p(y)) = -\\log p(x) - \\log p(y)\\] 互信息（Mutual Information） [\\begin{aligned} I(x,y) = \\log \\frac {p(x\\vert y)}{p(x)} \\end{aligned}] 度量两个随机变量之间的相互依赖的程度 后面还可以看到，互信息还表示这两个随机变量的联合概率分布与各自边缘分布乘积之间的差异(KL散度) 条件信息（Conditional Information） [\\begin{aligned} I(x\\vert y) = - \\log p(x\\vert y) \\end{aligned}] ​ 可得： [\\begin{aligned} I(x, y) = \\log p(x\\vert y) - \\log p(x) = I(x)-I(x\\vert y) \\end{aligned}] 熵（Entropy） ​ \\(\\begin{aligned} H(x) = -\\sum_{x\\in \\mathcal{X}}p(x)\\log p(x) \\end{aligned}\\) 随机变量的信息的期望被称为熵。如果是连续随机变量，上式累加换为积分即可。 当随机变量的所有取值是等概率时(equiprobable)，熵取最大值 证明（基于拉格朗日乘子法） \\[\\begin{aligned} \\rm{maximum} \\qquad &amp;-\\sum p_i\\log p_i \\qquad 令q(x)=q_i \\\\ \\rm{subject.to} \\qquad &amp;\\sum p_i=1 \\\\ \\space \\\\ L(p_i, \\lambda) &amp;= -\\sum p_i\\log p_i + \\lambda (\\sum p_i -1) \\\\ \\space \\\\ \\frac {\\partial L}{\\partial p_i} &amp;= - \\log p_i -1+\\lambda \\\\ 令导数为0，可得:&amp; \\\\ p_i &amp;= e^{\\lambda -1} \\qquad 假设使用自然对数 \\\\ 则可知当熵取最大值时，&amp;所有的p_i都相等 \\\\\\end{aligned}\\] 条件熵（Conditional Entropy） [\\begin{aligned} H(x\\vert y) = -\\sum_{x\\in \\mathcal{X}}\\sum_{y\\in \\mathcal{Y}}p(x,y)\\log \\frac {p(x, y)}{p(y)} \\end{aligned}] 证明： \\[\\begin{aligned} H(x\\vert y) &amp;= \\sum_{y\\in \\mathcal{Y}}p(y)H(x\\vert y) \\\\&amp;= -\\sum_{y\\in \\mathcal{Y}}p(y)\\sum_{x\\in \\mathcal{X}}p(x\\vert y)\\log p(x\\vert y) \\\\ &amp;= - \\sum_{y\\in \\mathcal{Y}}\\sum_{x\\in \\mathcal{X}}p(x,y)\\log p(x\\vert y) \\\\ &amp;= -\\sum_{x\\in \\mathcal{X}}\\sum_{y\\in \\mathcal{Y}}p(x,y)\\log \\frac {p(x, y)}{p(y)}\\end{aligned}\\] 互信息与熵：$I(x,y) = H(x)- H(x\\vert y)$ 证明： \\[\\begin{aligned} H(x)- H(x\\vert y) &amp;= -\\sum_{x\\in \\mathcal{X}}p(x)\\log p(x) + \\sum_{x\\in \\mathcal{X}}\\sum_{y\\in \\mathcal{Y}}p(x,y)\\log \\frac {p(x, y)}{p(y)} \\\\&amp;= -\\sum_{x\\in \\mathcal{X}}\\sum_{y\\in \\mathcal{Y}}p(x,y)\\log p(x) + \\sum_{x\\in \\mathcal{X}}\\sum_{y\\in \\mathcal{Y}}p(x,y)\\log \\frac {p(x, y)}{p(y)} \\\\ &amp;= \\sum_{x\\in \\mathcal{X}}\\sum_{y\\in \\mathcal{Y}}p(x,y)\\log \\frac {p(x, y)}{p(y)p(x)} \\\\ &amp;= \\sum_{x\\in \\mathcal{X}}\\sum_{y\\in \\mathcal{Y}}p(x,y) \\log \\frac {p(x\\vert y)}{p(x)} \\\\ &amp;= \\sum_{x\\in \\mathcal{X}}\\sum_{y\\in \\mathcal{Y}}p(x,y) I(x,y) \\\\&amp;= I(x,y) \\end{aligned}\\] 联合熵（Joint Entropy） [\\begin{aligned} H(x,y) = -\\sum_{x\\in \\mathcal{X}}\\sum_{y\\in \\mathcal{Y}}p(x,y)\\log p(x, y) \\end{aligned}] 则有$H(x,y) = H(y\\vert x) + H(x)$ 证明： \\[\\begin{aligned} H(y\\vert x) + H(x) &amp;= -\\sum_{x\\in \\mathcal{X}}\\sum_{y\\in \\mathcal{Y}}p(x,y)\\log \\frac {p(x, y)}{p(x)} - H(x) \\\\&amp;= -\\sum_{x\\in \\mathcal{X}}\\sum_{y\\in \\mathcal{Y}}p(x,y)\\log p(x, y) - \\sum_{x\\in \\mathcal{X}}\\sum_{y\\in \\mathcal{Y}}p(x,y)\\log p(x) - H(x) \\\\&amp;= H(x,y)- \\sum_{x\\in \\mathcal{X}}p(x)\\log p(x) - H(x) \\\\&amp;= H(x,y) \\end{aligned}\\] $I(x,y) = H(x)- H(x\\vert y) = H(x)+ H(y)-H(x,y)$ 相对熵（\u0010Relative Entropy） [\\begin{aligned} KL(p\\vert\\vert q) &amp;= \\sum_{x\\in \\mathcal{X}}p(x)\\log \\frac{p(x)}{q(x)} \\&amp;= -\\sum_{x\\in \\mathcal{X}}p(x)\\log \\frac{q(x)}{p(x)} \\end{aligned}] 相对熵也称为KL散度（Kullback-Leibler divergence） 常用于度量两个概率分布之间的相似情况 $I(x,y)=KL(p(x,y)\\vert\\vert p(x)p(y))$ 证明： \\[\\begin{aligned} KL(p(x,y)\\vert\\vert p(x)p(y)) &amp;= \\sum_{x,y} p(x,y)\\log \\frac{p(x,y)}{p(x)p(y)} \\\\&amp;= \\sum_{x,y} p(x,y)\\log \\frac{p(x\\vert y)}{p(x)} \\\\&amp;= I(x,y) \\end{aligned}\\] 注意相对熵不是对称的，即$KL(p\\vert\\vert q) \\neq KL(q\\vert\\vert p)$ 交叉熵（Cross Entropy） [\\begin{aligned} H(p,q) = -\\mathbb{E}_p [\\log q] \\end{aligned}] 交叉熵主要用于度量两个概率分布间的差异性信息 $H(p,q) = H(p)+KL(p\\vert\\vert q)$ 证明： \\[\\begin{aligned} H(p,q) &amp;= -\\mathbb{E}_p [\\log q] \\\\&amp;= -\\sum_x p(x)\\log q(x) \\\\&amp;= -\\sum_x p(x)\\log [\\frac{q(x)}{p(x)}p(x)] \\\\&amp;= -\\sum_x p(x) \\log \\frac{q(x)}{p(x)} - \\sum_x p(x)\\log p(x) \\\\&amp;= H(p)+KL(p\\vert\\vert q) \\end{aligned}\\] 微分熵（Differential Entropy） 针对连续变量的熵成为微分熵，上述公式中，将累加替换为积分号，就对应着相应的微分熵","headline":"Polynomial Theorem","mainEntityOfPage":{"@type":"WebPage","@id":"http://0.0.0.0:4000/posts/Information_Theory/"},"url":"http://0.0.0.0:4000/posts/Information_Theory/"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"luo-songtao"},"dateModified":"2021-02-20T00:00:00+00:00","datePublished":"2021-02-20T00:00:00+00:00","description":"Information Theory Information Content or Self-Information \\(\\begin{aligned} h(x) &amp;= -\\log_2 p(x) \\\\ h(x) &amp;= -\\ln p(x) \\end{aligned}\\) information Entropy: The average amount of information needed to specify the state of a random variable. (The average amount of information that they transmit in the process) \\[\\begin{aligned} H[X] &amp;= \\mathbb{E}_{X}[h(x)] = -\\sum_{x\\in X} p(x)\\log_2 p(x) \\qquad bits \\\\ H[X]&amp;= \\mathbb{E}_{X}[h(x)] = -\\sum_{x\\in X} p(x)\\ln p(x) \\qquad nats \\end{aligned}\\] Distributions $p(x)$ that are sharply peaked around a few values will have a relatively low entropy, where those that are speread more evenly across many values will have higher entropy. Differential Entropy \\[H(X) = -\\int p(x)\\ln p(x)\\] To specify a continuous variable very precisely requires a large number of bits Maximum Entropy Discrete variables: if $X$ is discrete variable, then $H(X)$ will have a maximum value when $p(x)$ is a uniform distribution. Proof with following: \\[\\begin{aligned} \\max &amp; \\qquad -\\sum_{x\\in X} p(x) \\ln p(x) \\\\ s.t. &amp; \\qquad \\sum_{x} p(x) = 1, x\\in X \\end{aligned}\\] To simplify notion, we assume $X = {x_1, x_2, \\cdots, x_K}$, and let $p_i = p(x_i)$, $\\mathbf{p} = {p_1,p_2,\\cdots,p_K}$ Then introduce a Lagrange multiplier $\\lambda \\neq 0$, we obtained a Lagrange function: \\(\\begin{aligned} L(\\mathbf{p}, \\lambda) &amp;= -\\sum_{i=1}^K p_i \\ln p_i + \\lambda(\\sum_{i=1}^K p_i - 1)\\end{aligned}\\) and then: \\(\\begin{aligned} &amp; \\frac {\\partial L}{\\partial p_i} = -\\ln p_i - 1 + \\lambda = 0 \\\\ \\Leftrightarrow &amp; p_i = \\exp(\\lambda - 1) \\end{aligned}\\) back substitution of this result into constraint equations, we have: \\[\\begin{aligned}\\lambda = 1 + \\ln \\frac 1N \\end{aligned}\\] finally, we have: \\[\\begin{aligned} p_i = \\frac 1N, \\qquad i=1,2,\\cdots, K \\end{aligned}\\] Continuous Variable: if $X$ is continuous variable, then $H(X)$ will have a maximum value when $p(x)$ is a gaussian distribution. Proof with following: \\[\\begin{aligned} \\max &amp;\\qquad -\\int p(x) \\ln p(x) dx \\\\ s.t. &amp;\\qquad \\int p(x)dx = 1 \\\\ &amp;\\qquad \\int xp(x) dx = \\mu \\\\ &amp;\\qquad \\int (x-\\mu)^2xp(x) = \\sigma^2 \\end{aligned}\\] Then introduce Lagrange multipliers $\\lambda_1,\\lambda_2,\\lambda_3$, at least one of them not equal zero, we obtained a Lagrange function: \\[\\begin{aligned} L(p(x), \\lambda_1,\\lambda_2,\\lambda_3) &amp;= -\\int p(x) \\ln p(x) dx + \\lambda_1(\\int p(x)dx - 1) + \\lambda_2 (\\int xp(x) dx - \\mu) + \\lambda_3(\\int (x-\\mu)^2p(x) - \\sigma^2) \\\\ &amp;= -\\int p(x) \\left[ \\ln p(x)-\\lambda_1-\\lambda_2 x - \\lambda_3 (x-\\mu)^2 \\right] \\end{aligned}\\] Using the calculus of variations:: \\[\\begin{aligned} \\frac {\\delta L}{\\delta p} = \\ln p(x) - \\lambda_1 -\\lambda_2 x - \\lambda_3 (x-\\mu)^2 + 1 =0 \\end{aligned}\\] Then we have: \\[\\begin{aligned} p(x) = \\exp(\\lambda_1 + \\lambda_2 x + \\lambda_3 (x-\\mu)^2 - 1) \\end{aligned}\\] So we can see $p(x)$ shall be a gaussian distribution, and \\[\\begin{aligned} p(x) &amp;= \\exp(\\lambda_1 + \\lambda_2 x + \\lambda_3 (x-\\mu)^2 - 1) = \\frac {1}{\\sqrt{2\\pi \\sigma^2}} \\exp\\left( \\frac 1{2\\sigma^2} (x-\\mu)^2 \\right) \\end{aligned}\\] Joint Entropy \\(\\begin{aligned} H(X,Y) = \\mathbb{E}_{X,Y} [-\\ln p(x,y)] = \\left\\{\\begin{aligned} &amp;-\\sum_{x}\\sum_{y} p(x,y)\\ln p(x,y) \\\\ &amp;-\\int\\int p(x,y)\\ln p(x,y)dxdy \\end{aligned}\\right. \\end{aligned}\\) Conditional Entropy \\(\\begin{aligned} H(Y\\vert X) = \\mathbb{E}_{X,Y} [-\\ln p(y\\vert x)] = \\left\\{\\begin{aligned} &amp;-\\sum_{x}\\sum_{y} p(x,y)\\ln p(y\\vert x) \\\\ &amp;-\\int\\int p(x,y)\\ln p(y\\vert x)dxdy \\end{aligned}\\right. \\end{aligned}\\) $H(Y\\vert X) = H(X, Y) - H(X)$ \\(\\begin{aligned} H(X,Y) &amp;= -\\int\\int p(x,y)\\ln p(x,y)dxdy \\\\ &amp;= -\\int\\int p(x,y)\\ln p(y\\vert x)dxdy - \\int\\int p(x,y)\\ln p(x)dxdy \\\\&amp;= H(Y\\vert X) + H(X) \\end{aligned}\\) Mutual Information: Mutual information measures the amount of information that can be obtained about one random variable by observing another. \\[\\begin{aligned} I(X,Y) &amp;= I(Y,X) \\\\&amp;= H(X) + H(Y) - H(X,Y) \\\\&amp;= H(Y) - H(Y\\vert X) \\\\&amp;= H(X) - H(X\\vert Y) \\\\&amp;= \\left\\{\\begin{aligned} &amp;-\\sum_{x}\\sum_{y} p(x,y)\\ln \\left(\\frac {p(x)p(y)}{p(x,y)}\\right) \\\\ &amp;-\\int\\int p(x,y)\\ln \\left(\\frac {p(x)p(y)}{p(x,y)}\\right)dxdy \\end{aligned}\\right. \\end{aligned}\\] Cross Entropy: It describes the difficulty of expressing probability distribution p through probability distribution q. Consider two distribution $p(X), q(X)$: i.e. consider some unknown distribution $p(X)$, and suppose that we have modelled this using an approximating distribution $q(X)$. \\[\\begin{aligned} H(p,q) = -\\mathbb{E}_{p}[\\log q] = \\left\\{\\begin{aligned} &amp;-\\sum_{x}p(x)\\ln q(x) \\\\ &amp;-\\int p(x)\\ln q(x)dx \\end{aligned}\\right. \\end{aligned}\\] Relative Entropy or KL divergence (Kullback-Leibler divergence) or Information Gain: KL divergence is a way of comparing two distributions \\(\\begin{aligned} KL(p\\vert\\vert q) = H(p,q) - H(p) = \\left\\{\\begin{aligned} &amp; -\\sum_{x}p(x)\\ln \\left(\\frac {q(x)}{p(x)}\\right) \\\\ &amp;-\\int p(x)\\ln \\left(\\frac {q(x)}{p(x)}\\right)dx \\end{aligned}\\right. \\end{aligned}\\) realtion with mutual information: \\(\\begin{aligned} I(X,Y) = KL\\left( p(x,y) \\vert\\vert p(x)p(y) \\right) \\end{aligned}\\) Attention: \\(H(p,q) - H(p) = KL(p\\vert\\vert q) \\neq KL(q\\vert\\vert p) = H(q,p) - H(q)\\)","headline":"Information Theorem","mainEntityOfPage":{"@type":"WebPage","@id":"http://0.0.0.0:4000/posts/Information_Theory/"},"url":"http://0.0.0.0:4000/posts/Information_Theory/"}</script>
 <!-- End Jekyll SEO tag -->
 
 
-  <title>Polynomial Theorem | Candy Note
+  <title>Information Theorem | Candy Note
   </title>
 
   <!--
@@ -428,7 +428,7 @@
         
 
           
-            <span>Polynomial Theorem</span>
+            <span>Information Theorem</span>
           
 
         
@@ -536,125 +536,6 @@
   
 
   
-    
-    
-
-    
-      
-        
-        
-      
-
-      
-      
-
-      
-      
-      
-
-      
-
-    
-      
-
-      
-      
-
-      
-      
-      
-
-      
-
-    
-      
-
-      
-      
-
-      
-      
-      
-
-      
-
-    
-      
-
-      
-      
-
-      
-      
-      
-
-      
-
-    
-      
-
-      
-      
-
-      
-      
-      
-
-      
-
-    
-      
-
-      
-      
-
-      
-      
-      
-
-      
-
-    
-      
-
-      
-      
-
-      
-      
-      
-
-      
-
-    
-      
-
-      
-      
-
-      
-      
-      
-
-      
-
-    
-      
-
-      
-      
-
-      
-      
-      
-
-      
-
-    
-
-    
-
-  
 
   
   
@@ -680,7 +561,7 @@
 
 
 
-<h1 data-toc-skip>Polynomial Theorem</h1>
+<h1 data-toc-skip>Information Theorem</h1>
 
 <div class="post-meta text-muted">
 
@@ -743,8 +624,8 @@
 
 <!-- return element -->
 <span class="readtime" data-toggle="tooltip" data-placement="bottom"
-  title="753 words">
-  <em>4 min</em> read</span>
+  title="687 words">
+  <em>3 min</em> read</span>
 
 
       <!-- page views -->
@@ -756,160 +637,126 @@
 </div> <!-- .post-meta -->
 
 <div class="post-content">
-  <h4 id="信息information"><span class="mr-2">信息（Information）</span><a href="#信息information" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h4></h4>
-
-<p>​	\(I(x) = -\log p(x)\)</p>
+  <h1 id="information-theory">Information Theory</h1>
 
 <ul>
   <li>
-    <p>负号确保了信息是非负的</p>
+    <p><strong>Information Content</strong> or <strong>Self-Information</strong>
+  \(\begin{aligned} h(x) &amp;= -\log_2 p(x) \\ h(x) &amp;= -\ln p(x) \end{aligned}\)</p>
   </li>
   <li>
-    <p>信息单位：</p>
+    <p><strong>information Entropy</strong>: The average amount of information needed to specify the  state of a random variable. (The average amount of information that they transmit in the process)</p>
+
+\[\begin{aligned} H[X] &amp;=  \mathbb{E}_{X}[h(x)] = -\sum_{x\in X} p(x)\log_2 p(x) \qquad bits \\ H[X]&amp;=  \mathbb{E}_{X}[h(x)] = -\sum_{x\in X} p(x)\ln p(x) \qquad nats \end{aligned}\]
 
     <ul>
-      <li>$bits$：如果对数是以2为底。$binary \space digits$</li>
-      <li>$nats$：如果对数是以$e$为底。$natural \space units$</li>
+      <li>Distributions $p(x)$ that are sharply peaked around a few values will have a relatively low entropy, where those that are speread more evenly across many values will have higher entropy.</li>
     </ul>
   </li>
   <li>
-    <p>使用对数表示信息的一个直观理解是：两件<strong>独立统计</strong>事件的信息应当是二者的和</p>
+    <p><strong>Differential Entropy</strong></p>
 
-\[I(x,y) = - \log p(x,y) = -\log (p(x)p(y)) = -\log p(x) - \log p(y)\]
-  </li>
-</ul>
-
-<h4 id="互信息mutual-information"><span class="mr-2">互信息（Mutual Information）</span><a href="#互信息mutual-information" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h4></h4>
-
-\[\begin{aligned} I(x,y) = \log \frac {p(x\vert y)}{p(x)} \end{aligned}\]
-
-<ul>
-  <li>度量两个随机变量之间的相互依赖的程度</li>
-  <li>后面还可以看到，互信息还表示这两个随机变量的联合概率分布与各自边缘分布乘积之间的差异(KL散度)</li>
-</ul>
-
-<h4 id="条件信息conditional-information"><span class="mr-2">条件信息（Conditional Information）</span><a href="#条件信息conditional-information" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h4></h4>
-
-\[\begin{aligned} I(x\vert y) = - \log p(x\vert y) \end{aligned}\]
-
-<p>​	可得：</p>
-
-\[\begin{aligned} I(x, y) = \log p(x\vert y) - \log p(x) = I(x)-I(x\vert y) \end{aligned}\]
-
-<h4 id="熵entropy"><span class="mr-2">熵（Entropy）</span><a href="#熵entropy" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h4></h4>
-
-<p>​	\(\begin{aligned} H(x) = -\sum_{x\in \mathcal{X}}p(x)\log p(x) \end{aligned}\)</p>
-
-<ul>
-  <li>
-    <p>随机变量的信息的期望被称为熵。如果是连续随机变量，上式累加换为积分即可。</p>
-  </li>
-  <li>
-    <p>当随机变量的所有取值是等概率时(equiprobable)，熵取最大值</p>
+\[H(X) = -\int p(x)\ln p(x)\]
 
     <ul>
+      <li>To specify a continuous variable very precisely requires a large number of bits</li>
+    </ul>
+  </li>
+  <li><strong>Maximum Entropy</strong>
+    <ul>
       <li>
-        <p>证明（基于拉格朗日乘子法）</p>
+        <p>Discrete variables: if $X$ is discrete variable, then $H(X)$ will have a maximum value when $p(x)$ is a uniform distribution. Proof with following:</p>
 
-\[\begin{aligned} \rm{maximum} \qquad &amp;-\sum p_i\log p_i \qquad 令q(x)=q_i \\ \rm{subject.to} \qquad &amp;\sum p_i=1 \\ \space \\ L(p_i, \lambda) &amp;= -\sum p_i\log p_i + \lambda (\sum p_i -1)  \\ \space \\ \frac {\partial L}{\partial p_i} &amp;= - \log p_i -1+\lambda \\ 令导数为0，可得:&amp; \\  p_i &amp;= e^{\lambda -1} \qquad 假设使用自然对数 \\ 则可知当熵取最大值时，&amp;所有的p_i都相等 \\\end{aligned}\]
+\[\begin{aligned} \max &amp; \qquad -\sum_{x\in X} p(x) \ln p(x) \\ s.t. &amp; \qquad \sum_{x} p(x) = 1, x\in X  \end{aligned}\]
+
+        <ul>
+          <li>To simplify notion, we assume $X = {x_1, x_2, \cdots, x_K}$, and let $p_i = p(x_i)$, $\mathbf{p} = {p_1,p_2,\cdots,p_K}$</li>
+          <li>Then introduce a Lagrange multiplier $\lambda \neq 0$, we obtained a Lagrange function:
+  \(\begin{aligned} L(\mathbf{p}, \lambda) &amp;= -\sum_{i=1}^K p_i \ln p_i + \lambda(\sum_{i=1}^K p_i - 1)\end{aligned}\)</li>
+          <li>
+            <p>and then:
+ \(\begin{aligned} &amp; \frac {\partial L}{\partial p_i} = -\ln p_i - 1 + \lambda = 0 \\ \Leftrightarrow &amp; p_i = \exp(\lambda - 1) \end{aligned}\)</p>
+          </li>
+          <li>
+            <p>back substitution of this result into constraint equations, we have:</p>
+
+\[\begin{aligned}\lambda = 1 + \ln \frac 1N \end{aligned}\]
+          </li>
+          <li>
+            <p>finally, we have:</p>
+
+\[\begin{aligned} p_i = \frac 1N, \qquad i=1,2,\cdots, K \end{aligned}\]
+          </li>
+        </ul>
       </li>
-    </ul>
-  </li>
-</ul>
-
-<h4 id="条件熵conditional-entropy"><span class="mr-2">条件熵（Conditional Entropy）</span><a href="#条件熵conditional-entropy" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h4></h4>
-
-\[\begin{aligned} H(x\vert y) = -\sum_{x\in \mathcal{X}}\sum_{y\in \mathcal{Y}}p(x,y)\log \frac {p(x, y)}{p(y)} \end{aligned}\]
-
-<ul>
-  <li>
-    <p>证明：</p>
-
-\[\begin{aligned} H(x\vert y) &amp;= \sum_{y\in \mathcal{Y}}p(y)H(x\vert y) \\&amp;= -\sum_{y\in \mathcal{Y}}p(y)\sum_{x\in \mathcal{X}}p(x\vert y)\log p(x\vert y) \\ &amp;= - \sum_{y\in \mathcal{Y}}\sum_{x\in \mathcal{X}}p(x,y)\log p(x\vert y) \\ &amp;= -\sum_{x\in \mathcal{X}}\sum_{y\in \mathcal{Y}}p(x,y)\log \frac {p(x, y)}{p(y)}\end{aligned}\]
-  </li>
-  <li>
-    <p>互信息与熵：$I(x,y) = H(x)- H(x\vert y)$</p>
-
-    <ul>
       <li>
-        <p>证明：</p>
+        <p>Continuous Variable: if $X$ is continuous variable, then $H(X)$ will have a maximum value when $p(x)$ is a gaussian distribution. Proof with following:</p>
 
-\[\begin{aligned} H(x)- H(x\vert y) &amp;=  -\sum_{x\in \mathcal{X}}p(x)\log p(x) + \sum_{x\in \mathcal{X}}\sum_{y\in \mathcal{Y}}p(x,y)\log \frac {p(x, y)}{p(y)} \\&amp;= -\sum_{x\in \mathcal{X}}\sum_{y\in \mathcal{Y}}p(x,y)\log p(x) + \sum_{x\in \mathcal{X}}\sum_{y\in \mathcal{Y}}p(x,y)\log \frac {p(x, y)}{p(y)} \\ &amp;= \sum_{x\in \mathcal{X}}\sum_{y\in \mathcal{Y}}p(x,y)\log \frac {p(x, y)}{p(y)p(x)} \\ &amp;= \sum_{x\in \mathcal{X}}\sum_{y\in \mathcal{Y}}p(x,y) \log \frac {p(x\vert y)}{p(x)} \\ &amp;= \sum_{x\in \mathcal{X}}\sum_{y\in \mathcal{Y}}p(x,y) I(x,y) \\&amp;= I(x,y) \end{aligned}\]
-      </li>
-    </ul>
-  </li>
-</ul>
+\[\begin{aligned} \max &amp;\qquad -\int p(x) \ln p(x) dx \\ s.t. &amp;\qquad \int p(x)dx = 1 \\ &amp;\qquad \int xp(x) dx = \mu \\ &amp;\qquad \int (x-\mu)^2xp(x) = \sigma^2 \end{aligned}\]
 
-<h4 id="联合熵joint-entropy"><span class="mr-2">联合熵（Joint Entropy）</span><a href="#联合熵joint-entropy" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h4></h4>
+        <ul>
+          <li>
+            <p>Then introduce Lagrange multipliers $\lambda_1,\lambda_2,\lambda_3$, at least one of them not equal zero, we obtained a Lagrange function:</p>
 
-\[\begin{aligned} H(x,y) = -\sum_{x\in \mathcal{X}}\sum_{y\in \mathcal{Y}}p(x,y)\log p(x, y) \end{aligned}\]
+\[\begin{aligned} L(p(x), \lambda_1,\lambda_2,\lambda_3) &amp;= -\int p(x) \ln p(x) dx + \lambda_1(\int p(x)dx - 1) + \lambda_2 (\int xp(x) dx - \mu) + \lambda_3(\int (x-\mu)^2p(x) - \sigma^2) \\ &amp;= -\int p(x) \left[ \ln p(x)-\lambda_1-\lambda_2 x - \lambda_3 (x-\mu)^2 \right] \end{aligned}\]
+          </li>
+          <li>
+            <p>Using the calculus of variations::</p>
 
-<ul>
-  <li>则有$H(x,y) = H(y\vert x) + H(x)$
-    <ul>
-      <li>
-        <p>证明：</p>
+\[\begin{aligned} \frac {\delta L}{\delta p} = \ln p(x) - \lambda_1 -\lambda_2 x - \lambda_3 (x-\mu)^2 + 1 =0 \end{aligned}\]
+          </li>
+          <li>
+            <p>Then we have:</p>
 
-\[\begin{aligned} H(y\vert x) + H(x) &amp;= -\sum_{x\in \mathcal{X}}\sum_{y\in \mathcal{Y}}p(x,y)\log \frac {p(x, y)}{p(x)} - H(x) \\&amp;= -\sum_{x\in \mathcal{X}}\sum_{y\in \mathcal{Y}}p(x,y)\log p(x, y) - \sum_{x\in \mathcal{X}}\sum_{y\in \mathcal{Y}}p(x,y)\log p(x) - H(x) \\&amp;= H(x,y)- \sum_{x\in \mathcal{X}}p(x)\log p(x) - H(x) \\&amp;= H(x,y) \end{aligned}\]
-      </li>
-    </ul>
-  </li>
-  <li>$I(x,y) = H(x)- H(x\vert y) = H(x)+ H(y)-H(x,y)$</li>
-</ul>
+\[\begin{aligned} p(x) = \exp(\lambda_1 + \lambda_2 x + \lambda_3 (x-\mu)^2 - 1) \end{aligned}\]
+          </li>
+          <li>
+            <p>So we can see $p(x)$ shall be a gaussian distribution, and</p>
 
-<h4 id="相对熵relative-entropy"><span class="mr-2">相对熵（Relative Entropy）</span><a href="#相对熵relative-entropy" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h4></h4>
-
-\[\begin{aligned} KL(p\vert\vert q) &amp;= \sum_{x\in \mathcal{X}}p(x)\log \frac{p(x)}{q(x)} \\&amp;= -\sum_{x\in \mathcal{X}}p(x)\log \frac{q(x)}{p(x)} \end{aligned}\]
-
-<ul>
-  <li>
-    <p>相对熵也称为<strong>KL散度（Kullback-Leibler divergence）</strong></p>
-
-    <ul>
-      <li>常用于度量两个概率分布之间的相似情况</li>
-    </ul>
-  </li>
-  <li>
-    <p>$I(x,y)=KL(p(x,y)\vert\vert p(x)p(y))$</p>
-
-    <ul>
-      <li>
-        <p>证明：</p>
-
-\[\begin{aligned} KL(p(x,y)\vert\vert p(x)p(y)) &amp;= \sum_{x,y} p(x,y)\log \frac{p(x,y)}{p(x)p(y)} \\&amp;= \sum_{x,y} p(x,y)\log \frac{p(x\vert y)}{p(x)} \\&amp;= I(x,y) \end{aligned}\]
+\[\begin{aligned} p(x) &amp;= \exp(\lambda_1 + \lambda_2 x + \lambda_3 (x-\mu)^2 - 1)  = \frac {1}{\sqrt{2\pi \sigma^2}} \exp\left( \frac 1{2\sigma^2} (x-\mu)^2 \right) \end{aligned}\]
+          </li>
+        </ul>
       </li>
     </ul>
   </li>
   <li>
-    <p>注意相对熵不是对称的，即$KL(p\vert\vert q) \neq KL(q\vert\vert p)$</p>
-  </li>
-</ul>
-
-<h4 id="交叉熵cross-entropy"><span class="mr-2">交叉熵（Cross Entropy）</span><a href="#交叉熵cross-entropy" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h4></h4>
-
-\[\begin{aligned} H(p,q) = -\mathbb{E}_p [\log q] \end{aligned}\]
-
-<ul>
-  <li>
-    <p>交叉熵主要用于度量两个概率分布间的差异性信息</p>
+    <p><strong>Joint Entropy</strong>
+  \(\begin{aligned} H(X,Y) = \mathbb{E}_{X,Y} [-\ln p(x,y)] = \left\{\begin{aligned} &amp;-\sum_{x}\sum_{y} p(x,y)\ln p(x,y) \\ &amp;-\int\int p(x,y)\ln p(x,y)dxdy \end{aligned}\right.  \end{aligned}\)</p>
   </li>
   <li>
-    <p>$H(p,q) = H(p)+KL(p\vert\vert q)$</p>
+    <p><strong>Conditional Entropy</strong>
+  \(\begin{aligned} H(Y\vert X) = \mathbb{E}_{X,Y} [-\ln p(y\vert x)] = \left\{\begin{aligned} &amp;-\sum_{x}\sum_{y} p(x,y)\ln p(y\vert x) \\ &amp;-\int\int p(x,y)\ln p(y\vert x)dxdy \end{aligned}\right.  \end{aligned}\)</p>
 
     <ul>
-      <li>
-        <p>证明：</p>
-
-\[\begin{aligned} H(p,q) &amp;= -\mathbb{E}_p [\log q] \\&amp;= -\sum_x p(x)\log q(x) \\&amp;=  -\sum_x p(x)\log [\frac{q(x)}{p(x)}p(x)] \\&amp;= -\sum_x p(x) \log \frac{q(x)}{p(x)} - \sum_x p(x)\log p(x) \\&amp;= H(p)+KL(p\vert\vert q) \end{aligned}\]
-      </li>
+      <li>$H(Y\vert X) = H(X, Y) - H(X)$
+  \(\begin{aligned} H(X,Y) &amp;= -\int\int p(x,y)\ln p(x,y)dxdy \\ &amp;= -\int\int p(x,y)\ln p(y\vert x)dxdy  - \int\int p(x,y)\ln p(x)dxdy \\&amp;= H(Y\vert X) + H(X)  \end{aligned}\)</li>
     </ul>
   </li>
-</ul>
+  <li>
+    <p><strong>Mutual Information</strong>: Mutual information measures the amount of information that can be obtained about one random variable by observing another.</p>
 
-<h4 id="微分熵differential-entropy"><span class="mr-2">微分熵（Differential Entropy）</span><a href="#微分熵differential-entropy" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h4></h4>
+\[\begin{aligned} I(X,Y) &amp;= I(Y,X) \\&amp;= H(X) + H(Y) - H(X,Y) \\&amp;= H(Y) - H(Y\vert X) \\&amp;= H(X) - H(X\vert Y) \\&amp;= \left\{\begin{aligned} &amp;-\sum_{x}\sum_{y} p(x,y)\ln \left(\frac {p(x)p(y)}{p(x,y)}\right) \\ &amp;-\int\int p(x,y)\ln \left(\frac {p(x)p(y)}{p(x,y)}\right)dxdy \end{aligned}\right. \end{aligned}\]
+  </li>
+  <li>
+    <p><strong>Cross Entropy</strong>: It describes the difficulty of expressing probability distribution p through probability distribution q.</p>
 
-<ul>
-  <li>针对连续变量的熵成为微分熵，上述公式中，将累加替换为积分号，就对应着相应的微分熵</li>
+    <ul>
+      <li>Consider two distribution $p(X), q(X)$: i.e. consider some unknown distribution $p(X)$, and suppose that we have modelled this using an approximating distribution $q(X)$.</li>
+    </ul>
+
+\[\begin{aligned} H(p,q) = -\mathbb{E}_{p}[\log q] = \left\{\begin{aligned} &amp;-\sum_{x}p(x)\ln q(x) \\ &amp;-\int p(x)\ln q(x)dx \end{aligned}\right.  \end{aligned}\]
+  </li>
+  <li>
+    <p><strong>Relative Entropy</strong> or <strong>KL divergence (Kullback-Leibler divergence)</strong> or <strong>Information Gain</strong>: KL divergence is a way of comparing two distributions</p>
+
+    <p>\(\begin{aligned} KL(p\vert\vert q) = H(p,q) - H(p) = \left\{\begin{aligned} &amp; -\sum_{x}p(x)\ln \left(\frac {q(x)}{p(x)}\right) \\ &amp;-\int p(x)\ln \left(\frac {q(x)}{p(x)}\right)dx \end{aligned}\right. \end{aligned}\)</p>
+    <ul>
+      <li>realtion with mutual information:
+  \(\begin{aligned} I(X,Y) = KL\left( p(x,y) \vert\vert p(x)p(y) \right) \end{aligned}\)</li>
+      <li>Attention:
+  \(H(p,q) - H(p) = KL(p\vert\vert q) \neq KL(q\vert\vert p) = H(q,p) - H(q)\)</li>
+    </ul>
+  </li>
 </ul>
 
 
@@ -922,8 +769,8 @@
   <div class="post-meta mb-3">
     <i class="far fa-folder-open fa-fw mr-1"></i>
     
-      <a href='//categories/information-theory/'>Information Theory</a>,
-      <a href='//categories/basic-concept/'>Basic Concept</a>
+      <a href='/categories/information-theory/'>Information Theory</a>,
+      <a href='/categories/basic-concept/'>Basic Concept</a>
   </div>
   
 
@@ -932,7 +779,7 @@
   <div class="post-tags">
     <i class="fa fa-tags fa-fw mr-1"></i>
       
-      <a href="//tags/entropy/"
+      <a href="/tags/entropy/"
           class="post-tag no-text-decoration" >Entropy</a>
       
   </div>
@@ -967,19 +814,19 @@
 
     
       
-        <a href="https://twitter.com/intent/tweet?text=Polynomial Theorem - Candy Note&amp;url=http://0.0.0.0:4000/posts/Information_Theory/" data-toggle="tooltip" data-placement="top"
+        <a href="https://twitter.com/intent/tweet?text=Information Theorem - Candy Note&amp;url=http://0.0.0.0:4000/posts/Information_Theory/" data-toggle="tooltip" data-placement="top"
           title="Twitter" target="_blank" rel="noopener" aria-label="Twitter">
           <i class="fa-fw fab fa-twitter"></i>
         </a>
     
       
-        <a href="https://www.facebook.com/sharer/sharer.php?title=Polynomial Theorem - Candy Note&amp;u=http://0.0.0.0:4000/posts/Information_Theory/" data-toggle="tooltip" data-placement="top"
+        <a href="https://www.facebook.com/sharer/sharer.php?title=Information Theorem - Candy Note&amp;u=http://0.0.0.0:4000/posts/Information_Theory/" data-toggle="tooltip" data-placement="top"
           title="Facebook" target="_blank" rel="noopener" aria-label="Facebook">
           <i class="fa-fw fab fa-facebook-square"></i>
         </a>
     
       
-        <a href="https://t.me/share/url?url=http://0.0.0.0:4000/posts/Information_Theory/&amp;text=Polynomial Theorem - Candy Note" data-toggle="tooltip" data-placement="top"
+        <a href="https://t.me/share/url?url=http://0.0.0.0:4000/posts/Information_Theory/&amp;text=Information Theorem - Candy Note" data-toggle="tooltip" data-placement="top"
           title="Telegram" target="_blank" rel="noopener" aria-label="Telegram">
           <i class="fa-fw fab fa-telegram"></i>
         </a>
@@ -1123,6 +970,10 @@
     
     
     
+      
+        
+        
+
   
     
     
@@ -1203,85 +1054,7 @@
     
     
     
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
+      
     
   
     
@@ -1432,195 +1205,25 @@
     
     
     
+      
+        
+        
+
   
     
     
     
     
+      
+        
+        
+
   
     
     
     
     
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
+      
     
   
     
@@ -1771,6 +1374,10 @@
     
     
     
+      
+        
+        
+
   
     
     
@@ -1781,20 +1388,7 @@
     
     
     
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
+      
     
   
     
@@ -1825,114 +1419,6 @@
     
     
     
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-      
-    
-  
-    
-    
-    
-    
-      
-        
-        
-
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-      
-    
-  
-    
-    
-    
-    
       
     
   
@@ -1950,30 +1436,7 @@
     
     
     
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
+      
     
   
     
@@ -2034,124 +1497,7 @@
     
     
     
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
       
-    
-  
-    
-    
-    
-    
-      
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
     
   
     
@@ -2215,80 +1561,7 @@
     
     
     
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
+      
     
   
     
@@ -2329,53 +1602,6 @@
     
     
     
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-      
-    
-  
-    
-    
-    
-    
       
     
   
@@ -2393,30 +1619,7 @@
     
     
     
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
+      
     
   
     
@@ -2490,126 +1693,6 @@
     
     
     
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
       
     
   
@@ -2621,425 +1704,6 @@
     
     
     
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-      
-        
-        
-
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-      
-    
-  
-    
-    
-    
-    
-      
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-      
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-      
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-      
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-      
-        
-        
-
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-      
-        
-        
-
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-      
     
   
     
@@ -3063,34 +1727,34 @@
 
     
       
-      <a class="post-tag" href="/tags/%E6%95%B0%E5%AD%A6%E5%88%86%E6%9E%90/">数学分析</a>
+      <a class="post-tag" href="/tags/gaussian-distribution/">Gaussian Distribution</a>
     
       
-      <a class="post-tag" href="/tags/%E8%BF%9E%E7%BB%AD%E5%87%BD%E6%95%B0/">连续函数</a>
+      <a class="post-tag" href="/tags/pca/">PCA</a>
     
       
-      <a class="post-tag" href="/tags/eigenvalue/">Eigenvalue</a>
+      <a class="post-tag" href="/tags/em/">EM</a>
     
       
-      <a class="post-tag" href="/tags/eigenvector/">Eigenvector</a>
+      <a class="post-tag" href="/tags/bayesian/">Bayesian</a>
     
       
-      <a class="post-tag" href="/tags/matrix/">Matrix</a>
-    
-      
-      <a class="post-tag" href="/tags/%E5%AF%BC%E6%95%B0/">导数</a>
-    
-      
-      <a class="post-tag" href="/tags/%E6%95%B0%E5%88%97/">数列</a>
-    
-      
-      <a class="post-tag" href="/tags/%E6%97%A0%E7%A9%B7%E5%A4%A7%E9%87%8F/">无穷大量</a>
+      <a class="post-tag" href="/tags/markov-chain/">Markov Chain</a>
     
       
       <a class="post-tag" href="/tags/bernoulli/">Bernoulli</a>
     
       
       <a class="post-tag" href="/tags/binomial/">Binomial</a>
+    
+      
+      <a class="post-tag" href="/tags/gamma-distribution/">Gamma Distribution</a>
+    
+      
+      <a class="post-tag" href="/tags/gmm/">GMM</a>
+    
+      
+      <a class="post-tag" href="/tags/kernel/">Kernel</a>
     
 
     </div>
@@ -3570,436 +2234,85 @@
   
 
   
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
     
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-
   
 
   
@@ -4037,6 +2350,38 @@
 
 
 
+  
+    
+    
+      
+      
+        
+        
+        
+      
+    
+  
+    
+    
+      
+      
+        
+        
+        
+      
+    
+  
+    
+    
+      
+      
+        
+        
+        
+          
+
+
+
 
 
   <div id="related-posts" class="mt-5 mb-2 mb-sm-4">
@@ -4047,7 +2392,7 @@
       
       
       <div class="card">
-        <a href="/posts/some_calculus_concept/">
+        <a href="/posts/dynamic_programming/">
           <div class="card-body">
             <!--
   Date format snippet
@@ -4055,13 +2400,13 @@
 -->
 
 <em class="timeago small"
-    data-ts="1613779200"
+    data-ts="1646092800"
     
     >
-  2021-02-20
+  2022-03-01
 </em>
 
-            <h3 class="pt-0 mt-1 mb-3" data-toc-skip>Some Calculus Concept</h3>
+            <h3 class="pt-0 mt-1 mb-3" data-toc-skip>LeetCode - Dynamic Programming</h3>
             <div class="text-muted small">
               <p>
                 
@@ -4070,13 +2415,54 @@
 
 
 
-                二重积分变量代换公式
+                Dynamic Programming
 
-\[\begin{aligned} \int\int_D f(x,y)dxdy = \int\int_D f(x(u,v), y(u,v))\left\vert \frac{\partial(x,y)}{\partial(u,v)}\right\vert du,dv \end{aligned}\]
+Level Easy
 
-斯特林公式
-
-\[\begin{aligned} n! \appro...
+LeetCode0053 maximum-subarray
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+int LeetCode0053:...
               </p>
             </div>
           </div>
@@ -4086,7 +2472,7 @@
       
       
       <div class="card">
-        <a href="/posts/polynomial_ring/">
+        <a href="/posts/variational_inference/">
           <div class="card-body">
             <!--
   Date format snippet
@@ -4094,13 +2480,13 @@
 -->
 
 <em class="timeago small"
-    data-ts="1613779200"
+    data-ts="1645484400"
     
     >
-  2021-02-20
+  2022-02-21
 </em>
 
-            <h3 class="pt-0 mt-1 mb-3" data-toc-skip>Polynomial Ring</h3>
+            <h3 class="pt-0 mt-1 mb-3" data-toc-skip>Variational Inference</h3>
             <div class="text-muted small">
               <p>
                 
@@ -4109,22 +2495,11 @@
 
 
 
-                多项式环
+                Variational Inference
 
-一元多项式
+In Bayesian Learning, when the involved integrations  are no longer computationally tractable. Then Variational Approximation can be used.
 
-\[a_nx^n + a_{n-1}x^{n-1} + \cdots + + a_1x^1 + a_0\]
-
-
-  
-    数域$F$上所有一元多项式组成的集合记作$F[x]$，在$F[x]$中可以定义加法、乘法运算
-  
-  
-    $F[x]$中可以定义加法、乘法运算的性质：
-
-    
-      一元多项式的加法满足交换律、结合律
-      一元多项式...
+Although there is nothing intrinsi...
               </p>
             </div>
           </div>
@@ -4134,7 +2509,7 @@
       
       
       <div class="card">
-        <a href="/posts/polynomial_theorem/">
+        <a href="/posts/expectation_maximization/">
           <div class="card-body">
             <!--
   Date format snippet
@@ -4142,13 +2517,13 @@
 -->
 
 <em class="timeago small"
-    data-ts="1613779200"
+    data-ts="1645484400"
     
     >
-  2021-02-20
+  2022-02-21
 </em>
 
-            <h3 class="pt-0 mt-1 mb-3" data-toc-skip>Polynomial</h3>
+            <h3 class="pt-0 mt-1 mb-3" data-toc-skip>Expectation Maximization</h3>
             <div class="text-muted small">
               <p>
                 
@@ -4157,19 +2532,13 @@
 
 
 
-                多项式
+                Expectation Maximization
 
-多项式定义
-
-对于函数$p:F\rightarrow F$，若存在$a_0,\cdots,a_m\in F$使得对所有的$x\in F$，都有：
-
-\[p(x) = a_0 + a_1x+a_2x^2+\cdots + a_mx^m\]
-
-则称函数$p$为系数在$F$中的多项式
+EM Lower Bound analysis
 
 
-  多项式的阶数：$\deg p = m$
-  所有等于小于$m$阶多项式的集合（$x\in F$）...
+  
+    The expectation Maximization algorithm, or EM aoglrithm, is a general technique for finding maximum likelihood solutoins for probabilistic...
               </p>
             </div>
           </div>
@@ -4188,16 +2557,16 @@
 
 <div class="post-navigation d-flex justify-content-between">
   
-  <a href="//posts/%E5%AE%9A%E7%A7%AF%E5%88%86%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%80%A7%E8%B4%A8/" class="btn btn-outline-primary"
+  <a href="/posts/bitwise_operator/" class="btn btn-outline-primary"
     prompt="Older">
-    <p>数学分析-定积分的基本性质</p>
+    <p>Bitwise_operator</p>
   </a>
   
 
   
-  <a href="//posts/eigenv_1_eignv_and_invariant_subspace/" class="btn btn-outline-primary"
+  <a href="/posts/bayes_theorem_for_gaussian_variables/" class="btn btn-outline-primary"
     prompt="Newer">
-    <p>Eigenvalue and Eigenvector (1) Eigenvector and Invariant Subspace</p>
+    <p>Bayes' Theorem for Gaussian Variables</p>
   </a>
   
 
@@ -4355,6 +2724,10 @@
     
     
     
+      
+        
+        
+
   
     
     
@@ -4435,85 +2808,7 @@
     
     
     
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
+      
     
   
     
@@ -4664,195 +2959,25 @@
     
     
     
+      
+        
+        
+
   
     
     
     
     
+      
+        
+        
+
   
     
     
     
     
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
+      
     
   
     
@@ -5003,6 +3128,10 @@
     
     
     
+      
+        
+        
+
   
     
     
@@ -5013,20 +3142,7 @@
     
     
     
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
+      
     
   
     
@@ -5057,114 +3173,6 @@
     
     
     
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-      
-    
-  
-    
-    
-    
-    
-      
-        
-        
-
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-      
-    
-  
-    
-    
-    
-    
       
     
   
@@ -5182,30 +3190,7 @@
     
     
     
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
+      
     
   
     
@@ -5266,124 +3251,7 @@
     
     
     
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
       
-    
-  
-    
-    
-    
-    
-      
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
     
   
     
@@ -5447,80 +3315,7 @@
     
     
     
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
+      
     
   
     
@@ -5561,53 +3356,6 @@
     
     
     
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-      
-    
-  
-    
-    
-    
-    
       
     
   
@@ -5625,30 +3373,7 @@
     
     
     
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
+      
     
   
     
@@ -5722,126 +3447,6 @@
     
     
     
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
       
     
   
@@ -5853,425 +3458,6 @@
     
     
     
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-      
-        
-        
-
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-      
-    
-  
-    
-    
-    
-    
-      
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-      
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-      
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-      
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-      
-        
-        
-
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-      
-        
-        
-
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-      
     
   
     
@@ -6295,34 +3481,34 @@
 
     
       
-      <a class="post-tag" href="/tags/%E6%95%B0%E5%AD%A6%E5%88%86%E6%9E%90/">数学分析</a>
+      <a class="post-tag" href="/tags/gaussian-distribution/">Gaussian Distribution</a>
     
       
-      <a class="post-tag" href="/tags/%E8%BF%9E%E7%BB%AD%E5%87%BD%E6%95%B0/">连续函数</a>
+      <a class="post-tag" href="/tags/pca/">PCA</a>
     
       
-      <a class="post-tag" href="/tags/eigenvalue/">Eigenvalue</a>
+      <a class="post-tag" href="/tags/em/">EM</a>
     
       
-      <a class="post-tag" href="/tags/eigenvector/">Eigenvector</a>
+      <a class="post-tag" href="/tags/bayesian/">Bayesian</a>
     
       
-      <a class="post-tag" href="/tags/matrix/">Matrix</a>
-    
-      
-      <a class="post-tag" href="/tags/%E5%AF%BC%E6%95%B0/">导数</a>
-    
-      
-      <a class="post-tag" href="/tags/%E6%95%B0%E5%88%97/">数列</a>
-    
-      
-      <a class="post-tag" href="/tags/%E6%97%A0%E7%A9%B7%E5%A4%A7%E9%87%8F/">无穷大量</a>
+      <a class="post-tag" href="/tags/markov-chain/">Markov Chain</a>
     
       
       <a class="post-tag" href="/tags/bernoulli/">Bernoulli</a>
     
       
       <a class="post-tag" href="/tags/binomial/">Binomial</a>
+    
+      
+      <a class="post-tag" href="/tags/gamma-distribution/">Gamma Distribution</a>
+    
+      
+      <a class="post-tag" href="/tags/gmm/">GMM</a>
+    
+      
+      <a class="post-tag" href="/tags/kernel/">Kernel</a>
     
 
     </div>

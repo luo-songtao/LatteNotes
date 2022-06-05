@@ -1,0 +1,3817 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html lang="en"
+  
+>
+
+  <!--
+  The Head
+-->
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Allow having a localized datetime different from the appearance language -->
+  
+
+  
+
+    
+
+    
+
+  
+
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+<meta name="generator" content="Jekyll v4.2.1" />
+<meta property="og:title" content="Probabilistic Generative Model" />
+<meta name="author" content="luo-songtao" />
+<meta property="og:locale" content="en" />
+<meta name="description" content="Probabilistic Generative Model Model the class-conditional densities $p(x\vert C_k )$, as well as the class priors $p(C_k)$ The posterior probabilities: can obtained through Bayes’ theorem $K = 2$ \[\begin{aligned} p(C_1\vert x) &amp;= \frac {p(x\vert C_1)p(C_1)}{p(x\vert C_1)p(C_1) + p(x\vert C_2)p(C_2)} \\ &amp;= \frac {1}{1+\exp(-a)} \\&amp;= \sigma(a) \\ \\ a &amp;=\ln \frac {p(x\vert C_1)p(C_1)}{p(x\vert C_2)p(C_2)} = \ln \frac {p(C_1\vert x)}{p(C_2\vert x)} \end{aligned}\] $a$ represents the log of the ratio of posterior probabilities for the two classes, also known as the log oggs $\sigma$: logistic sigmoid function $K \ge 2$ \[\begin{aligned} p(C_k\vert x) &amp;= \frac {p(x\vert C_k)p(C_k)}{\sum_j p(x\vert C_j)p(C_j)} \\ &amp;= \frac {\exp(a_k)}{\sum_j \exp(a_j)} \\ \\ a_k &amp;= \ln p(x\vert C_k)p(C_k) \end{aligned}\] Application Continuous inputs Under assumption: share Covariance matrix normally distributed classes we can obtain a probabilistic linear discriminant model \[\begin{aligned} p(\boldsymbol{x} \vert C_k) = \mathcal{N} (\boldsymbol{x}\vert \boldsymbol{\mu}_k, \Sigma) \end{aligned}\] Consider the case of two classes \[\begin{aligned} a = \ln \frac {p(\boldsymbol{x} \vert C_1)p(C_1)}{p(\boldsymbol{x} \vert C_2)p(C_2)} &amp;= \ln \frac {p(\boldsymbol{x} \vert C_1)}{p(\boldsymbol{x} \vert C_2)} + \ln \frac {p(C_1)}{p(C_2)} \\ &amp;= -\frac 12 (\boldsymbol{x}-\boldsymbol{\mu}_1)^T\Sigma^{-1}(\boldsymbol{x}-\boldsymbol{\mu}_1) + \frac 12 (\boldsymbol{x}-\boldsymbol{\mu}_2)^T\Sigma^{-1}(\boldsymbol{x}-\boldsymbol{\mu}_2) + \ln \frac {p(C_1)}{p(C_2)} \\ &amp;= (\boldsymbol{\mu}_1-\boldsymbol{\mu}_2)^T\Sigma^{-1}\boldsymbol{x} -\frac 12 \boldsymbol{\mu}_1\Sigma^{-1}\boldsymbol{\mu}_1 + \frac 12 \boldsymbol{\mu}_2\Sigma^{-1}\boldsymbol{\mu}_2 + \ln \frac {p(C_1)}{p(C_2)} \\ &amp;= \boldsymbol{w}^T\boldsymbol{x} + b \\ \\ \\ \boldsymbol{w} &amp;= \Sigma^{-1}(\boldsymbol{\mu}_1-\boldsymbol{\mu}_2) \\ b &amp;= -\frac 12 \boldsymbol{\mu}_1\Sigma^{-1}\boldsymbol{\mu}_1 + \frac 12 \boldsymbol{\mu}_2\Sigma^{-1}\boldsymbol{\mu}_2 + \ln \frac {p(C_1)}{p(C_2)} \end{aligned}\] Then we have: \[\begin{aligned} p(C_1\vert \boldsymbol{x}) =\sigma(\boldsymbol{w}^T\boldsymbol{x} + b) \end{aligned}\] The number of parameters is $2D + \frac {D^2-D}{2} + D + 1= \frac {D^2 + 5D}{2} + 1$ $\boldsymbol{\mu}_1$、$\boldsymbol{\mu}_2$、$\Sigma$ $p(C_1)$、$p(C_2)$ Consider the case of multiple classes \[\begin{aligned} p(C_k\vert \boldsymbol{x}) &amp;= \frac {p(x\vert C_k)p(C_k)}{\sum_j p(x\vert C_j)p(C_j)} \\ &amp;= \frac {\exp(a_k)}{\sum_j \exp(a_j)} \\ \\ a_k &amp;=\boldsymbol{w}_k^T\boldsymbol{x} + b_k \\ \\ \boldsymbol{w}_k &amp;= \Sigma^{-1}\boldsymbol{\mu}_k \\ b_k &amp;= -\boldsymbol{\mu}_k^T\Sigma^{-1}\boldsymbol{\mu}_k + \ln p(C_k) \end{aligned}\] The number of parameters is $KD + \frac {D^2-D}{2} + D + K-1$ $\boldsymbol{\mu}_k$、$\Sigma$、$p(C_k)$ Maximum Likelihood Estimatation Dataset $\mathcal{D}$ and $\mathbf{t}$, $t_n\in {0,1}$ For case of two classes with gaussian and shared covariance assumption Let $p(C_1) = \pi \in [0,1]$, then $p(C_2) = 1-\pi$ \[\begin{aligned} p(\mathcal{D} \vert \boldsymbol{\theta}) &amp;= \prod_{n=1}^N p(\boldsymbol{x}_n, C_1)^{t_n}p(\boldsymbol{x}_n, C_2)^{1-t_n} \\ &amp;= \prod_{i=1}^N [\pi \mathcal{N}(\boldsymbol{x}_n\mid \boldsymbol{\mu}_1, \Sigma)]^{t_n} [(1-\pi) \mathcal{N}(\boldsymbol{x}_n\mid \boldsymbol{\mu}_2, \Sigma)]^{1-t_n} \end{aligned}\] $\boldsymbol{\theta}$ denotes the parameters set ${ \pi,\boldsymbol{\mu}_1 ,\boldsymbol{\mu}_2 ,\Sigma }$ For case of multiple classes with gaussian and shared covariance assumption Let $p(C_k) = \pi_k$, and $\pi_K = 1- \sum_{k=1}^{K-1} \pi_k$ Let $\mathbf{t}n = (0,…,1,…,0)$, if $C_k = k$, then $t{nk} = t_{n}[k]=1$ else $0$ \[\begin{aligned} p(\mathcal{D}\vert \boldsymbol{\theta}) &amp;= \prod_{n=1}^N\prod_{k}^K [\pi_k p(\boldsymbol{x}_n\vert C_k)]^{t_{nk}} \end{aligned}\] Note: if without the assumption of shared covariance matrix, then this would lead to a quadratic discriminant. And the number of covariance matrix will be $\frac {K(D^2+D)}{2}$ Discrete inputs Without any assumption: \(\begin{aligned} p(x_1,...,x_D) = p(x_1)p(x_2\mid x_1) p(x_3\mid x_1,x_2)...... p(x_D\mid x_1,...,x_{D-1}) \end{aligned}\) if all features are binary, then in a general distribution, there could be $2^D-1$ parameters for each class Naive Bayes assumption: the feature values are treated as independed, conditioned on the class $C_k$ \[\begin{aligned} p(x_1,...,x_D \vert C_k) = \prod_{i=1}^D p(x_i\vert C_k) \end{aligned}\] then number of parameter could be $D$ for binary features. Note: if using naive bayes assumption in continuous inputs with gaussian distribution, this will lead to the covariance matrix to be diagonal, then number of covariance matrix would be $D$ (if also shared), but not $\frac {D^2+D}{2}$ anymore." />
+<meta property="og:description" content="Probabilistic Generative Model Model the class-conditional densities $p(x\vert C_k )$, as well as the class priors $p(C_k)$ The posterior probabilities: can obtained through Bayes’ theorem $K = 2$ \[\begin{aligned} p(C_1\vert x) &amp;= \frac {p(x\vert C_1)p(C_1)}{p(x\vert C_1)p(C_1) + p(x\vert C_2)p(C_2)} \\ &amp;= \frac {1}{1+\exp(-a)} \\&amp;= \sigma(a) \\ \\ a &amp;=\ln \frac {p(x\vert C_1)p(C_1)}{p(x\vert C_2)p(C_2)} = \ln \frac {p(C_1\vert x)}{p(C_2\vert x)} \end{aligned}\] $a$ represents the log of the ratio of posterior probabilities for the two classes, also known as the log oggs $\sigma$: logistic sigmoid function $K \ge 2$ \[\begin{aligned} p(C_k\vert x) &amp;= \frac {p(x\vert C_k)p(C_k)}{\sum_j p(x\vert C_j)p(C_j)} \\ &amp;= \frac {\exp(a_k)}{\sum_j \exp(a_j)} \\ \\ a_k &amp;= \ln p(x\vert C_k)p(C_k) \end{aligned}\] Application Continuous inputs Under assumption: share Covariance matrix normally distributed classes we can obtain a probabilistic linear discriminant model \[\begin{aligned} p(\boldsymbol{x} \vert C_k) = \mathcal{N} (\boldsymbol{x}\vert \boldsymbol{\mu}_k, \Sigma) \end{aligned}\] Consider the case of two classes \[\begin{aligned} a = \ln \frac {p(\boldsymbol{x} \vert C_1)p(C_1)}{p(\boldsymbol{x} \vert C_2)p(C_2)} &amp;= \ln \frac {p(\boldsymbol{x} \vert C_1)}{p(\boldsymbol{x} \vert C_2)} + \ln \frac {p(C_1)}{p(C_2)} \\ &amp;= -\frac 12 (\boldsymbol{x}-\boldsymbol{\mu}_1)^T\Sigma^{-1}(\boldsymbol{x}-\boldsymbol{\mu}_1) + \frac 12 (\boldsymbol{x}-\boldsymbol{\mu}_2)^T\Sigma^{-1}(\boldsymbol{x}-\boldsymbol{\mu}_2) + \ln \frac {p(C_1)}{p(C_2)} \\ &amp;= (\boldsymbol{\mu}_1-\boldsymbol{\mu}_2)^T\Sigma^{-1}\boldsymbol{x} -\frac 12 \boldsymbol{\mu}_1\Sigma^{-1}\boldsymbol{\mu}_1 + \frac 12 \boldsymbol{\mu}_2\Sigma^{-1}\boldsymbol{\mu}_2 + \ln \frac {p(C_1)}{p(C_2)} \\ &amp;= \boldsymbol{w}^T\boldsymbol{x} + b \\ \\ \\ \boldsymbol{w} &amp;= \Sigma^{-1}(\boldsymbol{\mu}_1-\boldsymbol{\mu}_2) \\ b &amp;= -\frac 12 \boldsymbol{\mu}_1\Sigma^{-1}\boldsymbol{\mu}_1 + \frac 12 \boldsymbol{\mu}_2\Sigma^{-1}\boldsymbol{\mu}_2 + \ln \frac {p(C_1)}{p(C_2)} \end{aligned}\] Then we have: \[\begin{aligned} p(C_1\vert \boldsymbol{x}) =\sigma(\boldsymbol{w}^T\boldsymbol{x} + b) \end{aligned}\] The number of parameters is $2D + \frac {D^2-D}{2} + D + 1= \frac {D^2 + 5D}{2} + 1$ $\boldsymbol{\mu}_1$、$\boldsymbol{\mu}_2$、$\Sigma$ $p(C_1)$、$p(C_2)$ Consider the case of multiple classes \[\begin{aligned} p(C_k\vert \boldsymbol{x}) &amp;= \frac {p(x\vert C_k)p(C_k)}{\sum_j p(x\vert C_j)p(C_j)} \\ &amp;= \frac {\exp(a_k)}{\sum_j \exp(a_j)} \\ \\ a_k &amp;=\boldsymbol{w}_k^T\boldsymbol{x} + b_k \\ \\ \boldsymbol{w}_k &amp;= \Sigma^{-1}\boldsymbol{\mu}_k \\ b_k &amp;= -\boldsymbol{\mu}_k^T\Sigma^{-1}\boldsymbol{\mu}_k + \ln p(C_k) \end{aligned}\] The number of parameters is $KD + \frac {D^2-D}{2} + D + K-1$ $\boldsymbol{\mu}_k$、$\Sigma$、$p(C_k)$ Maximum Likelihood Estimatation Dataset $\mathcal{D}$ and $\mathbf{t}$, $t_n\in {0,1}$ For case of two classes with gaussian and shared covariance assumption Let $p(C_1) = \pi \in [0,1]$, then $p(C_2) = 1-\pi$ \[\begin{aligned} p(\mathcal{D} \vert \boldsymbol{\theta}) &amp;= \prod_{n=1}^N p(\boldsymbol{x}_n, C_1)^{t_n}p(\boldsymbol{x}_n, C_2)^{1-t_n} \\ &amp;= \prod_{i=1}^N [\pi \mathcal{N}(\boldsymbol{x}_n\mid \boldsymbol{\mu}_1, \Sigma)]^{t_n} [(1-\pi) \mathcal{N}(\boldsymbol{x}_n\mid \boldsymbol{\mu}_2, \Sigma)]^{1-t_n} \end{aligned}\] $\boldsymbol{\theta}$ denotes the parameters set ${ \pi,\boldsymbol{\mu}_1 ,\boldsymbol{\mu}_2 ,\Sigma }$ For case of multiple classes with gaussian and shared covariance assumption Let $p(C_k) = \pi_k$, and $\pi_K = 1- \sum_{k=1}^{K-1} \pi_k$ Let $\mathbf{t}n = (0,…,1,…,0)$, if $C_k = k$, then $t{nk} = t_{n}[k]=1$ else $0$ \[\begin{aligned} p(\mathcal{D}\vert \boldsymbol{\theta}) &amp;= \prod_{n=1}^N\prod_{k}^K [\pi_k p(\boldsymbol{x}_n\vert C_k)]^{t_{nk}} \end{aligned}\] Note: if without the assumption of shared covariance matrix, then this would lead to a quadratic discriminant. And the number of covariance matrix will be $\frac {K(D^2+D)}{2}$ Discrete inputs Without any assumption: \(\begin{aligned} p(x_1,...,x_D) = p(x_1)p(x_2\mid x_1) p(x_3\mid x_1,x_2)...... p(x_D\mid x_1,...,x_{D-1}) \end{aligned}\) if all features are binary, then in a general distribution, there could be $2^D-1$ parameters for each class Naive Bayes assumption: the feature values are treated as independed, conditioned on the class $C_k$ \[\begin{aligned} p(x_1,...,x_D \vert C_k) = \prod_{i=1}^D p(x_i\vert C_k) \end{aligned}\] then number of parameter could be $D$ for binary features. Note: if using naive bayes assumption in continuous inputs with gaussian distribution, this will lead to the covariance matrix to be diagonal, then number of covariance matrix would be $D$ (if also shared), but not $\frac {D^2+D}{2}$ anymore." />
+<link rel="canonical" href="http://0.0.0.0:4000/posts/probabilistic_generative_models/" />
+<meta property="og:url" content="http://0.0.0.0:4000/posts/probabilistic_generative_models/" />
+<meta property="og:site_name" content="Candy Note" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-02-20T23:00:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Probabilistic Generative Model" />
+<meta name="twitter:site" content="@twitter_username" />
+<meta name="twitter:creator" content="@luo-songtao" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"luo-songtao"},"dateModified":"2022-02-20T23:00:00+00:00","datePublished":"2022-02-20T23:00:00+00:00","description":"Probabilistic Generative Model Model the class-conditional densities $p(x\\vert C_k )$, as well as the class priors $p(C_k)$ The posterior probabilities: can obtained through Bayes’ theorem $K = 2$ \\[\\begin{aligned} p(C_1\\vert x) &amp;= \\frac {p(x\\vert C_1)p(C_1)}{p(x\\vert C_1)p(C_1) + p(x\\vert C_2)p(C_2)} \\\\ &amp;= \\frac {1}{1+\\exp(-a)} \\\\&amp;= \\sigma(a) \\\\ \\\\ a &amp;=\\ln \\frac {p(x\\vert C_1)p(C_1)}{p(x\\vert C_2)p(C_2)} = \\ln \\frac {p(C_1\\vert x)}{p(C_2\\vert x)} \\end{aligned}\\] $a$ represents the log of the ratio of posterior probabilities for the two classes, also known as the log oggs $\\sigma$: logistic sigmoid function $K \\ge 2$ \\[\\begin{aligned} p(C_k\\vert x) &amp;= \\frac {p(x\\vert C_k)p(C_k)}{\\sum_j p(x\\vert C_j)p(C_j)} \\\\ &amp;= \\frac {\\exp(a_k)}{\\sum_j \\exp(a_j)} \\\\ \\\\ a_k &amp;= \\ln p(x\\vert C_k)p(C_k) \\end{aligned}\\] Application Continuous inputs Under assumption: share Covariance matrix normally distributed classes we can obtain a probabilistic linear discriminant model \\[\\begin{aligned} p(\\boldsymbol{x} \\vert C_k) = \\mathcal{N} (\\boldsymbol{x}\\vert \\boldsymbol{\\mu}_k, \\Sigma) \\end{aligned}\\] Consider the case of two classes \\[\\begin{aligned} a = \\ln \\frac {p(\\boldsymbol{x} \\vert C_1)p(C_1)}{p(\\boldsymbol{x} \\vert C_2)p(C_2)} &amp;= \\ln \\frac {p(\\boldsymbol{x} \\vert C_1)}{p(\\boldsymbol{x} \\vert C_2)} + \\ln \\frac {p(C_1)}{p(C_2)} \\\\ &amp;= -\\frac 12 (\\boldsymbol{x}-\\boldsymbol{\\mu}_1)^T\\Sigma^{-1}(\\boldsymbol{x}-\\boldsymbol{\\mu}_1) + \\frac 12 (\\boldsymbol{x}-\\boldsymbol{\\mu}_2)^T\\Sigma^{-1}(\\boldsymbol{x}-\\boldsymbol{\\mu}_2) + \\ln \\frac {p(C_1)}{p(C_2)} \\\\ &amp;= (\\boldsymbol{\\mu}_1-\\boldsymbol{\\mu}_2)^T\\Sigma^{-1}\\boldsymbol{x} -\\frac 12 \\boldsymbol{\\mu}_1\\Sigma^{-1}\\boldsymbol{\\mu}_1 + \\frac 12 \\boldsymbol{\\mu}_2\\Sigma^{-1}\\boldsymbol{\\mu}_2 + \\ln \\frac {p(C_1)}{p(C_2)} \\\\ &amp;= \\boldsymbol{w}^T\\boldsymbol{x} + b \\\\ \\\\ \\\\ \\boldsymbol{w} &amp;= \\Sigma^{-1}(\\boldsymbol{\\mu}_1-\\boldsymbol{\\mu}_2) \\\\ b &amp;= -\\frac 12 \\boldsymbol{\\mu}_1\\Sigma^{-1}\\boldsymbol{\\mu}_1 + \\frac 12 \\boldsymbol{\\mu}_2\\Sigma^{-1}\\boldsymbol{\\mu}_2 + \\ln \\frac {p(C_1)}{p(C_2)} \\end{aligned}\\] Then we have: \\[\\begin{aligned} p(C_1\\vert \\boldsymbol{x}) =\\sigma(\\boldsymbol{w}^T\\boldsymbol{x} + b) \\end{aligned}\\] The number of parameters is $2D + \\frac {D^2-D}{2} + D + 1= \\frac {D^2 + 5D}{2} + 1$ $\\boldsymbol{\\mu}_1$、$\\boldsymbol{\\mu}_2$、$\\Sigma$ $p(C_1)$、$p(C_2)$ Consider the case of multiple classes \\[\\begin{aligned} p(C_k\\vert \\boldsymbol{x}) &amp;= \\frac {p(x\\vert C_k)p(C_k)}{\\sum_j p(x\\vert C_j)p(C_j)} \\\\ &amp;= \\frac {\\exp(a_k)}{\\sum_j \\exp(a_j)} \\\\ \\\\ a_k &amp;=\\boldsymbol{w}_k^T\\boldsymbol{x} + b_k \\\\ \\\\ \\boldsymbol{w}_k &amp;= \\Sigma^{-1}\\boldsymbol{\\mu}_k \\\\ b_k &amp;= -\\boldsymbol{\\mu}_k^T\\Sigma^{-1}\\boldsymbol{\\mu}_k + \\ln p(C_k) \\end{aligned}\\] The number of parameters is $KD + \\frac {D^2-D}{2} + D + K-1$ $\\boldsymbol{\\mu}_k$、$\\Sigma$、$p(C_k)$ Maximum Likelihood Estimatation Dataset $\\mathcal{D}$ and $\\mathbf{t}$, $t_n\\in {0,1}$ For case of two classes with gaussian and shared covariance assumption Let $p(C_1) = \\pi \\in [0,1]$, then $p(C_2) = 1-\\pi$ \\[\\begin{aligned} p(\\mathcal{D} \\vert \\boldsymbol{\\theta}) &amp;= \\prod_{n=1}^N p(\\boldsymbol{x}_n, C_1)^{t_n}p(\\boldsymbol{x}_n, C_2)^{1-t_n} \\\\ &amp;= \\prod_{i=1}^N [\\pi \\mathcal{N}(\\boldsymbol{x}_n\\mid \\boldsymbol{\\mu}_1, \\Sigma)]^{t_n} [(1-\\pi) \\mathcal{N}(\\boldsymbol{x}_n\\mid \\boldsymbol{\\mu}_2, \\Sigma)]^{1-t_n} \\end{aligned}\\] $\\boldsymbol{\\theta}$ denotes the parameters set ${ \\pi,\\boldsymbol{\\mu}_1 ,\\boldsymbol{\\mu}_2 ,\\Sigma }$ For case of multiple classes with gaussian and shared covariance assumption Let $p(C_k) = \\pi_k$, and $\\pi_K = 1- \\sum_{k=1}^{K-1} \\pi_k$ Let $\\mathbf{t}n = (0,…,1,…,0)$, if $C_k = k$, then $t{nk} = t_{n}[k]=1$ else $0$ \\[\\begin{aligned} p(\\mathcal{D}\\vert \\boldsymbol{\\theta}) &amp;= \\prod_{n=1}^N\\prod_{k}^K [\\pi_k p(\\boldsymbol{x}_n\\vert C_k)]^{t_{nk}} \\end{aligned}\\] Note: if without the assumption of shared covariance matrix, then this would lead to a quadratic discriminant. And the number of covariance matrix will be $\\frac {K(D^2+D)}{2}$ Discrete inputs Without any assumption: \\(\\begin{aligned} p(x_1,...,x_D) = p(x_1)p(x_2\\mid x_1) p(x_3\\mid x_1,x_2)...... p(x_D\\mid x_1,...,x_{D-1}) \\end{aligned}\\) if all features are binary, then in a general distribution, there could be $2^D-1$ parameters for each class Naive Bayes assumption: the feature values are treated as independed, conditioned on the class $C_k$ \\[\\begin{aligned} p(x_1,...,x_D \\vert C_k) = \\prod_{i=1}^D p(x_i\\vert C_k) \\end{aligned}\\] then number of parameter could be $D$ for binary features. Note: if using naive bayes assumption in continuous inputs with gaussian distribution, this will lead to the covariance matrix to be diagonal, then number of covariance matrix would be $D$ (if also shared), but not $\\frac {D^2+D}{2}$ anymore.","headline":"Probabilistic Generative Model","mainEntityOfPage":{"@type":"WebPage","@id":"http://0.0.0.0:4000/posts/probabilistic_generative_models/"},"url":"http://0.0.0.0:4000/posts/probabilistic_generative_models/"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+  <title>Probabilistic Generative Model | Candy Note
+  </title>
+
+  <!--
+  The Favicons for Web, Android, Microsoft, and iOS (iPhone and iPad) Apps
+  Generated by: https://realfavicongenerator.net/
+-->
+
+
+
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/img/favicons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicons/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicons/favicon-16x16.png">
+<link rel="manifest" href="/assets/img/favicons/site.webmanifest">
+<link rel="shortcut icon" href="/assets/img/favicons/favicon.ico">
+<meta name="apple-mobile-web-app-title" content="Candy Note">
+<meta name="application-name" content="Candy Note">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="msapplication-config" content="/assets/img/favicons/browserconfig.xml">
+<meta name="theme-color" content="#ffffff">
+
+
+  
+
+    
+      <link rel="preconnect" href="https://fonts.googleapis.com" >
+      <link rel="dns-prefetch" href="https://fonts.googleapis.com" >
+    
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+      <link rel="dns-prefetch" href="https://fonts.gstatic.com" crossorigin>
+    
+      <link rel="preconnect" href="https://fonts.googleapis.com" >
+      <link rel="dns-prefetch" href="https://fonts.googleapis.com" >
+    
+      <link rel="preconnect" href="https://cdn.jsdelivr.net" >
+      <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" >
+    
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato&family=Source+Sans+Pro:wght@400;600;700;900&display=swap">
+
+  
+
+  <!-- GA -->
+  
+
+  <!-- Bootstrap -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.11.2/css/all.min.css">
+
+  <link rel="stylesheet" href="/assets/css/style.css">
+
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@1.0.1/dist/bootstrap-toc.min.css">
+  
+
+  
+    <!-- Manific Popup -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/magnific-popup@1/dist/magnific-popup.min.css">
+  
+
+  <!-- JavaScript -->
+
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+
+</head>
+
+
+  
+    <!--
+  Switch the mode between dark and light.
+-->
+
+<script type="text/javascript">
+  class ModeToggle {
+    static get MODE_KEY() { return "mode"; }
+    static get MODE_ATTR() { return "data-mode"; }
+    static get DARK_MODE() { return "dark"; }
+    static get LIGHT_MODE() { return "light"; }
+    static get ID() { return "mode-toggle"; }
+
+    constructor() {
+      if (this.hasMode) {
+        if (this.isDarkMode) {
+          if (!this.isSysDarkPrefer) {
+            this.setDark();
+          }
+        } else {
+          if (this.isSysDarkPrefer) {
+            this.setLight();
+          }
+        }
+      }
+
+      let self = this;
+
+      /* always follow the system prefers */
+      this.sysDarkPrefers.addEventListener("change", () => {
+        if (self.hasMode) {
+          if (self.isDarkMode) {
+            if (!self.isSysDarkPrefer) {
+              self.setDark();
+            }
+
+          } else {
+            if (self.isSysDarkPrefer) {
+              self.setLight();
+            }
+          }
+
+          self.clearMode();
+        }
+
+        self.notify();
+
+      });
+
+    } /* constructor() */
+
+    get sysDarkPrefers() { return window.matchMedia("(prefers-color-scheme: dark)"); }
+
+    get isSysDarkPrefer() { return this.sysDarkPrefers.matches; }
+
+    get isDarkMode() { return this.mode === ModeToggle.DARK_MODE; }
+
+    get isLightMode() { return this.mode === ModeToggle.LIGHT_MODE; }
+
+    get hasMode() { return this.mode != null; }
+
+    get mode() { return sessionStorage.getItem(ModeToggle.MODE_KEY); }
+
+    /* get the current mode on screen */
+    get modeStatus() {
+      if (this.isDarkMode
+        || (!this.hasMode && this.isSysDarkPrefer)) {
+        return ModeToggle.DARK_MODE;
+      } else {
+        return ModeToggle.LIGHT_MODE;
+      }
+    }
+
+    setDark() {
+      $('html').attr(ModeToggle.MODE_ATTR, ModeToggle.DARK_MODE);
+      sessionStorage.setItem(ModeToggle.MODE_KEY, ModeToggle.DARK_MODE);
+    }
+
+    setLight() {
+      $('html').attr(ModeToggle.MODE_ATTR, ModeToggle.LIGHT_MODE);
+      sessionStorage.setItem(ModeToggle.MODE_KEY, ModeToggle.LIGHT_MODE);
+    }
+
+    clearMode() {
+      $('html').removeAttr(ModeToggle.MODE_ATTR);
+      sessionStorage.removeItem(ModeToggle.MODE_KEY);
+    }
+
+    /* Notify another plugins that the theme mode has changed */
+    notify() {
+      window.postMessage({
+        direction: ModeToggle.ID,
+        message: this.modeStatus
+      }, "*");
+    }
+
+  } /* ModeToggle */
+
+  const toggle = new ModeToggle();
+
+  function flipMode() {
+    if (toggle.hasMode) {
+      if (toggle.isSysDarkPrefer) {
+        if (toggle.isLightMode) {
+          toggle.clearMode();
+        } else {
+          toggle.setLight();
+        }
+
+      } else {
+        if (toggle.isDarkMode) {
+          toggle.clearMode();
+        } else {
+          toggle.setDark();
+        }
+      }
+
+    } else {
+      if (toggle.isSysDarkPrefer) {
+        toggle.setLight();
+      } else {
+        toggle.setDark();
+      }
+    }
+
+    toggle.notify();
+
+  } /* flipMode() */
+
+</script>
+
+  
+
+  <body data-spy="scroll" data-target="#toc" data-topbar-visible="true">
+
+    <!--
+  The Side Bar
+-->
+
+<div id="sidebar" class="d-flex flex-column align-items-end">
+  <div class="profile-wrapper text-center">
+    <div id="avatar">
+      <a href="/" alt="avatar" class="mx-auto">
+        
+          
+          <img src="
+            
+              /assets/img/head.jpg
+            
+          " alt="avatar" onerror="this.style.display='none'">
+        
+      </a>
+    </div>
+
+    <div class="site-title mt-3">
+      <a href="/">Candy Note</a>
+    </div>
+    <div class="site-subtitle font-italic">Personal Notes</div>
+
+  </div><!-- .profile-wrapper -->
+
+  <ul class="w-100">
+
+    <!-- home -->
+    <li class="nav-item">
+      <a href="/" class="nav-link">
+        <i class="fa-fw fas fa-home ml-xl-3 mr-xl-3 unloaded"></i>
+        <span>HOME</span>
+      </a>
+    </li>
+    <!-- the real tabs -->
+    
+    <li class="nav-item">
+      <a href="/categories/" class="nav-link">
+        <i class="fa-fw fas fa-stream ml-xl-3 mr-xl-3 unloaded"></i>
+        
+
+        <span>CATEGORIES</span>
+      </a>
+    </li> <!-- .nav-item -->
+    
+    <li class="nav-item">
+      <a href="/tags/" class="nav-link">
+        <i class="fa-fw fas fa-tag ml-xl-3 mr-xl-3 unloaded"></i>
+        
+
+        <span>TAGS</span>
+      </a>
+    </li> <!-- .nav-item -->
+    
+    <li class="nav-item">
+      <a href="/archives/" class="nav-link">
+        <i class="fa-fw fas fa-archive ml-xl-3 mr-xl-3 unloaded"></i>
+        
+
+        <span>ARCHIVES</span>
+      </a>
+    </li> <!-- .nav-item -->
+    
+    <li class="nav-item">
+      <a href="/about/" class="nav-link">
+        <i class="fa-fw fas fa-info-circle ml-xl-3 mr-xl-3 unloaded"></i>
+        
+
+        <span>ABOUT</span>
+      </a>
+    </li> <!-- .nav-item -->
+    
+
+  </ul> <!-- ul.nav.flex-column -->
+
+  <div class="sidebar-bottom mt-auto d-flex flex-wrap justify-content-center align-items-center">
+
+    
+      <button class="mode-toggle btn" aria-label="Switch Mode">
+        <i class="fas fa-adjust"></i>
+      </button>
+
+      
+        <span class="icon-border"></span>
+      
+    
+
+    
+      
+
+      
+      <a href="https://github.com/github_username" aria-label="github"
+        target="_blank" rel="noopener">
+        <i class="fab fa-github"></i>
+      </a>
+      
+
+    
+      
+
+      
+      <a href="https://twitter.com/twitter_username" aria-label="twitter"
+        target="_blank" rel="noopener">
+        <i class="fab fa-twitter"></i>
+      </a>
+      
+
+    
+      
+
+      
+      <a href="
+          javascript:location.href = 'mailto:' + ['ryomawithlst','gmail.com'].join('@')" aria-label="email"
+        >
+        <i class="fas fa-envelope"></i>
+      </a>
+      
+
+    
+      
+
+      
+      <a href="/feed.xml" aria-label="rss"
+        >
+        <i class="fas fa-rss"></i>
+      </a>
+      
+
+    
+
+  </div> <!-- .sidebar-bottom -->
+
+</div><!-- #sidebar -->
+
+
+    <!--
+  The Top Bar
+-->
+
+<div id="topbar-wrapper" class="row justify-content-center">
+  <div id="topbar" class="col-11 d-flex h-100 align-items-center justify-content-between">
+    <span id="breadcrumb">
+
+    
+
+    
+
+      
+
+        
+          <span>
+            <a href="/">
+              Home
+            </a>
+          </span>
+
+        
+
+      
+
+        
+
+      
+
+        
+
+          
+            <span>Probabilistic Generative Model</span>
+          
+
+        
+
+      
+
+    
+
+    </span><!-- endof #breadcrumb -->
+
+    <i id="sidebar-trigger" class="fas fa-bars fa-fw"></i>
+
+    <div id="topbar-title">
+      Post
+    </div>
+
+    <i id="search-trigger" class="fas fa-search fa-fw"></i>
+    <span id="search-wrapper" class="align-items-center">
+      <i class="fas fa-search fa-fw"></i>
+      <input class="form-control" id="search-input" type="search"
+        aria-label="search" autocomplete="off" placeholder="Search...">
+    </span>
+    <span id="search-cancel" >Cancel</span>
+  </div>
+
+</div>
+
+
+    <div id="main-wrapper">
+      <div id="main">
+
+        
+
+
+
+
+
+
+
+
+
+<div class="row">
+
+  <!-- core -->
+  <div id="core-wrapper" class="col-12 col-lg-11 col-xl-8">
+    <div class="post pl-1 pr-1 pl-sm-2 pr-sm-2 pl-md-4 pr-md-4">
+
+    
+
+    
+      
+      
+        <!--
+  Refactor the HTML structure.
+-->
+
+
+
+<!--
+  In order to allow a wide table to scroll horizontally,
+  we suround the markdown table with `<div class="table-wrapper">` and `</div>`
+-->
+
+
+
+<!--
+  Fixed kramdown code highlight rendering:
+  https://github.com/penibelst/jekyll-compress-html/issues/101
+  https://github.com/penibelst/jekyll-compress-html/issues/71#issuecomment-188144901
+-->
+
+
+
+<!-- Add attribute 'hide-bullet' to the checkbox list -->
+
+
+
+<!-- images -->
+
+
+
+
+
+<!-- Add header for code snippets -->
+
+
+
+<!-- Create heading anchors -->
+
+
+
+
+
+  
+  
+
+  
+    
+    
+
+    
+      
+        
+        
+      
+
+      
+      
+
+      
+      
+      
+
+      
+
+    
+
+    
+
+  
+
+  
+  
+
+  
+    
+    
+
+    
+      
+        
+        
+      
+
+      
+      
+
+      
+      
+      
+
+      
+
+    
+
+    
+
+  
+
+  
+  
+
+  
+    
+    
+
+    
+      
+        
+        
+      
+
+      
+      
+
+      
+      
+      
+
+      
+
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+
+    
+
+    
+
+  
+
+  
+  
+
+  
+
+
+
+
+<!-- Wrap prompt element of blockquote with the <div> tag -->
+
+
+
+
+
+
+
+<!-- return -->
+
+
+
+
+
+
+
+<h1 data-toc-skip>Probabilistic Generative Model</h1>
+
+<div class="post-meta text-muted">
+
+  <!-- author -->
+  <div>
+    
+    
+
+    
+
+    By
+    <em>
+      
+        <a href="https://github.com/luo-songtao">luo-songtao</a>
+      
+    </em>
+  </div>
+
+  <div class="d-flex">
+    <div>
+      <!-- published date -->
+      <span>
+        Posted
+        <!--
+  Date format snippet
+  See: ${JS_ROOT}/utils/timeago.js
+-->
+
+<em class="timeago"
+    data-ts="1645398000"
+    
+      data-toggle="tooltip" data-placement="bottom" data-tooltip-df="llll"
+    
+    >
+  2022-02-20
+</em>
+
+      </span>
+
+      <!-- lastmod date -->
+      
+
+      <!-- read time -->
+      <!--
+  Calculate the post's reading time, and display the word count in tooltip
+ -->
+
+
+
+<!-- words per minute  -->
+
+
+
+
+
+
+
+
+
+
+<!-- return element -->
+<span class="readtime" data-toggle="tooltip" data-placement="bottom"
+  title="540 words">
+  <em>3 min</em> read</span>
+
+
+      <!-- page views -->
+      
+    </div>
+
+  </div> <!-- .d-flex -->
+
+</div> <!-- .post-meta -->
+
+<div class="post-content">
+  <h2 id="probabilistic-generative-model"><span class="mr-2">Probabilistic Generative Model</span><a href="#probabilistic-generative-model" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2></h2>
+
+<ul>
+  <li>
+    <p>Model the class-conditional densities $p(x\vert C_k )$, as well as the class priors $p(C_k)$</p>
+  </li>
+  <li>
+    <p>The posterior probabilities: can obtained through Bayes’ theorem</p>
+  </li>
+  <li>
+    <p>$K = 2$</p>
+
+\[\begin{aligned} p(C_1\vert x) &amp;= \frac {p(x\vert C_1)p(C_1)}{p(x\vert C_1)p(C_1) + p(x\vert C_2)p(C_2)} \\ &amp;= \frac {1}{1+\exp(-a)} \\&amp;= \sigma(a) \\ \\ a &amp;=\ln \frac {p(x\vert C_1)p(C_1)}{p(x\vert C_2)p(C_2)} = \ln \frac {p(C_1\vert x)}{p(C_2\vert x)} \end{aligned}\]
+
+    <ul>
+      <li>$a$ represents the log of the ratio of posterior probabilities for the two classes, also known as the <strong>log oggs</strong></li>
+      <li>$\sigma$: <strong>logistic sigmoid</strong> function</li>
+    </ul>
+  </li>
+  <li>
+    <p>$K \ge 2$</p>
+
+\[\begin{aligned} p(C_k\vert x) &amp;= \frac {p(x\vert C_k)p(C_k)}{\sum_j p(x\vert C_j)p(C_j)} \\ &amp;= \frac {\exp(a_k)}{\sum_j \exp(a_j)} \\ \\ a_k &amp;= \ln p(x\vert C_k)p(C_k) \end{aligned}\]
+  </li>
+</ul>
+
+<h3 id="application"><span class="mr-2">Application</span><a href="#application" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3></h3>
+
+<h4 id="continuous-inputs"><span class="mr-2">Continuous inputs</span><a href="#continuous-inputs" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h4></h4>
+
+<ul>
+  <li>Under assumption:
+    <ul>
+      <li>share Covariance matrix</li>
+      <li>normally distributed classes</li>
+    </ul>
+  </li>
+  <li>
+    <p>we can obtain a probabilistic linear discriminant model</p>
+
+\[\begin{aligned} p(\boldsymbol{x} \vert C_k) = \mathcal{N} (\boldsymbol{x}\vert \boldsymbol{\mu}_k, \Sigma) \end{aligned}\]
+
+    <ul>
+      <li>
+        <p>Consider the case of two classes</p>
+
+\[\begin{aligned} a =  \ln \frac {p(\boldsymbol{x} \vert C_1)p(C_1)}{p(\boldsymbol{x} \vert C_2)p(C_2)} &amp;= \ln \frac {p(\boldsymbol{x} \vert C_1)}{p(\boldsymbol{x} \vert C_2)} + \ln \frac {p(C_1)}{p(C_2)} \\ &amp;= -\frac 12 (\boldsymbol{x}-\boldsymbol{\mu}_1)^T\Sigma^{-1}(\boldsymbol{x}-\boldsymbol{\mu}_1) + \frac 12 (\boldsymbol{x}-\boldsymbol{\mu}_2)^T\Sigma^{-1}(\boldsymbol{x}-\boldsymbol{\mu}_2) + \ln \frac {p(C_1)}{p(C_2)} \\ &amp;= (\boldsymbol{\mu}_1-\boldsymbol{\mu}_2)^T\Sigma^{-1}\boldsymbol{x} -\frac 12 \boldsymbol{\mu}_1\Sigma^{-1}\boldsymbol{\mu}_1 + \frac 12 \boldsymbol{\mu}_2\Sigma^{-1}\boldsymbol{\mu}_2 + \ln \frac {p(C_1)}{p(C_2)} \\ &amp;= \boldsymbol{w}^T\boldsymbol{x} + b \\ \\ \\ \boldsymbol{w} &amp;=  \Sigma^{-1}(\boldsymbol{\mu}_1-\boldsymbol{\mu}_2) \\ b &amp;= -\frac 12 \boldsymbol{\mu}_1\Sigma^{-1}\boldsymbol{\mu}_1 + \frac 12 \boldsymbol{\mu}_2\Sigma^{-1}\boldsymbol{\mu}_2 + \ln \frac {p(C_1)}{p(C_2)} \end{aligned}\]
+
+        <ul>
+          <li>
+            <p>Then we have:</p>
+
+\[\begin{aligned} p(C_1\vert \boldsymbol{x}) =\sigma(\boldsymbol{w}^T\boldsymbol{x} + b) \end{aligned}\]
+          </li>
+          <li>
+            <p>The number of parameters is $2D + \frac {D^2-D}{2} + D + 1= \frac {D^2 + 5D}{2} + 1$</p>
+            <ul>
+              <li>$\boldsymbol{\mu}_1$、$\boldsymbol{\mu}_2$、$\Sigma$</li>
+              <li>$p(C_1)$、$p(C_2)$</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <p>Consider the case of multiple classes</p>
+
+\[\begin{aligned} p(C_k\vert \boldsymbol{x}) &amp;=  \frac {p(x\vert C_k)p(C_k)}{\sum_j p(x\vert C_j)p(C_j)} \\ &amp;= \frac {\exp(a_k)}{\sum_j \exp(a_j)} \\ \\ a_k &amp;=\boldsymbol{w}_k^T\boldsymbol{x} + b_k \\ \\ \boldsymbol{w}_k &amp;= \Sigma^{-1}\boldsymbol{\mu}_k \\ b_k &amp;= -\boldsymbol{\mu}_k^T\Sigma^{-1}\boldsymbol{\mu}_k + \ln p(C_k) \end{aligned}\]
+
+        <ul>
+          <li>The number of parameters is $KD + \frac {D^2-D}{2} + D + K-1$
+            <ul>
+              <li>$\boldsymbol{\mu}_k$、$\Sigma$、$p(C_k)$</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>Maximum Likelihood Estimatation</p>
+
+    <ul>
+      <li>
+        <p>Dataset $\mathcal{D}$ and $\mathbf{t}$, $t_n\in {0,1}$</p>
+      </li>
+      <li>For case of two classes with gaussian and shared covariance assumption
+        <ul>
+          <li>Let $p(C_1) = \pi \in [0,1]$, then $p(C_2) = 1-\pi$</li>
+        </ul>
+
+\[\begin{aligned} p(\mathcal{D} \vert \boldsymbol{\theta}) &amp;= \prod_{n=1}^N p(\boldsymbol{x}_n, C_1)^{t_n}p(\boldsymbol{x}_n, C_2)^{1-t_n} \\ &amp;= \prod_{i=1}^N [\pi \mathcal{N}(\boldsymbol{x}_n\mid \boldsymbol{\mu}_1, \Sigma)]^{t_n} [(1-\pi) \mathcal{N}(\boldsymbol{x}_n\mid \boldsymbol{\mu}_2, \Sigma)]^{1-t_n} \end{aligned}\]
+
+        <ul>
+          <li>$\boldsymbol{\theta}$ denotes the parameters set ${ \pi,\boldsymbol{\mu}_1 ,\boldsymbol{\mu}_2 ,\Sigma }$</li>
+        </ul>
+      </li>
+      <li>For case of multiple classes with gaussian and shared covariance assumption
+        <ul>
+          <li>Let $p(C_k) = \pi_k$, and $\pi_K = 1- \sum_{k=1}^{K-1} \pi_k$</li>
+          <li>
+            <p>Let $\mathbf{t}<em>n = (0,…,1,…,0)$, if $C_k = k$, then $t</em>{nk} = t_{n}[k]=1$ else $0$</p>
+
+\[\begin{aligned} p(\mathcal{D}\vert \boldsymbol{\theta}) &amp;= \prod_{n=1}^N\prod_{k}^K [\pi_k p(\boldsymbol{x}_n\vert C_k)]^{t_{nk}}   \end{aligned}\]
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Note: if without the assumption of shared covariance matrix, then this would lead to a quadratic discriminant. And the number of covariance matrix will be $\frac {K(D^2+D)}{2}$</li>
+</ul>
+
+<h4 id="discrete-inputs"><span class="mr-2">Discrete inputs</span><a href="#discrete-inputs" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h4></h4>
+
+<ul>
+  <li>
+    <p>Without any assumption:</p>
+
+    <p>\(\begin{aligned} p(x_1,...,x_D) = p(x_1)p(x_2\mid x_1) p(x_3\mid x_1,x_2)...... p(x_D\mid x_1,...,x_{D-1})  \end{aligned}\)</p>
+    <ul>
+      <li>if all features are binary, then in a general distribution, there could be $2^D-1$ parameters for each class</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>Naive Bayes assumption</strong>: the feature values are treated as independed, conditioned on the class $C_k$</p>
+
+\[\begin{aligned} p(x_1,...,x_D \vert C_k) = \prod_{i=1}^D p(x_i\vert C_k) \end{aligned}\]
+
+    <ul>
+      <li>then number of parameter could be $D$ for binary features.</li>
+    </ul>
+  </li>
+  <li>
+    <p>Note: if using naive bayes assumption in continuous inputs with gaussian distribution, this will lead to the covariance matrix to be diagonal, then number of covariance matrix would be $D$ (if also shared), but not $\frac {D^2+D}{2}$ anymore.</p>
+  </li>
+</ul>
+
+
+</div>
+
+<div class="post-tail-wrapper text-muted">
+
+  <!-- categories -->
+  
+  <div class="post-meta mb-3">
+    <i class="far fa-folder-open fa-fw mr-1"></i>
+    
+      <a href='/categories/machine-learning/'>Machine Learning</a>,
+      <a href='/categories/generative-model/'>Generative Model</a>
+  </div>
+  
+
+  <!-- tags -->
+  
+  <div class="post-tags">
+    <i class="fa fa-tags fa-fw mr-1"></i>
+      
+      <a href="/tags/logit-softmax/"
+          class="post-tag no-text-decoration" >Logit，Softmax</a>
+      
+      <a href="/tags/naive-bayes/"
+          class="post-tag no-text-decoration" >Naive Bayes</a>
+      
+  </div>
+  
+
+  <div class="post-tail-bottom
+    d-flex justify-content-between align-items-center mt-3 pt-5 pb-2">
+    <div class="license-wrapper">
+
+      
+
+        
+
+        This post is licensed under 
+        <a href="https://creativecommons.org/licenses/by/4.0/">
+          CC BY 4.0
+        </a>
+         by the author.
+
+      
+    </div>
+
+    <!--
+ Post sharing snippet
+-->
+
+<div class="share-wrapper">
+  <span class="share-label text-muted mr-1">Share</span>
+  <span class="share-icons">
+    
+    
+
+    
+      
+        <a href="https://twitter.com/intent/tweet?text=Probabilistic Generative Model - Candy Note&amp;url=http://0.0.0.0:4000/posts/probabilistic_generative_models/" data-toggle="tooltip" data-placement="top"
+          title="Twitter" target="_blank" rel="noopener" aria-label="Twitter">
+          <i class="fa-fw fab fa-twitter"></i>
+        </a>
+    
+      
+        <a href="https://www.facebook.com/sharer/sharer.php?title=Probabilistic Generative Model - Candy Note&amp;u=http://0.0.0.0:4000/posts/probabilistic_generative_models/" data-toggle="tooltip" data-placement="top"
+          title="Facebook" target="_blank" rel="noopener" aria-label="Facebook">
+          <i class="fa-fw fab fa-facebook-square"></i>
+        </a>
+    
+      
+        <a href="https://t.me/share/url?url=http://0.0.0.0:4000/posts/probabilistic_generative_models/&amp;text=Probabilistic Generative Model - Candy Note" data-toggle="tooltip" data-placement="top"
+          title="Telegram" target="_blank" rel="noopener" aria-label="Telegram">
+          <i class="fa-fw fab fa-telegram"></i>
+        </a>
+    
+
+    <i id="copy-link" class="fa-fw fas fa-link small"
+        data-toggle="tooltip" data-placement="top"
+        title="Copy link"
+        data-title-succeed="Link copied successfully!">
+    </i>
+
+  </span>
+</div>
+
+
+  </div><!-- .post-tail-bottom -->
+
+</div><!-- div.post-tail-wrapper -->
+
+
+      
+    
+    
+
+    </div>
+  </div> <!-- #core-wrapper -->
+
+  <!-- pannel -->
+  <div id="panel-wrapper" class="col-xl-3 pl-2 text-muted">
+
+    <div class="access">
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+
+
+  <div id="access-tags">
+    <div class="panel-heading">Trending Tags</div>
+    <div class="d-flex flex-wrap mt-3 mb-1 mr-3">
+
+    
+      
+      <a class="post-tag" href="/tags/gaussian-distribution/">Gaussian Distribution</a>
+    
+      
+      <a class="post-tag" href="/tags/pca/">PCA</a>
+    
+      
+      <a class="post-tag" href="/tags/em/">EM</a>
+    
+      
+      <a class="post-tag" href="/tags/bayesian/">Bayesian</a>
+    
+      
+      <a class="post-tag" href="/tags/markov-chain/">Markov Chain</a>
+    
+      
+      <a class="post-tag" href="/tags/bernoulli/">Bernoulli</a>
+    
+      
+      <a class="post-tag" href="/tags/binomial/">Binomial</a>
+    
+      
+      <a class="post-tag" href="/tags/gamma-distribution/">Gamma Distribution</a>
+    
+      
+      <a class="post-tag" href="/tags/gmm/">GMM</a>
+    
+      
+      <a class="post-tag" href="/tags/kernel/">Kernel</a>
+    
+
+    </div>
+  </div>
+
+
+    </div>
+
+    
+      
+      
+
+
+
+<!-- BS-toc.js will be loaded at medium priority -->
+<script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@1.0.1/dist/bootstrap-toc.min.js"></script>
+
+<div id="toc-wrapper" class="pl-0 pr-4 mb-5">
+  <div class="panel-heading pl-3 pt-2 mb-2">Contents</div>
+  <nav id="toc" data-toggle="toc"></nav>
+</div>
+
+
+    
+  </div>
+
+</div>
+
+<!-- tail -->
+
+<div class="row">
+  <div class="col-12 col-lg-11 col-xl-8">
+    <div id="tail-wrapper" class="pl-1 pr-1 pl-sm-2 pr-sm-2 pl-md-4 pr-md-4">
+      
+        
+        <!--
+ Recommend the other 3 posts according to the tags and categories of the current post,
+ if the number is not enough, use the other latest posts to supplement.
+-->
+
+<!-- The total size of related posts  -->
+
+
+<!-- An random integer that bigger than 0  -->
+
+
+<!-- Equals to TAG_SCORE / {max_categories_hierarchy}  -->
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+
+
+
+<!-- Fill with the other newlest posts  -->
+
+
+
+
+
+
+  <div id="related-posts" class="mt-5 mb-2 mb-sm-4">
+    <h3 class="pt-2 mt-1 mb-4 ml-1"
+      data-toc-skip>Further Reading</h3>
+    <div class="card-deck mb-4">
+    
+      
+      
+      <div class="card">
+        <a href="/posts/probabilistic_discriminative_model/">
+          <div class="card-body">
+            <!--
+  Date format snippet
+  See: ${JS_ROOT}/utils/timeago.js
+-->
+
+<em class="timeago small"
+    data-ts="1645398000"
+    
+    >
+  2022-02-20
+</em>
+
+            <h3 class="pt-0 mt-1 mb-3" data-toc-skip>Probabilistic Discriminative Models</h3>
+            <div class="text-muted small">
+              <p>
+                
+
+
+
+
+
+                Probabilistic Discriminative Models
+
+
+  Explicitly to use the functional form of the generalized linear model and to determine its parameters by using ML
+    
+      And in this direct approach, we ...
+              </p>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+      
+      
+      <div class="card">
+        <a href="/posts/HMM/">
+          <div class="card-body">
+            <!--
+  Date format snippet
+  See: ${JS_ROOT}/utils/timeago.js
+-->
+
+<em class="timeago small"
+    data-ts="1645401600"
+    
+    >
+  2022-02-21
+</em>
+
+            <h3 class="pt-0 mt-1 mb-3" data-toc-skip>Hidden Markov Model</h3>
+            <div class="text-muted small">
+              <p>
+                
+
+
+
+
+
+                Hidden Markov Model
+
+Assume that all latent variables form a Markov chain, giving rise to the graphical structure, this is known as a state space model.
+
+If the latent variables are discrete, then ...
+              </p>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+      
+      
+      <div class="card">
+        <a href="/posts/markov_chain/">
+          <div class="card-body">
+            <!--
+  Date format snippet
+  See: ${JS_ROOT}/utils/timeago.js
+-->
+
+<em class="timeago small"
+    data-ts="1645401600"
+    
+    >
+  2022-02-21
+</em>
+
+            <h3 class="pt-0 mt-1 mb-3" data-toc-skip>Markov Chain</h3>
+            <div class="text-muted small">
+              <p>
+                
+
+
+
+
+
+                Markov Chain
+
+A first-Order Markov Chain
+
+\[\begin{aligned} p(z^{(m+1)}\vert z^{(m)}, ...,z^{(1)} )  = p(z^{(m+1)}\vert z^{(m)})\end{aligned}\]
+
+then given
+
+  initial variable: $p(z^{(0)})$
+  trans...
+              </p>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+    </div> <!-- .card-deck -->
+  </div> <!-- #related-posts -->
+
+
+      
+        
+        <!--
+  Navigation buttons at the bottom of the post.
+-->
+
+<div class="post-navigation d-flex justify-content-between">
+  
+  <a href="/posts/probabilistic_discriminative_model/" class="btn btn-outline-primary"
+    prompt="Older">
+    <p>Probabilistic Discriminative Models</p>
+  </a>
+  
+
+  
+  <a href="/posts/svm-classification/" class="btn btn-outline-primary"
+    prompt="Newer">
+    <p>SVM for classification</p>
+  </a>
+  
+
+</div>
+
+      
+        
+        <!--  The comments switcher -->
+
+
+      
+    </div>
+  </div>
+</div> <!-- .row -->
+
+
+
+        <!--
+  The Footer
+-->
+
+<footer class="d-flex w-100 justify-content-center">
+  <div class="d-flex justify-content-between align-items-center text-muted">
+    <div class="footer-left">
+      <p class="mb-0">
+        © 2022
+        <a href="https://twitter.com/username">luo-songtao</a>.
+        
+        <span data-toggle="tooltip" data-placement="top"
+          title="Except where otherwise noted, the blog posts on this site are licensed under the Creative Commons Attribution 4.0 International (CC BY 4.0) License by the author.">Some rights reserved.</span>
+        
+      </p>
+    </div>
+
+    <div class="footer-right">
+      <p class="mb-0">
+        
+
+        
+
+        Powered by 
+          <a href="https://jekyllrb.com" target="_blank" rel="noopener">Jekyll</a>
+         with 
+          <a href="https://github.com/cotes2020/jekyll-theme-chirpy" target="_blank" rel="noopener">Chirpy</a>
+         theme.
+
+      </p>
+    </div>
+
+  </div> <!-- div.d-flex -->
+</footer>
+
+
+      </div>
+
+      <!--
+  The Search results
+-->
+<div id="search-result-wrapper" class="d-flex justify-content-center unloaded">
+  <div class="col-12 col-sm-11 post-content">
+    <div id="search-hints">
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+
+
+  <div id="access-tags">
+    <div class="panel-heading">Trending Tags</div>
+    <div class="d-flex flex-wrap mt-3 mb-1 mr-3">
+
+    
+      
+      <a class="post-tag" href="/tags/gaussian-distribution/">Gaussian Distribution</a>
+    
+      
+      <a class="post-tag" href="/tags/pca/">PCA</a>
+    
+      
+      <a class="post-tag" href="/tags/em/">EM</a>
+    
+      
+      <a class="post-tag" href="/tags/bayesian/">Bayesian</a>
+    
+      
+      <a class="post-tag" href="/tags/markov-chain/">Markov Chain</a>
+    
+      
+      <a class="post-tag" href="/tags/bernoulli/">Bernoulli</a>
+    
+      
+      <a class="post-tag" href="/tags/binomial/">Binomial</a>
+    
+      
+      <a class="post-tag" href="/tags/gamma-distribution/">Gamma Distribution</a>
+    
+      
+      <a class="post-tag" href="/tags/gmm/">GMM</a>
+    
+      
+      <a class="post-tag" href="/tags/kernel/">Kernel</a>
+    
+
+    </div>
+  </div>
+
+
+    </div>
+    <div id="search-results" class="d-flex flex-wrap justify-content-center text-muted mt-3"></div>
+  </div>
+</div>
+
+
+    </div> <!-- #main-wrapper -->
+
+    
+      <!--
+  mermaid-js loader
+-->
+
+<script src="https://cdn.jsdelivr.net/npm/mermaid@8/dist/mermaid.min.js"></script>
+
+<script>
+  $(function() {
+    function updateMermaid(event) {
+      if (event.source === window && event.data &&
+            event.data.direction === ModeToggle.ID) {
+
+        const mode = event.data.message;
+
+        if (typeof mermaid === "undefined") {
+          return;
+        }
+
+        let expectedTheme = (mode === ModeToggle.DARK_MODE? "dark" : "default");
+        let config = { theme: expectedTheme };
+
+        /* Re-render the SVG › <https://github.com/mermaid-js/mermaid/issues/311#issuecomment-332557344> */
+        $(".mermaid").each(function() {
+          let svgCode = $(this).prev().children().html();
+          $(this).removeAttr("data-processed");
+          $(this).html(svgCode);
+        });
+
+        mermaid.initialize(config);
+        mermaid.init(undefined, ".mermaid");
+      }
+    }
+
+    let initTheme = "default";
+
+    if ($("html[data-mode=dark]").length > 0
+      || ($("html[data-mode]").length == 0
+        && window.matchMedia("(prefers-color-scheme: dark)").matches ) ) {
+      initTheme = "dark";
+    }
+
+    let mermaidConf = {
+      theme: initTheme  /* <default|dark|forest|neutral> */
+    };
+
+    /* Markdown converts to HTML */
+    $("pre").has("code.language-mermaid").each(function() {
+      let svgCode = $(this).children().html();
+      $(this).addClass("unloaded");
+      $(this).after(`<div class=\"mermaid\">${svgCode}</div>`);
+    });
+
+    mermaid.initialize(mermaidConf);
+
+    window.addEventListener("message", updateMermaid);
+  });
+</script>
+
+    
+
+    <div id="mask"></div>
+
+    <a id="back-to-top" href="#" aria-label="back-to-top" class="btn btn-lg btn-box-shadow" role="button">
+      <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!--
+  Jekyll Simple Search loader
+  See: <https://github.com/christian-fei/Simple-Jekyll-Search>
+-->
+
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/simple-jekyll-search@1.10.0/dest/simple-jekyll-search.min.js"></script>
+
+<script>
+SimpleJekyllSearch({
+  searchInput: document.getElementById('search-input'),
+  resultsContainer: document.getElementById('search-results'),
+  json: '/assets/js/data/search.json',
+  searchResultTemplate: '<div class="pl-1 pr-1 pl-sm-2 pr-sm-2 pl-lg-4 pr-lg-4 pl-xl-0 pr-xl-0">  <a href="{url}">{title}</a>  <div class="post-meta d-flex flex-column flex-sm-row text-muted mt-1 mb-1">    {categories}    {tags}  </div>  <p>{snippet}</p></div>',
+  noResultsText: '<p class="mt-5">Oops! No result founds.</p>',
+  templateMiddleware: function(prop, value, template) {
+    if (prop === 'categories') {
+      if (value === '') {
+        return `${value}`;
+      } else {
+        return `<div class="mr-sm-4"><i class="far fa-folder fa-fw"></i>${value}</div>`;
+      }
+    }
+
+    if (prop === 'tags') {
+      if (value === '') {
+        return `${value}`;
+      } else {
+        return `<div><i class="fa fa-tag fa-fw"></i>${value}</div>`;
+      }
+    }
+  }
+});
+</script>
+
+
+    <!--
+  JS selector for site.
+-->
+
+<!-- layout specified -->
+
+
+  
+
+
+
+  <!-- image lazy-loading & popup & clipboard -->
+  
+
+  
+
+
+
+
+
+
+
+  
+    
+
+    
+
+  
+
+
+
+  
+    
+
+    
+
+  
+
+
+
+  
+    
+
+    
+
+  
+
+
+
+
+  <script src="https://cdn.jsdelivr.net/combine/npm/magnific-popup@1/dist/jquery.magnific-popup.min.js,npm/lozad/dist/lozad.min.js,npm/clipboard@2/dist/clipboard.min.js"></script>
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+
+
+
+
+
+  
+    
+
+    
+
+  
+
+
+
+  
+    
+
+    
+
+  
+
+
+
+  
+    
+
+    
+
+  
+
+
+
+  
+    
+
+    
+
+  
+
+
+
+
+  <script src="https://cdn.jsdelivr.net/combine/npm/dayjs@1/dayjs.min.js,npm/dayjs@1/locale/en.min.js,npm/dayjs@1/plugin/relativeTime.min.js,npm/dayjs@1/plugin/localizedFormat.min.js"></script>
+
+
+
+
+
+
+
+
+<script defer src="/assets/js/dist/post.min.js"></script>
+
+
+  <!-- MathJax -->
+  <script>
+  /* see: <https://docs.mathjax.org/en/latest/options/input/tex.html#tex-options> */
+  MathJax = {
+    tex: {
+      inlineMath: [              /* start/end delimiter pairs for in-line math */
+        ['$','$'],
+        ['\\(','\\)']
+      ],
+      displayMath: [             /* start/end delimiter pairs for display math */
+        ['$$', '$$'],
+        ['\\[', '\\]']
+      ]
+    }
+  };
+  </script>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+  </script>
+
+
+<!-- commons -->
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.bundle.min.js"></script>
+
+
+
+
+  </body>
+
+</html>
+

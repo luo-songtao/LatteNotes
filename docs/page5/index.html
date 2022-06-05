@@ -45,7 +45,6 @@
 <meta property="og:site_name" content="Candy Note" />
 <meta property="og:type" content="website" />
 <link rel="prev" href="http://0.0.0.0:4000/page4" />
-<link rel="next" href="http://0.0.0.0:4000/page6" />
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Candy Note" />
 <meta name="twitter:site" content="@twitter_username" />
@@ -484,7 +483,7 @@
 
   <div class="post-preview">
     <h1>
-      <a href="/posts/%E5%BA%94%E7%94%A8%E4%B8%BE%E4%BE%8B/">数学分析-应用举例</a>
+      <a href="/posts/bitwise_operator/">Bitwise_operator</a>
     </h1>
 
     <div class="post-content">
@@ -495,18 +494,30 @@
 
 
 
-        极值问题
+        
+Bitwise Operator
 
-$y=f(x),x=x_0是极值点，则f’(x_0)=0，或者f’(x_0)不存在$
+Not ~
 
-极值点判定定理
+0和1互换
 
-$设f(x)在x_0的某一领域中有定义，且f(x)在x_0连续$
+[~(~x) = x]
 
-$(1). 设\exists \delta &amp;gt;0,f(x)在(x_0-\delta,x_0),(x_0,x_0+\delta)上可导$
+Note: 计算中，所有正数最高位都是1，因此计算中正数的非运算都是
+
+And &amp;amp;
+
+有0则0
+
+Or |
+
+有1则1
+
+XOR ^
+
+同0异1
 
 
-  $在(x_0-\delta,x_0),f’(x)\ge 0...
       </p>
     </div>
 
@@ -521,14 +532,14 @@ $(1). 设\exists \delta &amp;gt;0,f(x)在(x_0-\delta,x_0),(x_0,x_0+\delta)上可
 -->
 
 <em class="timeago"
-    data-ts="1575698400"
+    data-ts="1613779200"
     
       data-toggle="tooltip" data-placement="bottom" data-tooltip-df="llll"
     
     
       data-capitalize="true"
     >
-  2019-12-07
+  2021-02-20
 </em>
 
 
@@ -553,102 +564,12 @@ $(1). 设\exists \delta &amp;gt;0,f(x)在(x_0-\delta,x_0),(x_0,x_0+\delta)上可
 
 <!-- return element -->
 <span class="readtime" data-toggle="tooltip" data-placement="bottom"
-  title="363 words">
-  <em>2 min</em></span>
-
-
-        <!-- categories -->
-        
-          <i class="far fa-folder-open fa-fw"></i>
-          <span>
-          
-            Mathematical Analysis
-          </span>
-        
-      </div>
-
-      
-
-    </div> <!-- .post-meta -->
-
-  </div> <!-- .post-review -->
-
-
-
-  <div class="post-preview">
-    <h1>
-      <a href="/posts/%E5%87%BD%E6%95%B0%E7%9A%84Taylor%E5%85%AC%E5%BC%8F%E5%8F%8A%E5%85%B6%E5%BA%94%E7%94%A8/">数学分析-函数的Taylor公式及其应用</a>
-    </h1>
-
-    <div class="post-content">
-      <p>
-        
-
-
-
-
-
-        函数的Taylor公式及其应用
-
-[\begin{equation} \begin{aligned}  Taylor公式: &amp;amp; f(x)=f(x_0)+f’(x_0)(x-x_0)+\frac 1{2!}f’‘(x_0)(x-x_0)^2+···+\frac 1{n!}f^{(n)}(x_0)(x-x_0)^n+r_n(x) \ Maclaurin公式: &amp;amp; f(x)=f(0...
-      </p>
-    </div>
-
-    <div class="post-meta text-muted d-flex">
-
-      <div class="mr-auto">
-        <!-- posted date -->
-        <i class="far fa-calendar fa-fw"></i>
-        <!--
-  Date format snippet
-  See: ${JS_ROOT}/utils/timeago.js
--->
-
-<em class="timeago"
-    data-ts="1575612000"
-    
-      data-toggle="tooltip" data-placement="bottom" data-tooltip-df="llll"
-    
-    
-      data-capitalize="true"
-    >
-  2019-12-06
-</em>
-
-
-        <!-- time to read -->
-        <i class="far fa-clock fa-fw"></i>
-        <!--
-  Calculate the post's reading time, and display the word count in tooltip
- -->
-
-
-
-<!-- words per minute  -->
-
-
-
-
-
-
-
-
-
-
-<!-- return element -->
-<span class="readtime" data-toggle="tooltip" data-placement="bottom"
-  title="166 words">
+  title="58 words">
   <em>1 min</em></span>
 
 
         <!-- categories -->
         
-          <i class="far fa-folder-open fa-fw"></i>
-          <span>
-          
-            Mathematical Analysis
-          </span>
-        
       </div>
 
       
@@ -661,7 +582,7 @@ $(1). 设\exists \delta &amp;gt;0,f(x)在(x_0-\delta,x_0),(x_0,x_0+\delta)上可
 
   <div class="post-preview">
     <h1>
-      <a href="/posts/Taylor%E5%A4%9A%E9%A1%B9%E5%BC%8F%E4%B8%8E%E6%8F%92%E5%80%BC%E5%A4%9A%E9%A1%B9%E5%BC%8F/">数学分析-Taylor多项式与插值多项式</a>
+      <a href="/posts/Problem-P-NP-NPC-NPhard/">什么是P问题、NP问题和NPC问题</a>
     </h1>
 
     <div class="post-content">
@@ -672,13 +593,12 @@ $(1). 设\exists \delta &amp;gt;0,f(x)在(x_0-\delta,x_0),(x_0,x_0+\delta)上可
 
 
 
-        Taylor多项式与插值多项式
+        什么是P问题、NP问题和NPC问题
 
-带Peano余项的Taylor公式
+(转载注：全文转载自matrix67， 这是一个很NB的关于NP等概念的阐述)
 
-$设f(x)在x_0有n阶导数，则在x_0的领域，成立:$
-
-[\begin{equation} \begin{aligned} &amp;amp; f(x)=f(x_0)+f’(x_0)(x-x_0)+\frac 1{2!}f’‘(x_0)(x-x_0)^2+···+\frac 1{n!}f^{(n)}(x_0)(x-x_0)...
+这或许是众多OIer最大的误区之一。
+你会经常看到网上出现“这怎么做，这不是NP问题吗”、“这个只有搜了，这已经被证明是NP问题了”之类的话。你要知道，大多数人此时所说的NP问题其实都是指的NPC问题。他们没有搞清楚NP问题和NPC问题的概念。NP问题并不是那种“只有搜才行...
       </p>
     </div>
 
@@ -693,14 +613,14 @@ $设f(x)在x_0有n阶导数，则在x_0的领域，成立:$
 -->
 
 <em class="timeago"
-    data-ts="1575525600"
+    data-ts="1613779200"
     
       data-toggle="tooltip" data-placement="bottom" data-tooltip-df="llll"
     
     
       data-capitalize="true"
     >
-  2019-12-05
+  2021-02-20
 </em>
 
 
@@ -725,8 +645,8 @@ $设f(x)在x_0有n阶导数，则在x_0的领域，成立:$
 
 <!-- return element -->
 <span class="readtime" data-toggle="tooltip" data-placement="bottom"
-  title="298 words">
-  <em>1 min</em></span>
+  title="5495 words">
+  <em>30 min</em></span>
 
 
         <!-- categories -->
@@ -734,677 +654,8 @@ $设f(x)在x_0有n阶导数，则在x_0的领域，成立:$
           <i class="far fa-folder-open fa-fw"></i>
           <span>
           
-            Mathematical Analysis
-          </span>
-        
-      </div>
-
-      
-
-    </div> <!-- .post-meta -->
-
-  </div> <!-- .post-review -->
-
-
-
-  <div class="post-preview">
-    <h1>
-      <a href="/posts/%E6%B4%9B%E5%BF%85%E8%BE%BE%E6%B3%95%E5%88%99/">数学分析-洛必达法则</a>
-    </h1>
-
-    <div class="post-content">
-      <p>
-        
-
-
-
-
-
-        洛必达法则(L-Hospital法则)
-
-(求带定型极限的法则)
-
-$f(x),g(x)在(a,a+d]上可导，g’(x)\neq 0,若这时有:$
-
-[\lim_{x\rightarrow a^+}f(x)=\lim_{x\rightarrow a^+}g(x)=0]
-
-或
-
-[\lim_{x\rightarrow a^+}g(x)=\infty]
-
-$且\lim_{x\rightarro...
-      </p>
-    </div>
-
-    <div class="post-meta text-muted d-flex">
-
-      <div class="mr-auto">
-        <!-- posted date -->
-        <i class="far fa-calendar fa-fw"></i>
-        <!--
-  Date format snippet
-  See: ${JS_ROOT}/utils/timeago.js
--->
-
-<em class="timeago"
-    data-ts="1575439200"
-    
-      data-toggle="tooltip" data-placement="bottom" data-tooltip-df="llll"
-    
-    
-      data-capitalize="true"
-    >
-  2019-12-04
-</em>
-
-
-        <!-- time to read -->
-        <i class="far fa-clock fa-fw"></i>
-        <!--
-  Calculate the post's reading time, and display the word count in tooltip
- -->
-
-
-
-<!-- words per minute  -->
-
-
-
-
-
-
-
-
-
-
-<!-- return element -->
-<span class="readtime" data-toggle="tooltip" data-placement="bottom"
-  title="169 words">
-  <em>1 min</em></span>
-
-
-        <!-- categories -->
-        
-          <i class="far fa-folder-open fa-fw"></i>
-          <span>
-          
-            Mathematical Analysis
-          </span>
-        
-      </div>
-
-      
-
-    </div> <!-- .post-meta -->
-
-  </div> <!-- .post-review -->
-
-
-
-  <div class="post-preview">
-    <h1>
-      <a href="/posts/%E5%BE%AE%E5%88%86%E4%B8%AD%E5%80%BC%E5%AE%9A%E7%90%86/">数学分析-微分中值定理</a>
-    </h1>
-
-    <div class="post-content">
-      <p>
-        
-
-
-
-
-
-        微分中值定理
-
-极值概念
-
-$f(x),x\in(a,b)$
-
-$x_0\in (a,b),若\exists O(x_0,\rho)\subset (a,b),使:$
-
-[f(x)\le f(x_0),x\in O(x_0,\rho)]
-
-$则称x_0是f(x)的一个极大值点，f(x_0)是一个极大值$
-
-同理有极小值
-
-注意：
-
-
-  
-    极值是局部概念
-
-    极小值可以大于极大...
-      </p>
-    </div>
-
-    <div class="post-meta text-muted d-flex">
-
-      <div class="mr-auto">
-        <!-- posted date -->
-        <i class="far fa-calendar fa-fw"></i>
-        <!--
-  Date format snippet
-  See: ${JS_ROOT}/utils/timeago.js
--->
-
-<em class="timeago"
-    data-ts="1575352800"
-    
-      data-toggle="tooltip" data-placement="bottom" data-tooltip-df="llll"
-    
-    
-      data-capitalize="true"
-    >
-  2019-12-03
-</em>
-
-
-        <!-- time to read -->
-        <i class="far fa-clock fa-fw"></i>
-        <!--
-  Calculate the post's reading time, and display the word count in tooltip
- -->
-
-
-
-<!-- words per minute  -->
-
-
-
-
-
-
-
-
-
-
-<!-- return element -->
-<span class="readtime" data-toggle="tooltip" data-placement="bottom"
-  title="869 words">
-  <em>4 min</em></span>
-
-
-        <!-- categories -->
-        
-          <i class="far fa-folder-open fa-fw"></i>
-          <span>
-          
-            Mathematical Analysis
-          </span>
-        
-      </div>
-
-      
-
-    </div> <!-- .post-meta -->
-
-  </div> <!-- .post-review -->
-
-
-
-  <div class="post-preview">
-    <h1>
-      <a href="/posts/%E9%AB%98%E9%98%B6%E5%AF%BC%E6%95%B0%E5%92%8C%E9%AB%98%E9%98%B6%E5%BE%AE%E5%88%86/">数学分析-高阶导数和高阶微分</a>
-    </h1>
-
-    <div class="post-content">
-      <p>
-        
-
-
-
-
-
-        高阶导数
-
-(冲量定理)物体速度的改变量与受力大小成正比，与受力时间成正比，与物体质量成反比
-
-[\Delta v = \frac {F·\Delta t}{m}]
-
-[\Rightarrow F=m·\frac {\Delta v}{\Delta t}]
-
-$物体匀变速:\frac {\Delta v}{\Delta t}=a(相当于一个常数),则F=ma$
-
-$对一般变速运动,加速度不固...
-      </p>
-    </div>
-
-    <div class="post-meta text-muted d-flex">
-
-      <div class="mr-auto">
-        <!-- posted date -->
-        <i class="far fa-calendar fa-fw"></i>
-        <!--
-  Date format snippet
-  See: ${JS_ROOT}/utils/timeago.js
--->
-
-<em class="timeago"
-    data-ts="1575266400"
-    
-      data-toggle="tooltip" data-placement="bottom" data-tooltip-df="llll"
-    
-    
-      data-capitalize="true"
-    >
-  2019-12-02
-</em>
-
-
-        <!-- time to read -->
-        <i class="far fa-clock fa-fw"></i>
-        <!--
-  Calculate the post's reading time, and display the word count in tooltip
- -->
-
-
-
-<!-- words per minute  -->
-
-
-
-
-
-
-
-
-
-
-<!-- return element -->
-<span class="readtime" data-toggle="tooltip" data-placement="bottom"
-  title="342 words">
-  <em>1 min</em></span>
-
-
-        <!-- categories -->
-        
-          <i class="far fa-folder-open fa-fw"></i>
-          <span>
-          
-            Mathematical Analysis
-          </span>
-        
-      </div>
-
-      
-
-    </div> <!-- .post-meta -->
-
-  </div> <!-- .post-review -->
-
-
-
-  <div class="post-preview">
-    <h1>
-      <a href="/posts/%E5%A4%8D%E5%90%88%E5%87%BD%E6%95%B0%E6%B1%82%E5%AF%BC%E6%B3%95%E5%88%99%E5%8F%8A%E5%85%B6%E5%BA%94%E7%94%A8/">数学分析-复合函数求导法则及其应用</a>
-    </h1>
-
-    <div class="post-content">
-      <p>
-        
-
-
-
-
-
-        复合函数导数
-
-$u=g(x)在x=x_0可导，g(x_0)=u_0;y=f(u)在u=u_0可导，则y=f(g(x))在x=x_0可导,且:$
-
-[[f(g(x_0))]_{x=x_0}’ = f’(u_0)g’(x_0)]
-
-证明
-
-
-
-链式法则
-
-$复合函数求导法则也叫链式法则$
-
-$y=f(u),u=g(x),y=f(g(x))=f\circ g(x)$
-
-[[f(g(x))]’=\...
-      </p>
-    </div>
-
-    <div class="post-meta text-muted d-flex">
-
-      <div class="mr-auto">
-        <!-- posted date -->
-        <i class="far fa-calendar fa-fw"></i>
-        <!--
-  Date format snippet
-  See: ${JS_ROOT}/utils/timeago.js
--->
-
-<em class="timeago"
-    data-ts="1575180000"
-    
-      data-toggle="tooltip" data-placement="bottom" data-tooltip-df="llll"
-    
-    
-      data-capitalize="true"
-    >
-  2019-12-01
-</em>
-
-
-        <!-- time to read -->
-        <i class="far fa-clock fa-fw"></i>
-        <!--
-  Calculate the post's reading time, and display the word count in tooltip
- -->
-
-
-
-<!-- words per minute  -->
-
-
-
-
-
-
-
-
-
-
-<!-- return element -->
-<span class="readtime" data-toggle="tooltip" data-placement="bottom"
-  title="240 words">
-  <em>1 min</em></span>
-
-
-        <!-- categories -->
-        
-          <i class="far fa-folder-open fa-fw"></i>
-          <span>
-          
-            Mathematical Analysis
-          </span>
-        
-      </div>
-
-      
-
-    </div> <!-- .post-meta -->
-
-  </div> <!-- .post-review -->
-
-
-
-  <div class="post-preview">
-    <h1>
-      <a href="/posts/%E5%AF%BC%E6%95%B0%E7%9A%84%E5%9B%9B%E5%88%99%E8%BF%90%E7%AE%97%E5%8F%8A%E5%8F%8D%E5%87%BD%E6%95%B0%E6%B1%82%E5%AF%BC%E6%B3%95%E5%88%99/">数学分析-导数的四则运算及反函数求导法则</a>
-    </h1>
-
-    <div class="post-content">
-      <p>
-        
-
-
-
-
-
-        导数计算Example
-
-
-
-导数的四则运算
-
-定理1
-
-$f,g在同一区间可导，则c_1f(x)+c_2g(x)也在该区间可导，且有:$
-
-[(c_1f(x)+c_2g(x))’ = c_1f’(x)+c_2g’(x)]
-
-
-  $(e^x)=e^x$
-  $(a^x)’=a^x·\ln a$
-  $(\ln x)’=\frac 1x$
-  $(\log _a x)’=(\frac {\l...
-      </p>
-    </div>
-
-    <div class="post-meta text-muted d-flex">
-
-      <div class="mr-auto">
-        <!-- posted date -->
-        <i class="far fa-calendar fa-fw"></i>
-        <!--
-  Date format snippet
-  See: ${JS_ROOT}/utils/timeago.js
--->
-
-<em class="timeago"
-    data-ts="1575093600"
-    
-      data-toggle="tooltip" data-placement="bottom" data-tooltip-df="llll"
-    
-    
-      data-capitalize="true"
-    >
-  2019-11-30
-</em>
-
-
-        <!-- time to read -->
-        <i class="far fa-clock fa-fw"></i>
-        <!--
-  Calculate the post's reading time, and display the word count in tooltip
- -->
-
-
-
-<!-- words per minute  -->
-
-
-
-
-
-
-
-
-
-
-<!-- return element -->
-<span class="readtime" data-toggle="tooltip" data-placement="bottom"
-  title="442 words">
-  <em>2 min</em></span>
-
-
-        <!-- categories -->
-        
-          <i class="far fa-folder-open fa-fw"></i>
-          <span>
-          
-            Mathematical Analysis
-          </span>
-        
-      </div>
-
-      
-
-    </div> <!-- .post-meta -->
-
-  </div> <!-- .post-review -->
-
-
-
-  <div class="post-preview">
-    <h1>
-      <a href="/posts/%E5%AF%BC%E6%95%B0%E7%9A%84%E6%84%8F%E4%B9%89%E4%B8%8E%E6%80%A7%E8%B4%A8/">数学分析-导数的意义与性质</a>
-    </h1>
-
-    <div class="post-content">
-      <p>
-        
-
-
-
-
-
-        导数的几何意义
-
-切线：割线的极限位置
-
-切线的斜率,记为$k$
-
-割线斜率为$\frac {\Delta y }{\Delta x}$
-
-[k=\lim_{\Delta x \rightarrow 0}\frac {\Delta y }{\Delta x}=\lim_{\Delta x \rightarrow 0}\frac {f(x+\Delta x)-f(x) }{\Delta x}=...
-      </p>
-    </div>
-
-    <div class="post-meta text-muted d-flex">
-
-      <div class="mr-auto">
-        <!-- posted date -->
-        <i class="far fa-calendar fa-fw"></i>
-        <!--
-  Date format snippet
-  See: ${JS_ROOT}/utils/timeago.js
--->
-
-<em class="timeago"
-    data-ts="1575007200"
-    
-      data-toggle="tooltip" data-placement="bottom" data-tooltip-df="llll"
-    
-    
-      data-capitalize="true"
-    >
-  2019-11-29
-</em>
-
-
-        <!-- time to read -->
-        <i class="far fa-clock fa-fw"></i>
-        <!--
-  Calculate the post's reading time, and display the word count in tooltip
- -->
-
-
-
-<!-- words per minute  -->
-
-
-
-
-
-
-
-
-
-
-<!-- return element -->
-<span class="readtime" data-toggle="tooltip" data-placement="bottom"
-  title="229 words">
-  <em>1 min</em></span>
-
-
-        <!-- categories -->
-        
-          <i class="far fa-folder-open fa-fw"></i>
-          <span>
-          
-            Mathematical Analysis
-          </span>
-        
-      </div>
-
-      
-
-    </div> <!-- .post-meta -->
-
-  </div> <!-- .post-review -->
-
-
-
-  <div class="post-preview">
-    <h1>
-      <a href="/posts/%E5%BE%AE%E5%88%86%E5%92%8C%E5%AF%BC%E6%95%B0/">数学分析-微分和导数</a>
-    </h1>
-
-    <div class="post-content">
-      <p>
-        
-
-
-
-
-
-        微分和导数
-
-$y=f(x)$
-
-$x\rightarrow x+\Delta x$
-
-$f(x)\rightarrow f(x+\Delta x)$
-
-$\Delta y= f(x+\Delta x)-f(x)$
-
-微分的定义
-
-$x_0\in D_f.若存在只与x_0有关，与\Delta x无关的g(x_0),使当\Delta x \rightarrow 0时:$
-
-[\Delta y ...
-      </p>
-    </div>
-
-    <div class="post-meta text-muted d-flex">
-
-      <div class="mr-auto">
-        <!-- posted date -->
-        <i class="far fa-calendar fa-fw"></i>
-        <!--
-  Date format snippet
-  See: ${JS_ROOT}/utils/timeago.js
--->
-
-<em class="timeago"
-    data-ts="1574920800"
-    
-      data-toggle="tooltip" data-placement="bottom" data-tooltip-df="llll"
-    
-    
-      data-capitalize="true"
-    >
-  2019-11-28
-</em>
-
-
-        <!-- time to read -->
-        <i class="far fa-clock fa-fw"></i>
-        <!--
-  Calculate the post's reading time, and display the word count in tooltip
- -->
-
-
-
-<!-- words per minute  -->
-
-
-
-
-
-
-
-
-
-
-<!-- return element -->
-<span class="readtime" data-toggle="tooltip" data-placement="bottom"
-  title="421 words">
-  <em>2 min</em></span>
-
-
-        <!-- categories -->
-        
-          <i class="far fa-folder-open fa-fw"></i>
-          <span>
-          
-            Mathematical Analysis
+            Blogs,
+            复杂度
           </span>
         
       </div>
@@ -1451,7 +702,7 @@ $x_0\in D_f.若存在只与x_0有关，与\Delta x无关的g(x_0),使当\Delta x
     
       <!-- show number -->
       <li class="page-item ">
-        <a class="page-link btn-box-shadow" href="//">1</a>
+        <a class="page-link btn-box-shadow" href="/">1</a>
       </li>
     
 
@@ -1486,8 +737,10 @@ $x_0\in D_f.若存在只与x_0有关，与\Delta x无关的g(x_0),使当\Delta x
     
 
     
-      <!-- hide number -->
-      
+      <!-- show number -->
+      <li class="page-item ">
+        <a class="page-link btn-box-shadow" href="/page3/">3</a>
+      </li>
     
 
   
@@ -1503,7 +756,7 @@ $x_0\in D_f.若存在只与x_0有关，与\Delta x无关的g(x_0),使当\Delta x
     
       <!-- show number -->
       <li class="page-item ">
-        <a class="page-link btn-box-shadow" href="//page4/">4</a>
+        <a class="page-link btn-box-shadow" href="/page4/">4</a>
       </li>
     
 
@@ -1520,41 +773,7 @@ $x_0\in D_f.若存在只与x_0有关，与\Delta x无关的g(x_0),使当\Delta x
     
       <!-- show number -->
       <li class="page-item  active">
-        <a class="page-link btn-box-shadow" href="//page5/">5</a>
-      </li>
-    
-
-  
-
-    
-    
-    
-    
-    
-
-    
-
-    
-      <!-- show number -->
-      <li class="page-item ">
-        <a class="page-link btn-box-shadow" href="//page6/">6</a>
-      </li>
-    
-
-  
-
-    
-    
-    
-    
-    
-
-    
-
-    
-      <!-- show number -->
-      <li class="page-item ">
-        <a class="page-link btn-box-shadow" href="//page7/">7</a>
+        <a class="page-link btn-box-shadow" href="/page5/">5</a>
       </li>
     
 
@@ -1563,14 +782,14 @@ $x_0\in D_f.若存在只与x_0有关，与\Delta x无关的g(x_0),使当\Delta x
   <!-- mobile pagination -->
   <li class="page-index align-middle">
     <span>5</span>
-    <span class="text-muted">/ 7</span>
+    <span class="text-muted">/ 5</span>
   </li>
 
   <!-- right arrow -->
   
 
-  <li class="page-item ">
-    <a class="page-link btn-box-shadow" href="/page6" aria-label="next-page">
+  <li class="page-item disabled">
+    <a class="page-link btn-box-shadow" href="#" aria-label="next-page">
       <i class="fas fa-angle-right"></i>
     </a>
   </li>
@@ -1702,6 +921,10 @@ $x_0\in D_f.若存在只与x_0有关，与\Delta x无关的g(x_0),使当\Delta x
     
     
     
+      
+        
+        
+
   
     
     
@@ -1782,85 +1005,7 @@ $x_0\in D_f.若存在只与x_0有关，与\Delta x无关的g(x_0),使当\Delta x
     
     
     
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
+      
     
   
     
@@ -2011,195 +1156,25 @@ $x_0\in D_f.若存在只与x_0有关，与\Delta x无关的g(x_0),使当\Delta x
     
     
     
+      
+        
+        
+
   
     
     
     
     
+      
+        
+        
+
   
     
     
     
     
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
+      
     
   
     
@@ -2350,6 +1325,10 @@ $x_0\in D_f.若存在只与x_0有关，与\Delta x无关的g(x_0),使当\Delta x
     
     
     
+      
+        
+        
+
   
     
     
@@ -2360,20 +1339,7 @@ $x_0\in D_f.若存在只与x_0有关，与\Delta x无关的g(x_0),使当\Delta x
     
     
     
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
+      
     
   
     
@@ -2404,114 +1370,6 @@ $x_0\in D_f.若存在只与x_0有关，与\Delta x无关的g(x_0),使当\Delta x
     
     
     
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-      
-    
-  
-    
-    
-    
-    
-      
-        
-        
-
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-      
-    
-  
-    
-    
-    
-    
       
     
   
@@ -2529,30 +1387,7 @@ $x_0\in D_f.若存在只与x_0有关，与\Delta x无关的g(x_0),使当\Delta x
     
     
     
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
+      
     
   
     
@@ -2613,124 +1448,7 @@ $x_0\in D_f.若存在只与x_0有关，与\Delta x无关的g(x_0),使当\Delta x
     
     
     
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
       
-    
-  
-    
-    
-    
-    
-      
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
     
   
     
@@ -2794,80 +1512,7 @@ $x_0\in D_f.若存在只与x_0有关，与\Delta x无关的g(x_0),使当\Delta x
     
     
     
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
+      
     
   
     
@@ -2908,53 +1553,6 @@ $x_0\in D_f.若存在只与x_0有关，与\Delta x无关的g(x_0),使当\Delta x
     
     
     
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-      
-    
-  
-    
-    
-    
-    
       
     
   
@@ -2972,30 +1570,7 @@ $x_0\in D_f.若存在只与x_0有关，与\Delta x无关的g(x_0),使当\Delta x
     
     
     
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
+      
     
   
     
@@ -3069,126 +1644,6 @@ $x_0\in D_f.若存在只与x_0有关，与\Delta x无关的g(x_0),使当\Delta x
     
     
     
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
       
     
   
@@ -3200,425 +1655,6 @@ $x_0\in D_f.若存在只与x_0有关，与\Delta x无关的g(x_0),使当\Delta x
     
     
     
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-      
-        
-        
-
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-      
-    
-  
-    
-    
-    
-    
-      
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-      
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-      
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-      
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-      
-        
-        
-
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-      
-        
-        
-
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-      
     
   
     
@@ -3642,34 +1678,34 @@ $x_0\in D_f.若存在只与x_0有关，与\Delta x无关的g(x_0),使当\Delta x
 
     
       
-      <a class="post-tag" href="/tags/%E6%95%B0%E5%AD%A6%E5%88%86%E6%9E%90/">数学分析</a>
+      <a class="post-tag" href="/tags/gaussian-distribution/">Gaussian Distribution</a>
     
       
-      <a class="post-tag" href="/tags/%E8%BF%9E%E7%BB%AD%E5%87%BD%E6%95%B0/">连续函数</a>
+      <a class="post-tag" href="/tags/pca/">PCA</a>
     
       
-      <a class="post-tag" href="/tags/eigenvalue/">Eigenvalue</a>
+      <a class="post-tag" href="/tags/em/">EM</a>
     
       
-      <a class="post-tag" href="/tags/eigenvector/">Eigenvector</a>
+      <a class="post-tag" href="/tags/bayesian/">Bayesian</a>
     
       
-      <a class="post-tag" href="/tags/matrix/">Matrix</a>
-    
-      
-      <a class="post-tag" href="/tags/%E5%AF%BC%E6%95%B0/">导数</a>
-    
-      
-      <a class="post-tag" href="/tags/%E6%95%B0%E5%88%97/">数列</a>
-    
-      
-      <a class="post-tag" href="/tags/%E6%97%A0%E7%A9%B7%E5%A4%A7%E9%87%8F/">无穷大量</a>
+      <a class="post-tag" href="/tags/markov-chain/">Markov Chain</a>
     
       
       <a class="post-tag" href="/tags/bernoulli/">Bernoulli</a>
     
       
       <a class="post-tag" href="/tags/binomial/">Binomial</a>
+    
+      
+      <a class="post-tag" href="/tags/gamma-distribution/">Gamma Distribution</a>
+    
+      
+      <a class="post-tag" href="/tags/gmm/">GMM</a>
+    
+      
+      <a class="post-tag" href="/tags/kernel/">Kernel</a>
     
 
     </div>
@@ -3827,6 +1863,10 @@ $x_0\in D_f.若存在只与x_0有关，与\Delta x无关的g(x_0),使当\Delta x
     
     
     
+      
+        
+        
+
   
     
     
@@ -3907,85 +1947,7 @@ $x_0\in D_f.若存在只与x_0有关，与\Delta x无关的g(x_0),使当\Delta x
     
     
     
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
+      
     
   
     
@@ -4136,195 +2098,25 @@ $x_0\in D_f.若存在只与x_0有关，与\Delta x无关的g(x_0),使当\Delta x
     
     
     
+      
+        
+        
+
   
     
     
     
     
+      
+        
+        
+
   
     
     
     
     
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
+      
     
   
     
@@ -4475,6 +2267,10 @@ $x_0\in D_f.若存在只与x_0有关，与\Delta x无关的g(x_0),使当\Delta x
     
     
     
+      
+        
+        
+
   
     
     
@@ -4485,20 +2281,7 @@ $x_0\in D_f.若存在只与x_0有关，与\Delta x无关的g(x_0),使当\Delta x
     
     
     
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
+      
     
   
     
@@ -4529,114 +2312,6 @@ $x_0\in D_f.若存在只与x_0有关，与\Delta x无关的g(x_0),使当\Delta x
     
     
     
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-      
-    
-  
-    
-    
-    
-    
-      
-        
-        
-
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-      
-    
-  
-    
-    
-    
-    
       
     
   
@@ -4654,30 +2329,7 @@ $x_0\in D_f.若存在只与x_0有关，与\Delta x无关的g(x_0),使当\Delta x
     
     
     
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
+      
     
   
     
@@ -4738,124 +2390,7 @@ $x_0\in D_f.若存在只与x_0有关，与\Delta x无关的g(x_0),使当\Delta x
     
     
     
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
       
-    
-  
-    
-    
-    
-    
-      
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
     
   
     
@@ -4919,80 +2454,7 @@ $x_0\in D_f.若存在只与x_0有关，与\Delta x无关的g(x_0),使当\Delta x
     
     
     
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
+      
     
   
     
@@ -5033,53 +2495,6 @@ $x_0\in D_f.若存在只与x_0有关，与\Delta x无关的g(x_0),使当\Delta x
     
     
     
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-      
-    
-  
-    
-    
-    
-    
       
     
   
@@ -5097,30 +2512,7 @@ $x_0\in D_f.若存在只与x_0有关，与\Delta x无关的g(x_0),使当\Delta x
     
     
     
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
+      
     
   
     
@@ -5194,126 +2586,6 @@ $x_0\in D_f.若存在只与x_0有关，与\Delta x无关的g(x_0),使当\Delta x
     
     
     
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
       
     
   
@@ -5325,425 +2597,6 @@ $x_0\in D_f.若存在只与x_0有关，与\Delta x无关的g(x_0),使当\Delta x
     
     
     
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-      
-        
-        
-
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-      
-    
-  
-    
-    
-    
-    
-      
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-      
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-      
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-      
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-      
-        
-        
-
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-      
-        
-        
-
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-  
-    
-    
-    
-    
-      
     
   
     
@@ -5767,34 +2620,34 @@ $x_0\in D_f.若存在只与x_0有关，与\Delta x无关的g(x_0),使当\Delta x
 
     
       
-      <a class="post-tag" href="/tags/%E6%95%B0%E5%AD%A6%E5%88%86%E6%9E%90/">数学分析</a>
+      <a class="post-tag" href="/tags/gaussian-distribution/">Gaussian Distribution</a>
     
       
-      <a class="post-tag" href="/tags/%E8%BF%9E%E7%BB%AD%E5%87%BD%E6%95%B0/">连续函数</a>
+      <a class="post-tag" href="/tags/pca/">PCA</a>
     
       
-      <a class="post-tag" href="/tags/eigenvalue/">Eigenvalue</a>
+      <a class="post-tag" href="/tags/em/">EM</a>
     
       
-      <a class="post-tag" href="/tags/eigenvector/">Eigenvector</a>
+      <a class="post-tag" href="/tags/bayesian/">Bayesian</a>
     
       
-      <a class="post-tag" href="/tags/matrix/">Matrix</a>
-    
-      
-      <a class="post-tag" href="/tags/%E5%AF%BC%E6%95%B0/">导数</a>
-    
-      
-      <a class="post-tag" href="/tags/%E6%95%B0%E5%88%97/">数列</a>
-    
-      
-      <a class="post-tag" href="/tags/%E6%97%A0%E7%A9%B7%E5%A4%A7%E9%87%8F/">无穷大量</a>
+      <a class="post-tag" href="/tags/markov-chain/">Markov Chain</a>
     
       
       <a class="post-tag" href="/tags/bernoulli/">Bernoulli</a>
     
       
       <a class="post-tag" href="/tags/binomial/">Binomial</a>
+    
+      
+      <a class="post-tag" href="/tags/gamma-distribution/">Gamma Distribution</a>
+    
+      
+      <a class="post-tag" href="/tags/gmm/">GMM</a>
+    
+      
+      <a class="post-tag" href="/tags/kernel/">Kernel</a>
     
 
     </div>

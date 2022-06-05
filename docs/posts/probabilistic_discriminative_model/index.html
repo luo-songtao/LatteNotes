@@ -1,0 +1,3915 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html lang="en"
+  
+>
+
+  <!--
+  The Head
+-->
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Allow having a localized datetime different from the appearance language -->
+  
+
+  
+
+    
+
+    
+
+  
+
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+<meta name="generator" content="Jekyll v4.2.1" />
+<meta property="og:title" content="Probabilistic Discriminative Models" />
+<meta name="author" content="luo-songtao" />
+<meta property="og:locale" content="en" />
+<meta name="description" content="Probabilistic Discriminative Models Explicitly to use the functional form of the generalized linear model and to determine its parameters by using ML And in this direct approach, we are maximizing a likelihood function defined through the conditional distribution $p(C_k\mid \boldsymbol{x})$ ,( posterior distribution), which represents a form of discriminative training Logistic Regression Definition Let $\phi = \phi(\boldsymbol{x})$ be the $M$-dim feature vector. [\begin{aligned} p(C_1\mid \phi) &amp;= y(\phi) = \sigma(\boldsymbol{w}^T\phi) \ p(C_2 \mid \phi) &amp;= 1 - y(\phi) = 1 - p(C_1\mid \phi) \end{aligned}] Then the number of adjustable parameters in this model would be $M$. Likelihood Function: For a data set ${\boldsymbol{x}_n, t_n}$, $t_n \in {0,1}$ Let $y_n = \sigma(\boldsymbol{w}^T\phi(\boldsymbol{x}_n))$ \[\begin{aligned} p(\mathcal{D} \mid \boldsymbol{w}) &amp;= \prod_{n=1}^N p(C_1\mid \phi_n)^{t_n} p(C_2\mid \phi)^{1-t_n} \\ &amp;= \prod_{n=1}^N y_n^{t_n}(1-y_n)^{1-t_n} \end{aligned}\] Cross Entropy error : The Negative logrithm of this likelihood function \[\begin{aligned} E(\boldsymbol{w}) = -\ln p(\mathcal{D} \mid \boldsymbol{w}) = \sum_{i=1}^N [t_n\ln y_n + (1-t_n)\ln (1-y_n)] \end{aligned}\] The Gradient: \[\begin{aligned} \nabla E(\boldsymbol{w}) &amp;= \frac {dE}{d\boldsymbol{w}} \\ &amp;= \frac {dE}{dy} \frac {dy}{d\sigma}\frac {d\sigma}{da}\frac {da}{d\boldsymbol{w}} \\ &amp;= - \sum_{n=1}^N \frac {t_n}{y_n}y_n(1-y_n)\phi_n+\frac {1-t_n}{1-y_n}·-1·y_n(1-y_n)\phi_n \\ &amp;= -\sum_{n=1}^N (t_n(1-y_n) - (1-t_n)y_n) \phi_n \\ &amp;= \sum_{n=1}^N (y_n - t_n) \phi_n \end{aligned}\] Note: Maximimum likelihood can exhibit server over-fitting for data sets that are linearly separable,. This arise because the maximum likelihood solution occurs when the hyperplane corresponding to $\sigma=0.5$, equivalent to $\boldsymbol{w}^T\phi = 0$, separates the two classes and the magnitude of $\boldsymbol{w}$ goes to infinity. Iterative Reweighted Least Squares There is no longer a closed-form solution, due to the nonlinearity of the logistic sigmoid function. Newton-Raphson method \[\begin{aligned} \boldsymbol{w}^{(new)} = \boldsymbol{w}^{(old)} - H^{-1}\nabla E(\boldsymbol{w}) \end{aligned}\] Hessian \[\begin{aligned} H = \nabla \nabla E(\boldsymbol{w}) &amp;= \sum_{n=1}^N y_n(1-y_n)\phi_n\phi_n^T \\ &amp;= \Phi^T R \Phi \\ \\ R&amp;= \text{diag}\{y_n(1-y_n)\} \end{aligned}\] We can see the Hessian matrix is not a constant, but depends on $\boldsymbol{w}$ through the weighting matrix $R$ And using the property $0&lt;y_n&lt;1$, then $\boldsymbol{u}^TH\boldsymbol{u} &gt; 0$. So the error function is a concave function of $\boldsymbol{w}$ and hence has a unique minimum. Iterative Reweighted Least Squares \[\begin{aligned} \boldsymbol{w}^{(new)} &amp;= \boldsymbol{w}^{(old)} - H^{-1}\nabla E(\boldsymbol{w})\\ &amp;= \boldsymbol{w}^{(old)} - (\Phi^T R \Phi)^{-1}\Phi^T(\mathbf{y} - \mathbf{t}) \\ &amp;= (\Phi^T R \Phi)^{-1}(\Phi^T R \Phi\boldsymbol{w}^{(old)} - \Phi^T(\mathbf{y} - \mathbf{t})) \\ &amp;= (\Phi^T R \Phi)^{-1}\Phi^T R \boldsymbol{z} \\ \\ \boldsymbol{z} &amp;= \Phi\boldsymbol{w}^{(old)} - R^{-1}(\mathbf{y} - \mathbf{t}) \end{aligned}\] Now, we see why this method be called “Reweighted Least Squares” Further more, the $R$ can be interpreted as variances, just like the weighted Least Square method. \[\begin{aligned} t&amp;\sim \text{Bern}(t \mid y) \\ \mathbb{E} &amp;= y \\ \text{var}[t] &amp;= y(1-y) \end{aligned}\] Addition: Logistic regression measures the relationship between the categorical dependent variable and one or more independent variables by estimating probabilities using a logistic function, which is the cumulative distribution function of logistic distribution. Latent Variable Interpretation latent variable $y’ = wx + w_0 + \varepsilon$ \[\begin{aligned} y = \left\{ \begin{aligned} &amp;1\qquad &amp;wx+w_0+\varepsilon &gt;0 \\ &amp;0\qquad &amp;\text{else} \end{aligned} \right. \end{aligned}\] where $\varepsilon$ is an error distributed by the standard logistic distribution. Multiclass Logistic Regression (Softmax Regression) Definition \[\begin{aligned} p(C_k\mid \phi) &amp;= y_k(\phi) = \frac {\exp(a_k)}{\sum_j \exp(a_j)} \\ a_k &amp;= \boldsymbol{w}^T_k\phi(\boldsymbol{x}) \end{aligned}\] Likelihood Funciton \[\begin{aligned} p(\mathcal{D} \mid \boldsymbol{w}_1, ..., \boldsymbol{w}_K) &amp;= \prod_{n=1}^N\prod_{k=1}^K p(C_k\mid \phi_n)^{t_{nk}} = \prod_{n=1}^N\prod_{k=1}^K y_{nk}^{t_{nk}} \end{aligned}\] Cross Entropy error \[\begin{aligned} E(\boldsymbol{w}_1, ..., \boldsymbol{w}_K) &amp;= -\ln p(\mathcal{D} \mid \boldsymbol{w}_1, ..., \boldsymbol{w}_K) \\&amp;= -\sum_{n=1}^N\sum_{k=1}^K t_{nk}\ln y_{nk} \end{aligned}\] Partial Derivative $\frac {\partial y_{nk}}{\partial a_j}$ if $k\neq j$ \[\begin{aligned} \frac {\partial y_{nk}}{\partial a_j} &amp;= \frac {-\exp(a_j)\exp(a_k)}{(\sum_i \exp(a_i))^2} \\ &amp;= -y_{nj}y_{nk} \end{aligned}\] if $k == j$: \[\begin{aligned} \frac {\partial y_{nk}}{\partial a_j} &amp;= \frac {\exp(a_j)}{\sum_i \exp(a_i)} - \frac {\exp(a_j)^2}{(\sum_i \exp(a_i))^2} \\ &amp;= y_{nj}(1-y_{nj}) \end{aligned}\] Then $\frac {\partial y_{nk}}{\partial a_j} = y_{nk}(I_{jk} - y_{nj})$ $\frac {\partial \ln y_{nk}}{\partial \boldsymbol{w}_j}$ \[\begin{aligned} \frac {\partial \ln y_{nk}}{\partial \boldsymbol{w}_j} &amp;= \frac {\partial \ln y_{nk}}{\partial y_{nk}}\frac {\partial y_{nk}}{\partial a_j}\frac {\partial a_j}{\partial \boldsymbol{w}_j} \\ &amp;= \frac {1}{y_{nk}} y_{nk}(I_{jk} - y_{nj})\phi_n \\ &amp;= (I_{jk} - y_{nj})\phi_n \end{aligned}\] $\nabla_{\boldsymbol{w}_j} E$ \[\begin{aligned} \nabla_{\boldsymbol{w}_j} E(\boldsymbol{w}_1, ..., \boldsymbol{w}_K) &amp;= -\sum_{n=1}^N\sum_{k=1}^K t_{nk}\frac {\partial \ln y_{nk}}{\partial \boldsymbol{w}_j} \\ &amp;= -\sum_{n=1}^N\sum_{k=1}^K t_{nk}(I_{jk} - y_{nj})\phi_n \\ &amp;= \sum_{n=1}^N\sum_{k=1}^K t_{nk} y_{nj}\phi_n - \sum_{n=1}^N t_{nj}\phi_n \\ &amp;= \sum_{n=1}^N (y_{nk}-t_{nk})\phi_n \end{aligned}\] Hessian Matrix: \[\begin{aligned} \nabla_{\boldsymbol{w}_k}\nabla_{\boldsymbol{w}_j} E(\boldsymbol{w}_1, ..., \boldsymbol{w}_K) &amp;= \sum_{n=1}^N y_{nk}(I_{jk} - y_{nj})\phi_n\phi_n^T \end{aligned}\] Probit Regression The latent variable interpretation: \[\begin{aligned} y = \left\{ \begin{aligned} &amp;1\qquad &amp;wx+w_0+\varepsilon &gt;0 \\ &amp;0\qquad &amp;\text{else} \end{aligned} \right. \end{aligned}\] where $\varepsilon$ is an error distributed by the standard normal distribution. In general, let $a_n = \boldsymbol{w}^T\phi_n$ \[\begin{aligned} t_n = \left\{ \begin{aligned} &amp;1\qquad &amp;a_n &gt;\theta \\ &amp;0\qquad &amp;\text{else} \end{aligned} \right. \end{aligned}\] If the value of $theta$ is drawn from a probability density $p(\theta)$, then the corresponding activation function will be given by the cumulative distributoin function. \[\begin{aligned} f(a) = \int_{-\infty}^a p(\theta) d\theta \end{aligned}\] As the specific case: If $p(\theta)$ is logistic distribution, then $f(a)$ would be logistic sigmoid function. If $p(\theta)$ is standard normal distribution, then $f(a)$ would be probit function \[\begin{aligned} \Phi(a) = \int_{-\infty}^a \mathcal{N}(\theta\mid 0,1)d\theta \end{aligned}\] erf function: \[\begin{aligned} \text{erf}(a) = \frac {2}{\sqrt{\pi}} \int_0^a \exp(-\theta^2/2)d\theta \\ \\ \Phi(a) = \frac 12 \left(1+\frac {1}{\sqrt{2}}\text{erf}(a)\right) \end{aligned}\] The generalized linear model based on a probit activation function is known as probit regression." />
+<meta property="og:description" content="Probabilistic Discriminative Models Explicitly to use the functional form of the generalized linear model and to determine its parameters by using ML And in this direct approach, we are maximizing a likelihood function defined through the conditional distribution $p(C_k\mid \boldsymbol{x})$ ,( posterior distribution), which represents a form of discriminative training Logistic Regression Definition Let $\phi = \phi(\boldsymbol{x})$ be the $M$-dim feature vector. [\begin{aligned} p(C_1\mid \phi) &amp;= y(\phi) = \sigma(\boldsymbol{w}^T\phi) \ p(C_2 \mid \phi) &amp;= 1 - y(\phi) = 1 - p(C_1\mid \phi) \end{aligned}] Then the number of adjustable parameters in this model would be $M$. Likelihood Function: For a data set ${\boldsymbol{x}_n, t_n}$, $t_n \in {0,1}$ Let $y_n = \sigma(\boldsymbol{w}^T\phi(\boldsymbol{x}_n))$ \[\begin{aligned} p(\mathcal{D} \mid \boldsymbol{w}) &amp;= \prod_{n=1}^N p(C_1\mid \phi_n)^{t_n} p(C_2\mid \phi)^{1-t_n} \\ &amp;= \prod_{n=1}^N y_n^{t_n}(1-y_n)^{1-t_n} \end{aligned}\] Cross Entropy error : The Negative logrithm of this likelihood function \[\begin{aligned} E(\boldsymbol{w}) = -\ln p(\mathcal{D} \mid \boldsymbol{w}) = \sum_{i=1}^N [t_n\ln y_n + (1-t_n)\ln (1-y_n)] \end{aligned}\] The Gradient: \[\begin{aligned} \nabla E(\boldsymbol{w}) &amp;= \frac {dE}{d\boldsymbol{w}} \\ &amp;= \frac {dE}{dy} \frac {dy}{d\sigma}\frac {d\sigma}{da}\frac {da}{d\boldsymbol{w}} \\ &amp;= - \sum_{n=1}^N \frac {t_n}{y_n}y_n(1-y_n)\phi_n+\frac {1-t_n}{1-y_n}·-1·y_n(1-y_n)\phi_n \\ &amp;= -\sum_{n=1}^N (t_n(1-y_n) - (1-t_n)y_n) \phi_n \\ &amp;= \sum_{n=1}^N (y_n - t_n) \phi_n \end{aligned}\] Note: Maximimum likelihood can exhibit server over-fitting for data sets that are linearly separable,. This arise because the maximum likelihood solution occurs when the hyperplane corresponding to $\sigma=0.5$, equivalent to $\boldsymbol{w}^T\phi = 0$, separates the two classes and the magnitude of $\boldsymbol{w}$ goes to infinity. Iterative Reweighted Least Squares There is no longer a closed-form solution, due to the nonlinearity of the logistic sigmoid function. Newton-Raphson method \[\begin{aligned} \boldsymbol{w}^{(new)} = \boldsymbol{w}^{(old)} - H^{-1}\nabla E(\boldsymbol{w}) \end{aligned}\] Hessian \[\begin{aligned} H = \nabla \nabla E(\boldsymbol{w}) &amp;= \sum_{n=1}^N y_n(1-y_n)\phi_n\phi_n^T \\ &amp;= \Phi^T R \Phi \\ \\ R&amp;= \text{diag}\{y_n(1-y_n)\} \end{aligned}\] We can see the Hessian matrix is not a constant, but depends on $\boldsymbol{w}$ through the weighting matrix $R$ And using the property $0&lt;y_n&lt;1$, then $\boldsymbol{u}^TH\boldsymbol{u} &gt; 0$. So the error function is a concave function of $\boldsymbol{w}$ and hence has a unique minimum. Iterative Reweighted Least Squares \[\begin{aligned} \boldsymbol{w}^{(new)} &amp;= \boldsymbol{w}^{(old)} - H^{-1}\nabla E(\boldsymbol{w})\\ &amp;= \boldsymbol{w}^{(old)} - (\Phi^T R \Phi)^{-1}\Phi^T(\mathbf{y} - \mathbf{t}) \\ &amp;= (\Phi^T R \Phi)^{-1}(\Phi^T R \Phi\boldsymbol{w}^{(old)} - \Phi^T(\mathbf{y} - \mathbf{t})) \\ &amp;= (\Phi^T R \Phi)^{-1}\Phi^T R \boldsymbol{z} \\ \\ \boldsymbol{z} &amp;= \Phi\boldsymbol{w}^{(old)} - R^{-1}(\mathbf{y} - \mathbf{t}) \end{aligned}\] Now, we see why this method be called “Reweighted Least Squares” Further more, the $R$ can be interpreted as variances, just like the weighted Least Square method. \[\begin{aligned} t&amp;\sim \text{Bern}(t \mid y) \\ \mathbb{E} &amp;= y \\ \text{var}[t] &amp;= y(1-y) \end{aligned}\] Addition: Logistic regression measures the relationship between the categorical dependent variable and one or more independent variables by estimating probabilities using a logistic function, which is the cumulative distribution function of logistic distribution. Latent Variable Interpretation latent variable $y’ = wx + w_0 + \varepsilon$ \[\begin{aligned} y = \left\{ \begin{aligned} &amp;1\qquad &amp;wx+w_0+\varepsilon &gt;0 \\ &amp;0\qquad &amp;\text{else} \end{aligned} \right. \end{aligned}\] where $\varepsilon$ is an error distributed by the standard logistic distribution. Multiclass Logistic Regression (Softmax Regression) Definition \[\begin{aligned} p(C_k\mid \phi) &amp;= y_k(\phi) = \frac {\exp(a_k)}{\sum_j \exp(a_j)} \\ a_k &amp;= \boldsymbol{w}^T_k\phi(\boldsymbol{x}) \end{aligned}\] Likelihood Funciton \[\begin{aligned} p(\mathcal{D} \mid \boldsymbol{w}_1, ..., \boldsymbol{w}_K) &amp;= \prod_{n=1}^N\prod_{k=1}^K p(C_k\mid \phi_n)^{t_{nk}} = \prod_{n=1}^N\prod_{k=1}^K y_{nk}^{t_{nk}} \end{aligned}\] Cross Entropy error \[\begin{aligned} E(\boldsymbol{w}_1, ..., \boldsymbol{w}_K) &amp;= -\ln p(\mathcal{D} \mid \boldsymbol{w}_1, ..., \boldsymbol{w}_K) \\&amp;= -\sum_{n=1}^N\sum_{k=1}^K t_{nk}\ln y_{nk} \end{aligned}\] Partial Derivative $\frac {\partial y_{nk}}{\partial a_j}$ if $k\neq j$ \[\begin{aligned} \frac {\partial y_{nk}}{\partial a_j} &amp;= \frac {-\exp(a_j)\exp(a_k)}{(\sum_i \exp(a_i))^2} \\ &amp;= -y_{nj}y_{nk} \end{aligned}\] if $k == j$: \[\begin{aligned} \frac {\partial y_{nk}}{\partial a_j} &amp;= \frac {\exp(a_j)}{\sum_i \exp(a_i)} - \frac {\exp(a_j)^2}{(\sum_i \exp(a_i))^2} \\ &amp;= y_{nj}(1-y_{nj}) \end{aligned}\] Then $\frac {\partial y_{nk}}{\partial a_j} = y_{nk}(I_{jk} - y_{nj})$ $\frac {\partial \ln y_{nk}}{\partial \boldsymbol{w}_j}$ \[\begin{aligned} \frac {\partial \ln y_{nk}}{\partial \boldsymbol{w}_j} &amp;= \frac {\partial \ln y_{nk}}{\partial y_{nk}}\frac {\partial y_{nk}}{\partial a_j}\frac {\partial a_j}{\partial \boldsymbol{w}_j} \\ &amp;= \frac {1}{y_{nk}} y_{nk}(I_{jk} - y_{nj})\phi_n \\ &amp;= (I_{jk} - y_{nj})\phi_n \end{aligned}\] $\nabla_{\boldsymbol{w}_j} E$ \[\begin{aligned} \nabla_{\boldsymbol{w}_j} E(\boldsymbol{w}_1, ..., \boldsymbol{w}_K) &amp;= -\sum_{n=1}^N\sum_{k=1}^K t_{nk}\frac {\partial \ln y_{nk}}{\partial \boldsymbol{w}_j} \\ &amp;= -\sum_{n=1}^N\sum_{k=1}^K t_{nk}(I_{jk} - y_{nj})\phi_n \\ &amp;= \sum_{n=1}^N\sum_{k=1}^K t_{nk} y_{nj}\phi_n - \sum_{n=1}^N t_{nj}\phi_n \\ &amp;= \sum_{n=1}^N (y_{nk}-t_{nk})\phi_n \end{aligned}\] Hessian Matrix: \[\begin{aligned} \nabla_{\boldsymbol{w}_k}\nabla_{\boldsymbol{w}_j} E(\boldsymbol{w}_1, ..., \boldsymbol{w}_K) &amp;= \sum_{n=1}^N y_{nk}(I_{jk} - y_{nj})\phi_n\phi_n^T \end{aligned}\] Probit Regression The latent variable interpretation: \[\begin{aligned} y = \left\{ \begin{aligned} &amp;1\qquad &amp;wx+w_0+\varepsilon &gt;0 \\ &amp;0\qquad &amp;\text{else} \end{aligned} \right. \end{aligned}\] where $\varepsilon$ is an error distributed by the standard normal distribution. In general, let $a_n = \boldsymbol{w}^T\phi_n$ \[\begin{aligned} t_n = \left\{ \begin{aligned} &amp;1\qquad &amp;a_n &gt;\theta \\ &amp;0\qquad &amp;\text{else} \end{aligned} \right. \end{aligned}\] If the value of $theta$ is drawn from a probability density $p(\theta)$, then the corresponding activation function will be given by the cumulative distributoin function. \[\begin{aligned} f(a) = \int_{-\infty}^a p(\theta) d\theta \end{aligned}\] As the specific case: If $p(\theta)$ is logistic distribution, then $f(a)$ would be logistic sigmoid function. If $p(\theta)$ is standard normal distribution, then $f(a)$ would be probit function \[\begin{aligned} \Phi(a) = \int_{-\infty}^a \mathcal{N}(\theta\mid 0,1)d\theta \end{aligned}\] erf function: \[\begin{aligned} \text{erf}(a) = \frac {2}{\sqrt{\pi}} \int_0^a \exp(-\theta^2/2)d\theta \\ \\ \Phi(a) = \frac 12 \left(1+\frac {1}{\sqrt{2}}\text{erf}(a)\right) \end{aligned}\] The generalized linear model based on a probit activation function is known as probit regression." />
+<link rel="canonical" href="http://0.0.0.0:4000/posts/probabilistic_discriminative_model/" />
+<meta property="og:url" content="http://0.0.0.0:4000/posts/probabilistic_discriminative_model/" />
+<meta property="og:site_name" content="Candy Note" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-02-20T23:00:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Probabilistic Discriminative Models" />
+<meta name="twitter:site" content="@twitter_username" />
+<meta name="twitter:creator" content="@luo-songtao" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"luo-songtao"},"dateModified":"2022-02-20T23:00:00+00:00","datePublished":"2022-02-20T23:00:00+00:00","description":"Probabilistic Discriminative Models Explicitly to use the functional form of the generalized linear model and to determine its parameters by using ML And in this direct approach, we are maximizing a likelihood function defined through the conditional distribution $p(C_k\\mid \\boldsymbol{x})$ ,( posterior distribution), which represents a form of discriminative training Logistic Regression Definition Let $\\phi = \\phi(\\boldsymbol{x})$ be the $M$-dim feature vector. [\\begin{aligned} p(C_1\\mid \\phi) &amp;= y(\\phi) = \\sigma(\\boldsymbol{w}^T\\phi) \\ p(C_2 \\mid \\phi) &amp;= 1 - y(\\phi) = 1 - p(C_1\\mid \\phi) \\end{aligned}] Then the number of adjustable parameters in this model would be $M$. Likelihood Function: For a data set ${\\boldsymbol{x}_n, t_n}$, $t_n \\in {0,1}$ Let $y_n = \\sigma(\\boldsymbol{w}^T\\phi(\\boldsymbol{x}_n))$ \\[\\begin{aligned} p(\\mathcal{D} \\mid \\boldsymbol{w}) &amp;= \\prod_{n=1}^N p(C_1\\mid \\phi_n)^{t_n} p(C_2\\mid \\phi)^{1-t_n} \\\\ &amp;= \\prod_{n=1}^N y_n^{t_n}(1-y_n)^{1-t_n} \\end{aligned}\\] Cross Entropy error : The Negative logrithm of this likelihood function \\[\\begin{aligned} E(\\boldsymbol{w}) = -\\ln p(\\mathcal{D} \\mid \\boldsymbol{w}) = \\sum_{i=1}^N [t_n\\ln y_n + (1-t_n)\\ln (1-y_n)] \\end{aligned}\\] The Gradient: \\[\\begin{aligned} \\nabla E(\\boldsymbol{w}) &amp;= \\frac {dE}{d\\boldsymbol{w}} \\\\ &amp;= \\frac {dE}{dy} \\frac {dy}{d\\sigma}\\frac {d\\sigma}{da}\\frac {da}{d\\boldsymbol{w}} \\\\ &amp;= - \\sum_{n=1}^N \\frac {t_n}{y_n}y_n(1-y_n)\\phi_n+\\frac {1-t_n}{1-y_n}·-1·y_n(1-y_n)\\phi_n \\\\ &amp;= -\\sum_{n=1}^N (t_n(1-y_n) - (1-t_n)y_n) \\phi_n \\\\ &amp;= \\sum_{n=1}^N (y_n - t_n) \\phi_n \\end{aligned}\\] Note: Maximimum likelihood can exhibit server over-fitting for data sets that are linearly separable,. This arise because the maximum likelihood solution occurs when the hyperplane corresponding to $\\sigma=0.5$, equivalent to $\\boldsymbol{w}^T\\phi = 0$, separates the two classes and the magnitude of $\\boldsymbol{w}$ goes to infinity. Iterative Reweighted Least Squares There is no longer a closed-form solution, due to the nonlinearity of the logistic sigmoid function. Newton-Raphson method \\[\\begin{aligned} \\boldsymbol{w}^{(new)} = \\boldsymbol{w}^{(old)} - H^{-1}\\nabla E(\\boldsymbol{w}) \\end{aligned}\\] Hessian \\[\\begin{aligned} H = \\nabla \\nabla E(\\boldsymbol{w}) &amp;= \\sum_{n=1}^N y_n(1-y_n)\\phi_n\\phi_n^T \\\\ &amp;= \\Phi^T R \\Phi \\\\ \\\\ R&amp;= \\text{diag}\\{y_n(1-y_n)\\} \\end{aligned}\\] We can see the Hessian matrix is not a constant, but depends on $\\boldsymbol{w}$ through the weighting matrix $R$ And using the property $0&lt;y_n&lt;1$, then $\\boldsymbol{u}^TH\\boldsymbol{u} &gt; 0$. So the error function is a concave function of $\\boldsymbol{w}$ and hence has a unique minimum. Iterative Reweighted Least Squares \\[\\begin{aligned} \\boldsymbol{w}^{(new)} &amp;= \\boldsymbol{w}^{(old)} - H^{-1}\\nabla E(\\boldsymbol{w})\\\\ &amp;= \\boldsymbol{w}^{(old)} - (\\Phi^T R \\Phi)^{-1}\\Phi^T(\\mathbf{y} - \\mathbf{t}) \\\\ &amp;= (\\Phi^T R \\Phi)^{-1}(\\Phi^T R \\Phi\\boldsymbol{w}^{(old)} - \\Phi^T(\\mathbf{y} - \\mathbf{t})) \\\\ &amp;= (\\Phi^T R \\Phi)^{-1}\\Phi^T R \\boldsymbol{z} \\\\ \\\\ \\boldsymbol{z} &amp;= \\Phi\\boldsymbol{w}^{(old)} - R^{-1}(\\mathbf{y} - \\mathbf{t}) \\end{aligned}\\] Now, we see why this method be called “Reweighted Least Squares” Further more, the $R$ can be interpreted as variances, just like the weighted Least Square method. \\[\\begin{aligned} t&amp;\\sim \\text{Bern}(t \\mid y) \\\\ \\mathbb{E} &amp;= y \\\\ \\text{var}[t] &amp;= y(1-y) \\end{aligned}\\] Addition: Logistic regression measures the relationship between the categorical dependent variable and one or more independent variables by estimating probabilities using a logistic function, which is the cumulative distribution function of logistic distribution. Latent Variable Interpretation latent variable $y’ = wx + w_0 + \\varepsilon$ \\[\\begin{aligned} y = \\left\\{ \\begin{aligned} &amp;1\\qquad &amp;wx+w_0+\\varepsilon &gt;0 \\\\ &amp;0\\qquad &amp;\\text{else} \\end{aligned} \\right. \\end{aligned}\\] where $\\varepsilon$ is an error distributed by the standard logistic distribution. Multiclass Logistic Regression (Softmax Regression) Definition \\[\\begin{aligned} p(C_k\\mid \\phi) &amp;= y_k(\\phi) = \\frac {\\exp(a_k)}{\\sum_j \\exp(a_j)} \\\\ a_k &amp;= \\boldsymbol{w}^T_k\\phi(\\boldsymbol{x}) \\end{aligned}\\] Likelihood Funciton \\[\\begin{aligned} p(\\mathcal{D} \\mid \\boldsymbol{w}_1, ..., \\boldsymbol{w}_K) &amp;= \\prod_{n=1}^N\\prod_{k=1}^K p(C_k\\mid \\phi_n)^{t_{nk}} = \\prod_{n=1}^N\\prod_{k=1}^K y_{nk}^{t_{nk}} \\end{aligned}\\] Cross Entropy error \\[\\begin{aligned} E(\\boldsymbol{w}_1, ..., \\boldsymbol{w}_K) &amp;= -\\ln p(\\mathcal{D} \\mid \\boldsymbol{w}_1, ..., \\boldsymbol{w}_K) \\\\&amp;= -\\sum_{n=1}^N\\sum_{k=1}^K t_{nk}\\ln y_{nk} \\end{aligned}\\] Partial Derivative $\\frac {\\partial y_{nk}}{\\partial a_j}$ if $k\\neq j$ \\[\\begin{aligned} \\frac {\\partial y_{nk}}{\\partial a_j} &amp;= \\frac {-\\exp(a_j)\\exp(a_k)}{(\\sum_i \\exp(a_i))^2} \\\\ &amp;= -y_{nj}y_{nk} \\end{aligned}\\] if $k == j$: \\[\\begin{aligned} \\frac {\\partial y_{nk}}{\\partial a_j} &amp;= \\frac {\\exp(a_j)}{\\sum_i \\exp(a_i)} - \\frac {\\exp(a_j)^2}{(\\sum_i \\exp(a_i))^2} \\\\ &amp;= y_{nj}(1-y_{nj}) \\end{aligned}\\] Then $\\frac {\\partial y_{nk}}{\\partial a_j} = y_{nk}(I_{jk} - y_{nj})$ $\\frac {\\partial \\ln y_{nk}}{\\partial \\boldsymbol{w}_j}$ \\[\\begin{aligned} \\frac {\\partial \\ln y_{nk}}{\\partial \\boldsymbol{w}_j} &amp;= \\frac {\\partial \\ln y_{nk}}{\\partial y_{nk}}\\frac {\\partial y_{nk}}{\\partial a_j}\\frac {\\partial a_j}{\\partial \\boldsymbol{w}_j} \\\\ &amp;= \\frac {1}{y_{nk}} y_{nk}(I_{jk} - y_{nj})\\phi_n \\\\ &amp;= (I_{jk} - y_{nj})\\phi_n \\end{aligned}\\] $\\nabla_{\\boldsymbol{w}_j} E$ \\[\\begin{aligned} \\nabla_{\\boldsymbol{w}_j} E(\\boldsymbol{w}_1, ..., \\boldsymbol{w}_K) &amp;= -\\sum_{n=1}^N\\sum_{k=1}^K t_{nk}\\frac {\\partial \\ln y_{nk}}{\\partial \\boldsymbol{w}_j} \\\\ &amp;= -\\sum_{n=1}^N\\sum_{k=1}^K t_{nk}(I_{jk} - y_{nj})\\phi_n \\\\ &amp;= \\sum_{n=1}^N\\sum_{k=1}^K t_{nk} y_{nj}\\phi_n - \\sum_{n=1}^N t_{nj}\\phi_n \\\\ &amp;= \\sum_{n=1}^N (y_{nk}-t_{nk})\\phi_n \\end{aligned}\\] Hessian Matrix: \\[\\begin{aligned} \\nabla_{\\boldsymbol{w}_k}\\nabla_{\\boldsymbol{w}_j} E(\\boldsymbol{w}_1, ..., \\boldsymbol{w}_K) &amp;= \\sum_{n=1}^N y_{nk}(I_{jk} - y_{nj})\\phi_n\\phi_n^T \\end{aligned}\\] Probit Regression The latent variable interpretation: \\[\\begin{aligned} y = \\left\\{ \\begin{aligned} &amp;1\\qquad &amp;wx+w_0+\\varepsilon &gt;0 \\\\ &amp;0\\qquad &amp;\\text{else} \\end{aligned} \\right. \\end{aligned}\\] where $\\varepsilon$ is an error distributed by the standard normal distribution. In general, let $a_n = \\boldsymbol{w}^T\\phi_n$ \\[\\begin{aligned} t_n = \\left\\{ \\begin{aligned} &amp;1\\qquad &amp;a_n &gt;\\theta \\\\ &amp;0\\qquad &amp;\\text{else} \\end{aligned} \\right. \\end{aligned}\\] If the value of $theta$ is drawn from a probability density $p(\\theta)$, then the corresponding activation function will be given by the cumulative distributoin function. \\[\\begin{aligned} f(a) = \\int_{-\\infty}^a p(\\theta) d\\theta \\end{aligned}\\] As the specific case: If $p(\\theta)$ is logistic distribution, then $f(a)$ would be logistic sigmoid function. If $p(\\theta)$ is standard normal distribution, then $f(a)$ would be probit function \\[\\begin{aligned} \\Phi(a) = \\int_{-\\infty}^a \\mathcal{N}(\\theta\\mid 0,1)d\\theta \\end{aligned}\\] erf function: \\[\\begin{aligned} \\text{erf}(a) = \\frac {2}{\\sqrt{\\pi}} \\int_0^a \\exp(-\\theta^2/2)d\\theta \\\\ \\\\ \\Phi(a) = \\frac 12 \\left(1+\\frac {1}{\\sqrt{2}}\\text{erf}(a)\\right) \\end{aligned}\\] The generalized linear model based on a probit activation function is known as probit regression.","headline":"Probabilistic Discriminative Models","mainEntityOfPage":{"@type":"WebPage","@id":"http://0.0.0.0:4000/posts/probabilistic_discriminative_model/"},"url":"http://0.0.0.0:4000/posts/probabilistic_discriminative_model/"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+  <title>Probabilistic Discriminative Models | Candy Note
+  </title>
+
+  <!--
+  The Favicons for Web, Android, Microsoft, and iOS (iPhone and iPad) Apps
+  Generated by: https://realfavicongenerator.net/
+-->
+
+
+
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/img/favicons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicons/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicons/favicon-16x16.png">
+<link rel="manifest" href="/assets/img/favicons/site.webmanifest">
+<link rel="shortcut icon" href="/assets/img/favicons/favicon.ico">
+<meta name="apple-mobile-web-app-title" content="Candy Note">
+<meta name="application-name" content="Candy Note">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="msapplication-config" content="/assets/img/favicons/browserconfig.xml">
+<meta name="theme-color" content="#ffffff">
+
+
+  
+
+    
+      <link rel="preconnect" href="https://fonts.googleapis.com" >
+      <link rel="dns-prefetch" href="https://fonts.googleapis.com" >
+    
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+      <link rel="dns-prefetch" href="https://fonts.gstatic.com" crossorigin>
+    
+      <link rel="preconnect" href="https://fonts.googleapis.com" >
+      <link rel="dns-prefetch" href="https://fonts.googleapis.com" >
+    
+      <link rel="preconnect" href="https://cdn.jsdelivr.net" >
+      <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" >
+    
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato&family=Source+Sans+Pro:wght@400;600;700;900&display=swap">
+
+  
+
+  <!-- GA -->
+  
+
+  <!-- Bootstrap -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.11.2/css/all.min.css">
+
+  <link rel="stylesheet" href="/assets/css/style.css">
+
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@1.0.1/dist/bootstrap-toc.min.css">
+  
+
+  
+    <!-- Manific Popup -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/magnific-popup@1/dist/magnific-popup.min.css">
+  
+
+  <!-- JavaScript -->
+
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+
+</head>
+
+
+  
+    <!--
+  Switch the mode between dark and light.
+-->
+
+<script type="text/javascript">
+  class ModeToggle {
+    static get MODE_KEY() { return "mode"; }
+    static get MODE_ATTR() { return "data-mode"; }
+    static get DARK_MODE() { return "dark"; }
+    static get LIGHT_MODE() { return "light"; }
+    static get ID() { return "mode-toggle"; }
+
+    constructor() {
+      if (this.hasMode) {
+        if (this.isDarkMode) {
+          if (!this.isSysDarkPrefer) {
+            this.setDark();
+          }
+        } else {
+          if (this.isSysDarkPrefer) {
+            this.setLight();
+          }
+        }
+      }
+
+      let self = this;
+
+      /* always follow the system prefers */
+      this.sysDarkPrefers.addEventListener("change", () => {
+        if (self.hasMode) {
+          if (self.isDarkMode) {
+            if (!self.isSysDarkPrefer) {
+              self.setDark();
+            }
+
+          } else {
+            if (self.isSysDarkPrefer) {
+              self.setLight();
+            }
+          }
+
+          self.clearMode();
+        }
+
+        self.notify();
+
+      });
+
+    } /* constructor() */
+
+    get sysDarkPrefers() { return window.matchMedia("(prefers-color-scheme: dark)"); }
+
+    get isSysDarkPrefer() { return this.sysDarkPrefers.matches; }
+
+    get isDarkMode() { return this.mode === ModeToggle.DARK_MODE; }
+
+    get isLightMode() { return this.mode === ModeToggle.LIGHT_MODE; }
+
+    get hasMode() { return this.mode != null; }
+
+    get mode() { return sessionStorage.getItem(ModeToggle.MODE_KEY); }
+
+    /* get the current mode on screen */
+    get modeStatus() {
+      if (this.isDarkMode
+        || (!this.hasMode && this.isSysDarkPrefer)) {
+        return ModeToggle.DARK_MODE;
+      } else {
+        return ModeToggle.LIGHT_MODE;
+      }
+    }
+
+    setDark() {
+      $('html').attr(ModeToggle.MODE_ATTR, ModeToggle.DARK_MODE);
+      sessionStorage.setItem(ModeToggle.MODE_KEY, ModeToggle.DARK_MODE);
+    }
+
+    setLight() {
+      $('html').attr(ModeToggle.MODE_ATTR, ModeToggle.LIGHT_MODE);
+      sessionStorage.setItem(ModeToggle.MODE_KEY, ModeToggle.LIGHT_MODE);
+    }
+
+    clearMode() {
+      $('html').removeAttr(ModeToggle.MODE_ATTR);
+      sessionStorage.removeItem(ModeToggle.MODE_KEY);
+    }
+
+    /* Notify another plugins that the theme mode has changed */
+    notify() {
+      window.postMessage({
+        direction: ModeToggle.ID,
+        message: this.modeStatus
+      }, "*");
+    }
+
+  } /* ModeToggle */
+
+  const toggle = new ModeToggle();
+
+  function flipMode() {
+    if (toggle.hasMode) {
+      if (toggle.isSysDarkPrefer) {
+        if (toggle.isLightMode) {
+          toggle.clearMode();
+        } else {
+          toggle.setLight();
+        }
+
+      } else {
+        if (toggle.isDarkMode) {
+          toggle.clearMode();
+        } else {
+          toggle.setDark();
+        }
+      }
+
+    } else {
+      if (toggle.isSysDarkPrefer) {
+        toggle.setLight();
+      } else {
+        toggle.setDark();
+      }
+    }
+
+    toggle.notify();
+
+  } /* flipMode() */
+
+</script>
+
+  
+
+  <body data-spy="scroll" data-target="#toc" data-topbar-visible="true">
+
+    <!--
+  The Side Bar
+-->
+
+<div id="sidebar" class="d-flex flex-column align-items-end">
+  <div class="profile-wrapper text-center">
+    <div id="avatar">
+      <a href="/" alt="avatar" class="mx-auto">
+        
+          
+          <img src="
+            
+              /assets/img/head.jpg
+            
+          " alt="avatar" onerror="this.style.display='none'">
+        
+      </a>
+    </div>
+
+    <div class="site-title mt-3">
+      <a href="/">Candy Note</a>
+    </div>
+    <div class="site-subtitle font-italic">Personal Notes</div>
+
+  </div><!-- .profile-wrapper -->
+
+  <ul class="w-100">
+
+    <!-- home -->
+    <li class="nav-item">
+      <a href="/" class="nav-link">
+        <i class="fa-fw fas fa-home ml-xl-3 mr-xl-3 unloaded"></i>
+        <span>HOME</span>
+      </a>
+    </li>
+    <!-- the real tabs -->
+    
+    <li class="nav-item">
+      <a href="/categories/" class="nav-link">
+        <i class="fa-fw fas fa-stream ml-xl-3 mr-xl-3 unloaded"></i>
+        
+
+        <span>CATEGORIES</span>
+      </a>
+    </li> <!-- .nav-item -->
+    
+    <li class="nav-item">
+      <a href="/tags/" class="nav-link">
+        <i class="fa-fw fas fa-tag ml-xl-3 mr-xl-3 unloaded"></i>
+        
+
+        <span>TAGS</span>
+      </a>
+    </li> <!-- .nav-item -->
+    
+    <li class="nav-item">
+      <a href="/archives/" class="nav-link">
+        <i class="fa-fw fas fa-archive ml-xl-3 mr-xl-3 unloaded"></i>
+        
+
+        <span>ARCHIVES</span>
+      </a>
+    </li> <!-- .nav-item -->
+    
+    <li class="nav-item">
+      <a href="/about/" class="nav-link">
+        <i class="fa-fw fas fa-info-circle ml-xl-3 mr-xl-3 unloaded"></i>
+        
+
+        <span>ABOUT</span>
+      </a>
+    </li> <!-- .nav-item -->
+    
+
+  </ul> <!-- ul.nav.flex-column -->
+
+  <div class="sidebar-bottom mt-auto d-flex flex-wrap justify-content-center align-items-center">
+
+    
+      <button class="mode-toggle btn" aria-label="Switch Mode">
+        <i class="fas fa-adjust"></i>
+      </button>
+
+      
+        <span class="icon-border"></span>
+      
+    
+
+    
+      
+
+      
+      <a href="https://github.com/github_username" aria-label="github"
+        target="_blank" rel="noopener">
+        <i class="fab fa-github"></i>
+      </a>
+      
+
+    
+      
+
+      
+      <a href="https://twitter.com/twitter_username" aria-label="twitter"
+        target="_blank" rel="noopener">
+        <i class="fab fa-twitter"></i>
+      </a>
+      
+
+    
+      
+
+      
+      <a href="
+          javascript:location.href = 'mailto:' + ['ryomawithlst','gmail.com'].join('@')" aria-label="email"
+        >
+        <i class="fas fa-envelope"></i>
+      </a>
+      
+
+    
+      
+
+      
+      <a href="/feed.xml" aria-label="rss"
+        >
+        <i class="fas fa-rss"></i>
+      </a>
+      
+
+    
+
+  </div> <!-- .sidebar-bottom -->
+
+</div><!-- #sidebar -->
+
+
+    <!--
+  The Top Bar
+-->
+
+<div id="topbar-wrapper" class="row justify-content-center">
+  <div id="topbar" class="col-11 d-flex h-100 align-items-center justify-content-between">
+    <span id="breadcrumb">
+
+    
+
+    
+
+      
+
+        
+          <span>
+            <a href="/">
+              Home
+            </a>
+          </span>
+
+        
+
+      
+
+        
+
+      
+
+        
+
+          
+            <span>Probabilistic Discriminative Models</span>
+          
+
+        
+
+      
+
+    
+
+    </span><!-- endof #breadcrumb -->
+
+    <i id="sidebar-trigger" class="fas fa-bars fa-fw"></i>
+
+    <div id="topbar-title">
+      Post
+    </div>
+
+    <i id="search-trigger" class="fas fa-search fa-fw"></i>
+    <span id="search-wrapper" class="align-items-center">
+      <i class="fas fa-search fa-fw"></i>
+      <input class="form-control" id="search-input" type="search"
+        aria-label="search" autocomplete="off" placeholder="Search...">
+    </span>
+    <span id="search-cancel" >Cancel</span>
+  </div>
+
+</div>
+
+
+    <div id="main-wrapper">
+      <div id="main">
+
+        
+
+
+
+
+
+
+
+
+
+<div class="row">
+
+  <!-- core -->
+  <div id="core-wrapper" class="col-12 col-lg-11 col-xl-8">
+    <div class="post pl-1 pr-1 pl-sm-2 pr-sm-2 pl-md-4 pr-md-4">
+
+    
+
+    
+      
+      
+        <!--
+  Refactor the HTML structure.
+-->
+
+
+
+<!--
+  In order to allow a wide table to scroll horizontally,
+  we suround the markdown table with `<div class="table-wrapper">` and `</div>`
+-->
+
+
+
+<!--
+  Fixed kramdown code highlight rendering:
+  https://github.com/penibelst/jekyll-compress-html/issues/101
+  https://github.com/penibelst/jekyll-compress-html/issues/71#issuecomment-188144901
+-->
+
+
+
+<!-- Add attribute 'hide-bullet' to the checkbox list -->
+
+
+
+<!-- images -->
+
+
+
+
+
+<!-- Add header for code snippets -->
+
+
+
+<!-- Create heading anchors -->
+
+
+
+
+
+  
+  
+
+  
+    
+    
+
+    
+      
+        
+        
+      
+
+      
+      
+
+      
+      
+      
+
+      
+
+    
+
+    
+
+  
+
+  
+  
+
+  
+    
+    
+
+    
+      
+        
+        
+      
+
+      
+      
+
+      
+      
+      
+
+      
+
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+
+    
+
+    
+
+  
+
+  
+  
+
+  
+    
+    
+
+    
+      
+        
+        
+      
+
+      
+      
+
+      
+      
+      
+
+      
+
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+
+    
+
+    
+
+  
+
+  
+  
+
+  
+
+
+
+
+<!-- Wrap prompt element of blockquote with the <div> tag -->
+
+
+
+
+
+
+
+<!-- return -->
+
+
+
+
+
+
+
+<h1 data-toc-skip>Probabilistic Discriminative Models</h1>
+
+<div class="post-meta text-muted">
+
+  <!-- author -->
+  <div>
+    
+    
+
+    
+
+    By
+    <em>
+      
+        <a href="https://github.com/luo-songtao">luo-songtao</a>
+      
+    </em>
+  </div>
+
+  <div class="d-flex">
+    <div>
+      <!-- published date -->
+      <span>
+        Posted
+        <!--
+  Date format snippet
+  See: ${JS_ROOT}/utils/timeago.js
+-->
+
+<em class="timeago"
+    data-ts="1645398000"
+    
+      data-toggle="tooltip" data-placement="bottom" data-tooltip-df="llll"
+    
+    >
+  2022-02-20
+</em>
+
+      </span>
+
+      <!-- lastmod date -->
+      
+
+      <!-- read time -->
+      <!--
+  Calculate the post's reading time, and display the word count in tooltip
+ -->
+
+
+
+<!-- words per minute  -->
+
+
+
+
+
+
+
+
+
+
+<!-- return element -->
+<span class="readtime" data-toggle="tooltip" data-placement="bottom"
+  title="826 words">
+  <em>4 min</em> read</span>
+
+
+      <!-- page views -->
+      
+    </div>
+
+  </div> <!-- .d-flex -->
+
+</div> <!-- .post-meta -->
+
+<div class="post-content">
+  <h2 id="probabilistic-discriminative-models"><span class="mr-2">Probabilistic Discriminative Models</span><a href="#probabilistic-discriminative-models" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2></h2>
+
+<ul>
+  <li>Explicitly to use the functional form of the generalized linear model and to determine its parameters by using ML
+    <ul>
+      <li>And in this direct approach, we are maximizing a likelihood function defined through the conditional distribution $p(C_k\mid \boldsymbol{x})$ ,( posterior distribution), which represents a form of <strong>discriminative</strong> training</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="logistic-regression"><span class="mr-2">Logistic Regression</span><a href="#logistic-regression" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3></h3>
+
+<h4 id="definition"><span class="mr-2">Definition</span><a href="#definition" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h4></h4>
+
+<ul>
+  <li>Let $\phi = \phi(\boldsymbol{x})$ be the $M$-dim feature vector.</li>
+</ul>
+
+\[\begin{aligned} p(C_1\mid \phi) &amp;= y(\phi) = \sigma(\boldsymbol{w}^T\phi) \\ p(C_2 \mid \phi) &amp;= 1 - y(\phi) = 1 - p(C_1\mid \phi) \end{aligned}\]
+
+<ul>
+  <li>
+    <p>Then the number of adjustable parameters in this model would be $M$.</p>
+  </li>
+  <li>Likelihood Function: For a data set ${\boldsymbol{x}_n, t_n}$, $t_n \in {0,1}$
+    <ul>
+      <li>Let $y_n = \sigma(\boldsymbol{w}^T\phi(\boldsymbol{x}_n))$</li>
+    </ul>
+
+\[\begin{aligned} p(\mathcal{D} \mid \boldsymbol{w}) &amp;= \prod_{n=1}^N p(C_1\mid \phi_n)^{t_n} p(C_2\mid \phi)^{1-t_n} \\ &amp;= \prod_{n=1}^N y_n^{t_n}(1-y_n)^{1-t_n} \end{aligned}\]
+  </li>
+  <li>
+    <p>Cross Entropy error : The Negative logrithm of this likelihood function</p>
+
+\[\begin{aligned} E(\boldsymbol{w}) = -\ln p(\mathcal{D} \mid \boldsymbol{w}) = \sum_{i=1}^N [t_n\ln y_n + (1-t_n)\ln (1-y_n)] \end{aligned}\]
+
+    <ul>
+      <li>
+        <p>The Gradient:</p>
+
+\[\begin{aligned} \nabla E(\boldsymbol{w}) &amp;= \frac {dE}{d\boldsymbol{w}} \\ &amp;= \frac {dE}{dy} \frac {dy}{d\sigma}\frac {d\sigma}{da}\frac {da}{d\boldsymbol{w}} \\ &amp;= - \sum_{n=1}^N \frac {t_n}{y_n}y_n(1-y_n)\phi_n+\frac {1-t_n}{1-y_n}·-1·y_n(1-y_n)\phi_n \\ &amp;= -\sum_{n=1}^N (t_n(1-y_n) - (1-t_n)y_n) \phi_n \\ &amp;= \sum_{n=1}^N (y_n - t_n) \phi_n   \end{aligned}\]
+      </li>
+    </ul>
+  </li>
+  <li>Note: Maximimum likelihood can exhibit server over-fitting for data sets that are linearly separable,. This arise because the maximum likelihood solution occurs when the hyperplane corresponding to $\sigma=0.5$, equivalent to $\boldsymbol{w}^T\phi = 0$, separates the two classes and the magnitude of $\boldsymbol{w}$  goes to infinity.</li>
+</ul>
+
+<h4 id="iterative-reweighted-least-squares"><span class="mr-2">Iterative Reweighted Least Squares</span><a href="#iterative-reweighted-least-squares" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h4></h4>
+
+<ul>
+  <li>
+    <p>There is no longer a closed-form solution, due to the nonlinearity of the logistic sigmoid function.</p>
+  </li>
+  <li>
+    <p>Newton-Raphson method</p>
+
+\[\begin{aligned} \boldsymbol{w}^{(new)} = \boldsymbol{w}^{(old)} - H^{-1}\nabla E(\boldsymbol{w})  \end{aligned}\]
+  </li>
+  <li>
+    <p>Hessian</p>
+
+\[\begin{aligned} H = \nabla \nabla E(\boldsymbol{w}) &amp;= \sum_{n=1}^N y_n(1-y_n)\phi_n\phi_n^T \\ &amp;= \Phi^T R \Phi \\ \\ R&amp;= \text{diag}\{y_n(1-y_n)\} \end{aligned}\]
+
+    <ul>
+      <li>We can see the Hessian matrix is not a constant, but depends on $\boldsymbol{w}$ through the weighting matrix $R$</li>
+      <li>And using the property $0&lt;y_n&lt;1$, then $\boldsymbol{u}^TH\boldsymbol{u} &gt; 0$. So the error function is a concave function of $\boldsymbol{w}$ and hence has a unique minimum.</li>
+    </ul>
+  </li>
+  <li>
+    <p>Iterative Reweighted Least Squares</p>
+
+\[\begin{aligned} \boldsymbol{w}^{(new)} &amp;= \boldsymbol{w}^{(old)} - H^{-1}\nabla E(\boldsymbol{w})\\ &amp;= \boldsymbol{w}^{(old)} - (\Phi^T R \Phi)^{-1}\Phi^T(\mathbf{y} - \mathbf{t}) \\ &amp;= (\Phi^T R \Phi)^{-1}(\Phi^T R \Phi\boldsymbol{w}^{(old)} - \Phi^T(\mathbf{y} - \mathbf{t})) \\ &amp;= (\Phi^T R \Phi)^{-1}\Phi^T R \boldsymbol{z} \\ \\ \boldsymbol{z} &amp;= \Phi\boldsymbol{w}^{(old)} - R^{-1}(\mathbf{y} - \mathbf{t})  \end{aligned}\]
+
+    <ul>
+      <li>
+        <p>Now, we see why this method be called “Reweighted Least Squares”</p>
+      </li>
+      <li>
+        <p>Further more, the $R$ can be interpreted as variances, just like the weighted Least Square method.</p>
+
+\[\begin{aligned} t&amp;\sim \text{Bern}(t \mid y) \\ \mathbb{E} &amp;= y \\ \text{var}[t] &amp;= y(1-y) \end{aligned}\]
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>Addition: Logistic regression measures the relationship between the categorical dependent variable and one or more independent variables by estimating probabilities using a logistic function, which is the cumulative distribution function of logistic distribution.</p>
+    <ul>
+      <li>
+        <p><a href="https://en.wikipedia.org/wiki/Logistic_regression#Latent_variable_interpretation">Latent Variable Interpretation</a></p>
+      </li>
+      <li>
+        <p>latent variable $y’ = wx + w_0 + \varepsilon$</p>
+
+\[\begin{aligned} y = \left\{ \begin{aligned} &amp;1\qquad &amp;wx+w_0+\varepsilon &gt;0 \\ &amp;0\qquad &amp;\text{else} \end{aligned} \right. \end{aligned}\]
+      </li>
+      <li>
+        <p>where $\varepsilon$ is an error distributed by the standard <a href="https://en.wikipedia.org/wiki/Logistic_distribution">logistic distribution</a>.</p>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="multiclass-logistic-regression-softmax-regression"><span class="mr-2">Multiclass Logistic Regression (Softmax Regression)</span><a href="#multiclass-logistic-regression-softmax-regression" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3></h3>
+
+<ul>
+  <li>
+    <p>Definition</p>
+
+\[\begin{aligned} p(C_k\mid \phi) &amp;= y_k(\phi) = \frac {\exp(a_k)}{\sum_j \exp(a_j)} \\ a_k &amp;= \boldsymbol{w}^T_k\phi(\boldsymbol{x}) \end{aligned}\]
+  </li>
+  <li>
+    <p>Likelihood Funciton</p>
+
+\[\begin{aligned} p(\mathcal{D} \mid \boldsymbol{w}_1, ..., \boldsymbol{w}_K) &amp;= \prod_{n=1}^N\prod_{k=1}^K p(C_k\mid \phi_n)^{t_{nk}} = \prod_{n=1}^N\prod_{k=1}^K y_{nk}^{t_{nk}} \end{aligned}\]
+  </li>
+  <li>
+    <p>Cross Entropy error</p>
+
+\[\begin{aligned} E(\boldsymbol{w}_1, ..., \boldsymbol{w}_K) &amp;= -\ln p(\mathcal{D} \mid \boldsymbol{w}_1, ..., \boldsymbol{w}_K) \\&amp;= -\sum_{n=1}^N\sum_{k=1}^K t_{nk}\ln y_{nk} \end{aligned}\]
+  </li>
+  <li>
+    <p>Partial Derivative</p>
+
+    <ul>
+      <li>
+        <p>$\frac {\partial y_{nk}}{\partial a_j}$</p>
+
+        <ul>
+          <li>
+            <p>if $k\neq j$</p>
+
+\[\begin{aligned} \frac {\partial y_{nk}}{\partial a_j} &amp;= \frac {-\exp(a_j)\exp(a_k)}{(\sum_i \exp(a_i))^2} \\ &amp;= -y_{nj}y_{nk}   \end{aligned}\]
+          </li>
+          <li>
+            <p>if $k == j$:</p>
+
+\[\begin{aligned} \frac {\partial y_{nk}}{\partial a_j} &amp;= \frac {\exp(a_j)}{\sum_i \exp(a_i)} - \frac {\exp(a_j)^2}{(\sum_i \exp(a_i))^2} \\ &amp;= y_{nj}(1-y_{nj})   \end{aligned}\]
+          </li>
+          <li>
+            <p>Then $\frac {\partial y_{nk}}{\partial a_j} = y_{nk}(I_{jk} - y_{nj})$</p>
+          </li>
+          <li>
+            <p>$\frac {\partial \ln y_{nk}}{\partial \boldsymbol{w}_j}$</p>
+
+\[\begin{aligned} \frac {\partial \ln y_{nk}}{\partial \boldsymbol{w}_j} &amp;= \frac {\partial \ln y_{nk}}{\partial y_{nk}}\frac {\partial y_{nk}}{\partial a_j}\frac {\partial a_j}{\partial \boldsymbol{w}_j} \\ &amp;= \frac {1}{y_{nk}} y_{nk}(I_{jk} - y_{nj})\phi_n \\ &amp;= (I_{jk} - y_{nj})\phi_n  \end{aligned}\]
+          </li>
+        </ul>
+      </li>
+      <li>
+        <p>$\nabla_{\boldsymbol{w}_j} E$</p>
+
+\[\begin{aligned} \nabla_{\boldsymbol{w}_j} E(\boldsymbol{w}_1, ..., \boldsymbol{w}_K) &amp;= -\sum_{n=1}^N\sum_{k=1}^K t_{nk}\frac {\partial \ln y_{nk}}{\partial \boldsymbol{w}_j} \\ &amp;= -\sum_{n=1}^N\sum_{k=1}^K t_{nk}(I_{jk} - y_{nj})\phi_n \\ &amp;= \sum_{n=1}^N\sum_{k=1}^K t_{nk} y_{nj}\phi_n - \sum_{n=1}^N t_{nj}\phi_n \\ &amp;= \sum_{n=1}^N (y_{nk}-t_{nk})\phi_n \end{aligned}\]
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>Hessian Matrix:</p>
+
+\[\begin{aligned} \nabla_{\boldsymbol{w}_k}\nabla_{\boldsymbol{w}_j} E(\boldsymbol{w}_1, ..., \boldsymbol{w}_K) &amp;= \sum_{n=1}^N y_{nk}(I_{jk} - y_{nj})\phi_n\phi_n^T  \end{aligned}\]
+  </li>
+</ul>
+
+<h3 id="probit-regression"><span class="mr-2">Probit Regression</span><a href="#probit-regression" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3></h3>
+
+<ul>
+  <li>
+    <p>The latent variable interpretation:</p>
+
+\[\begin{aligned} y = \left\{ \begin{aligned} &amp;1\qquad &amp;wx+w_0+\varepsilon &gt;0 \\ &amp;0\qquad &amp;\text{else} \end{aligned} \right. \end{aligned}\]
+
+    <ul>
+      <li>where $\varepsilon$ is an error distributed by the standard normal distribution.</li>
+    </ul>
+  </li>
+  <li>
+    <p>In general, let $a_n = \boldsymbol{w}^T\phi_n$</p>
+
+\[\begin{aligned} t_n = \left\{ \begin{aligned} &amp;1\qquad &amp;a_n &gt;\theta \\ &amp;0\qquad &amp;\text{else} \end{aligned} \right. \end{aligned}\]
+
+    <ul>
+      <li>
+        <p>If the value of $theta$ is drawn from a probability density $p(\theta)$, then the corresponding activation function will be given by the cumulative distributoin function.</p>
+
+\[\begin{aligned} f(a) = \int_{-\infty}^a p(\theta) d\theta \end{aligned}\]
+      </li>
+    </ul>
+  </li>
+  <li>As the specific case:
+    <ul>
+      <li>If $p(\theta)$ is logistic distribution, then $f(a)$ would be logistic sigmoid function.</li>
+      <li>
+        <p>If $p(\theta)$ is standard normal distribution, then $f(a)$ would be probit function</p>
+
+\[\begin{aligned} \Phi(a) = \int_{-\infty}^a \mathcal{N}(\theta\mid 0,1)d\theta \end{aligned}\]
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>erf function:</p>
+
+\[\begin{aligned} \text{erf}(a) = \frac {2}{\sqrt{\pi}} \int_0^a \exp(-\theta^2/2)d\theta \\ \\ \Phi(a) = \frac 12 \left(1+\frac {1}{\sqrt{2}}\text{erf}(a)\right) \end{aligned}\]
+  </li>
+  <li>The generalized linear model based on a probit activation function is known as probit regression.</li>
+</ul>
+
+
+</div>
+
+<div class="post-tail-wrapper text-muted">
+
+  <!-- categories -->
+  
+  <div class="post-meta mb-3">
+    <i class="far fa-folder-open fa-fw mr-1"></i>
+    
+      <a href='/categories/machine-learning/'>Machine Learning</a>,
+      <a href='/categories/discriminant-analysis/'>Discriminant Analysis</a>
+  </div>
+  
+
+  <!-- tags -->
+  
+  <div class="post-tags">
+    <i class="fa fa-tags fa-fw mr-1"></i>
+      
+      <a href="/tags/irls/"
+          class="post-tag no-text-decoration" >IRLS</a>
+      
+      <a href="/tags/logit-softmax/"
+          class="post-tag no-text-decoration" >Logit，Softmax</a>
+      
+  </div>
+  
+
+  <div class="post-tail-bottom
+    d-flex justify-content-between align-items-center mt-3 pt-5 pb-2">
+    <div class="license-wrapper">
+
+      
+
+        
+
+        This post is licensed under 
+        <a href="https://creativecommons.org/licenses/by/4.0/">
+          CC BY 4.0
+        </a>
+         by the author.
+
+      
+    </div>
+
+    <!--
+ Post sharing snippet
+-->
+
+<div class="share-wrapper">
+  <span class="share-label text-muted mr-1">Share</span>
+  <span class="share-icons">
+    
+    
+
+    
+      
+        <a href="https://twitter.com/intent/tweet?text=Probabilistic Discriminative Models - Candy Note&amp;url=http://0.0.0.0:4000/posts/probabilistic_discriminative_model/" data-toggle="tooltip" data-placement="top"
+          title="Twitter" target="_blank" rel="noopener" aria-label="Twitter">
+          <i class="fa-fw fab fa-twitter"></i>
+        </a>
+    
+      
+        <a href="https://www.facebook.com/sharer/sharer.php?title=Probabilistic Discriminative Models - Candy Note&amp;u=http://0.0.0.0:4000/posts/probabilistic_discriminative_model/" data-toggle="tooltip" data-placement="top"
+          title="Facebook" target="_blank" rel="noopener" aria-label="Facebook">
+          <i class="fa-fw fab fa-facebook-square"></i>
+        </a>
+    
+      
+        <a href="https://t.me/share/url?url=http://0.0.0.0:4000/posts/probabilistic_discriminative_model/&amp;text=Probabilistic Discriminative Models - Candy Note" data-toggle="tooltip" data-placement="top"
+          title="Telegram" target="_blank" rel="noopener" aria-label="Telegram">
+          <i class="fa-fw fab fa-telegram"></i>
+        </a>
+    
+
+    <i id="copy-link" class="fa-fw fas fa-link small"
+        data-toggle="tooltip" data-placement="top"
+        title="Copy link"
+        data-title-succeed="Link copied successfully!">
+    </i>
+
+  </span>
+</div>
+
+
+  </div><!-- .post-tail-bottom -->
+
+</div><!-- div.post-tail-wrapper -->
+
+
+      
+    
+    
+
+    </div>
+  </div> <!-- #core-wrapper -->
+
+  <!-- pannel -->
+  <div id="panel-wrapper" class="col-xl-3 pl-2 text-muted">
+
+    <div class="access">
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+
+
+  <div id="access-tags">
+    <div class="panel-heading">Trending Tags</div>
+    <div class="d-flex flex-wrap mt-3 mb-1 mr-3">
+
+    
+      
+      <a class="post-tag" href="/tags/gaussian-distribution/">Gaussian Distribution</a>
+    
+      
+      <a class="post-tag" href="/tags/pca/">PCA</a>
+    
+      
+      <a class="post-tag" href="/tags/em/">EM</a>
+    
+      
+      <a class="post-tag" href="/tags/bayesian/">Bayesian</a>
+    
+      
+      <a class="post-tag" href="/tags/markov-chain/">Markov Chain</a>
+    
+      
+      <a class="post-tag" href="/tags/bernoulli/">Bernoulli</a>
+    
+      
+      <a class="post-tag" href="/tags/binomial/">Binomial</a>
+    
+      
+      <a class="post-tag" href="/tags/gamma-distribution/">Gamma Distribution</a>
+    
+      
+      <a class="post-tag" href="/tags/gmm/">GMM</a>
+    
+      
+      <a class="post-tag" href="/tags/kernel/">Kernel</a>
+    
+
+    </div>
+  </div>
+
+
+    </div>
+
+    
+      
+      
+
+
+
+<!-- BS-toc.js will be loaded at medium priority -->
+<script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@1.0.1/dist/bootstrap-toc.min.js"></script>
+
+<div id="toc-wrapper" class="pl-0 pr-4 mb-5">
+  <div class="panel-heading pl-3 pt-2 mb-2">Contents</div>
+  <nav id="toc" data-toggle="toc"></nav>
+</div>
+
+
+    
+  </div>
+
+</div>
+
+<!-- tail -->
+
+<div class="row">
+  <div class="col-12 col-lg-11 col-xl-8">
+    <div id="tail-wrapper" class="pl-1 pr-1 pl-sm-2 pr-sm-2 pl-md-4 pr-md-4">
+      
+        
+        <!--
+ Recommend the other 3 posts according to the tags and categories of the current post,
+ if the number is not enough, use the other latest posts to supplement.
+-->
+
+<!-- The total size of related posts  -->
+
+
+<!-- An random integer that bigger than 0  -->
+
+
+<!-- Equals to TAG_SCORE / {max_categories_hierarchy}  -->
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+
+
+
+<!-- Fill with the other newlest posts  -->
+
+
+
+
+
+
+  <div id="related-posts" class="mt-5 mb-2 mb-sm-4">
+    <h3 class="pt-2 mt-1 mb-4 ml-1"
+      data-toc-skip>Further Reading</h3>
+    <div class="card-deck mb-4">
+    
+      
+      
+      <div class="card">
+        <a href="/posts/probabilistic_generative_models/">
+          <div class="card-body">
+            <!--
+  Date format snippet
+  See: ${JS_ROOT}/utils/timeago.js
+-->
+
+<em class="timeago small"
+    data-ts="1645398000"
+    
+    >
+  2022-02-20
+</em>
+
+            <h3 class="pt-0 mt-1 mb-3" data-toc-skip>Probabilistic Generative Model</h3>
+            <div class="text-muted small">
+              <p>
+                
+
+
+
+
+
+                Probabilistic Generative Model
+
+
+  
+    Model the class-conditional densities $p(x\vert C_k )$, as well as the class priors $p(C_k)$
+  
+  
+    The posterior probabilities: can obtained through Baye...
+              </p>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+      
+      
+      <div class="card">
+        <a href="/posts/discriminant_analysis/">
+          <div class="card-body">
+            <!--
+  Date format snippet
+  See: ${JS_ROOT}/utils/timeago.js
+-->
+
+<em class="timeago small"
+    data-ts="1645398000"
+    
+    >
+  2022-02-20
+</em>
+
+            <h3 class="pt-0 mt-1 mb-3" data-toc-skip>Discriminant Analysis</h3>
+            <div class="text-muted small">
+              <p>
+                
+
+
+
+
+
+                Discriminant Analysis
+
+Least Square for classification
+
+
+  
+    Each class has a linear model:
+
+\[\begin{aligned} y_k = \boldsymbol{w}_k^T\boldsymbol{x}_k + w_0 \end{aligned}\]
+
+    
+      
+       ...
+              </p>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+      
+      
+      <div class="card">
+        <a href="/posts/HMM/">
+          <div class="card-body">
+            <!--
+  Date format snippet
+  See: ${JS_ROOT}/utils/timeago.js
+-->
+
+<em class="timeago small"
+    data-ts="1645401600"
+    
+    >
+  2022-02-21
+</em>
+
+            <h3 class="pt-0 mt-1 mb-3" data-toc-skip>Hidden Markov Model</h3>
+            <div class="text-muted small">
+              <p>
+                
+
+
+
+
+
+                Hidden Markov Model
+
+Assume that all latent variables form a Markov chain, giving rise to the graphical structure, this is known as a state space model.
+
+If the latent variables are discrete, then ...
+              </p>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+    </div> <!-- .card-deck -->
+  </div> <!-- #related-posts -->
+
+
+      
+        
+        <!--
+  Navigation buttons at the bottom of the post.
+-->
+
+<div class="post-navigation d-flex justify-content-between">
+  
+  <a href="/posts/discriminant_analysis/" class="btn btn-outline-primary"
+    prompt="Older">
+    <p>Discriminant Analysis</p>
+  </a>
+  
+
+  
+  <a href="/posts/probabilistic_generative_models/" class="btn btn-outline-primary"
+    prompt="Newer">
+    <p>Probabilistic Generative Model</p>
+  </a>
+  
+
+</div>
+
+      
+        
+        <!--  The comments switcher -->
+
+
+      
+    </div>
+  </div>
+</div> <!-- .row -->
+
+
+
+        <!--
+  The Footer
+-->
+
+<footer class="d-flex w-100 justify-content-center">
+  <div class="d-flex justify-content-between align-items-center text-muted">
+    <div class="footer-left">
+      <p class="mb-0">
+        © 2022
+        <a href="https://twitter.com/username">luo-songtao</a>.
+        
+        <span data-toggle="tooltip" data-placement="top"
+          title="Except where otherwise noted, the blog posts on this site are licensed under the Creative Commons Attribution 4.0 International (CC BY 4.0) License by the author.">Some rights reserved.</span>
+        
+      </p>
+    </div>
+
+    <div class="footer-right">
+      <p class="mb-0">
+        
+
+        
+
+        Powered by 
+          <a href="https://jekyllrb.com" target="_blank" rel="noopener">Jekyll</a>
+         with 
+          <a href="https://github.com/cotes2020/jekyll-theme-chirpy" target="_blank" rel="noopener">Chirpy</a>
+         theme.
+
+      </p>
+    </div>
+
+  </div> <!-- div.d-flex -->
+</footer>
+
+
+      </div>
+
+      <!--
+  The Search results
+-->
+<div id="search-result-wrapper" class="d-flex justify-content-center unloaded">
+  <div class="col-12 col-sm-11 post-content">
+    <div id="search-hints">
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+
+
+  <div id="access-tags">
+    <div class="panel-heading">Trending Tags</div>
+    <div class="d-flex flex-wrap mt-3 mb-1 mr-3">
+
+    
+      
+      <a class="post-tag" href="/tags/gaussian-distribution/">Gaussian Distribution</a>
+    
+      
+      <a class="post-tag" href="/tags/pca/">PCA</a>
+    
+      
+      <a class="post-tag" href="/tags/em/">EM</a>
+    
+      
+      <a class="post-tag" href="/tags/bayesian/">Bayesian</a>
+    
+      
+      <a class="post-tag" href="/tags/markov-chain/">Markov Chain</a>
+    
+      
+      <a class="post-tag" href="/tags/bernoulli/">Bernoulli</a>
+    
+      
+      <a class="post-tag" href="/tags/binomial/">Binomial</a>
+    
+      
+      <a class="post-tag" href="/tags/gamma-distribution/">Gamma Distribution</a>
+    
+      
+      <a class="post-tag" href="/tags/gmm/">GMM</a>
+    
+      
+      <a class="post-tag" href="/tags/kernel/">Kernel</a>
+    
+
+    </div>
+  </div>
+
+
+    </div>
+    <div id="search-results" class="d-flex flex-wrap justify-content-center text-muted mt-3"></div>
+  </div>
+</div>
+
+
+    </div> <!-- #main-wrapper -->
+
+    
+      <!--
+  mermaid-js loader
+-->
+
+<script src="https://cdn.jsdelivr.net/npm/mermaid@8/dist/mermaid.min.js"></script>
+
+<script>
+  $(function() {
+    function updateMermaid(event) {
+      if (event.source === window && event.data &&
+            event.data.direction === ModeToggle.ID) {
+
+        const mode = event.data.message;
+
+        if (typeof mermaid === "undefined") {
+          return;
+        }
+
+        let expectedTheme = (mode === ModeToggle.DARK_MODE? "dark" : "default");
+        let config = { theme: expectedTheme };
+
+        /* Re-render the SVG › <https://github.com/mermaid-js/mermaid/issues/311#issuecomment-332557344> */
+        $(".mermaid").each(function() {
+          let svgCode = $(this).prev().children().html();
+          $(this).removeAttr("data-processed");
+          $(this).html(svgCode);
+        });
+
+        mermaid.initialize(config);
+        mermaid.init(undefined, ".mermaid");
+      }
+    }
+
+    let initTheme = "default";
+
+    if ($("html[data-mode=dark]").length > 0
+      || ($("html[data-mode]").length == 0
+        && window.matchMedia("(prefers-color-scheme: dark)").matches ) ) {
+      initTheme = "dark";
+    }
+
+    let mermaidConf = {
+      theme: initTheme  /* <default|dark|forest|neutral> */
+    };
+
+    /* Markdown converts to HTML */
+    $("pre").has("code.language-mermaid").each(function() {
+      let svgCode = $(this).children().html();
+      $(this).addClass("unloaded");
+      $(this).after(`<div class=\"mermaid\">${svgCode}</div>`);
+    });
+
+    mermaid.initialize(mermaidConf);
+
+    window.addEventListener("message", updateMermaid);
+  });
+</script>
+
+    
+
+    <div id="mask"></div>
+
+    <a id="back-to-top" href="#" aria-label="back-to-top" class="btn btn-lg btn-box-shadow" role="button">
+      <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!--
+  Jekyll Simple Search loader
+  See: <https://github.com/christian-fei/Simple-Jekyll-Search>
+-->
+
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/simple-jekyll-search@1.10.0/dest/simple-jekyll-search.min.js"></script>
+
+<script>
+SimpleJekyllSearch({
+  searchInput: document.getElementById('search-input'),
+  resultsContainer: document.getElementById('search-results'),
+  json: '/assets/js/data/search.json',
+  searchResultTemplate: '<div class="pl-1 pr-1 pl-sm-2 pr-sm-2 pl-lg-4 pr-lg-4 pl-xl-0 pr-xl-0">  <a href="{url}">{title}</a>  <div class="post-meta d-flex flex-column flex-sm-row text-muted mt-1 mb-1">    {categories}    {tags}  </div>  <p>{snippet}</p></div>',
+  noResultsText: '<p class="mt-5">Oops! No result founds.</p>',
+  templateMiddleware: function(prop, value, template) {
+    if (prop === 'categories') {
+      if (value === '') {
+        return `${value}`;
+      } else {
+        return `<div class="mr-sm-4"><i class="far fa-folder fa-fw"></i>${value}</div>`;
+      }
+    }
+
+    if (prop === 'tags') {
+      if (value === '') {
+        return `${value}`;
+      } else {
+        return `<div><i class="fa fa-tag fa-fw"></i>${value}</div>`;
+      }
+    }
+  }
+});
+</script>
+
+
+    <!--
+  JS selector for site.
+-->
+
+<!-- layout specified -->
+
+
+  
+
+
+
+  <!-- image lazy-loading & popup & clipboard -->
+  
+
+  
+
+
+
+
+
+
+
+  
+    
+
+    
+
+  
+
+
+
+  
+    
+
+    
+
+  
+
+
+
+  
+    
+
+    
+
+  
+
+
+
+
+  <script src="https://cdn.jsdelivr.net/combine/npm/magnific-popup@1/dist/jquery.magnific-popup.min.js,npm/lozad/dist/lozad.min.js,npm/clipboard@2/dist/clipboard.min.js"></script>
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+
+
+
+
+
+  
+    
+
+    
+
+  
+
+
+
+  
+    
+
+    
+
+  
+
+
+
+  
+    
+
+    
+
+  
+
+
+
+  
+    
+
+    
+
+  
+
+
+
+
+  <script src="https://cdn.jsdelivr.net/combine/npm/dayjs@1/dayjs.min.js,npm/dayjs@1/locale/en.min.js,npm/dayjs@1/plugin/relativeTime.min.js,npm/dayjs@1/plugin/localizedFormat.min.js"></script>
+
+
+
+
+
+
+
+
+<script defer src="/assets/js/dist/post.min.js"></script>
+
+
+  <!-- MathJax -->
+  <script>
+  /* see: <https://docs.mathjax.org/en/latest/options/input/tex.html#tex-options> */
+  MathJax = {
+    tex: {
+      inlineMath: [              /* start/end delimiter pairs for in-line math */
+        ['$','$'],
+        ['\\(','\\)']
+      ],
+      displayMath: [             /* start/end delimiter pairs for display math */
+        ['$$', '$$'],
+        ['\\[', '\\]']
+      ]
+    }
+  };
+  </script>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+  </script>
+
+
+<!-- commons -->
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.bundle.min.js"></script>
+
+
+
+
+  </body>
+
+</html>
+

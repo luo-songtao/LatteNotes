@@ -4,7 +4,7 @@
   <id>http://0.0.0.0:4000/</id>
   <title>Candy Note</title>
   <subtitle></subtitle>
-  <updated>2022-02-21T02:46:40+00:00</updated>
+  <updated>2022-03-27T18:06:19+00:00</updated>
   <author>
     <name>luo-songtao</name>
     <uri>http://0.0.0.0:4000/</uri>
@@ -14,27 +14,29 @@
     href="http://0.0.0.0:4000/"/>
   <generator uri="https://jekyllrb.com/" version="4.2.1">Jekyll</generator>
   <rights> © 2022 luo-songtao </rights>
-  <icon>//assets/img/favicons/favicon.ico</icon>
-  <logo>//assets/img/favicons/favicon-96x96.png</logo>
+  <icon>/assets/img/favicons/favicon.ico</icon>
+  <logo>/assets/img/favicons/favicon-96x96.png</logo>
 
 
   
   <entry>
-    <title>Proximal Gradient Method</title>
-    <link href="http://0.0.0.0:4000/posts/Proximal_Gradient_Method/" rel="alternate" type="text/html" title="Proximal Gradient Method" />
-    <published>2022-02-20T00:00:00+00:00</published>
+    <title>LeetCode - Dynamic Programming</title>
+    <link href="http://0.0.0.0:4000/posts/dynamic_programming/" rel="alternate" type="text/html" title="LeetCode - Dynamic Programming" />
+    <published>2022-03-01T00:00:00+00:00</published>
   
-    <updated>2022-02-20T00:00:00+00:00</updated>
+    <updated>2022-03-01T00:00:00+00:00</updated>
   
-    <id>http://0.0.0.0:4000/posts/Proximal_Gradient_Method/</id>
-    <content src="http://0.0.0.0:4000/posts/Proximal_Gradient_Method/" />
+    <id>http://0.0.0.0:4000/posts/dynamic_programming/</id>
+    <content src="http://0.0.0.0:4000/posts/dynamic_programming/" />
     <author>
       <name>{"name"=>"luo-songtao", "link"=>"https://github.com/luo-songtao"}</name>
     </author>
 
   
     
-    <category term="Optimization" />
+    <category term="LeetCode" />
+    
+    <category term="Dynamic Programming" />
     
   
 
@@ -46,26 +48,20 @@
 
 
 
-      Proximal Gradient Method
+      Dynamic Programming
 
-Proximal opeartor
+Level Easy
 
-
-  
-    Proximal Opeartor
-
-\[{\displaystyle \operatorname {prox}_{f}(v)=\arg \min _{x\in {\mathcal {X}}}\left(f(x)+{\frac {1}{2}}\|x-v\|_{2}^{2}\right).}\]
-  
-  
-    Compute the Proximal Opeartor
-    
-      
-        Let
-
-\[g(x) = f(x) + {\frac {1}{2}}\|x-v\|_{2}^{2}\]
-      
-      
-        Because $f$ is a covex , and also ${\frac {1}{2}}|x-v|_{2}^{2...
+LeetCode0053 maximum-subarray
+int LeetCode0053::maxContiguousSubArraySum(vector&amp;lt;int&amp;gt;&amp;amp; nums) {
+    /**
+     * Find largest sum subarray, but just return its sum.
+     * Note: A subarray is a `contiguous` part of an array
+     * 
+     * https://leetcode-cn.com/problems/maximum-subarray/
+     * 
+     * Examples:
+     * Input: nums = [-2,1,-3,4,-1,2,1,-5,4...
     </summary>
   
 
@@ -73,21 +69,23 @@ Proximal opeartor
 
   
   <entry>
-    <title>Bayesian Linear Regression</title>
-    <link href="http://0.0.0.0:4000/posts/bayesian_linear_regression/" rel="alternate" type="text/html" title="Bayesian Linear Regression" />
-    <published>2022-02-20T00:00:00+00:00</published>
+    <title>Variational Inference</title>
+    <link href="http://0.0.0.0:4000/posts/variational_inference/" rel="alternate" type="text/html" title="Variational Inference" />
+    <published>2022-02-21T23:00:00+00:00</published>
   
-    <updated>2022-02-20T00:00:00+00:00</updated>
+    <updated>2022-02-21T23:00:00+00:00</updated>
   
-    <id>http://0.0.0.0:4000/posts/bayesian_linear_regression/</id>
-    <content src="http://0.0.0.0:4000/posts/bayesian_linear_regression/" />
+    <id>http://0.0.0.0:4000/posts/variational_inference/</id>
+    <content src="http://0.0.0.0:4000/posts/variational_inference/" />
     <author>
       <name>{"name"=>"luo-songtao", "link"=>"https://github.com/luo-songtao"}</name>
     </author>
 
   
     
-    <category term="Bayesian" />
+    <category term="Machine Learning" />
+    
+    <category term="Variational Inference" />
     
   
 
@@ -99,13 +97,13 @@ Proximal opeartor
 
 
 
-      Bayesian Linear Regression
+      Variational Inference
 
+In Bayesian Learning, when the involved integrations  are no longer computationally tractable. Then Variational Approximation can be used.
 
-  
-    The Linear Model of $f(\boldsymbol{x}, \boldsymbol{w}) = \boldsymbol{w}^T\phi(\boldsymbol{x})$, with Gaussian noise $p(\epsilon) = \mathcal{N}(\epsilon \vert 0, \beta^{-1})$ is given by:
+Although there is nothing intrinsically approximate about variational methods, they do naturally lend themselves to finding approximate solutions.
 
-\[\begin{aligned} y &amp;amp;= \boldsymbol{w}^T\phi(\boldsymbol{x}) + \epsilon \\ p(t\vert \boldsymbol{x}, \boldsymbol{w}, \beta) &amp;amp;= \mathcal{N}(y\vert \boldsymbol{w}^T\bold...
+  This is done by restricting the range of functions over which the optimization is pe...
     </summary>
   
 
@@ -113,23 +111,23 @@ Proximal opeartor
 
   
   <entry>
-    <title>Limit Theorem</title>
-    <link href="http://0.0.0.0:4000/posts/limit_theorem/" rel="alternate" type="text/html" title="Limit Theorem" />
-    <published>2021-02-20T00:00:00+00:00</published>
+    <title>Expectation Maximization</title>
+    <link href="http://0.0.0.0:4000/posts/expectation_maximization/" rel="alternate" type="text/html" title="Expectation Maximization" />
+    <published>2022-02-21T23:00:00+00:00</published>
   
-    <updated>2021-02-20T00:00:00+00:00</updated>
+    <updated>2022-02-21T23:00:00+00:00</updated>
   
-    <id>http://0.0.0.0:4000/posts/limit_theorem/</id>
-    <content src="http://0.0.0.0:4000/posts/limit_theorem/" />
+    <id>http://0.0.0.0:4000/posts/expectation_maximization/</id>
+    <content src="http://0.0.0.0:4000/posts/expectation_maximization/" />
     <author>
       <name>{"name"=>"luo-songtao", "link"=>"https://github.com/luo-songtao"}</name>
     </author>
 
   
     
-    <category term="Probability" />
+    <category term="Machine Learning" />
     
-    <category term="Limit Theorem" />
+    <category term="Expectation Maximization" />
     
   
 
@@ -141,23 +139,18 @@ Proximal opeartor
 
 
 
-      极限定理
+      Expectation Maximization
 
-极限定理是概率论中最重要的理论。其中大数定律和中心极限定理是最核心的两大定理。
-
-马尔可夫不等式（Markov’s inequality）
+EM Lower Bound analysis
 
 
   
-    设$X$为取非负值的随机变量，则对于任何常数$a&amp;gt;0$，有：
-
-\[p(X\ge a) \le \frac {\mathbb{E}[X]}{a}\]
-
+    The expectation Maximization algorithm, or EM aoglrithm, is a general technique for finding maximum likelihood solutoins for probabilistic models having latent variables.
+  
+  Consider a probabilistic model in which we collectively denote:
     
-      
-        证明：
-
-\[\begin{aligned} &amp;amp;令f(x)为p(x)的概率密度函数 \\&amp;amp;\because X 非负 \\ &amp;amp;\therefore \mathbb{E}[X] = \int_0^{\infty}xf(x)dx \\ 又&amp;amp;\because a&amp;gt;0 \\ &amp;amp;\therefore \mathbb{E}[X] \ge \int_a^{\infty}xf(x)dx \\&amp;...
+      all of the observed variables by $\mathbf{X}$
+      all of the hidden variables by $\ma...
     </summary>
   
 
@@ -165,23 +158,23 @@ Proximal opeartor
 
   
   <entry>
-    <title>Exponential Family Distribution</title>
-    <link href="http://0.0.0.0:4000/posts/exponential_family/" rel="alternate" type="text/html" title="Exponential Family Distribution" />
-    <published>2021-02-20T00:00:00+00:00</published>
+    <title>Bayesian Gaussian Mixture Model - Variational Inference</title>
+    <link href="http://0.0.0.0:4000/posts/Bayesian_gmm_varinfer/" rel="alternate" type="text/html" title="Bayesian Gaussian Mixture Model - Variational Inference" />
+    <published>2022-02-21T23:00:00+00:00</published>
   
-    <updated>2021-02-20T00:00:00+00:00</updated>
+    <updated>2022-02-21T23:00:00+00:00</updated>
   
-    <id>http://0.0.0.0:4000/posts/exponential_family/</id>
-    <content src="http://0.0.0.0:4000/posts/exponential_family/" />
+    <id>http://0.0.0.0:4000/posts/Bayesian_gmm_varinfer/</id>
+    <content src="http://0.0.0.0:4000/posts/Bayesian_gmm_varinfer/" />
     <author>
       <name>{"name"=>"luo-songtao", "link"=>"https://github.com/luo-songtao"}</name>
     </author>
 
   
     
-    <category term="Probability" />
+    <category term="Machine Learning" />
     
-    <category term="Distribution" />
+    <category term="Variational Inference" />
     
   
 
@@ -193,15 +186,15 @@ Proximal opeartor
 
 
 
-      指数簇分布
+      Bayesian Gaussian Mixture Model - Variational Inference
 
-指数簇分布
+Likelihood Funcitons
 
-\[\begin{aligned} p(\boldsymbol{x}\vert \boldsymbol{\theta}) = g(\boldsymbol{\theta})f(\boldsymbol{x})\mathrm{exp}[\boldsymbol{\phi}^T(\boldsymbol{\theta})\boldsymbol{u}(\boldsymbol{x})] \end{aligned}\]
+\[\begin{aligned} p(\mathbf{Z}\vert \boldsymbol{\pi}) &amp;amp;= \prod_{n=1}^N\prod_{k=1}^K \pi_k^{z_{nk}} \\ \\ p(\mathbf{X}\vert \mathbf{Z}, \boldsymbol{\mu}, \Lambda) &amp;amp;= \prod_{n=1}^N\prod_{k=1}^K \mathcal{N}(\boldsymbol{x}_n \vert \boldsymbol{\mu}_k, \Lambda_k^{-1})^{z_{nk}} \end{aligned}\]
 
+Conjugate Priors
 
-  
-    $p(\boldsymbol{x}\vert \boldsymbol{\theta})$指在给定参数$\boldsymbol{\theta}$得条件下，随机变量$\boldsymbol{x}$的概率分布，其中$\boldsymbol{x}\in \mathbb{R}^n、\boldsymbol{\theta}\in \mathbb{R}^K...
+\[\...
     </summary>
   
 
@@ -209,21 +202,23 @@ Proximal opeartor
 
   
   <entry>
-    <title>Convergence OF Random Variables</title>
-    <link href="http://0.0.0.0:4000/posts/convergence_of_random_variables/" rel="alternate" type="text/html" title="Convergence OF Random Variables" />
-    <published>2021-02-20T00:00:00+00:00</published>
+    <title>Gaussian Processes</title>
+    <link href="http://0.0.0.0:4000/posts/gaussian_processes/" rel="alternate" type="text/html" title="Gaussian Processes" />
+    <published>2022-02-21T01:00:00+00:00</published>
   
-    <updated>2021-02-20T00:00:00+00:00</updated>
+    <updated>2022-02-21T01:00:00+00:00</updated>
   
-    <id>http://0.0.0.0:4000/posts/convergence_of_random_variables/</id>
-    <content src="http://0.0.0.0:4000/posts/convergence_of_random_variables/" />
+    <id>http://0.0.0.0:4000/posts/gaussian_processes/</id>
+    <content src="http://0.0.0.0:4000/posts/gaussian_processes/" />
     <author>
       <name>{"name"=>"luo-songtao", "link"=>"https://github.com/luo-songtao"}</name>
     </author>
 
   
     
-    <category term="Probability" />
+    <category term="Machine Learning" />
+    
+    <category term="Stochastic Processes" />
     
   
 
@@ -235,30 +230,13 @@ Proximal opeartor
 
 
 
-      随机变量的收敛
+      Gaussian Processes
+
+In the Gaussian process viewpoint, we dispense with the parametric model and instead define a prior probability distribution over functions directly.
 
 
-  随机变量的收敛也可以称为随机收敛，当研究足够多的项时，有时可以预期一系列本质上随机或不可预测的事件会逐渐趋于稳定。一种直观的理解是：
-    
-      随机变量序列最终取一个恒定值，并且随机变量序列中的值继续变化，但可以用一个固定的概率分布来描述。
-    
-  
-
-
-依分布收敛（Convrgence in distribution）
-
-
-  
-    $X_1,X_2,···$是一个实值随机变量序列，F_n是$X_n$的累积分布函数；$X$是一随机变量，$F$是其累积分布函数，如果满足：
-
-\[\begin{aligned} \lim_{n\rightarrow \infty} F_n(x) = F(x) \end{aligned}\]
-
-    则称随机变量序列$X_1,X_2,···$依分布收敛到随机变量$X$
-  
-  
-    其他表现形式
-
- ...
+  At first sight, it might seem difficult to work with a distribution over the uncountably infinite space of functions.
+  However, as we shall see, for a finite training set we only need to consider the values of the function...
     </summary>
   
 

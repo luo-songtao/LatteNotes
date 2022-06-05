@@ -1,0 +1,5163 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html lang="en"
+  
+>
+
+  <!--
+  The Head
+-->
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Allow having a localized datetime different from the appearance language -->
+  
+
+  
+
+    
+
+    
+
+  
+
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+<meta name="generator" content="Jekyll v4.2.1" />
+<meta property="og:title" content="LeetCode - Dynamic Programming" />
+<meta name="author" content="luo-songtao" />
+<meta property="og:locale" content="en" />
+<meta name="description" content="Dynamic Programming Level Easy LeetCode0053 maximum-subarray 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 int LeetCode0053::maxContiguousSubArraySum(vector&lt;int&gt;&amp; nums) { /** * Find largest sum subarray, but just return its sum. * Note: A subarray is a `contiguous` part of an array * * https://leetcode-cn.com/problems/maximum-subarray/ * * Examples: * Input: nums = [-2,1,-3,4,-1,2,1,-5,4] * Output: 6 * Explanation: [4,-1,2,1] has the largest sum = 6. * * Input: nums = [5,4,-1,7,8] * Output: 23 * * Follow up: If you have figured out the O(n) solution, try coding another solution * using the divide and conquer approach, which is more subtle. * * Solutions: * let `mcsas = maxContiguousSubArraySum` * * transition formula: * mcsas(n) = max(mcsas(n-1), mcsas(n-1)+num[n]) * * Keypoint: 考虑连续子序列的中断，然后重置起点的问题 * if sum(curSubArray) + nums[n] &gt; num[n]，则子序列保持连续，即 curSum += nums[n] * else，子序列中断，curSubArray=[num[n]]，即 curSum = nums[n] * * \param nums Array numbers * \return maxsum of subarray */ if (nums.size() == 0) { return NULL; } if (nums.size() == 1) { return nums[0]; } int maxSum = nums[0]; int curSum = maxSum; for (int n = 1; n &lt; nums.size(); ++n) { curSum = max(nums[n], curSum + nums[n]); maxSum = max(curSum, maxSum); } return maxSum; } LeetCode0070 climbing-stairs 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 int LeetCode0070::climbStairs(int n) { /** * You are climbing a staircase. It takes n steps to reach the top. * Each time you can either climb 1 or 2 steps. In how many distinct ways can you climb to the top? * * https://leetcode-cn.com/problems/climbing-stairs/ * * Example: * * Input: n = 2 * Output: 2 * Explanation: There are two ways to climb to the top. * 1. 1 step + 1 step * 2. 2 steps * * Input: n = 3 * Output: 3 * Explanation: There are three ways to climb to the top. * 1. 1 step + 1 step + 1 step * 2. 1 step + 2 steps * 3. 2 steps + 1 step * * Solutions: * transition formula: steps_n = steps_n_1 + steps_n_2 * . */ int steps_n_1 = 1, steps_n_2 = 2, steps_n = 0; if (n == 1) steps_n = steps_n_1; if (n == 2) steps_n = steps_n_2; for (int i = 3; i &lt;= n; ++i) { steps_n = steps_n_1 + steps_n_2; steps_n_1 = steps_n_2; steps_n_2 = steps_n; } return steps_n; } LeetCode0118 pascals-triangle 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 vector&lt;vector&lt;int&gt;&gt; LeetCode0118::generatePascalsTriangle(int numRows) { /** * Given an integer numRows, return the first numRows of Pascal&#39;s triangle. (即杨辉三角) * In Pascal&#39;s triangle, each number is the sum of the two numbers directly above it * * https://leetcode-cn.com/problems/pascals-triangle/ * * Example: * Input: numRows = 5 * Output: [[1],[1,1],[1,2,1],[1,3,3,1],[1,4,6,4,1]] * * Solutions: * Boundary: n=1, array2D=[[1]] * Transition Formula: * for i in 0~n-1: * if i==0: array2D[n][0] = 1; * if 0&lt;i&lt;n-1: array2D[n][i] = array2D[n-1][i] + array2D[n-1][i-1] * if i== n-1: array2D[n][n-1] = 1 * * \param numRows * \return All Rows */ vector&lt;vector&lt;int&gt;&gt; array2D(numRows); for (int n = 0; n &lt; numRows; ++n) { array2D[n].resize(n + 1); array2D[n][0] = 1; for (int i = 1; i &lt; n; ++i) { array2D[n][i] = array2D[n - 1][i] + array2D[n - 1][i-1]; } array2D[n][n] = 1; } return array2D; } LeetCode0119 pascals-triangle-ii 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 vector&lt;int&gt; LeetCode0119::generatePascalsTriangleIIandGetLastRow(int rowIndex) { /** * Return the last row of PascalsTriangle given rowIndex * * Same as LeetCode0118 to generate Pascals&#39; Triangle, but this time, we do not need save all rows, * only need to retain (n-1)-th row and update n-th row * * https://leetcode-cn.com/problems/pascals-triangle-ii/ * * Solutions: * Transition Formula: curRow[i] = preRow[i] + preRow[i - 1], forall i in [1,n-1] * * \param rowIndex * \return */ vector&lt;int&gt; preRow; vector&lt;int&gt; curRow; for (int n = 0; n &lt;= rowIndex; ++n) { for (int i = 1; i &lt; n; ++i) { curRow[i] = preRow[i] + preRow[i - 1]; } curRow.push_back(1); preRow = curRow; } return curRow; } LeetCode0119 pascals-triangle-ii 使用组合数学方式求解 LeetCode0119 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 vector&lt;int&gt; LeetCode0119::generatePascalsTriangleIIandGetLastRow2(int rowIndex) { /** * Return the last row of PascalsTriangle given rowIndex * * Solution: Use a property of Combinatorics: * * C(n,m) = n!/(n-m)! = C(n,m-1) * (n-m+1)/m * * \param rowIndex * \return The last row of PascalsTriangle given rowIndex */ vector&lt;int&gt; row(rowIndex+1); row[0] = 1; for (int m = 1; m &lt;= rowIndex; ++m) { // using 1LL to avoid overflow problem in multiplying and dividing row[m] = 1LL * row[m - 1] * (1LL * rowIndex - m + 1) / m; } return row; } LeetCode0121 best-time-to-buy-and-sell-stock 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 int LeetCode0121::maxProfit(vector&lt;int&gt;&amp; prices) { /** * You are given an array prices where prices[i] is the price of a given stock on the ith day * You want to maximize your profit by choosing a single day to buy one stock and choosing * a different day in the future to sell that stock. * * Return the maximum profit you can achieve from this transaction. * If you cannot achieve any profit, return 0. * * https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock/ * * Input: prices = [7,1,5,3,6,4] * Output: 5 * Explanation: Buy on day 2 (price = 1) and sell on day 5 (price = 6), profit = 6-1 = 5. * Note that buying on day 2 and selling on day 1 is not allowed because you must buy before you sell. * * Solutions: * Transition Formula: maxProfit(n) = max(maxProfit(n), maxProfit(n-1)) * * Keypoint: * if prices[i] - min(prices[0:i-1]) &gt; maximumProfit, * then update maximumProfit, and buyIndex * * \param prices : an array prices * \return maximum profit */ int buyIndex = 0; int minimumPriceIndex = 0; int maximumProfit = 0; int curProfit = 0; for (int i = 1; i &lt; prices.size(); ++i) { // record the min price of prices[0:i+1] if (prices[minimumPriceIndex] &gt; prices[i] &amp;&amp; prices[buyIndex] &gt; prices[i]) { minimumPriceIndex = i; } // Update max profit if exists smaller one curProfit = prices[i] - prices[minimumPriceIndex]; if (maximumProfit &lt; curProfit) { maximumProfit = curProfit; buyIndex = minimumPriceIndex; } } return maximumProfit; } LeetCode0338 counting-bits 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 vector&lt;int&gt; LeetCode0338::countBits(int n) { /** * Given an integer n, return an array ans of length n + 1 such that for each i (0 &lt;= i &lt;= n), * ans[i] is the number of 1&#39;s in the binary representation of i. * * https://leetcode-cn.com/problems/counting-bits/ * * Input: n = 2 * Output: [0,1,1] * Explanation: * 0 --&gt; 0 * 1 --&gt; 1 * 2 --&gt; 10 * * Solutions: * &#39;highestBit&#39; Transition Formula: * if n &amp; (n-1) == 0, then n can be a &#39;highestBit&#39; number; i.e. &#39;highestBit&#39; \in \{1,2,4,8,16,......\} * &#39;highestBit&#39; number has only one bit is &#39;1&#39; at its highest bit. * For example: * bin(2)=0b10 * bin(16)=0b10000 * * countBits[n] = countBits[n-highestBit] + 1 * For example: * bin(6)=0b101, its highestBit is bin(4)=0b100, then countBits[6] = countBits[6-4]+1 = 2 * bin(15)=0b1111, its highestBit is bin(8)=0b1000, then countBits[15] = countBits[15-8]+1 = 4 * therefor, once we have known the &#39;highestBit&#39; of number &#39;n&#39; , we can obtain its 1-bits count in O(1) * * &#39;lowestBit&#39; Transition Formula: using &#39;&gt;&gt;&#39; remove lowest bit, then we have: countBits[n] = countBits[n&gt;&gt;1] + (n&amp;1) * if &#39;n&#39; is egg (lowest bit is 0), then countBits[n] = countBits[n/2] = countBits[n&gt;&gt;1] * 6&gt;&gt;1 = 3; countBit[6] = countBits[3] = 2 * 14&gt;&gt;1 = 7; countBit[14] = countBits[7] = 3 * if &#39;n&#39; is odd (lowest bit is 1), then countBits[n] = countBits[(n-1)/2] + 1 = countBits[n&gt;&gt;1] + 1 * 7&gt;&gt;1 = 3; countBit[7] = countBits[3] + 1 = 3 * 15&gt;&gt;1 = 7; countBit[15] = countBits[7] + 1 = 4 * n &amp; 1 = 0 or 1 * * &#39;lowestBitof1&#39; Transition Formula: * using the property of operator &#39;n&amp;(n-1)&#39;, we can remove the n&#39;s lowest bit of 1, * and then: conuntBits[n] = countBits[n&amp;(n-1)]+1 * For example: * 5 &amp; 4 = 4, i.e. 0b101 &amp; 0b100 = 0b100, then conuntBits[5] = countBits[5&amp;4]+1 = 2 * 8 &amp; 7 = 0, i.e. 0b1000 &amp; 0b0111 = 0b0, then conuntBits[8] = countBits[8&amp;7]+1 = 1 * * \param n * \return */ vector&lt;int&gt; counts(n + 1); for (int i = 1; i &lt;= n; ++i) { // using &#39;lowestBitof1&#39; Transition Formula counts[i] = counts[i &amp; (i-1)] + 1; } return counts; } LeetCode0392 is-subsequence 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 81 82 83 84 85 86 87 88 bool LeetCode0392::isSubsequence(string s, string t) { /** * Given two strings s and t, return true if s is a subsequence of t, or false otherwise. * * A subsequence of a string is a new string that is formed from the original string * by deleting some (can be none) of the characters without disturbing the relative * positions of the remaining characters. (i.e., &quot;ace&quot; is a subsequence of &quot;abcde&quot; while &quot;aec&quot; is not). * * s and t consist only of lowercase English letters * * https://leetcode-cn.com/problems/is-subsequence/ * * Example: * Input: s = &quot;abc&quot;, t = &quot;ahbgdc&quot; * Output: true * * Input: s = &quot;axc&quot;, t = &quot;ahbgdc&quot; * Output: false * * Follow up: Suppose there are lots of incoming s, say s1, s2, ..., sk where k &gt;= `10^9`, * and you want to check one by one to see if t has its subsequence. * In this scenario, how would you change your code? * * Solutions: * Normal Solution: double pointer * while i&lt;s.size &amp;&amp; j &lt;t.size: * if s[i] == t[j]: * i++ * j++ * return true if i == s.size, else false * * (DP)Transition Formula: * Let M = t.size * * Using a `M+1 x 26` matrix , named by &#39;P&#39;, P[i,j] indicates the first occurrence of * the letter &#39;x&#39; in t. * * If some letter &#39;x&#39; not in t, then we simply let P[i,&#39;x&#39;] = M, else P[i,&#39;x&#39;] should be some numnber in [0,M-1]. * * for i in M~0: if t[i] == &#39;x&#39;, P[i,&#39;x&#39;] = i else P[i,&#39;x&#39;] = P[i+1,&#39;x&#39;] * * Note: here &#39;x&#39; represents the index of some letter in array [a,b,c,d,......,x,y,z], * for example, if currentletter is &#39;c&#39; then &#39;x&#39; = 2 * * \param s * \param t * \return */ // Method1: Double Pointer /*int sLen = s.size(), tLen = t.size(); int sIdx = 0, tIdx = 0; while (sIdx &lt; sLen &amp;&amp; tIdx &lt; tLen) { if (s[sIdx] == t[tIdx]) sIdx++; tIdx++; } return sIdx == sLen;*/ // Method2: DP solution. This method works for the scenario described in &quot;Follow up&quot; int M = t.size(); // 1. initialize a `M+1 x 26` dimension Matrix, and fill it with 0 vector&lt;vector &lt;int&gt;&gt; P(M + 1, vector&lt;int&gt;(26, 0)); // 2. initlialize the numbers of row P[M+1] with &quot;M&quot; for (int j = 0; j &lt; 26; ++j) { P[M][j] = M; } // 3. update matrix P respect to target string `t` for (int i = M - 1; i &gt;= 0; --i) { for (int j = 0; j &lt; 26; ++j) { if (t[i] == j + &#39;a&#39;) P[i][j] = i; else P[i][j] = P[i + 1][j]; } } // 4. search if string `s` is a non-contiguous subsequence of `t` according Matrix P int rowIdx = 0; for (int n = 0; n &lt; s.size(); ++n) { if (P[rowIdx][s[n] - &#39;a&#39;] == M) { return false; } rowIdx = P[rowIdx][s[n] - &#39;a&#39;] + 1; } return true; } LeetCode0509 fibonacci-number 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 int LeetCode0509::fibonacci(int n) { /** * The Fibonacci numbers, commonly denoted F(n) form a sequence, called the Fibonacci * sequence, such that each number is the sum of the two preceding ones, starting * from 0 and 1. That is, * * F(0) = 0, F(1) = 1 * F(n) = F(n - 1) + F(n - 2), for n &gt; 1. * * https://leetcode-cn.com/problems/fibonacci-number/ * * \param n * \return */ // Recursion version /* if (n&lt;=1) return n; return fibonacci(n - 1) + fibonacci(n - 2); */ // DP version: bottom up if (n&lt;=1) return n; int fnMinus1 = 0, fnMinus2 = 1; int fn = fnMinus1; for (int i = 2; i &lt;= n; ++i) { fn = fnMinus1 + fnMinus2; fnMinus1 = fnMinus2; fnMinus2 = fn; } return fn; } LeetCode0746 min-cost-climbing-stairs 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 int LeetCode0746::minCostClimbingStairs(vector&lt;int&gt;&amp; cost) { /** * You are given an integer array cost where cost[i] is the cost of ith step on a staircase. * Once you pay the cost, you can either climb one or two steps. * * You can either start from the step with index 0, or the step with index 1. * * Return the minimum cost to reach the top of the floor. * * 2 &lt;= cost.length * * https://leetcode-cn.com/problems/min-cost-climbing-stairs/ * * Example: * Input: cost = [10,15,20] * Output: 15 * Explanation: You will start at index 1. * - Pay 15 and climb two steps to reach the top. * The total cost is 15. * * Input: cost = [1,100,1,1,1,100,1,1,100,1] * Output: 6 * Explanation: You will start at index 0. * - Pay 1 and climb two steps to reach index 2. * - Pay 1 and climb two steps to reach index 4. * - Pay 1 and climb two steps to reach index 6. * - Pay 1 and climb one step to reach index 7. * - Pay 1 and climb two steps to reach index 9. * - Pay 1 and climb one step to reach the top. * The total cost is 6. * * Solutions: * Transition Formula: * totalCost[n] = min(totalCost[n-1] + cost[n-1], totalCost[n-2]+cost[n-2]) * * Note: in this problem, the finall result of n will equal cost.size. * * I think this is not a well defined problem. * * \param cost * \return */ int n = cost.size(); int costIMinus1 = 0, costIMinus2 = 0; int costI = 0; for (int i = 2; i &lt;= n; ++i) { costI = min(costIMinus1 + cost[i - 1], costIMinus2 + cost[i - 2]); costIMinus2 = costIMinus1; costIMinus1 = costI; } return costI; } LeetCode1025 divisor-game 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 bool LeetCode1025::divisorGame(int n) { /** * Alice and Bob take turns playing a game, with Alice starting first. * * Initially, there is a number n on the chalkboard. * On each player&#39;s turn, that player makes a move consisting of: * - Choosing any x with 0 &lt; x &lt; n and n % x == 0. * - Replacing the number n on the chalkboard with n - x. * * Also, if a player cannot make a move, they lose the game. * * Return true if and only if Alice wins the game, assuming both players play optimally. * * https://leetcode-cn.com/problems/divisor-game/ * * Example: * Input: n = 2 * Output: true * Explanation: Alice chooses 1, and Bob has no more moves. * * Input: n = 3 * Output: false * Explanation: Alice chooses 1, Bob chooses 1, and Alice has no more moves. * * Solutions: * https://leetcode-cn.com/problems/divisor-game/solution/chu-shu-bo-yi-by-leetcode-solution/ * * This problem is so boring. * 结论是：n 为奇数的时候 Alice（先手）必败，n 为偶数的时候 Alice 必胜 * The optimal result is &#39;n%2==0&#39; ...... * 转换成DP问题： * * \param n * \return */ return n % 2 == 0; } LeetCode1137 n-th-tribonacci-number 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 int LeetCode1137::tribonacci(int n) { /** * The Tribonacci sequence Tn is defined as follows:  * T0 = 0, T1 = 1, T2 = 1, and Tn+3 = Tn + Tn+1 + Tn+2 for n &gt;= 0. * Given n, return the value of Tn * * https://leetcode-cn.com/problems/n-th-tribonacci-number/ * * Example: * Input: n = 4 * Output: 4 * Explanation: * T_3 = 0 + 1 + 1 = 2 * T_4 = 1 + 1 + 2 = 4 * * Input: n = 25 * Output: 1389537 * * * \param n * \return */ int t0 = 0, t1 = 1, t2 = 1; if (n == 0) return 0; if (n == 1) return 1; if (n == 1) return 1; int tn = 1; for (int i = 3; i &lt;= n; i++) { tn = t2 + t1 + t0; t0 = t1; t1 = t2; t2 = tn; } return tn; } LeetCode1646 get-maximum-in-generated-array 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 int LeetCode1646::getMaximumGenerated(int n) { /** * You are given an integer n. A 0-indexed integer array nums of length n + 1 is * generated in the following way: * - nums[0] = 0 * - nums[1] = 1 * - nums[2 * i] = nums[i] when 2 &lt;= 2 * i &lt;= n * - nums[2 * i + 1] = nums[i] + nums[i + 1] when 2 &lt;= 2 * i + 1 &lt;= n * Return the maximum integer in the array nums​​​. * * https://leetcode-cn.com/problems/get-maximum-in-generated-array/ * * Example: * Input: n = 7 * Output: 3 * Explanation: According to the given rules: * - nums[0] = 0 * - nums[1] = 1 * - nums[(1 * 2) = 2] = nums[1] = 1 * - nums[(1 * 2) + 1 = 3] = nums[1] + nums[2] = 1 + 1 = 2 * - nums[(2 * 2) = 4] = nums[2] = 1 * - nums[(2 * 2) + 1 = 5] = nums[2] + nums[3] = 1 + 2 = 3 * - nums[(3 * 2) = 6] = nums[3] = 2 * - nums[(3 * 2) + 1 = 7] = nums[3] + nums[4] = 2 + 1 = 3 * Hence, nums = [0,1,1,2,1,3,2,3], and * the maximum is max(0,1,1,2,1,3,2,3) = 3 * * Input: n = 2 * Output: 1 * Explanation: According to the given rules, nums = [0,1,1]. * The maximum is max(0,1,1) = 1 * * Input: n = 3 * Output: 2 * Explanation: According to the given rules, nums = [0,1,1,2]. * The maximum is max(0,1,1,2) = 2 * * * * \param n * \return */ if (n &lt;= 1) return n; vector&lt;int&gt; nums(n + 1); nums[1] = 1; int maxNum = nums[1]; for (int j = 2; j &lt;= n; j++) { nums[j] = nums[j / 2] + nums[j / 2 + 1] * (j % 2); maxNum = max(maxNum, nums[j]); } return maxNum; } Level Medium LeetCode0005 longest-palindromic-substring 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 string LeetCode0005::longestPalindrome(string s) { /** * Given a string s, return the longest palindromic substring in s.. * * https://leetcode-cn.com/problems/longest-palindromic-substring/ * * 1 &lt;= s.length &lt;= 1000 * s consist of only digits and English letters * * Example: * Input: s = &quot;babad&quot; * Output: &quot;bab&quot; * Explanation: &quot;aba&quot; is also a valid answer * * Input: s = &quot;cbbd&quot; * Output: &quot;bb&quot; * * Solutions: * DP: * * * \param s * \return */ int N = s.size(); vector&lt;vector&lt;int&gt;&gt; P(N, vector&lt;int&gt;(N, 0)); vector&lt;int&gt; longestPd(2); longestPd[1] = 1; for (int i = 0; i &lt; N; ++i) { P[i][i] = 1; if (i + 1 &lt; N &amp;&amp; s[i] == s[i + 1]) { P[i][i+1] = 1; if (longestPd[1] &lt; 2) { longestPd[0] = i; longestPd[1] = 2; } } } for (int l = 3; l &lt;= N; ++l) { for (int i = 0; i &lt; N-l+1; ++i) { if (s[i] == s[i + l - 1] &amp;&amp; P[i+1][i + l - 2] == 1) { P[i][i + l - 1] = 1; if (longestPd[1] &lt; l) { longestPd[0] = i; longestPd[1] = l; } } } } return s.substr(longestPd[0], longestPd[1]); }" />
+<meta property="og:description" content="Dynamic Programming Level Easy LeetCode0053 maximum-subarray 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 int LeetCode0053::maxContiguousSubArraySum(vector&lt;int&gt;&amp; nums) { /** * Find largest sum subarray, but just return its sum. * Note: A subarray is a `contiguous` part of an array * * https://leetcode-cn.com/problems/maximum-subarray/ * * Examples: * Input: nums = [-2,1,-3,4,-1,2,1,-5,4] * Output: 6 * Explanation: [4,-1,2,1] has the largest sum = 6. * * Input: nums = [5,4,-1,7,8] * Output: 23 * * Follow up: If you have figured out the O(n) solution, try coding another solution * using the divide and conquer approach, which is more subtle. * * Solutions: * let `mcsas = maxContiguousSubArraySum` * * transition formula: * mcsas(n) = max(mcsas(n-1), mcsas(n-1)+num[n]) * * Keypoint: 考虑连续子序列的中断，然后重置起点的问题 * if sum(curSubArray) + nums[n] &gt; num[n]，则子序列保持连续，即 curSum += nums[n] * else，子序列中断，curSubArray=[num[n]]，即 curSum = nums[n] * * \param nums Array numbers * \return maxsum of subarray */ if (nums.size() == 0) { return NULL; } if (nums.size() == 1) { return nums[0]; } int maxSum = nums[0]; int curSum = maxSum; for (int n = 1; n &lt; nums.size(); ++n) { curSum = max(nums[n], curSum + nums[n]); maxSum = max(curSum, maxSum); } return maxSum; } LeetCode0070 climbing-stairs 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 int LeetCode0070::climbStairs(int n) { /** * You are climbing a staircase. It takes n steps to reach the top. * Each time you can either climb 1 or 2 steps. In how many distinct ways can you climb to the top? * * https://leetcode-cn.com/problems/climbing-stairs/ * * Example: * * Input: n = 2 * Output: 2 * Explanation: There are two ways to climb to the top. * 1. 1 step + 1 step * 2. 2 steps * * Input: n = 3 * Output: 3 * Explanation: There are three ways to climb to the top. * 1. 1 step + 1 step + 1 step * 2. 1 step + 2 steps * 3. 2 steps + 1 step * * Solutions: * transition formula: steps_n = steps_n_1 + steps_n_2 * . */ int steps_n_1 = 1, steps_n_2 = 2, steps_n = 0; if (n == 1) steps_n = steps_n_1; if (n == 2) steps_n = steps_n_2; for (int i = 3; i &lt;= n; ++i) { steps_n = steps_n_1 + steps_n_2; steps_n_1 = steps_n_2; steps_n_2 = steps_n; } return steps_n; } LeetCode0118 pascals-triangle 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 vector&lt;vector&lt;int&gt;&gt; LeetCode0118::generatePascalsTriangle(int numRows) { /** * Given an integer numRows, return the first numRows of Pascal&#39;s triangle. (即杨辉三角) * In Pascal&#39;s triangle, each number is the sum of the two numbers directly above it * * https://leetcode-cn.com/problems/pascals-triangle/ * * Example: * Input: numRows = 5 * Output: [[1],[1,1],[1,2,1],[1,3,3,1],[1,4,6,4,1]] * * Solutions: * Boundary: n=1, array2D=[[1]] * Transition Formula: * for i in 0~n-1: * if i==0: array2D[n][0] = 1; * if 0&lt;i&lt;n-1: array2D[n][i] = array2D[n-1][i] + array2D[n-1][i-1] * if i== n-1: array2D[n][n-1] = 1 * * \param numRows * \return All Rows */ vector&lt;vector&lt;int&gt;&gt; array2D(numRows); for (int n = 0; n &lt; numRows; ++n) { array2D[n].resize(n + 1); array2D[n][0] = 1; for (int i = 1; i &lt; n; ++i) { array2D[n][i] = array2D[n - 1][i] + array2D[n - 1][i-1]; } array2D[n][n] = 1; } return array2D; } LeetCode0119 pascals-triangle-ii 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 vector&lt;int&gt; LeetCode0119::generatePascalsTriangleIIandGetLastRow(int rowIndex) { /** * Return the last row of PascalsTriangle given rowIndex * * Same as LeetCode0118 to generate Pascals&#39; Triangle, but this time, we do not need save all rows, * only need to retain (n-1)-th row and update n-th row * * https://leetcode-cn.com/problems/pascals-triangle-ii/ * * Solutions: * Transition Formula: curRow[i] = preRow[i] + preRow[i - 1], forall i in [1,n-1] * * \param rowIndex * \return */ vector&lt;int&gt; preRow; vector&lt;int&gt; curRow; for (int n = 0; n &lt;= rowIndex; ++n) { for (int i = 1; i &lt; n; ++i) { curRow[i] = preRow[i] + preRow[i - 1]; } curRow.push_back(1); preRow = curRow; } return curRow; } LeetCode0119 pascals-triangle-ii 使用组合数学方式求解 LeetCode0119 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 vector&lt;int&gt; LeetCode0119::generatePascalsTriangleIIandGetLastRow2(int rowIndex) { /** * Return the last row of PascalsTriangle given rowIndex * * Solution: Use a property of Combinatorics: * * C(n,m) = n!/(n-m)! = C(n,m-1) * (n-m+1)/m * * \param rowIndex * \return The last row of PascalsTriangle given rowIndex */ vector&lt;int&gt; row(rowIndex+1); row[0] = 1; for (int m = 1; m &lt;= rowIndex; ++m) { // using 1LL to avoid overflow problem in multiplying and dividing row[m] = 1LL * row[m - 1] * (1LL * rowIndex - m + 1) / m; } return row; } LeetCode0121 best-time-to-buy-and-sell-stock 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 int LeetCode0121::maxProfit(vector&lt;int&gt;&amp; prices) { /** * You are given an array prices where prices[i] is the price of a given stock on the ith day * You want to maximize your profit by choosing a single day to buy one stock and choosing * a different day in the future to sell that stock. * * Return the maximum profit you can achieve from this transaction. * If you cannot achieve any profit, return 0. * * https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock/ * * Input: prices = [7,1,5,3,6,4] * Output: 5 * Explanation: Buy on day 2 (price = 1) and sell on day 5 (price = 6), profit = 6-1 = 5. * Note that buying on day 2 and selling on day 1 is not allowed because you must buy before you sell. * * Solutions: * Transition Formula: maxProfit(n) = max(maxProfit(n), maxProfit(n-1)) * * Keypoint: * if prices[i] - min(prices[0:i-1]) &gt; maximumProfit, * then update maximumProfit, and buyIndex * * \param prices : an array prices * \return maximum profit */ int buyIndex = 0; int minimumPriceIndex = 0; int maximumProfit = 0; int curProfit = 0; for (int i = 1; i &lt; prices.size(); ++i) { // record the min price of prices[0:i+1] if (prices[minimumPriceIndex] &gt; prices[i] &amp;&amp; prices[buyIndex] &gt; prices[i]) { minimumPriceIndex = i; } // Update max profit if exists smaller one curProfit = prices[i] - prices[minimumPriceIndex]; if (maximumProfit &lt; curProfit) { maximumProfit = curProfit; buyIndex = minimumPriceIndex; } } return maximumProfit; } LeetCode0338 counting-bits 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 vector&lt;int&gt; LeetCode0338::countBits(int n) { /** * Given an integer n, return an array ans of length n + 1 such that for each i (0 &lt;= i &lt;= n), * ans[i] is the number of 1&#39;s in the binary representation of i. * * https://leetcode-cn.com/problems/counting-bits/ * * Input: n = 2 * Output: [0,1,1] * Explanation: * 0 --&gt; 0 * 1 --&gt; 1 * 2 --&gt; 10 * * Solutions: * &#39;highestBit&#39; Transition Formula: * if n &amp; (n-1) == 0, then n can be a &#39;highestBit&#39; number; i.e. &#39;highestBit&#39; \in \{1,2,4,8,16,......\} * &#39;highestBit&#39; number has only one bit is &#39;1&#39; at its highest bit. * For example: * bin(2)=0b10 * bin(16)=0b10000 * * countBits[n] = countBits[n-highestBit] + 1 * For example: * bin(6)=0b101, its highestBit is bin(4)=0b100, then countBits[6] = countBits[6-4]+1 = 2 * bin(15)=0b1111, its highestBit is bin(8)=0b1000, then countBits[15] = countBits[15-8]+1 = 4 * therefor, once we have known the &#39;highestBit&#39; of number &#39;n&#39; , we can obtain its 1-bits count in O(1) * * &#39;lowestBit&#39; Transition Formula: using &#39;&gt;&gt;&#39; remove lowest bit, then we have: countBits[n] = countBits[n&gt;&gt;1] + (n&amp;1) * if &#39;n&#39; is egg (lowest bit is 0), then countBits[n] = countBits[n/2] = countBits[n&gt;&gt;1] * 6&gt;&gt;1 = 3; countBit[6] = countBits[3] = 2 * 14&gt;&gt;1 = 7; countBit[14] = countBits[7] = 3 * if &#39;n&#39; is odd (lowest bit is 1), then countBits[n] = countBits[(n-1)/2] + 1 = countBits[n&gt;&gt;1] + 1 * 7&gt;&gt;1 = 3; countBit[7] = countBits[3] + 1 = 3 * 15&gt;&gt;1 = 7; countBit[15] = countBits[7] + 1 = 4 * n &amp; 1 = 0 or 1 * * &#39;lowestBitof1&#39; Transition Formula: * using the property of operator &#39;n&amp;(n-1)&#39;, we can remove the n&#39;s lowest bit of 1, * and then: conuntBits[n] = countBits[n&amp;(n-1)]+1 * For example: * 5 &amp; 4 = 4, i.e. 0b101 &amp; 0b100 = 0b100, then conuntBits[5] = countBits[5&amp;4]+1 = 2 * 8 &amp; 7 = 0, i.e. 0b1000 &amp; 0b0111 = 0b0, then conuntBits[8] = countBits[8&amp;7]+1 = 1 * * \param n * \return */ vector&lt;int&gt; counts(n + 1); for (int i = 1; i &lt;= n; ++i) { // using &#39;lowestBitof1&#39; Transition Formula counts[i] = counts[i &amp; (i-1)] + 1; } return counts; } LeetCode0392 is-subsequence 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 81 82 83 84 85 86 87 88 bool LeetCode0392::isSubsequence(string s, string t) { /** * Given two strings s and t, return true if s is a subsequence of t, or false otherwise. * * A subsequence of a string is a new string that is formed from the original string * by deleting some (can be none) of the characters without disturbing the relative * positions of the remaining characters. (i.e., &quot;ace&quot; is a subsequence of &quot;abcde&quot; while &quot;aec&quot; is not). * * s and t consist only of lowercase English letters * * https://leetcode-cn.com/problems/is-subsequence/ * * Example: * Input: s = &quot;abc&quot;, t = &quot;ahbgdc&quot; * Output: true * * Input: s = &quot;axc&quot;, t = &quot;ahbgdc&quot; * Output: false * * Follow up: Suppose there are lots of incoming s, say s1, s2, ..., sk where k &gt;= `10^9`, * and you want to check one by one to see if t has its subsequence. * In this scenario, how would you change your code? * * Solutions: * Normal Solution: double pointer * while i&lt;s.size &amp;&amp; j &lt;t.size: * if s[i] == t[j]: * i++ * j++ * return true if i == s.size, else false * * (DP)Transition Formula: * Let M = t.size * * Using a `M+1 x 26` matrix , named by &#39;P&#39;, P[i,j] indicates the first occurrence of * the letter &#39;x&#39; in t. * * If some letter &#39;x&#39; not in t, then we simply let P[i,&#39;x&#39;] = M, else P[i,&#39;x&#39;] should be some numnber in [0,M-1]. * * for i in M~0: if t[i] == &#39;x&#39;, P[i,&#39;x&#39;] = i else P[i,&#39;x&#39;] = P[i+1,&#39;x&#39;] * * Note: here &#39;x&#39; represents the index of some letter in array [a,b,c,d,......,x,y,z], * for example, if currentletter is &#39;c&#39; then &#39;x&#39; = 2 * * \param s * \param t * \return */ // Method1: Double Pointer /*int sLen = s.size(), tLen = t.size(); int sIdx = 0, tIdx = 0; while (sIdx &lt; sLen &amp;&amp; tIdx &lt; tLen) { if (s[sIdx] == t[tIdx]) sIdx++; tIdx++; } return sIdx == sLen;*/ // Method2: DP solution. This method works for the scenario described in &quot;Follow up&quot; int M = t.size(); // 1. initialize a `M+1 x 26` dimension Matrix, and fill it with 0 vector&lt;vector &lt;int&gt;&gt; P(M + 1, vector&lt;int&gt;(26, 0)); // 2. initlialize the numbers of row P[M+1] with &quot;M&quot; for (int j = 0; j &lt; 26; ++j) { P[M][j] = M; } // 3. update matrix P respect to target string `t` for (int i = M - 1; i &gt;= 0; --i) { for (int j = 0; j &lt; 26; ++j) { if (t[i] == j + &#39;a&#39;) P[i][j] = i; else P[i][j] = P[i + 1][j]; } } // 4. search if string `s` is a non-contiguous subsequence of `t` according Matrix P int rowIdx = 0; for (int n = 0; n &lt; s.size(); ++n) { if (P[rowIdx][s[n] - &#39;a&#39;] == M) { return false; } rowIdx = P[rowIdx][s[n] - &#39;a&#39;] + 1; } return true; } LeetCode0509 fibonacci-number 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 int LeetCode0509::fibonacci(int n) { /** * The Fibonacci numbers, commonly denoted F(n) form a sequence, called the Fibonacci * sequence, such that each number is the sum of the two preceding ones, starting * from 0 and 1. That is, * * F(0) = 0, F(1) = 1 * F(n) = F(n - 1) + F(n - 2), for n &gt; 1. * * https://leetcode-cn.com/problems/fibonacci-number/ * * \param n * \return */ // Recursion version /* if (n&lt;=1) return n; return fibonacci(n - 1) + fibonacci(n - 2); */ // DP version: bottom up if (n&lt;=1) return n; int fnMinus1 = 0, fnMinus2 = 1; int fn = fnMinus1; for (int i = 2; i &lt;= n; ++i) { fn = fnMinus1 + fnMinus2; fnMinus1 = fnMinus2; fnMinus2 = fn; } return fn; } LeetCode0746 min-cost-climbing-stairs 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 int LeetCode0746::minCostClimbingStairs(vector&lt;int&gt;&amp; cost) { /** * You are given an integer array cost where cost[i] is the cost of ith step on a staircase. * Once you pay the cost, you can either climb one or two steps. * * You can either start from the step with index 0, or the step with index 1. * * Return the minimum cost to reach the top of the floor. * * 2 &lt;= cost.length * * https://leetcode-cn.com/problems/min-cost-climbing-stairs/ * * Example: * Input: cost = [10,15,20] * Output: 15 * Explanation: You will start at index 1. * - Pay 15 and climb two steps to reach the top. * The total cost is 15. * * Input: cost = [1,100,1,1,1,100,1,1,100,1] * Output: 6 * Explanation: You will start at index 0. * - Pay 1 and climb two steps to reach index 2. * - Pay 1 and climb two steps to reach index 4. * - Pay 1 and climb two steps to reach index 6. * - Pay 1 and climb one step to reach index 7. * - Pay 1 and climb two steps to reach index 9. * - Pay 1 and climb one step to reach the top. * The total cost is 6. * * Solutions: * Transition Formula: * totalCost[n] = min(totalCost[n-1] + cost[n-1], totalCost[n-2]+cost[n-2]) * * Note: in this problem, the finall result of n will equal cost.size. * * I think this is not a well defined problem. * * \param cost * \return */ int n = cost.size(); int costIMinus1 = 0, costIMinus2 = 0; int costI = 0; for (int i = 2; i &lt;= n; ++i) { costI = min(costIMinus1 + cost[i - 1], costIMinus2 + cost[i - 2]); costIMinus2 = costIMinus1; costIMinus1 = costI; } return costI; } LeetCode1025 divisor-game 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 bool LeetCode1025::divisorGame(int n) { /** * Alice and Bob take turns playing a game, with Alice starting first. * * Initially, there is a number n on the chalkboard. * On each player&#39;s turn, that player makes a move consisting of: * - Choosing any x with 0 &lt; x &lt; n and n % x == 0. * - Replacing the number n on the chalkboard with n - x. * * Also, if a player cannot make a move, they lose the game. * * Return true if and only if Alice wins the game, assuming both players play optimally. * * https://leetcode-cn.com/problems/divisor-game/ * * Example: * Input: n = 2 * Output: true * Explanation: Alice chooses 1, and Bob has no more moves. * * Input: n = 3 * Output: false * Explanation: Alice chooses 1, Bob chooses 1, and Alice has no more moves. * * Solutions: * https://leetcode-cn.com/problems/divisor-game/solution/chu-shu-bo-yi-by-leetcode-solution/ * * This problem is so boring. * 结论是：n 为奇数的时候 Alice（先手）必败，n 为偶数的时候 Alice 必胜 * The optimal result is &#39;n%2==0&#39; ...... * 转换成DP问题： * * \param n * \return */ return n % 2 == 0; } LeetCode1137 n-th-tribonacci-number 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 int LeetCode1137::tribonacci(int n) { /** * The Tribonacci sequence Tn is defined as follows:  * T0 = 0, T1 = 1, T2 = 1, and Tn+3 = Tn + Tn+1 + Tn+2 for n &gt;= 0. * Given n, return the value of Tn * * https://leetcode-cn.com/problems/n-th-tribonacci-number/ * * Example: * Input: n = 4 * Output: 4 * Explanation: * T_3 = 0 + 1 + 1 = 2 * T_4 = 1 + 1 + 2 = 4 * * Input: n = 25 * Output: 1389537 * * * \param n * \return */ int t0 = 0, t1 = 1, t2 = 1; if (n == 0) return 0; if (n == 1) return 1; if (n == 1) return 1; int tn = 1; for (int i = 3; i &lt;= n; i++) { tn = t2 + t1 + t0; t0 = t1; t1 = t2; t2 = tn; } return tn; } LeetCode1646 get-maximum-in-generated-array 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 int LeetCode1646::getMaximumGenerated(int n) { /** * You are given an integer n. A 0-indexed integer array nums of length n + 1 is * generated in the following way: * - nums[0] = 0 * - nums[1] = 1 * - nums[2 * i] = nums[i] when 2 &lt;= 2 * i &lt;= n * - nums[2 * i + 1] = nums[i] + nums[i + 1] when 2 &lt;= 2 * i + 1 &lt;= n * Return the maximum integer in the array nums​​​. * * https://leetcode-cn.com/problems/get-maximum-in-generated-array/ * * Example: * Input: n = 7 * Output: 3 * Explanation: According to the given rules: * - nums[0] = 0 * - nums[1] = 1 * - nums[(1 * 2) = 2] = nums[1] = 1 * - nums[(1 * 2) + 1 = 3] = nums[1] + nums[2] = 1 + 1 = 2 * - nums[(2 * 2) = 4] = nums[2] = 1 * - nums[(2 * 2) + 1 = 5] = nums[2] + nums[3] = 1 + 2 = 3 * - nums[(3 * 2) = 6] = nums[3] = 2 * - nums[(3 * 2) + 1 = 7] = nums[3] + nums[4] = 2 + 1 = 3 * Hence, nums = [0,1,1,2,1,3,2,3], and * the maximum is max(0,1,1,2,1,3,2,3) = 3 * * Input: n = 2 * Output: 1 * Explanation: According to the given rules, nums = [0,1,1]. * The maximum is max(0,1,1) = 1 * * Input: n = 3 * Output: 2 * Explanation: According to the given rules, nums = [0,1,1,2]. * The maximum is max(0,1,1,2) = 2 * * * * \param n * \return */ if (n &lt;= 1) return n; vector&lt;int&gt; nums(n + 1); nums[1] = 1; int maxNum = nums[1]; for (int j = 2; j &lt;= n; j++) { nums[j] = nums[j / 2] + nums[j / 2 + 1] * (j % 2); maxNum = max(maxNum, nums[j]); } return maxNum; } Level Medium LeetCode0005 longest-palindromic-substring 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 string LeetCode0005::longestPalindrome(string s) { /** * Given a string s, return the longest palindromic substring in s.. * * https://leetcode-cn.com/problems/longest-palindromic-substring/ * * 1 &lt;= s.length &lt;= 1000 * s consist of only digits and English letters * * Example: * Input: s = &quot;babad&quot; * Output: &quot;bab&quot; * Explanation: &quot;aba&quot; is also a valid answer * * Input: s = &quot;cbbd&quot; * Output: &quot;bb&quot; * * Solutions: * DP: * * * \param s * \return */ int N = s.size(); vector&lt;vector&lt;int&gt;&gt; P(N, vector&lt;int&gt;(N, 0)); vector&lt;int&gt; longestPd(2); longestPd[1] = 1; for (int i = 0; i &lt; N; ++i) { P[i][i] = 1; if (i + 1 &lt; N &amp;&amp; s[i] == s[i + 1]) { P[i][i+1] = 1; if (longestPd[1] &lt; 2) { longestPd[0] = i; longestPd[1] = 2; } } } for (int l = 3; l &lt;= N; ++l) { for (int i = 0; i &lt; N-l+1; ++i) { if (s[i] == s[i + l - 1] &amp;&amp; P[i+1][i + l - 2] == 1) { P[i][i + l - 1] = 1; if (longestPd[1] &lt; l) { longestPd[0] = i; longestPd[1] = l; } } } } return s.substr(longestPd[0], longestPd[1]); }" />
+<link rel="canonical" href="http://0.0.0.0:4000/posts/dynamic_programming/" />
+<meta property="og:url" content="http://0.0.0.0:4000/posts/dynamic_programming/" />
+<meta property="og:site_name" content="Candy Note" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-03-01T00:00:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="LeetCode - Dynamic Programming" />
+<meta name="twitter:site" content="@twitter_username" />
+<meta name="twitter:creator" content="@luo-songtao" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"luo-songtao"},"dateModified":"2022-03-01T00:00:00+00:00","datePublished":"2022-03-01T00:00:00+00:00","description":"Dynamic Programming Level Easy LeetCode0053 maximum-subarray 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 int LeetCode0053::maxContiguousSubArraySum(vector&lt;int&gt;&amp; nums) { /** * Find largest sum subarray, but just return its sum. * Note: A subarray is a `contiguous` part of an array * * https://leetcode-cn.com/problems/maximum-subarray/ * * Examples: * Input: nums = [-2,1,-3,4,-1,2,1,-5,4] * Output: 6 * Explanation: [4,-1,2,1] has the largest sum = 6. * * Input: nums = [5,4,-1,7,8] * Output: 23 * * Follow up: If you have figured out the O(n) solution, try coding another solution * using the divide and conquer approach, which is more subtle. * * Solutions: * let `mcsas = maxContiguousSubArraySum` * * transition formula: * mcsas(n) = max(mcsas(n-1), mcsas(n-1)+num[n]) * * Keypoint: 考虑连续子序列的中断，然后重置起点的问题 * if sum(curSubArray) + nums[n] &gt; num[n]，则子序列保持连续，即 curSum += nums[n] * else，子序列中断，curSubArray=[num[n]]，即 curSum = nums[n] * * \\param nums Array numbers * \\return maxsum of subarray */ if (nums.size() == 0) { return NULL; } if (nums.size() == 1) { return nums[0]; } int maxSum = nums[0]; int curSum = maxSum; for (int n = 1; n &lt; nums.size(); ++n) { curSum = max(nums[n], curSum + nums[n]); maxSum = max(curSum, maxSum); } return maxSum; } LeetCode0070 climbing-stairs 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 int LeetCode0070::climbStairs(int n) { /** * You are climbing a staircase. It takes n steps to reach the top. * Each time you can either climb 1 or 2 steps. In how many distinct ways can you climb to the top? * * https://leetcode-cn.com/problems/climbing-stairs/ * * Example: * * Input: n = 2 * Output: 2 * Explanation: There are two ways to climb to the top. * 1. 1 step + 1 step * 2. 2 steps * * Input: n = 3 * Output: 3 * Explanation: There are three ways to climb to the top. * 1. 1 step + 1 step + 1 step * 2. 1 step + 2 steps * 3. 2 steps + 1 step * * Solutions: * transition formula: steps_n = steps_n_1 + steps_n_2 * . */ int steps_n_1 = 1, steps_n_2 = 2, steps_n = 0; if (n == 1) steps_n = steps_n_1; if (n == 2) steps_n = steps_n_2; for (int i = 3; i &lt;= n; ++i) { steps_n = steps_n_1 + steps_n_2; steps_n_1 = steps_n_2; steps_n_2 = steps_n; } return steps_n; } LeetCode0118 pascals-triangle 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 vector&lt;vector&lt;int&gt;&gt; LeetCode0118::generatePascalsTriangle(int numRows) { /** * Given an integer numRows, return the first numRows of Pascal&#39;s triangle. (即杨辉三角) * In Pascal&#39;s triangle, each number is the sum of the two numbers directly above it * * https://leetcode-cn.com/problems/pascals-triangle/ * * Example: * Input: numRows = 5 * Output: [[1],[1,1],[1,2,1],[1,3,3,1],[1,4,6,4,1]] * * Solutions: * Boundary: n=1, array2D=[[1]] * Transition Formula: * for i in 0~n-1: * if i==0: array2D[n][0] = 1; * if 0&lt;i&lt;n-1: array2D[n][i] = array2D[n-1][i] + array2D[n-1][i-1] * if i== n-1: array2D[n][n-1] = 1 * * \\param numRows * \\return All Rows */ vector&lt;vector&lt;int&gt;&gt; array2D(numRows); for (int n = 0; n &lt; numRows; ++n) { array2D[n].resize(n + 1); array2D[n][0] = 1; for (int i = 1; i &lt; n; ++i) { array2D[n][i] = array2D[n - 1][i] + array2D[n - 1][i-1]; } array2D[n][n] = 1; } return array2D; } LeetCode0119 pascals-triangle-ii 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 vector&lt;int&gt; LeetCode0119::generatePascalsTriangleIIandGetLastRow(int rowIndex) { /** * Return the last row of PascalsTriangle given rowIndex * * Same as LeetCode0118 to generate Pascals&#39; Triangle, but this time, we do not need save all rows, * only need to retain (n-1)-th row and update n-th row * * https://leetcode-cn.com/problems/pascals-triangle-ii/ * * Solutions: * Transition Formula: curRow[i] = preRow[i] + preRow[i - 1], forall i in [1,n-1] * * \\param rowIndex * \\return */ vector&lt;int&gt; preRow; vector&lt;int&gt; curRow; for (int n = 0; n &lt;= rowIndex; ++n) { for (int i = 1; i &lt; n; ++i) { curRow[i] = preRow[i] + preRow[i - 1]; } curRow.push_back(1); preRow = curRow; } return curRow; } LeetCode0119 pascals-triangle-ii 使用组合数学方式求解 LeetCode0119 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 vector&lt;int&gt; LeetCode0119::generatePascalsTriangleIIandGetLastRow2(int rowIndex) { /** * Return the last row of PascalsTriangle given rowIndex * * Solution: Use a property of Combinatorics: * * C(n,m) = n!/(n-m)! = C(n,m-1) * (n-m+1)/m * * \\param rowIndex * \\return The last row of PascalsTriangle given rowIndex */ vector&lt;int&gt; row(rowIndex+1); row[0] = 1; for (int m = 1; m &lt;= rowIndex; ++m) { // using 1LL to avoid overflow problem in multiplying and dividing row[m] = 1LL * row[m - 1] * (1LL * rowIndex - m + 1) / m; } return row; } LeetCode0121 best-time-to-buy-and-sell-stock 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 int LeetCode0121::maxProfit(vector&lt;int&gt;&amp; prices) { /** * You are given an array prices where prices[i] is the price of a given stock on the ith day * You want to maximize your profit by choosing a single day to buy one stock and choosing * a different day in the future to sell that stock. * * Return the maximum profit you can achieve from this transaction. * If you cannot achieve any profit, return 0. * * https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock/ * * Input: prices = [7,1,5,3,6,4] * Output: 5 * Explanation: Buy on day 2 (price = 1) and sell on day 5 (price = 6), profit = 6-1 = 5. * Note that buying on day 2 and selling on day 1 is not allowed because you must buy before you sell. * * Solutions: * Transition Formula: maxProfit(n) = max(maxProfit(n), maxProfit(n-1)) * * Keypoint: * if prices[i] - min(prices[0:i-1]) &gt; maximumProfit, * then update maximumProfit, and buyIndex * * \\param prices : an array prices * \\return maximum profit */ int buyIndex = 0; int minimumPriceIndex = 0; int maximumProfit = 0; int curProfit = 0; for (int i = 1; i &lt; prices.size(); ++i) { // record the min price of prices[0:i+1] if (prices[minimumPriceIndex] &gt; prices[i] &amp;&amp; prices[buyIndex] &gt; prices[i]) { minimumPriceIndex = i; } // Update max profit if exists smaller one curProfit = prices[i] - prices[minimumPriceIndex]; if (maximumProfit &lt; curProfit) { maximumProfit = curProfit; buyIndex = minimumPriceIndex; } } return maximumProfit; } LeetCode0338 counting-bits 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 vector&lt;int&gt; LeetCode0338::countBits(int n) { /** * Given an integer n, return an array ans of length n + 1 such that for each i (0 &lt;= i &lt;= n), * ans[i] is the number of 1&#39;s in the binary representation of i. * * https://leetcode-cn.com/problems/counting-bits/ * * Input: n = 2 * Output: [0,1,1] * Explanation: * 0 --&gt; 0 * 1 --&gt; 1 * 2 --&gt; 10 * * Solutions: * &#39;highestBit&#39; Transition Formula: * if n &amp; (n-1) == 0, then n can be a &#39;highestBit&#39; number; i.e. &#39;highestBit&#39; \\in \\{1,2,4,8,16,......\\} * &#39;highestBit&#39; number has only one bit is &#39;1&#39; at its highest bit. * For example: * bin(2)=0b10 * bin(16)=0b10000 * * countBits[n] = countBits[n-highestBit] + 1 * For example: * bin(6)=0b101, its highestBit is bin(4)=0b100, then countBits[6] = countBits[6-4]+1 = 2 * bin(15)=0b1111, its highestBit is bin(8)=0b1000, then countBits[15] = countBits[15-8]+1 = 4 * therefor, once we have known the &#39;highestBit&#39; of number &#39;n&#39; , we can obtain its 1-bits count in O(1) * * &#39;lowestBit&#39; Transition Formula: using &#39;&gt;&gt;&#39; remove lowest bit, then we have: countBits[n] = countBits[n&gt;&gt;1] + (n&amp;1) * if &#39;n&#39; is egg (lowest bit is 0), then countBits[n] = countBits[n/2] = countBits[n&gt;&gt;1] * 6&gt;&gt;1 = 3; countBit[6] = countBits[3] = 2 * 14&gt;&gt;1 = 7; countBit[14] = countBits[7] = 3 * if &#39;n&#39; is odd (lowest bit is 1), then countBits[n] = countBits[(n-1)/2] + 1 = countBits[n&gt;&gt;1] + 1 * 7&gt;&gt;1 = 3; countBit[7] = countBits[3] + 1 = 3 * 15&gt;&gt;1 = 7; countBit[15] = countBits[7] + 1 = 4 * n &amp; 1 = 0 or 1 * * &#39;lowestBitof1&#39; Transition Formula: * using the property of operator &#39;n&amp;(n-1)&#39;, we can remove the n&#39;s lowest bit of 1, * and then: conuntBits[n] = countBits[n&amp;(n-1)]+1 * For example: * 5 &amp; 4 = 4, i.e. 0b101 &amp; 0b100 = 0b100, then conuntBits[5] = countBits[5&amp;4]+1 = 2 * 8 &amp; 7 = 0, i.e. 0b1000 &amp; 0b0111 = 0b0, then conuntBits[8] = countBits[8&amp;7]+1 = 1 * * \\param n * \\return */ vector&lt;int&gt; counts(n + 1); for (int i = 1; i &lt;= n; ++i) { // using &#39;lowestBitof1&#39; Transition Formula counts[i] = counts[i &amp; (i-1)] + 1; } return counts; } LeetCode0392 is-subsequence 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 81 82 83 84 85 86 87 88 bool LeetCode0392::isSubsequence(string s, string t) { /** * Given two strings s and t, return true if s is a subsequence of t, or false otherwise. * * A subsequence of a string is a new string that is formed from the original string * by deleting some (can be none) of the characters without disturbing the relative * positions of the remaining characters. (i.e., &quot;ace&quot; is a subsequence of &quot;abcde&quot; while &quot;aec&quot; is not). * * s and t consist only of lowercase English letters * * https://leetcode-cn.com/problems/is-subsequence/ * * Example: * Input: s = &quot;abc&quot;, t = &quot;ahbgdc&quot; * Output: true * * Input: s = &quot;axc&quot;, t = &quot;ahbgdc&quot; * Output: false * * Follow up: Suppose there are lots of incoming s, say s1, s2, ..., sk where k &gt;= `10^9`, * and you want to check one by one to see if t has its subsequence. * In this scenario, how would you change your code? * * Solutions: * Normal Solution: double pointer * while i&lt;s.size &amp;&amp; j &lt;t.size: * if s[i] == t[j]: * i++ * j++ * return true if i == s.size, else false * * (DP)Transition Formula: * Let M = t.size * * Using a `M+1 x 26` matrix , named by &#39;P&#39;, P[i,j] indicates the first occurrence of * the letter &#39;x&#39; in t. * * If some letter &#39;x&#39; not in t, then we simply let P[i,&#39;x&#39;] = M, else P[i,&#39;x&#39;] should be some numnber in [0,M-1]. * * for i in M~0: if t[i] == &#39;x&#39;, P[i,&#39;x&#39;] = i else P[i,&#39;x&#39;] = P[i+1,&#39;x&#39;] * * Note: here &#39;x&#39; represents the index of some letter in array [a,b,c,d,......,x,y,z], * for example, if currentletter is &#39;c&#39; then &#39;x&#39; = 2 * * \\param s * \\param t * \\return */ // Method1: Double Pointer /*int sLen = s.size(), tLen = t.size(); int sIdx = 0, tIdx = 0; while (sIdx &lt; sLen &amp;&amp; tIdx &lt; tLen) { if (s[sIdx] == t[tIdx]) sIdx++; tIdx++; } return sIdx == sLen;*/ // Method2: DP solution. This method works for the scenario described in &quot;Follow up&quot; int M = t.size(); // 1. initialize a `M+1 x 26` dimension Matrix, and fill it with 0 vector&lt;vector &lt;int&gt;&gt; P(M + 1, vector&lt;int&gt;(26, 0)); // 2. initlialize the numbers of row P[M+1] with &quot;M&quot; for (int j = 0; j &lt; 26; ++j) { P[M][j] = M; } // 3. update matrix P respect to target string `t` for (int i = M - 1; i &gt;= 0; --i) { for (int j = 0; j &lt; 26; ++j) { if (t[i] == j + &#39;a&#39;) P[i][j] = i; else P[i][j] = P[i + 1][j]; } } // 4. search if string `s` is a non-contiguous subsequence of `t` according Matrix P int rowIdx = 0; for (int n = 0; n &lt; s.size(); ++n) { if (P[rowIdx][s[n] - &#39;a&#39;] == M) { return false; } rowIdx = P[rowIdx][s[n] - &#39;a&#39;] + 1; } return true; } LeetCode0509 fibonacci-number 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 int LeetCode0509::fibonacci(int n) { /** * The Fibonacci numbers, commonly denoted F(n) form a sequence, called the Fibonacci * sequence, such that each number is the sum of the two preceding ones, starting * from 0 and 1. That is, * * F(0) = 0, F(1) = 1 * F(n) = F(n - 1) + F(n - 2), for n &gt; 1. * * https://leetcode-cn.com/problems/fibonacci-number/ * * \\param n * \\return */ // Recursion version /* if (n&lt;=1) return n; return fibonacci(n - 1) + fibonacci(n - 2); */ // DP version: bottom up if (n&lt;=1) return n; int fnMinus1 = 0, fnMinus2 = 1; int fn = fnMinus1; for (int i = 2; i &lt;= n; ++i) { fn = fnMinus1 + fnMinus2; fnMinus1 = fnMinus2; fnMinus2 = fn; } return fn; } LeetCode0746 min-cost-climbing-stairs 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 int LeetCode0746::minCostClimbingStairs(vector&lt;int&gt;&amp; cost) { /** * You are given an integer array cost where cost[i] is the cost of ith step on a staircase. * Once you pay the cost, you can either climb one or two steps. * * You can either start from the step with index 0, or the step with index 1. * * Return the minimum cost to reach the top of the floor. * * 2 &lt;= cost.length * * https://leetcode-cn.com/problems/min-cost-climbing-stairs/ * * Example: * Input: cost = [10,15,20] * Output: 15 * Explanation: You will start at index 1. * - Pay 15 and climb two steps to reach the top. * The total cost is 15. * * Input: cost = [1,100,1,1,1,100,1,1,100,1] * Output: 6 * Explanation: You will start at index 0. * - Pay 1 and climb two steps to reach index 2. * - Pay 1 and climb two steps to reach index 4. * - Pay 1 and climb two steps to reach index 6. * - Pay 1 and climb one step to reach index 7. * - Pay 1 and climb two steps to reach index 9. * - Pay 1 and climb one step to reach the top. * The total cost is 6. * * Solutions: * Transition Formula: * totalCost[n] = min(totalCost[n-1] + cost[n-1], totalCost[n-2]+cost[n-2]) * * Note: in this problem, the finall result of n will equal cost.size. * * I think this is not a well defined problem. * * \\param cost * \\return */ int n = cost.size(); int costIMinus1 = 0, costIMinus2 = 0; int costI = 0; for (int i = 2; i &lt;= n; ++i) { costI = min(costIMinus1 + cost[i - 1], costIMinus2 + cost[i - 2]); costIMinus2 = costIMinus1; costIMinus1 = costI; } return costI; } LeetCode1025 divisor-game 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 bool LeetCode1025::divisorGame(int n) { /** * Alice and Bob take turns playing a game, with Alice starting first. * * Initially, there is a number n on the chalkboard. * On each player&#39;s turn, that player makes a move consisting of: * - Choosing any x with 0 &lt; x &lt; n and n % x == 0. * - Replacing the number n on the chalkboard with n - x. * * Also, if a player cannot make a move, they lose the game. * * Return true if and only if Alice wins the game, assuming both players play optimally. * * https://leetcode-cn.com/problems/divisor-game/ * * Example: * Input: n = 2 * Output: true * Explanation: Alice chooses 1, and Bob has no more moves. * * Input: n = 3 * Output: false * Explanation: Alice chooses 1, Bob chooses 1, and Alice has no more moves. * * Solutions: * https://leetcode-cn.com/problems/divisor-game/solution/chu-shu-bo-yi-by-leetcode-solution/ * * This problem is so boring. * 结论是：n 为奇数的时候 Alice（先手）必败，n 为偶数的时候 Alice 必胜 * The optimal result is &#39;n%2==0&#39; ...... * 转换成DP问题： * * \\param n * \\return */ return n % 2 == 0; } LeetCode1137 n-th-tribonacci-number 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 int LeetCode1137::tribonacci(int n) { /** * The Tribonacci sequence Tn is defined as follows:  * T0 = 0, T1 = 1, T2 = 1, and Tn+3 = Tn + Tn+1 + Tn+2 for n &gt;= 0. * Given n, return the value of Tn * * https://leetcode-cn.com/problems/n-th-tribonacci-number/ * * Example: * Input: n = 4 * Output: 4 * Explanation: * T_3 = 0 + 1 + 1 = 2 * T_4 = 1 + 1 + 2 = 4 * * Input: n = 25 * Output: 1389537 * * * \\param n * \\return */ int t0 = 0, t1 = 1, t2 = 1; if (n == 0) return 0; if (n == 1) return 1; if (n == 1) return 1; int tn = 1; for (int i = 3; i &lt;= n; i++) { tn = t2 + t1 + t0; t0 = t1; t1 = t2; t2 = tn; } return tn; } LeetCode1646 get-maximum-in-generated-array 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 int LeetCode1646::getMaximumGenerated(int n) { /** * You are given an integer n. A 0-indexed integer array nums of length n + 1 is * generated in the following way: * - nums[0] = 0 * - nums[1] = 1 * - nums[2 * i] = nums[i] when 2 &lt;= 2 * i &lt;= n * - nums[2 * i + 1] = nums[i] + nums[i + 1] when 2 &lt;= 2 * i + 1 &lt;= n * Return the maximum integer in the array nums​​​. * * https://leetcode-cn.com/problems/get-maximum-in-generated-array/ * * Example: * Input: n = 7 * Output: 3 * Explanation: According to the given rules: * - nums[0] = 0 * - nums[1] = 1 * - nums[(1 * 2) = 2] = nums[1] = 1 * - nums[(1 * 2) + 1 = 3] = nums[1] + nums[2] = 1 + 1 = 2 * - nums[(2 * 2) = 4] = nums[2] = 1 * - nums[(2 * 2) + 1 = 5] = nums[2] + nums[3] = 1 + 2 = 3 * - nums[(3 * 2) = 6] = nums[3] = 2 * - nums[(3 * 2) + 1 = 7] = nums[3] + nums[4] = 2 + 1 = 3 * Hence, nums = [0,1,1,2,1,3,2,3], and * the maximum is max(0,1,1,2,1,3,2,3) = 3 * * Input: n = 2 * Output: 1 * Explanation: According to the given rules, nums = [0,1,1]. * The maximum is max(0,1,1) = 1 * * Input: n = 3 * Output: 2 * Explanation: According to the given rules, nums = [0,1,1,2]. * The maximum is max(0,1,1,2) = 2 * * * * \\param n * \\return */ if (n &lt;= 1) return n; vector&lt;int&gt; nums(n + 1); nums[1] = 1; int maxNum = nums[1]; for (int j = 2; j &lt;= n; j++) { nums[j] = nums[j / 2] + nums[j / 2 + 1] * (j % 2); maxNum = max(maxNum, nums[j]); } return maxNum; } Level Medium LeetCode0005 longest-palindromic-substring 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 string LeetCode0005::longestPalindrome(string s) { /** * Given a string s, return the longest palindromic substring in s.. * * https://leetcode-cn.com/problems/longest-palindromic-substring/ * * 1 &lt;= s.length &lt;= 1000 * s consist of only digits and English letters * * Example: * Input: s = &quot;babad&quot; * Output: &quot;bab&quot; * Explanation: &quot;aba&quot; is also a valid answer * * Input: s = &quot;cbbd&quot; * Output: &quot;bb&quot; * * Solutions: * DP: * * * \\param s * \\return */ int N = s.size(); vector&lt;vector&lt;int&gt;&gt; P(N, vector&lt;int&gt;(N, 0)); vector&lt;int&gt; longestPd(2); longestPd[1] = 1; for (int i = 0; i &lt; N; ++i) { P[i][i] = 1; if (i + 1 &lt; N &amp;&amp; s[i] == s[i + 1]) { P[i][i+1] = 1; if (longestPd[1] &lt; 2) { longestPd[0] = i; longestPd[1] = 2; } } } for (int l = 3; l &lt;= N; ++l) { for (int i = 0; i &lt; N-l+1; ++i) { if (s[i] == s[i + l - 1] &amp;&amp; P[i+1][i + l - 2] == 1) { P[i][i + l - 1] = 1; if (longestPd[1] &lt; l) { longestPd[0] = i; longestPd[1] = l; } } } } return s.substr(longestPd[0], longestPd[1]); }","headline":"LeetCode - Dynamic Programming","mainEntityOfPage":{"@type":"WebPage","@id":"http://0.0.0.0:4000/posts/dynamic_programming/"},"url":"http://0.0.0.0:4000/posts/dynamic_programming/"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+  <title>LeetCode - Dynamic Programming | Candy Note
+  </title>
+
+  <!--
+  The Favicons for Web, Android, Microsoft, and iOS (iPhone and iPad) Apps
+  Generated by: https://realfavicongenerator.net/
+-->
+
+
+
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/img/favicons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicons/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicons/favicon-16x16.png">
+<link rel="manifest" href="/assets/img/favicons/site.webmanifest">
+<link rel="shortcut icon" href="/assets/img/favicons/favicon.ico">
+<meta name="apple-mobile-web-app-title" content="Candy Note">
+<meta name="application-name" content="Candy Note">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="msapplication-config" content="/assets/img/favicons/browserconfig.xml">
+<meta name="theme-color" content="#ffffff">
+
+
+  
+
+    
+      <link rel="preconnect" href="https://fonts.googleapis.com" >
+      <link rel="dns-prefetch" href="https://fonts.googleapis.com" >
+    
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+      <link rel="dns-prefetch" href="https://fonts.gstatic.com" crossorigin>
+    
+      <link rel="preconnect" href="https://fonts.googleapis.com" >
+      <link rel="dns-prefetch" href="https://fonts.googleapis.com" >
+    
+      <link rel="preconnect" href="https://cdn.jsdelivr.net" >
+      <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" >
+    
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato&family=Source+Sans+Pro:wght@400;600;700;900&display=swap">
+
+  
+
+  <!-- GA -->
+  
+
+  <!-- Bootstrap -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.11.2/css/all.min.css">
+
+  <link rel="stylesheet" href="/assets/css/style.css">
+
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@1.0.1/dist/bootstrap-toc.min.css">
+  
+
+  
+    <!-- Manific Popup -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/magnific-popup@1/dist/magnific-popup.min.css">
+  
+
+  <!-- JavaScript -->
+
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+
+</head>
+
+
+  
+    <!--
+  Switch the mode between dark and light.
+-->
+
+<script type="text/javascript">
+  class ModeToggle {
+    static get MODE_KEY() { return "mode"; }
+    static get MODE_ATTR() { return "data-mode"; }
+    static get DARK_MODE() { return "dark"; }
+    static get LIGHT_MODE() { return "light"; }
+    static get ID() { return "mode-toggle"; }
+
+    constructor() {
+      if (this.hasMode) {
+        if (this.isDarkMode) {
+          if (!this.isSysDarkPrefer) {
+            this.setDark();
+          }
+        } else {
+          if (this.isSysDarkPrefer) {
+            this.setLight();
+          }
+        }
+      }
+
+      let self = this;
+
+      /* always follow the system prefers */
+      this.sysDarkPrefers.addEventListener("change", () => {
+        if (self.hasMode) {
+          if (self.isDarkMode) {
+            if (!self.isSysDarkPrefer) {
+              self.setDark();
+            }
+
+          } else {
+            if (self.isSysDarkPrefer) {
+              self.setLight();
+            }
+          }
+
+          self.clearMode();
+        }
+
+        self.notify();
+
+      });
+
+    } /* constructor() */
+
+    get sysDarkPrefers() { return window.matchMedia("(prefers-color-scheme: dark)"); }
+
+    get isSysDarkPrefer() { return this.sysDarkPrefers.matches; }
+
+    get isDarkMode() { return this.mode === ModeToggle.DARK_MODE; }
+
+    get isLightMode() { return this.mode === ModeToggle.LIGHT_MODE; }
+
+    get hasMode() { return this.mode != null; }
+
+    get mode() { return sessionStorage.getItem(ModeToggle.MODE_KEY); }
+
+    /* get the current mode on screen */
+    get modeStatus() {
+      if (this.isDarkMode
+        || (!this.hasMode && this.isSysDarkPrefer)) {
+        return ModeToggle.DARK_MODE;
+      } else {
+        return ModeToggle.LIGHT_MODE;
+      }
+    }
+
+    setDark() {
+      $('html').attr(ModeToggle.MODE_ATTR, ModeToggle.DARK_MODE);
+      sessionStorage.setItem(ModeToggle.MODE_KEY, ModeToggle.DARK_MODE);
+    }
+
+    setLight() {
+      $('html').attr(ModeToggle.MODE_ATTR, ModeToggle.LIGHT_MODE);
+      sessionStorage.setItem(ModeToggle.MODE_KEY, ModeToggle.LIGHT_MODE);
+    }
+
+    clearMode() {
+      $('html').removeAttr(ModeToggle.MODE_ATTR);
+      sessionStorage.removeItem(ModeToggle.MODE_KEY);
+    }
+
+    /* Notify another plugins that the theme mode has changed */
+    notify() {
+      window.postMessage({
+        direction: ModeToggle.ID,
+        message: this.modeStatus
+      }, "*");
+    }
+
+  } /* ModeToggle */
+
+  const toggle = new ModeToggle();
+
+  function flipMode() {
+    if (toggle.hasMode) {
+      if (toggle.isSysDarkPrefer) {
+        if (toggle.isLightMode) {
+          toggle.clearMode();
+        } else {
+          toggle.setLight();
+        }
+
+      } else {
+        if (toggle.isDarkMode) {
+          toggle.clearMode();
+        } else {
+          toggle.setDark();
+        }
+      }
+
+    } else {
+      if (toggle.isSysDarkPrefer) {
+        toggle.setLight();
+      } else {
+        toggle.setDark();
+      }
+    }
+
+    toggle.notify();
+
+  } /* flipMode() */
+
+</script>
+
+  
+
+  <body data-spy="scroll" data-target="#toc" data-topbar-visible="true">
+
+    <!--
+  The Side Bar
+-->
+
+<div id="sidebar" class="d-flex flex-column align-items-end">
+  <div class="profile-wrapper text-center">
+    <div id="avatar">
+      <a href="/" alt="avatar" class="mx-auto">
+        
+          
+          <img src="
+            
+              /assets/img/head.jpg
+            
+          " alt="avatar" onerror="this.style.display='none'">
+        
+      </a>
+    </div>
+
+    <div class="site-title mt-3">
+      <a href="/">Candy Note</a>
+    </div>
+    <div class="site-subtitle font-italic">Personal Notes</div>
+
+  </div><!-- .profile-wrapper -->
+
+  <ul class="w-100">
+
+    <!-- home -->
+    <li class="nav-item">
+      <a href="/" class="nav-link">
+        <i class="fa-fw fas fa-home ml-xl-3 mr-xl-3 unloaded"></i>
+        <span>HOME</span>
+      </a>
+    </li>
+    <!-- the real tabs -->
+    
+    <li class="nav-item">
+      <a href="/categories/" class="nav-link">
+        <i class="fa-fw fas fa-stream ml-xl-3 mr-xl-3 unloaded"></i>
+        
+
+        <span>CATEGORIES</span>
+      </a>
+    </li> <!-- .nav-item -->
+    
+    <li class="nav-item">
+      <a href="/tags/" class="nav-link">
+        <i class="fa-fw fas fa-tag ml-xl-3 mr-xl-3 unloaded"></i>
+        
+
+        <span>TAGS</span>
+      </a>
+    </li> <!-- .nav-item -->
+    
+    <li class="nav-item">
+      <a href="/archives/" class="nav-link">
+        <i class="fa-fw fas fa-archive ml-xl-3 mr-xl-3 unloaded"></i>
+        
+
+        <span>ARCHIVES</span>
+      </a>
+    </li> <!-- .nav-item -->
+    
+    <li class="nav-item">
+      <a href="/about/" class="nav-link">
+        <i class="fa-fw fas fa-info-circle ml-xl-3 mr-xl-3 unloaded"></i>
+        
+
+        <span>ABOUT</span>
+      </a>
+    </li> <!-- .nav-item -->
+    
+
+  </ul> <!-- ul.nav.flex-column -->
+
+  <div class="sidebar-bottom mt-auto d-flex flex-wrap justify-content-center align-items-center">
+
+    
+      <button class="mode-toggle btn" aria-label="Switch Mode">
+        <i class="fas fa-adjust"></i>
+      </button>
+
+      
+        <span class="icon-border"></span>
+      
+    
+
+    
+      
+
+      
+      <a href="https://github.com/github_username" aria-label="github"
+        target="_blank" rel="noopener">
+        <i class="fab fa-github"></i>
+      </a>
+      
+
+    
+      
+
+      
+      <a href="https://twitter.com/twitter_username" aria-label="twitter"
+        target="_blank" rel="noopener">
+        <i class="fab fa-twitter"></i>
+      </a>
+      
+
+    
+      
+
+      
+      <a href="
+          javascript:location.href = 'mailto:' + ['ryomawithlst','gmail.com'].join('@')" aria-label="email"
+        >
+        <i class="fas fa-envelope"></i>
+      </a>
+      
+
+    
+      
+
+      
+      <a href="/feed.xml" aria-label="rss"
+        >
+        <i class="fas fa-rss"></i>
+      </a>
+      
+
+    
+
+  </div> <!-- .sidebar-bottom -->
+
+</div><!-- #sidebar -->
+
+
+    <!--
+  The Top Bar
+-->
+
+<div id="topbar-wrapper" class="row justify-content-center">
+  <div id="topbar" class="col-11 d-flex h-100 align-items-center justify-content-between">
+    <span id="breadcrumb">
+
+    
+
+    
+
+      
+
+        
+          <span>
+            <a href="/">
+              Home
+            </a>
+          </span>
+
+        
+
+      
+
+        
+
+      
+
+        
+
+          
+            <span>LeetCode - Dynamic Programming</span>
+          
+
+        
+
+      
+
+    
+
+    </span><!-- endof #breadcrumb -->
+
+    <i id="sidebar-trigger" class="fas fa-bars fa-fw"></i>
+
+    <div id="topbar-title">
+      Post
+    </div>
+
+    <i id="search-trigger" class="fas fa-search fa-fw"></i>
+    <span id="search-wrapper" class="align-items-center">
+      <i class="fas fa-search fa-fw"></i>
+      <input class="form-control" id="search-input" type="search"
+        aria-label="search" autocomplete="off" placeholder="Search...">
+    </span>
+    <span id="search-cancel" >Cancel</span>
+  </div>
+
+</div>
+
+
+    <div id="main-wrapper">
+      <div id="main">
+
+        
+
+
+
+
+
+
+
+
+
+<div class="row">
+
+  <!-- core -->
+  <div id="core-wrapper" class="col-12 col-lg-11 col-xl-8">
+    <div class="post pl-1 pr-1 pl-sm-2 pr-sm-2 pl-md-4 pr-md-4">
+
+    
+
+    
+      
+      
+        <!--
+  Refactor the HTML structure.
+-->
+
+
+
+<!--
+  In order to allow a wide table to scroll horizontally,
+  we suround the markdown table with `<div class="table-wrapper">` and `</div>`
+-->
+
+
+
+<!--
+  Fixed kramdown code highlight rendering:
+  https://github.com/penibelst/jekyll-compress-html/issues/101
+  https://github.com/penibelst/jekyll-compress-html/issues/71#issuecomment-188144901
+-->
+
+
+
+<!-- Add attribute 'hide-bullet' to the checkbox list -->
+
+
+
+<!-- images -->
+
+
+
+
+
+<!-- Add header for code snippets -->
+
+
+
+<!-- Create heading anchors -->
+
+
+
+
+
+  
+  
+
+  
+    
+    
+
+    
+      
+        
+        
+      
+
+      
+      
+
+      
+      
+      
+
+      
+
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+
+    
+
+    
+
+  
+
+  
+  
+
+  
+    
+    
+
+    
+      
+        
+        
+      
+
+      
+      
+
+      
+      
+      
+
+      
+
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+
+    
+
+    
+
+  
+
+  
+  
+
+  
+    
+    
+
+    
+      
+        
+        
+      
+
+      
+      
+
+      
+      
+      
+
+      
+
+    
+
+    
+
+  
+
+  
+  
+
+  
+
+
+
+
+<!-- Wrap prompt element of blockquote with the <div> tag -->
+
+
+
+
+
+
+
+<!-- return -->
+
+
+
+
+
+
+
+<h1 data-toc-skip>LeetCode - Dynamic Programming</h1>
+
+<div class="post-meta text-muted">
+
+  <!-- author -->
+  <div>
+    
+    
+
+    
+
+    By
+    <em>
+      
+        <a href="https://github.com/luo-songtao">luo-songtao</a>
+      
+    </em>
+  </div>
+
+  <div class="d-flex">
+    <div>
+      <!-- published date -->
+      <span>
+        Posted
+        <!--
+  Date format snippet
+  See: ${JS_ROOT}/utils/timeago.js
+-->
+
+<em class="timeago"
+    data-ts="1646092800"
+    
+      data-toggle="tooltip" data-placement="bottom" data-tooltip-df="llll"
+    
+    >
+  2022-03-01
+</em>
+
+      </span>
+
+      <!-- lastmod date -->
+      
+
+      <!-- read time -->
+      <!--
+  Calculate the post's reading time, and display the word count in tooltip
+ -->
+
+
+
+<!-- words per minute  -->
+
+
+
+
+
+
+
+
+
+
+<!-- return element -->
+<span class="readtime" data-toggle="tooltip" data-placement="bottom"
+  title="3858 words">
+  <em>21 min</em> read</span>
+
+
+      <!-- page views -->
+      
+    </div>
+
+  </div> <!-- .d-flex -->
+
+</div> <!-- .post-meta -->
+
+<div class="post-content">
+  <h1 id="dynamic-programming">Dynamic Programming</h1>
+
+<h2 id="level-easy"><span class="mr-2">Level Easy</span><a href="#level-easy" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2></h2>
+
+<h3 id="leetcode0053-maximum-subarray"><span class="mr-2">LeetCode0053 maximum-subarray</span><a href="#leetcode0053-maximum-subarray" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3></h3>
+<div class="language-c++ highlighter-rouge"><div class="code-header">
+        <span data-label-text="C++"><i class="fas fa-code small"></i></span>
+      <button aria-label="copy" data-title-succeed="Copied!"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+</pre></td><td class="rouge-code"><pre><span class="kt">int</span> <span class="n">LeetCode0053</span><span class="o">::</span><span class="n">maxContiguousSubArraySum</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span> <span class="n">nums</span><span class="p">)</span> <span class="p">{</span>
+    <span class="cm">/**
+     * Find largest sum subarray, but just return its sum.
+     * Note: A subarray is a `contiguous` part of an array
+     * 
+     * https://leetcode-cn.com/problems/maximum-subarray/
+     * 
+     * Examples:
+     * Input: nums = [-2,1,-3,4,-1,2,1,-5,4]
+     * Output: 6
+     * Explanation: [4,-1,2,1] has the largest sum = 6.
+     * 
+     * Input: nums = [5,4,-1,7,8]
+     * Output: 23
+     * 
+     * Follow up: If you have figured out the O(n) solution, try coding another solution
+     * using the divide and conquer approach, which is more subtle.
+     * 
+     * Solutions: 
+     *		let `mcsas = maxContiguousSubArraySum`
+     *		
+     *		transition formula: 
+     *			mcsas(n) = max(mcsas(n-1), mcsas(n-1)+num[n])
+     * 
+     *		Keypoint: 考虑连续子序列的中断，然后重置起点的问题
+     *			if sum(curSubArray) + nums[n] &gt; num[n]，则子序列保持连续，即 curSum += nums[n]
+     *			else，子序列中断，curSubArray=[num[n]]，即 curSum = nums[n]
+     * 
+     * \param nums Array numbers
+     * \return maxsum of subarray
+     */</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">nums</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="nb">NULL</span><span class="p">;</span> <span class="p">}</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">nums</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="n">nums</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span> <span class="p">}</span>
+    <span class="kt">int</span> <span class="n">maxSum</span> <span class="o">=</span> <span class="n">nums</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+    <span class="kt">int</span> <span class="n">curSum</span> <span class="o">=</span> <span class="n">maxSum</span><span class="p">;</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">n</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">n</span> <span class="o">&lt;</span> <span class="n">nums</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="o">++</span><span class="n">n</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">curSum</span> <span class="o">=</span> <span class="n">max</span><span class="p">(</span><span class="n">nums</span><span class="p">[</span><span class="n">n</span><span class="p">],</span> <span class="n">curSum</span> <span class="o">+</span> <span class="n">nums</span><span class="p">[</span><span class="n">n</span><span class="p">]);</span>
+        <span class="n">maxSum</span> <span class="o">=</span> <span class="n">max</span><span class="p">(</span><span class="n">curSum</span><span class="p">,</span> <span class="n">maxSum</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">maxSum</span><span class="p">;</span>
+<span class="p">}</span>
+
+</pre></td></tr></tbody></table></code></div></div>
+
+<h3 id="leetcode0070-climbing-stairs"><span class="mr-2">LeetCode0070 climbing-stairs</span><a href="#leetcode0070-climbing-stairs" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3></h3>
+
+<div class="language-c++ highlighter-rouge"><div class="code-header">
+        <span data-label-text="C++"><i class="fas fa-code small"></i></span>
+      <button aria-label="copy" data-title-succeed="Copied!"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+</pre></td><td class="rouge-code"><pre><span class="kt">int</span> <span class="n">LeetCode0070</span><span class="o">::</span><span class="n">climbStairs</span><span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">)</span> <span class="p">{</span>
+    <span class="cm">/**
+     * You are climbing a staircase. It takes n steps to reach the top.
+     * Each time you can either climb 1 or 2 steps. In how many distinct ways can you climb to the top?
+     *
+     * https://leetcode-cn.com/problems/climbing-stairs/
+     * 
+     * Example:
+     * 
+     * Input: n = 2
+     * Output: 2
+     * Explanation: There are two ways to climb to the top.
+     * 1. 1 step + 1 step
+     * 2. 2 steps
+     * 
+     * Input: n = 3
+     * Output: 3
+     * Explanation: There are three ways to climb to the top.
+     * 1. 1 step + 1 step + 1 step
+     * 2. 1 step + 2 steps
+     * 3. 2 steps + 1 step
+     * 
+     * Solutions: 
+     *		transition formula: steps_n = steps_n_1 + steps_n_2
+     * .
+     */</span>
+    <span class="kt">int</span> <span class="n">steps_n_1</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">steps_n_2</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">steps_n</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="n">steps_n</span> <span class="o">=</span> <span class="n">steps_n_1</span><span class="p">;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="o">==</span> <span class="mi">2</span><span class="p">)</span> <span class="n">steps_n</span> <span class="o">=</span> <span class="n">steps_n_2</span><span class="p">;</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">n</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">steps_n</span> <span class="o">=</span> <span class="n">steps_n_1</span> <span class="o">+</span> <span class="n">steps_n_2</span><span class="p">;</span>
+        <span class="n">steps_n_1</span> <span class="o">=</span> <span class="n">steps_n_2</span><span class="p">;</span>
+        <span class="n">steps_n_2</span> <span class="o">=</span> <span class="n">steps_n</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">steps_n</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></div></div>
+
+<h3 id="leetcode0118-pascals-triangle"><span class="mr-2">LeetCode0118 pascals-triangle</span><a href="#leetcode0118-pascals-triangle" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3></h3>
+
+<div class="language-c++ highlighter-rouge"><div class="code-header">
+        <span data-label-text="C++"><i class="fas fa-code small"></i></span>
+      <button aria-label="copy" data-title-succeed="Copied!"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+</pre></td><td class="rouge-code"><pre><span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;</span> <span class="n">LeetCode0118</span><span class="o">::</span><span class="n">generatePascalsTriangle</span><span class="p">(</span><span class="kt">int</span> <span class="n">numRows</span><span class="p">)</span> <span class="p">{</span>
+    <span class="cm">/** 
+     * Given an integer numRows, return the first numRows of Pascal's triangle. (即杨辉三角)
+     * In Pascal's triangle, each number is the sum of the two numbers directly above it
+     * 
+     * https://leetcode-cn.com/problems/pascals-triangle/
+     * 
+     * Example:
+     * Input: numRows = 5
+     * Output: [[1],[1,1],[1,2,1],[1,3,3,1],[1,4,6,4,1]]
+     * 
+     * Solutions:
+     *		Boundary: n=1, array2D=[[1]]
+     *		Transition Formula: 
+     *			for i in 0~n-1:
+     *				if i==0: array2D[n][0] = 1; 
+     *				if 0&lt;i&lt;n-1: array2D[n][i] = array2D[n-1][i] + array2D[n-1][i-1]
+     *				if i== n-1: array2D[n][n-1] = 1
+     *			
+     * \param numRows
+     * \return All Rows
+     */</span>
+    <span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;</span> <span class="n">array2D</span><span class="p">(</span><span class="n">numRows</span><span class="p">);</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">n</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">n</span> <span class="o">&lt;</span> <span class="n">numRows</span><span class="p">;</span> <span class="o">++</span><span class="n">n</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">array2D</span><span class="p">[</span><span class="n">n</span><span class="p">].</span><span class="n">resize</span><span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+        <span class="n">array2D</span><span class="p">[</span><span class="n">n</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">array2D</span><span class="p">[</span><span class="n">n</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">array2D</span><span class="p">[</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">array2D</span><span class="p">[</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">];</span>
+        <span class="p">}</span>
+        <span class="n">array2D</span><span class="p">[</span><span class="n">n</span><span class="p">][</span><span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">array2D</span><span class="p">;</span>
+ <span class="p">}</span>
+
+</pre></td></tr></tbody></table></code></div></div>
+
+<h3 id="leetcode0119-pascals-triangle-ii"><span class="mr-2">LeetCode0119 pascals-triangle-ii</span><a href="#leetcode0119-pascals-triangle-ii" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3></h3>
+
+<div class="language-c++ highlighter-rouge"><div class="code-header">
+        <span data-label-text="C++"><i class="fas fa-code small"></i></span>
+      <button aria-label="copy" data-title-succeed="Copied!"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+</pre></td><td class="rouge-code"><pre><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">LeetCode0119</span><span class="o">::</span><span class="n">generatePascalsTriangleIIandGetLastRow</span><span class="p">(</span><span class="kt">int</span> <span class="n">rowIndex</span><span class="p">)</span> <span class="p">{</span>
+    <span class="cm">/**
+     * Return the last row of PascalsTriangle given rowIndex
+     * 
+     * Same as LeetCode0118 to generate Pascals' Triangle, but this time, we do not need save all rows, 
+     * only need to retain (n-1)-th row and update n-th row
+     * 
+     * https://leetcode-cn.com/problems/pascals-triangle-ii/
+     * 
+     * Solutions:
+     *		Transition Formula: curRow[i] = preRow[i] + preRow[i - 1], forall i in [1,n-1]
+     * 
+     * \param rowIndex
+     * \return 
+     */</span>
+    <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">preRow</span><span class="p">;</span>
+    <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">curRow</span><span class="p">;</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">n</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">n</span> <span class="o">&lt;=</span> <span class="n">rowIndex</span><span class="p">;</span> <span class="o">++</span><span class="n">n</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">curRow</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">preRow</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">preRow</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">];</span>
+        <span class="p">}</span>
+        <span class="n">curRow</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+        <span class="n">preRow</span> <span class="o">=</span> <span class="n">curRow</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">curRow</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></div></div>
+
+<h4 id="leetcode0119-pascals-triangle-ii-1"><span class="mr-2">LeetCode0119 pascals-triangle-ii</span><a href="#leetcode0119-pascals-triangle-ii-1" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h4></h4>
+
+<p>使用组合数学方式求解 LeetCode0119</p>
+
+<div class="language-c++ highlighter-rouge"><div class="code-header">
+        <span data-label-text="C++"><i class="fas fa-code small"></i></span>
+      <button aria-label="copy" data-title-succeed="Copied!"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+</pre></td><td class="rouge-code"><pre><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">LeetCode0119</span><span class="o">::</span><span class="n">generatePascalsTriangleIIandGetLastRow2</span><span class="p">(</span><span class="kt">int</span> <span class="n">rowIndex</span><span class="p">)</span> <span class="p">{</span>
+    <span class="cm">/**
+     * Return the last row of PascalsTriangle given rowIndex
+     * 
+     * Solution: Use a property of Combinatorics: 
+     *			
+     *		C(n,m) = n!/(n-m)!  = C(n,m-1) * (n-m+1)/m
+     * 
+     * \param rowIndex
+     * \return The last row of PascalsTriangle given rowIndex
+     */</span>
+    <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">row</span><span class="p">(</span><span class="n">rowIndex</span><span class="o">+</span><span class="mi">1</span><span class="p">);</span>
+    <span class="n">row</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">m</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">m</span> <span class="o">&lt;=</span> <span class="n">rowIndex</span><span class="p">;</span> <span class="o">++</span><span class="n">m</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// using 1LL to avoid overflow problem in multiplying and dividing</span>
+        <span class="n">row</span><span class="p">[</span><span class="n">m</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1LL</span> <span class="o">*</span> <span class="n">row</span><span class="p">[</span><span class="n">m</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1LL</span> <span class="o">*</span> <span class="n">rowIndex</span> <span class="o">-</span> <span class="n">m</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">m</span><span class="p">;</span>    
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">row</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></div></div>
+
+<h3 id="leetcode0121-best-time-to-buy-and-sell-stock"><span class="mr-2">LeetCode0121 best-time-to-buy-and-sell-stock</span><a href="#leetcode0121-best-time-to-buy-and-sell-stock" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3></h3>
+
+<div class="language-c++ highlighter-rouge"><div class="code-header">
+        <span data-label-text="C++"><i class="fas fa-code small"></i></span>
+      <button aria-label="copy" data-title-succeed="Copied!"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+</pre></td><td class="rouge-code"><pre><span class="kt">int</span> <span class="n">LeetCode0121</span><span class="o">::</span><span class="n">maxProfit</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span> <span class="n">prices</span><span class="p">)</span> <span class="p">{</span>
+    <span class="cm">/**
+     * You are given an array prices where prices[i] is the price of a given stock on the ith day
+     * You want to maximize your profit by choosing a single day to buy one stock and choosing 
+     * a different day in the future to sell that stock.
+     * 
+     * Return the maximum profit you can achieve from this transaction. 
+     * If you cannot achieve any profit, return 0.
+     * 
+     * https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock/
+     * 
+     * Input: prices = [7,1,5,3,6,4]
+     * Output: 5
+     * Explanation: Buy on day 2 (price = 1) and sell on day 5 (price = 6), profit = 6-1 = 5.
+     * Note that buying on day 2 and selling on day 1 is not allowed because you must buy before you sell.
+     * 
+     * Solutions: 
+     *		Transition Formula: maxProfit(n) = max(maxProfit(n), maxProfit(n-1))
+     *		
+     *		Keypoint: 
+     *			if prices[i] - min(prices[0:i-1]) &gt; maximumProfit, 
+     *			then update maximumProfit, and buyIndex
+     * 
+     * \param prices : an array prices 
+     * \return maximum profit
+     */</span>
+    <span class="kt">int</span> <span class="n">buyIndex</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">minimumPriceIndex</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">maximumProfit</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">curProfit</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">prices</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// record the min price of prices[0:i+1]</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">prices</span><span class="p">[</span><span class="n">minimumPriceIndex</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">prices</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&amp;&amp;</span> <span class="n">prices</span><span class="p">[</span><span class="n">buyIndex</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">prices</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="p">{</span>
+            <span class="n">minimumPriceIndex</span> <span class="o">=</span> <span class="n">i</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="c1">// Update max profit if exists smaller one</span>
+        <span class="n">curProfit</span> <span class="o">=</span> <span class="n">prices</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">prices</span><span class="p">[</span><span class="n">minimumPriceIndex</span><span class="p">];</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">maximumProfit</span> <span class="o">&lt;</span> <span class="n">curProfit</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">maximumProfit</span> <span class="o">=</span> <span class="n">curProfit</span><span class="p">;</span>
+            <span class="n">buyIndex</span> <span class="o">=</span> <span class="n">minimumPriceIndex</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">maximumProfit</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></div></div>
+
+<h3 id="leetcode0338-counting-bits"><span class="mr-2">LeetCode0338 counting-bits</span><a href="#leetcode0338-counting-bits" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3></h3>
+
+<div class="language-c++ highlighter-rouge"><div class="code-header">
+        <span data-label-text="C++"><i class="fas fa-code small"></i></span>
+      <button aria-label="copy" data-title-succeed="Copied!"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+</pre></td><td class="rouge-code"><pre><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">LeetCode0338</span><span class="o">::</span><span class="n">countBits</span><span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">)</span> <span class="p">{</span>
+    <span class="cm">/**
+     * Given an integer n, return an array ans of length n + 1 such that for each i (0 &lt;= i &lt;= n), 
+     * ans[i] is the number of 1's in the binary representation of i.
+     * 
+     * https://leetcode-cn.com/problems/counting-bits/
+     * 
+     * Input: n = 2
+     * Output: [0,1,1]
+     * Explanation:
+     *	0 --&gt; 0
+     *	1 --&gt; 1
+     *	2 --&gt; 10
+     * 
+     * Solutions: 
+     *		'highestBit' Transition Formula: 
+     *			if n &amp; (n-1) == 0, then n can be a 'highestBit' number; i.e. 'highestBit' \in \{1,2,4,8,16,......\}
+     *				'highestBit' number has only one bit is '1' at its highest bit.
+     *				For example:
+     *					bin(2)=0b10
+     *					bin(16)=0b10000
+     *			
+     *			countBits[n] = countBits[n-highestBit] + 1
+     *				For example: 
+     *					bin(6)=0b101, its highestBit is bin(4)=0b100, then countBits[6] = countBits[6-4]+1 = 2
+     *					bin(15)=0b1111, its highestBit is bin(8)=0b1000, then countBits[15] = countBits[15-8]+1 = 4
+     *				therefor, once we have known the 'highestBit' of number 'n' , we can obtain its 1-bits count in O(1)
+     * 
+     *		'lowestBit' Transition Formula: using '&gt;&gt;' remove lowest bit, then we have: countBits[n] = countBits[n&gt;&gt;1] + (n&amp;1)
+     *			if 'n' is egg (lowest bit is 0), then countBits[n] = countBits[n/2] = countBits[n&gt;&gt;1]
+     *				6&gt;&gt;1 = 3;    countBit[6] = countBits[3] = 2
+     *				14&gt;&gt;1 = 7;   countBit[14] = countBits[7] = 3
+     *			if 'n' is odd (lowest bit is 1), then countBits[n] = countBits[(n-1)/2] + 1 = countBits[n&gt;&gt;1] + 1
+     *				7&gt;&gt;1 = 3;	countBit[7] = countBits[3] + 1 = 3
+     *				15&gt;&gt;1 = 7;   countBit[15] = countBits[7] + 1 = 4
+     *			n &amp; 1 = 0 or 1
+     *	
+     *		'lowestBitof1' Transition Formula: 
+     *			using the property of operator 'n&amp;(n-1)',  we can remove the n's lowest bit of 1, 
+     *			and then: conuntBits[n] = countBits[n&amp;(n-1)]+1
+     *				For example:
+     *					5 &amp; 4 = 4, i.e. 0b101 &amp; 0b100 = 0b100, then conuntBits[5] = countBits[5&amp;4]+1 = 2
+     *					8 &amp; 7 = 0, i.e. 0b1000 &amp; 0b0111 = 0b0, then conuntBits[8] = countBits[8&amp;7]+1 = 1
+     * 
+     * \param n
+     * \return 
+     */</span>
+
+    <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">counts</span><span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">n</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// using 'lowestBitof1' Transition Formula</span>
+        <span class="n">counts</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">counts</span><span class="p">[</span><span class="n">i</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">)]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">counts</span><span class="p">;</span>
+    
+<span class="p">}</span>
+
+</pre></td></tr></tbody></table></code></div></div>
+
+<h3 id="leetcode0392-is-subsequence"><span class="mr-2">LeetCode0392 is-subsequence</span><a href="#leetcode0392-is-subsequence" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3></h3>
+
+<div class="language-c++ highlighter-rouge"><div class="code-header">
+        <span data-label-text="C++"><i class="fas fa-code small"></i></span>
+      <button aria-label="copy" data-title-succeed="Copied!"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+</pre></td><td class="rouge-code"><pre><span class="kt">bool</span> <span class="n">LeetCode0392</span><span class="o">::</span><span class="n">isSubsequence</span><span class="p">(</span><span class="n">string</span> <span class="n">s</span><span class="p">,</span> <span class="n">string</span> <span class="n">t</span><span class="p">)</span> <span class="p">{</span>
+    <span class="cm">/**
+     * Given two strings s and t, return true if s is a subsequence of t, or false otherwise.
+     * 
+     * A subsequence of a string is a new string that is formed from the original string 
+     * by deleting some (can be none) of the characters without disturbing the relative 
+     * positions of the remaining characters. (i.e., "ace" is a subsequence of "abcde" while "aec" is not).
+     * 
+     * s and t consist only of lowercase English letters
+     * 
+     * https://leetcode-cn.com/problems/is-subsequence/
+     * 
+     * Example:
+     * Input: s = "abc", t = "ahbgdc"
+     * Output: true
+     * 
+     * Input: s = "axc", t = "ahbgdc"
+     * Output: false
+     * 
+     * Follow up: Suppose there are lots of incoming s, say s1, s2, ..., sk where k &gt;= `10^9`, 
+     * and you want to check one by one to see if t has its subsequence. 
+     * In this scenario, how would you change your code?
+     * 
+     * Solutions:
+     *		Normal Solution: double pointer
+     *			while i&lt;s.size &amp;&amp; j &lt;t.size:
+     *				if s[i] == t[j]:
+     *					i++ 
+     *				j++
+     *			return true if i == s.size, else false
+     *		
+     *		(DP)Transition Formula:
+     *			Let M = t.size
+     *			
+     *			Using a `M+1 x 26` matrix , named by 'P', P[i,j] indicates the first occurrence of 
+     *			the letter 'x' in t.
+     *			
+     *			If some letter 'x' not in t, then we simply let P[i,'x'] = M, else P[i,'x'] should be some numnber in [0,M-1].
+     *			
+     *			for i in M~0: if t[i] == 'x', P[i,'x'] = i else P[i,'x'] = P[i+1,'x']
+     * 
+     *			Note: here 'x' represents the index of some letter in array [a,b,c,d,......,x,y,z], 
+     *						for example, if currentletter is 'c' then 'x' = 2
+     * 
+     * \param s 
+     * \param t
+     * \return 
+     */</span>
+
+    <span class="c1">// Method1: Double Pointer</span>
+    <span class="cm">/*int sLen = s.size(), tLen = t.size();
+    int sIdx = 0, tIdx = 0;
+    while (sIdx &lt; sLen &amp;&amp; tIdx &lt; tLen) {
+        if (s[sIdx] == t[tIdx]) sIdx++;
+        tIdx++;
+    }
+    return sIdx == sLen;*/</span>
+
+    <span class="c1">// Method2: DP solution. This method works for the scenario described in "Follow up"</span>
+    <span class="kt">int</span> <span class="n">M</span> <span class="o">=</span> <span class="n">t</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+    <span class="c1">// 1. initialize a `M+1 x 26` dimension Matrix, and fill it with 0 </span>
+    <span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span> <span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;</span> <span class="n">P</span><span class="p">(</span><span class="n">M</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="mi">26</span><span class="p">,</span> <span class="mi">0</span><span class="p">));</span>
+    <span class="c1">// 2. initlialize the numbers of row P[M+1]  with "M"</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="mi">26</span><span class="p">;</span> <span class="o">++</span><span class="n">j</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">P</span><span class="p">[</span><span class="n">M</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">M</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="c1">// 3. update matrix P respect to target string `t`</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">M</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">;</span> <span class="o">--</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="mi">26</span><span class="p">;</span> <span class="o">++</span><span class="n">j</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="n">j</span> <span class="o">+</span> <span class="sc">'a'</span><span class="p">)</span> 
+                <span class="n">P</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span><span class="p">;</span>
+            <span class="k">else</span> 
+                <span class="n">P</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">P</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="p">];</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="c1">// 4. search if string `s` is a non-contiguous subsequence of `t` according Matrix P</span>
+    <span class="kt">int</span> <span class="n">rowIdx</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">n</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">n</span> <span class="o">&lt;</span> <span class="n">s</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="o">++</span><span class="n">n</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">P</span><span class="p">[</span><span class="n">rowIdx</span><span class="p">][</span><span class="n">s</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">-</span> <span class="sc">'a'</span><span class="p">]</span> <span class="o">==</span> <span class="n">M</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="n">rowIdx</span> <span class="o">=</span> <span class="n">P</span><span class="p">[</span><span class="n">rowIdx</span><span class="p">][</span><span class="n">s</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">-</span> <span class="sc">'a'</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></div></div>
+
+<h3 id="leetcode0509-fibonacci-number"><span class="mr-2">LeetCode0509 fibonacci-number</span><a href="#leetcode0509-fibonacci-number" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3></h3>
+
+<div class="language-c++ highlighter-rouge"><div class="code-header">
+        <span data-label-text="C++"><i class="fas fa-code small"></i></span>
+      <button aria-label="copy" data-title-succeed="Copied!"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+</pre></td><td class="rouge-code"><pre><span class="kt">int</span> <span class="n">LeetCode0509</span><span class="o">::</span><span class="n">fibonacci</span><span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">)</span> <span class="p">{</span>
+    <span class="cm">/**
+     * The Fibonacci numbers, commonly denoted F(n) form a sequence, called the Fibonacci 
+     * sequence, such that each number is the sum of the two preceding ones, starting 
+     * from 0 and 1. That is,
+     *		
+     *		F(0) = 0, F(1) = 1
+     *		F(n) = F(n - 1) + F(n - 2), for n &gt; 1.
+     * 
+     * https://leetcode-cn.com/problems/fibonacci-number/
+     * 
+     * \param n
+     * \return 
+     */</span>
+
+    <span class="c1">// Recursion version</span>
+    <span class="cm">/*
+    if (n&lt;=1) return n;
+    return fibonacci(n - 1) + fibonacci(n - 2);
+    */</span>
+
+    <span class="c1">// DP version: bottom up</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">n</span><span class="o">&lt;=</span><span class="mi">1</span><span class="p">)</span> <span class="k">return</span> <span class="n">n</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">fnMinus1</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">fnMinus2</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">fn</span> <span class="o">=</span> <span class="n">fnMinus1</span><span class="p">;</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">n</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">fn</span> <span class="o">=</span> <span class="n">fnMinus1</span> <span class="o">+</span> <span class="n">fnMinus2</span><span class="p">;</span>
+        <span class="n">fnMinus1</span> <span class="o">=</span> <span class="n">fnMinus2</span><span class="p">;</span>
+        <span class="n">fnMinus2</span> <span class="o">=</span> <span class="n">fn</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">fn</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></div></div>
+
+<h3 id="leetcode0746-min-cost-climbing-stairs"><span class="mr-2">LeetCode0746 min-cost-climbing-stairs</span><a href="#leetcode0746-min-cost-climbing-stairs" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3></h3>
+
+<div class="language-c++ highlighter-rouge"><div class="code-header">
+        <span data-label-text="C++"><i class="fas fa-code small"></i></span>
+      <button aria-label="copy" data-title-succeed="Copied!"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+</pre></td><td class="rouge-code"><pre><span class="kt">int</span> <span class="n">LeetCode0746</span><span class="o">::</span><span class="n">minCostClimbingStairs</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span> <span class="n">cost</span><span class="p">)</span> <span class="p">{</span>
+    <span class="cm">/**
+     * You are given an integer array cost where cost[i] is the cost of ith step on a staircase.
+     * Once you pay the cost, you can either climb one or two steps.
+     * 
+     * You can either start from the step with index 0, or the step with index 1.
+     * 
+     * Return the minimum cost to reach the top of the floor.
+     * 
+     * 2 &lt;= cost.length 
+     * 
+     * https://leetcode-cn.com/problems/min-cost-climbing-stairs/
+     * 
+     * Example:
+     * Input: cost = [10,15,20]
+     * Output: 15
+     * Explanation: You will start at index 1.
+     * - Pay 15 and climb two steps to reach the top.
+     * The total cost is 15.
+     * 
+     * Input: cost = [1,100,1,1,1,100,1,1,100,1]
+     * Output: 6
+     * Explanation: You will start at index 0.
+     * - Pay 1 and climb two steps to reach index 2.
+     * - Pay 1 and climb two steps to reach index 4.
+     * - Pay 1 and climb two steps to reach index 6.
+     * - Pay 1 and climb one step to reach index 7.
+     * - Pay 1 and climb two steps to reach index 9.
+     * - Pay 1 and climb one step to reach the top.
+     * The total cost is 6.
+     * 
+     * Solutions: 
+     *		Transition Formula:
+     *			totalCost[n] = min(totalCost[n-1] + cost[n-1], totalCost[n-2]+cost[n-2])
+     * 
+     *      Note: in this problem, the finall result of n will equal cost.size.
+     *		
+     *		I think this is not a well defined problem.
+     * 
+     * \param cost
+     * \return 
+     */</span>
+    <span class="kt">int</span> <span class="n">n</span> <span class="o">=</span> <span class="n">cost</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+    <span class="kt">int</span> <span class="n">costIMinus1</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">costIMinus2</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">costI</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">n</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">costI</span> <span class="o">=</span> <span class="n">min</span><span class="p">(</span><span class="n">costIMinus1</span> <span class="o">+</span> <span class="n">cost</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">],</span> <span class="n">costIMinus2</span> <span class="o">+</span> <span class="n">cost</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">2</span><span class="p">]);</span>
+        <span class="n">costIMinus2</span> <span class="o">=</span> <span class="n">costIMinus1</span><span class="p">;</span>
+        <span class="n">costIMinus1</span> <span class="o">=</span> <span class="n">costI</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">costI</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></div></div>
+
+<h3 id="leetcode1025-divisor-game"><span class="mr-2">LeetCode1025 divisor-game</span><a href="#leetcode1025-divisor-game" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3></h3>
+
+<div class="language-c++ highlighter-rouge"><div class="code-header">
+        <span data-label-text="C++"><i class="fas fa-code small"></i></span>
+      <button aria-label="copy" data-title-succeed="Copied!"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+</pre></td><td class="rouge-code"><pre><span class="kt">bool</span> <span class="n">LeetCode1025</span><span class="o">::</span><span class="n">divisorGame</span><span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">)</span> <span class="p">{</span>
+    <span class="cm">/**
+     * Alice and Bob take turns playing a game, with Alice starting first.
+     * 
+     * Initially, there is a number n on the chalkboard.
+     * On each player's turn, that player makes a move consisting of:
+     *	- Choosing any x with 0 &lt; x &lt; n and n % x == 0.
+     *	- Replacing the number n on the chalkboard with n - x.
+     * 
+     * Also, if a player cannot make a move, they lose the game.
+     * 
+     * Return true if and only if Alice wins the game, assuming both players play optimally.
+     * 
+     * https://leetcode-cn.com/problems/divisor-game/
+     * 
+     * Example:
+     * Input: n = 2
+     * Output: true
+     * Explanation: Alice chooses 1, and Bob has no more moves.
+     * 
+     * Input: n = 3
+     * Output: false
+     * Explanation: Alice chooses 1, Bob chooses 1, and Alice has no more moves.
+     * 
+     * Solutions: 
+     *		https://leetcode-cn.com/problems/divisor-game/solution/chu-shu-bo-yi-by-leetcode-solution/
+     *	
+     *		This problem is so boring. 
+     *		结论是：n 为奇数的时候 Alice（先手）必败，n 为偶数的时候 Alice 必胜
+     *		The optimal result is 'n%2==0' ......
+     *		转换成DP问题：
+     * 
+     * \param n
+     * \return 
+     */</span>
+    <span class="k">return</span> <span class="n">n</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></div></div>
+
+<h3 id="leetcode1137-n-th-tribonacci-number"><span class="mr-2">LeetCode1137 n-th-tribonacci-number</span><a href="#leetcode1137-n-th-tribonacci-number" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3></h3>
+
+<div class="language-c++ highlighter-rouge"><div class="code-header">
+        <span data-label-text="C++"><i class="fas fa-code small"></i></span>
+      <button aria-label="copy" data-title-succeed="Copied!"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+</pre></td><td class="rouge-code"><pre><span class="kt">int</span> <span class="n">LeetCode1137</span><span class="o">::</span><span class="n">tribonacci</span><span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">)</span> <span class="p">{</span>
+    <span class="cm">/**
+     * The Tribonacci sequence Tn is defined as follows: 
+     * T0 = 0, T1 = 1, T2 = 1, and Tn+3 = Tn + Tn+1 + Tn+2 for n &gt;= 0.
+     * Given n, return the value of Tn
+     * 
+     * https://leetcode-cn.com/problems/n-th-tribonacci-number/
+     * 
+     * Example:
+     * Input: n = 4
+     * Output: 4
+     * Explanation:
+     * T_3 = 0 + 1 + 1 = 2
+     * T_4 = 1 + 1 + 2 = 4
+     * 
+     * Input: n = 25
+     * Output: 1389537
+     * 
+     * 
+     * \param n
+     * \return 
+     */</span>
+    <span class="kt">int</span> <span class="n">t0</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">t1</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">t2</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">tn</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">tn</span> <span class="o">=</span> <span class="n">t2</span> <span class="o">+</span> <span class="n">t1</span> <span class="o">+</span> <span class="n">t0</span><span class="p">;</span>
+        <span class="n">t0</span> <span class="o">=</span> <span class="n">t1</span><span class="p">;</span>
+        <span class="n">t1</span> <span class="o">=</span> <span class="n">t2</span><span class="p">;</span>
+        <span class="n">t2</span> <span class="o">=</span> <span class="n">tn</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">tn</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></div></div>
+
+<h3 id="leetcode1646-get-maximum-in-generated-array"><span class="mr-2">LeetCode1646 get-maximum-in-generated-array</span><a href="#leetcode1646-get-maximum-in-generated-array" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3></h3>
+
+<div class="language-c++ highlighter-rouge"><div class="code-header">
+        <span data-label-text="C++"><i class="fas fa-code small"></i></span>
+      <button aria-label="copy" data-title-succeed="Copied!"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+</pre></td><td class="rouge-code"><pre><span class="kt">int</span> <span class="n">LeetCode1646</span><span class="o">::</span><span class="n">getMaximumGenerated</span><span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">)</span> <span class="p">{</span>
+    <span class="cm">/**
+     * You are given an integer n. A 0-indexed integer array nums of length n + 1 is 
+     * generated in the following way:
+     * - nums[0] = 0
+     * - nums[1] = 1
+     * - nums[2 * i] = nums[i] when 2 &lt;= 2 * i &lt;= n
+     * - nums[2 * i + 1] = nums[i] + nums[i + 1] when 2 &lt;= 2 * i + 1 &lt;= n
+     * Return the maximum integer in the array nums​​​.
+     * 
+     * https://leetcode-cn.com/problems/get-maximum-in-generated-array/
+     * 
+     * Example:
+     * Input: n = 7
+     * Output: 3
+     * Explanation: According to the given rules:
+     * - nums[0] = 0
+     * - nums[1] = 1
+     * - nums[(1 * 2) = 2] = nums[1] = 1
+     * - nums[(1 * 2) + 1 = 3] = nums[1] + nums[2] = 1 + 1 = 2
+     * - nums[(2 * 2) = 4] = nums[2] = 1
+     * - nums[(2 * 2) + 1 = 5] = nums[2] + nums[3] = 1 + 2 = 3
+     * - nums[(3 * 2) = 6] = nums[3] = 2
+     * - nums[(3 * 2) + 1 = 7] = nums[3] + nums[4] = 2 + 1 = 3
+     * Hence, nums = [0,1,1,2,1,3,2,3], and 
+     * the maximum is max(0,1,1,2,1,3,2,3) = 3
+     * 
+     * Input: n = 2
+     * Output: 1
+     * Explanation: According to the given rules, nums = [0,1,1]. 
+     * The maximum is max(0,1,1) = 1
+     * 
+     * Input: n = 3
+     * Output: 2
+     * Explanation: According to the given rules, nums = [0,1,1,2]. 
+     * The maximum is max(0,1,1,2) = 2
+     * 
+     * 
+     * 
+     * \param n
+     * \return 
+     */</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">)</span> <span class="k">return</span> <span class="n">n</span><span class="p">;</span>
+    <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">nums</span><span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+    <span class="n">nums</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">maxNum</span> <span class="o">=</span> <span class="n">nums</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;=</span> <span class="n">n</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">nums</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">nums</span><span class="p">[</span><span class="n">j</span> <span class="o">/</span> <span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="n">nums</span><span class="p">[</span><span class="n">j</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">j</span> <span class="o">%</span> <span class="mi">2</span><span class="p">);</span>
+        <span class="n">maxNum</span> <span class="o">=</span> <span class="n">max</span><span class="p">(</span><span class="n">maxNum</span><span class="p">,</span> <span class="n">nums</span><span class="p">[</span><span class="n">j</span><span class="p">]);</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">maxNum</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></div></div>
+
+<h2 id="level-medium"><span class="mr-2">Level Medium</span><a href="#level-medium" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2></h2>
+
+<h3 id="leetcode0005-longest-palindromic-substring"><span class="mr-2">LeetCode0005 longest-palindromic-substring</span><a href="#leetcode0005-longest-palindromic-substring" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3></h3>
+
+<div class="language-c++ highlighter-rouge"><div class="code-header">
+        <span data-label-text="C++"><i class="fas fa-code small"></i></span>
+      <button aria-label="copy" data-title-succeed="Copied!"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+</pre></td><td class="rouge-code"><pre><span class="n">string</span> <span class="n">LeetCode0005</span><span class="o">::</span><span class="n">longestPalindrome</span><span class="p">(</span><span class="n">string</span> <span class="n">s</span><span class="p">)</span> <span class="p">{</span>
+    <span class="cm">/**
+     * Given a string s, return the longest palindromic substring in s..
+     * 
+     * https://leetcode-cn.com/problems/longest-palindromic-substring/
+     * 
+     * 1 &lt;= s.length &lt;= 1000
+     * s consist of only digits and English letters
+     * 
+     * Example:
+     * Input: s = "babad"
+     * Output: "bab"
+     * Explanation: "aba" is also a valid answer
+     * 
+     * Input: s = "cbbd"
+     * Output: "bb"
+     * 
+     * Solutions:
+     *		DP: 
+     *		
+     * 
+     * \param s
+     * \return 
+     */</span>
+    <span class="kt">int</span> <span class="n">N</span> <span class="o">=</span> <span class="n">s</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+    <span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;</span> <span class="n">P</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="mi">0</span><span class="p">));</span>
+    <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">longestPd</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
+    <span class="n">longestPd</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">N</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">P</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">&lt;</span> <span class="n">N</span> <span class="o">&amp;&amp;</span> <span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="n">s</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">])</span> <span class="p">{</span>
+            <span class="n">P</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">longestPd</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
+                <span class="n">longestPd</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span><span class="p">;</span>
+                <span class="n">longestPd</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">l</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span> <span class="n">l</span> <span class="o">&lt;=</span> <span class="n">N</span><span class="p">;</span> <span class="o">++</span><span class="n">l</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">N</span><span class="o">-</span><span class="n">l</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="n">s</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="n">l</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">&amp;&amp;</span> <span class="n">P</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">][</span><span class="n">i</span> <span class="o">+</span> <span class="n">l</span> <span class="o">-</span> <span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+                <span class="n">P</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">i</span> <span class="o">+</span> <span class="n">l</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">longestPd</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">l</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="n">longestPd</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span><span class="p">;</span>
+                    <span class="n">longestPd</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">l</span><span class="p">;</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">s</span><span class="p">.</span><span class="n">substr</span><span class="p">(</span><span class="n">longestPd</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">longestPd</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></div></div>
+
+
+</div>
+
+<div class="post-tail-wrapper text-muted">
+
+  <!-- categories -->
+  
+  <div class="post-meta mb-3">
+    <i class="far fa-folder-open fa-fw mr-1"></i>
+    
+      <a href='/categories/leetcode/'>LeetCode</a>,
+      <a href='/categories/dynamic-programming/'>Dynamic Programming</a>
+  </div>
+  
+
+  <!-- tags -->
+  
+  <div class="post-tags">
+    <i class="fa fa-tags fa-fw mr-1"></i>
+      
+      <a href="/tags/leetcode/"
+          class="post-tag no-text-decoration" >LeetCode</a>
+      
+      <a href="/tags/dynamic-programming/"
+          class="post-tag no-text-decoration" >Dynamic Programming</a>
+      
+  </div>
+  
+
+  <div class="post-tail-bottom
+    d-flex justify-content-between align-items-center mt-3 pt-5 pb-2">
+    <div class="license-wrapper">
+
+      
+
+        
+
+        This post is licensed under 
+        <a href="https://creativecommons.org/licenses/by/4.0/">
+          CC BY 4.0
+        </a>
+         by the author.
+
+      
+    </div>
+
+    <!--
+ Post sharing snippet
+-->
+
+<div class="share-wrapper">
+  <span class="share-label text-muted mr-1">Share</span>
+  <span class="share-icons">
+    
+    
+
+    
+      
+        <a href="https://twitter.com/intent/tweet?text=LeetCode - Dynamic Programming - Candy Note&amp;url=http://0.0.0.0:4000/posts/dynamic_programming/" data-toggle="tooltip" data-placement="top"
+          title="Twitter" target="_blank" rel="noopener" aria-label="Twitter">
+          <i class="fa-fw fab fa-twitter"></i>
+        </a>
+    
+      
+        <a href="https://www.facebook.com/sharer/sharer.php?title=LeetCode - Dynamic Programming - Candy Note&amp;u=http://0.0.0.0:4000/posts/dynamic_programming/" data-toggle="tooltip" data-placement="top"
+          title="Facebook" target="_blank" rel="noopener" aria-label="Facebook">
+          <i class="fa-fw fab fa-facebook-square"></i>
+        </a>
+    
+      
+        <a href="https://t.me/share/url?url=http://0.0.0.0:4000/posts/dynamic_programming/&amp;text=LeetCode - Dynamic Programming - Candy Note" data-toggle="tooltip" data-placement="top"
+          title="Telegram" target="_blank" rel="noopener" aria-label="Telegram">
+          <i class="fa-fw fab fa-telegram"></i>
+        </a>
+    
+
+    <i id="copy-link" class="fa-fw fas fa-link small"
+        data-toggle="tooltip" data-placement="top"
+        title="Copy link"
+        data-title-succeed="Link copied successfully!">
+    </i>
+
+  </span>
+</div>
+
+
+  </div><!-- .post-tail-bottom -->
+
+</div><!-- div.post-tail-wrapper -->
+
+
+      
+    
+    
+
+    </div>
+  </div> <!-- #core-wrapper -->
+
+  <!-- pannel -->
+  <div id="panel-wrapper" class="col-xl-3 pl-2 text-muted">
+
+    <div class="access">
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+
+
+  <div id="access-tags">
+    <div class="panel-heading">Trending Tags</div>
+    <div class="d-flex flex-wrap mt-3 mb-1 mr-3">
+
+    
+      
+      <a class="post-tag" href="/tags/gaussian-distribution/">Gaussian Distribution</a>
+    
+      
+      <a class="post-tag" href="/tags/pca/">PCA</a>
+    
+      
+      <a class="post-tag" href="/tags/em/">EM</a>
+    
+      
+      <a class="post-tag" href="/tags/bayesian/">Bayesian</a>
+    
+      
+      <a class="post-tag" href="/tags/markov-chain/">Markov Chain</a>
+    
+      
+      <a class="post-tag" href="/tags/bernoulli/">Bernoulli</a>
+    
+      
+      <a class="post-tag" href="/tags/binomial/">Binomial</a>
+    
+      
+      <a class="post-tag" href="/tags/gamma-distribution/">Gamma Distribution</a>
+    
+      
+      <a class="post-tag" href="/tags/gmm/">GMM</a>
+    
+      
+      <a class="post-tag" href="/tags/kernel/">Kernel</a>
+    
+
+    </div>
+  </div>
+
+
+    </div>
+
+    
+      
+      
+
+
+
+<!-- BS-toc.js will be loaded at medium priority -->
+<script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@1.0.1/dist/bootstrap-toc.min.js"></script>
+
+<div id="toc-wrapper" class="pl-0 pr-4 mb-5">
+  <div class="panel-heading pl-3 pt-2 mb-2">Contents</div>
+  <nav id="toc" data-toggle="toc"></nav>
+</div>
+
+
+    
+  </div>
+
+</div>
+
+<!-- tail -->
+
+<div class="row">
+  <div class="col-12 col-lg-11 col-xl-8">
+    <div id="tail-wrapper" class="pl-1 pr-1 pl-sm-2 pr-sm-2 pl-md-4 pr-md-4">
+      
+        
+        <!--
+ Recommend the other 3 posts according to the tags and categories of the current post,
+ if the number is not enough, use the other latest posts to supplement.
+-->
+
+<!-- The total size of related posts  -->
+
+
+<!-- An random integer that bigger than 0  -->
+
+
+<!-- Equals to TAG_SCORE / {max_categories_hierarchy}  -->
+
+
+
+
+
+
+
+
+  
+
+  
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+
+
+
+<!-- Fill with the other newlest posts  -->
+
+
+
+
+  
+    
+    
+  
+    
+    
+      
+      
+        
+        
+        
+      
+    
+  
+    
+    
+      
+      
+        
+        
+        
+      
+    
+  
+    
+    
+      
+      
+        
+        
+        
+          
+
+
+
+
+
+  <div id="related-posts" class="mt-5 mb-2 mb-sm-4">
+    <h3 class="pt-2 mt-1 mb-4 ml-1"
+      data-toc-skip>Further Reading</h3>
+    <div class="card-deck mb-4">
+    
+      
+      
+      <div class="card">
+        <a href="/posts/variational_inference/">
+          <div class="card-body">
+            <!--
+  Date format snippet
+  See: ${JS_ROOT}/utils/timeago.js
+-->
+
+<em class="timeago small"
+    data-ts="1645484400"
+    
+    >
+  2022-02-21
+</em>
+
+            <h3 class="pt-0 mt-1 mb-3" data-toc-skip>Variational Inference</h3>
+            <div class="text-muted small">
+              <p>
+                
+
+
+
+
+
+                Variational Inference
+
+In Bayesian Learning, when the involved integrations  are no longer computationally tractable. Then Variational Approximation can be used.
+
+Although there is nothing intrinsi...
+              </p>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+      
+      
+      <div class="card">
+        <a href="/posts/expectation_maximization/">
+          <div class="card-body">
+            <!--
+  Date format snippet
+  See: ${JS_ROOT}/utils/timeago.js
+-->
+
+<em class="timeago small"
+    data-ts="1645484400"
+    
+    >
+  2022-02-21
+</em>
+
+            <h3 class="pt-0 mt-1 mb-3" data-toc-skip>Expectation Maximization</h3>
+            <div class="text-muted small">
+              <p>
+                
+
+
+
+
+
+                Expectation Maximization
+
+EM Lower Bound analysis
+
+
+  
+    The expectation Maximization algorithm, or EM aoglrithm, is a general technique for finding maximum likelihood solutoins for probabilistic...
+              </p>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+      
+      
+      <div class="card">
+        <a href="/posts/Bayesian_gmm_varinfer/">
+          <div class="card-body">
+            <!--
+  Date format snippet
+  See: ${JS_ROOT}/utils/timeago.js
+-->
+
+<em class="timeago small"
+    data-ts="1645484400"
+    
+    >
+  2022-02-21
+</em>
+
+            <h3 class="pt-0 mt-1 mb-3" data-toc-skip>Bayesian Gaussian Mixture Model - Variational Inference</h3>
+            <div class="text-muted small">
+              <p>
+                
+
+
+
+
+
+                Bayesian Gaussian Mixture Model - Variational Inference
+
+Likelihood Funcitons
+
+[\begin{aligned} p(\mathbf{Z}\vert \boldsymbol{\pi}) &amp;amp;= \prod_{n=1}^N\prod_{k=1}^K \pi_k^{z_{nk}} \ \ p(\mathbf{X}...
+              </p>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+    </div> <!-- .card-deck -->
+  </div> <!-- #related-posts -->
+
+
+      
+        
+        <!--
+  Navigation buttons at the bottom of the post.
+-->
+
+<div class="post-navigation d-flex justify-content-between">
+  
+  <a href="/posts/variational_inference/" class="btn btn-outline-primary"
+    prompt="Older">
+    <p>Variational Inference</p>
+  </a>
+  
+
+  
+  <span class="btn btn-outline-primary disabled"
+    prompt="Newer">
+    <p>-</p>
+  </span>
+  
+
+</div>
+
+      
+        
+        <!--  The comments switcher -->
+
+
+      
+    </div>
+  </div>
+</div> <!-- .row -->
+
+
+
+        <!--
+  The Footer
+-->
+
+<footer class="d-flex w-100 justify-content-center">
+  <div class="d-flex justify-content-between align-items-center text-muted">
+    <div class="footer-left">
+      <p class="mb-0">
+        © 2022
+        <a href="https://twitter.com/username">luo-songtao</a>.
+        
+        <span data-toggle="tooltip" data-placement="top"
+          title="Except where otherwise noted, the blog posts on this site are licensed under the Creative Commons Attribution 4.0 International (CC BY 4.0) License by the author.">Some rights reserved.</span>
+        
+      </p>
+    </div>
+
+    <div class="footer-right">
+      <p class="mb-0">
+        
+
+        
+
+        Powered by 
+          <a href="https://jekyllrb.com" target="_blank" rel="noopener">Jekyll</a>
+         with 
+          <a href="https://github.com/cotes2020/jekyll-theme-chirpy" target="_blank" rel="noopener">Chirpy</a>
+         theme.
+
+      </p>
+    </div>
+
+  </div> <!-- div.d-flex -->
+</footer>
+
+
+      </div>
+
+      <!--
+  The Search results
+-->
+<div id="search-result-wrapper" class="d-flex justify-content-center unloaded">
+  <div class="col-12 col-sm-11 post-content">
+    <div id="search-hints">
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+
+
+  <div id="access-tags">
+    <div class="panel-heading">Trending Tags</div>
+    <div class="d-flex flex-wrap mt-3 mb-1 mr-3">
+
+    
+      
+      <a class="post-tag" href="/tags/gaussian-distribution/">Gaussian Distribution</a>
+    
+      
+      <a class="post-tag" href="/tags/pca/">PCA</a>
+    
+      
+      <a class="post-tag" href="/tags/em/">EM</a>
+    
+      
+      <a class="post-tag" href="/tags/bayesian/">Bayesian</a>
+    
+      
+      <a class="post-tag" href="/tags/markov-chain/">Markov Chain</a>
+    
+      
+      <a class="post-tag" href="/tags/bernoulli/">Bernoulli</a>
+    
+      
+      <a class="post-tag" href="/tags/binomial/">Binomial</a>
+    
+      
+      <a class="post-tag" href="/tags/gamma-distribution/">Gamma Distribution</a>
+    
+      
+      <a class="post-tag" href="/tags/gmm/">GMM</a>
+    
+      
+      <a class="post-tag" href="/tags/kernel/">Kernel</a>
+    
+
+    </div>
+  </div>
+
+
+    </div>
+    <div id="search-results" class="d-flex flex-wrap justify-content-center text-muted mt-3"></div>
+  </div>
+</div>
+
+
+    </div> <!-- #main-wrapper -->
+
+    
+      <!--
+  mermaid-js loader
+-->
+
+<script src="https://cdn.jsdelivr.net/npm/mermaid@8/dist/mermaid.min.js"></script>
+
+<script>
+  $(function() {
+    function updateMermaid(event) {
+      if (event.source === window && event.data &&
+            event.data.direction === ModeToggle.ID) {
+
+        const mode = event.data.message;
+
+        if (typeof mermaid === "undefined") {
+          return;
+        }
+
+        let expectedTheme = (mode === ModeToggle.DARK_MODE? "dark" : "default");
+        let config = { theme: expectedTheme };
+
+        /* Re-render the SVG › <https://github.com/mermaid-js/mermaid/issues/311#issuecomment-332557344> */
+        $(".mermaid").each(function() {
+          let svgCode = $(this).prev().children().html();
+          $(this).removeAttr("data-processed");
+          $(this).html(svgCode);
+        });
+
+        mermaid.initialize(config);
+        mermaid.init(undefined, ".mermaid");
+      }
+    }
+
+    let initTheme = "default";
+
+    if ($("html[data-mode=dark]").length > 0
+      || ($("html[data-mode]").length == 0
+        && window.matchMedia("(prefers-color-scheme: dark)").matches ) ) {
+      initTheme = "dark";
+    }
+
+    let mermaidConf = {
+      theme: initTheme  /* <default|dark|forest|neutral> */
+    };
+
+    /* Markdown converts to HTML */
+    $("pre").has("code.language-mermaid").each(function() {
+      let svgCode = $(this).children().html();
+      $(this).addClass("unloaded");
+      $(this).after(`<div class=\"mermaid\">${svgCode}</div>`);
+    });
+
+    mermaid.initialize(mermaidConf);
+
+    window.addEventListener("message", updateMermaid);
+  });
+</script>
+
+    
+
+    <div id="mask"></div>
+
+    <a id="back-to-top" href="#" aria-label="back-to-top" class="btn btn-lg btn-box-shadow" role="button">
+      <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!--
+  Jekyll Simple Search loader
+  See: <https://github.com/christian-fei/Simple-Jekyll-Search>
+-->
+
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/simple-jekyll-search@1.10.0/dest/simple-jekyll-search.min.js"></script>
+
+<script>
+SimpleJekyllSearch({
+  searchInput: document.getElementById('search-input'),
+  resultsContainer: document.getElementById('search-results'),
+  json: '/assets/js/data/search.json',
+  searchResultTemplate: '<div class="pl-1 pr-1 pl-sm-2 pr-sm-2 pl-lg-4 pr-lg-4 pl-xl-0 pr-xl-0">  <a href="{url}">{title}</a>  <div class="post-meta d-flex flex-column flex-sm-row text-muted mt-1 mb-1">    {categories}    {tags}  </div>  <p>{snippet}</p></div>',
+  noResultsText: '<p class="mt-5">Oops! No result founds.</p>',
+  templateMiddleware: function(prop, value, template) {
+    if (prop === 'categories') {
+      if (value === '') {
+        return `${value}`;
+      } else {
+        return `<div class="mr-sm-4"><i class="far fa-folder fa-fw"></i>${value}</div>`;
+      }
+    }
+
+    if (prop === 'tags') {
+      if (value === '') {
+        return `${value}`;
+      } else {
+        return `<div><i class="fa fa-tag fa-fw"></i>${value}</div>`;
+      }
+    }
+  }
+});
+</script>
+
+
+    <!--
+  JS selector for site.
+-->
+
+<!-- layout specified -->
+
+
+  
+
+
+
+  <!-- image lazy-loading & popup & clipboard -->
+  
+
+  
+
+
+
+
+
+
+
+  
+    
+
+    
+
+  
+
+
+
+  
+    
+
+    
+
+  
+
+
+
+  
+    
+
+    
+
+  
+
+
+
+
+  <script src="https://cdn.jsdelivr.net/combine/npm/magnific-popup@1/dist/jquery.magnific-popup.min.js,npm/lozad/dist/lozad.min.js,npm/clipboard@2/dist/clipboard.min.js"></script>
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+
+
+
+
+
+  
+    
+
+    
+
+  
+
+
+
+  
+    
+
+    
+
+  
+
+
+
+  
+    
+
+    
+
+  
+
+
+
+  
+    
+
+    
+
+  
+
+
+
+
+  <script src="https://cdn.jsdelivr.net/combine/npm/dayjs@1/dayjs.min.js,npm/dayjs@1/locale/en.min.js,npm/dayjs@1/plugin/relativeTime.min.js,npm/dayjs@1/plugin/localizedFormat.min.js"></script>
+
+
+
+
+
+
+
+
+<script defer src="/assets/js/dist/post.min.js"></script>
+
+
+  <!-- MathJax -->
+  <script>
+  /* see: <https://docs.mathjax.org/en/latest/options/input/tex.html#tex-options> */
+  MathJax = {
+    tex: {
+      inlineMath: [              /* start/end delimiter pairs for in-line math */
+        ['$','$'],
+        ['\\(','\\)']
+      ],
+      displayMath: [             /* start/end delimiter pairs for display math */
+        ['$$', '$$'],
+        ['\\[', '\\]']
+      ]
+    }
+  };
+  </script>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+  </script>
+
+
+<!-- commons -->
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.bundle.min.js"></script>
+
+
+
+
+  </body>
+
+</html>
+

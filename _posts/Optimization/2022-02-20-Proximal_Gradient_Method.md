@@ -35,11 +35,11 @@ mermaid: true
          
         - if $f(x)$ is non-differentiable, for example $f(\boldsymbol{x}) = \sum_i \vert x_i\vert$
             
-            $$\begin{aligned} \frac {\partial f(\boldsymbol{x})}{\partial x_i} = \left\{ \begin{aligned}&1,\qquad &\mathrm{if} \space x_i >0 \\ &-1, \qquad &\mathrm{if} \space x_i <0 \\ &[-1, +1],\qquad &\mathrm{if} \space x_i = 0 \end{aligned}\right. \end{aligned}$$
+            $$\begin{aligned} \frac {\partial f(\boldsymbol{x})}{\partial x_i} = \left\{ \begin{aligned}&1,\qquad &\text{if} \space x_i >0 \\ &-1, \qquad &\text{if} \space x_i <0 \\ &[-1, +1],\qquad &\text{if} \space x_i = 0 \end{aligned}\right. \end{aligned}$$
             
            - then let $\frac {\partial f(\boldsymbol{x})}{\partial x_i} + x_i-v_i = 0$, we have:
                
-               $$\begin{aligned} x_i &= \left\{ \begin{aligned}&v_i - 1, \qquad &v_i > 1 \\ & v_i + 1, \qquad &v_i < -1 \\ & 0 ,\qquad &v_i\in [-1,1] \end{aligned}\right . \\ &= \mathrm{sgn}(v_i)*\max(0,|v_i|-1) \end{aligned}$$
+               $$\begin{aligned} x_i &= \left\{ \begin{aligned}&v_i - 1, \qquad &v_i > 1 \\ & v_i + 1, \qquad &v_i < -1 \\ & 0 ,\qquad &v_i\in [-1,1] \end{aligned}\right . \\ &= \text{sgn}(v_i)*\max(0,|v_i|-1) \end{aligned}$$
         
         - if $f(x)$ is differentiable, for example $f(\boldsymbol{x}) =\boldsymbol{x}^T\boldsymbol{x}$, it is easy to find the result.
 
@@ -48,7 +48,7 @@ mermaid: true
 
 - $f: R^n \rightarrow R$ is a differentiable convex function , $h: R^n\rightarrow R$ is a convex function (maybe non-differentiable), $X$ is a closed convex set.
     
-    $$\begin{aligned} \mathrm{minimize}& \space f(x) + h(x) \\ \mathrm{Subject\space to}&\space x \in X \end{aligned}$$
+    $$\begin{aligned} \text{minimize}& \space f(x) + h(x) \\ \text{Subject\space to}&\space x \in X \end{aligned}$$
 
 - Proximal Gradient Descent algorithm combines ideas from the gradient projection method and the proximal method. It replaces $f$ with a linear approximation in the proximal minimization, i.e.,
     
@@ -78,7 +78,7 @@ mermaid: true
     
 - Then according to Proximal Gradient method, we have:
     
-    $$\begin{aligned} \boldsymbol{z}^k &= \boldsymbol{w}^k - \alpha^k \nabla E(\boldsymbol{w}^k) \\ \boldsymbol{w}^{k+1} &\in \arg \min_{\boldsymbol{w}} \left(p(\boldsymbol{w})  + \frac 1{2\alpha^k} \| \boldsymbol{w}-\boldsymbol{z}^k \|^2 \right) \\ w_j^{k+1} &= \left\{ \begin{aligned} &0\qquad &\vert z_j^k \vert \le \eta\alpha^k \\  &z_j^k - \mathrm{sgn}(z_j^k)\alpha^k \eta \qquad &\vert z_j^k \vert \gt \eta\alpha^k \end{aligned} \right. \\ &= \mathrm{sgn}(z_j^k) \max(0, \vert z_j^k \vert - \eta\alpha^k) \end{aligned}$$
+    $$\begin{aligned} \boldsymbol{z}^k &= \boldsymbol{w}^k - \alpha^k \nabla E(\boldsymbol{w}^k) \\ \boldsymbol{w}^{k+1} &\in \arg \min_{\boldsymbol{w}} \left(p(\boldsymbol{w})  + \frac 1{2\alpha^k} \| \boldsymbol{w}-\boldsymbol{z}^k \|^2 \right) \\ w_j^{k+1} &= \left\{ \begin{aligned} &0\qquad &\vert z_j^k \vert \le \eta\alpha^k \\  &z_j^k - \text{sgn}(z_j^k)\alpha^k \eta \qquad &\vert z_j^k \vert \gt \eta\alpha^k \end{aligned} \right. \\ &= \text{sgn}(z_j^k) \max(0, \vert z_j^k \vert - \eta\alpha^k) \end{aligned}$$
 
 
 #### Elastic Net Regression Problem
@@ -93,6 +93,6 @@ $$\begin{aligned} \min \space \frac 12 \sum_{i=1}^N (y_i - \boldsymbol{w}^T\phi(
     
     - The result is:
         
-        $$\begin{aligned}  w_j^{k+1} &= \left\{ \begin{aligned} &0 \qquad &\vert z_j^k \vert \le \eta\alpha^k(1-\gamma) \\  &\frac{z_j^k - \mathrm{sgn}(z_j^k)\eta\alpha^k(1-\gamma)}{1+\eta\alpha^k\gamma} \qquad &\vert z_j^k \vert \gt \eta\alpha^k(1-\gamma) \end{aligned} \right. \\ &= \mathrm{sgn}(z_j^k) \max\left(0, \frac{|z_j^k| - \eta\alpha^k(1-\gamma)}{1+\eta\alpha^k\gamma} \right)  \end{aligned}$$
+        $$\begin{aligned}  w_j^{k+1} &= \left\{ \begin{aligned} &0 \qquad &\vert z_j^k \vert \le \eta\alpha^k(1-\gamma) \\  &\frac{z_j^k - \text{sgn}(z_j^k)\eta\alpha^k(1-\gamma)}{1+\eta\alpha^k\gamma} \qquad &\vert z_j^k \vert \gt \eta\alpha^k(1-\gamma) \end{aligned} \right. \\ &= \text{sgn}(z_j^k) \max\left(0, \frac{|z_j^k| - \eta\alpha^k(1-\gamma)}{1+\eta\alpha^k\gamma} \right)  \end{aligned}$$
 
     

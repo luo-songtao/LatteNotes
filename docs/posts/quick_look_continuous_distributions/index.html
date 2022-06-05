@@ -1,0 +1,4191 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html lang="en"
+  
+>
+
+  <!--
+  The Head
+-->
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Allow having a localized datetime different from the appearance language -->
+  
+
+  
+
+    
+
+    
+
+  
+
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+<meta name="generator" content="Jekyll v4.2.1" />
+<meta property="og:title" content="A Quick Look of Continuous Distribution" />
+<meta name="author" content="luo-songtao" />
+<meta property="og:locale" content="en" />
+<meta name="description" content="Uniform distribution $x\sim \mathcal{U}(x\vert a,b)$, $x\in [a,b]$ \[\begin{aligned} p(x) = \mathcal{U}(x\vert a,b) = \frac {1}{b-a} \end{aligned}\] Univariate Gaussian distribution $x\sim \mathcal{N}(x\vert \mu, \sigma^2)$ \[\begin{aligned} p(x) = \mathcal{N}(x\vert \mu, \sigma^2) = \frac {1}{\sqrt{2\pi\sigma^2}}\exp(-\frac{(x-\mu)^2}{2\sigma^2}) \end{aligned}\] Expectation: $\mu$ Proof \[\begin{aligned} \mathbb{E}[x] &amp;= \int_{-\infty}^{+\infty}xp(x) \\&amp;= \frac {1}{\sqrt{2\pi\sigma^2}} \int_{-\infty}^{+\infty}x\exp\left(-\frac{(x-\mu)^2}{2\sigma^2}\right)dx \\&amp;= \frac {1}{\sqrt{2\pi\sigma^2}} \int_{-\infty}^{+\infty}(y+\mu)\exp\left(-\frac{y^2}{2\sigma^2}\right)dy \qquad \text{let \space} y=x-\mu \\&amp;= \frac {1}{\sqrt{2\pi\sigma^2}} \int_{-\infty}^{+\infty}y\exp\left(-\frac{y^2}{2\sigma^2}\right)dy + \frac {\mu}{\sqrt{2\pi\sigma^2}} \int_{-\infty}^{+\infty}\exp\left(-\frac{y^2}{2\sigma^2}\right)dy \end{aligned}\] The first term: \[\begin{aligned} \frac {1}{\sqrt{2\pi\sigma^2}} \int_{-\infty}^{+\infty}y\exp\left(-\frac{y^2}{2\sigma^2}\right)dy &amp;= 0 \qquad \text{odd \space function} \end{aligned}\] The second term: \[\begin{aligned} \text{let \space} I &amp;= \int_{-\infty}^{+\infty}\exp\left(-\frac{y^2}{2\sigma^2}\right)dy \\ \text{then \space} I^2 &amp;= \int_{-\infty}^{+\infty}\int_{-\infty}^{+\infty} \exp\left(-\frac{y_1^2}{2\sigma^2}\right)\exp\left(-\frac{y_2^2}{2\sigma^2}\right)dy_1dy_2 \\ &amp;= \int_{-\infty}^{+\infty}\int_{-\infty}^{+\infty} \exp\left(-\frac{y_1^2+y_2^2}{2\sigma^2}\right)dy_1dy_2 \\ \text{let \space} y_1 &amp;= r\cos(\theta) \\ y_2 &amp;= r\sin(\theta) \\ I^2 &amp;= \int_0^{2\pi}\int_0^{+\infty}\exp\left(-\frac{r^2}{2\sigma^2}\right)r dr d\theta \qquad \qquad \left\vert \frac{\partial(x,y)}{\partial(r,\theta)}\right\vert = r \\&amp;= 2\pi \int_0^{+\infty}\exp\left(-\frac{r^2}{2\sigma^2}\right)r dr \\&amp;= 2\pi\sigma^2\int_0^{+\infty} \exp(-t)dt \qquad \qquad t= \frac {r^2}{2\sigma^2}、dt=\frac{r}{\sigma^2}dr \\ &amp;= 2\pi\sigma^2 \end{aligned}\] Then: \[\begin{aligned} \mathbb{E}[x] = \frac {1}{\sqrt{2\pi\sigma^2}}(0 + \mu I) = \mu \end{aligned}\] Variance: $\sigma^2$ \[\begin{aligned} \text{var}[x] &amp;= \int_{-\infty}^{+\infty}(x-\mu)^2\frac {1}{\sqrt{2\pi\sigma^2}}\exp\left(-\frac{(x-\mu)^2}{2\sigma^2}\right) \\ &amp;= \frac {1}{\sqrt{2\pi\sigma^2}} \int_{-\infty}^{+\infty} y^2\exp\left(-\frac {y^2}{2\sigma^2}\right)dy \\ &amp;= \frac {1}{\sqrt{2\pi\sigma^2}}\int_0^{+\infty} 2\sigma^2t \exp(-t)\frac{\sqrt{2\sigma^2}}{\sqrt{t}}dt \\ &amp;= \frac {2\sigma^2}{\sqrt{\pi}}\int_0^{+\infty}\frac{t^{\frac12}}{\exp(t)}dt \\&amp;= \frac {2\sigma^2}{\sqrt{\pi}} \Gamma(\frac 32) \\ &amp;= \sigma^2 \qquad \qquad \because \Gamma(\frac 32)=\frac{\sqrt{\pi}}{2} \end{aligned}\] Multivariate Gaussian distribution $\boldsymbol{x}\backsim \mathcal{N}(\boldsymbol{x}\vert \boldsymbol{\mu}, \boldsymbol{\Sigma})$ \[\begin{aligned} \mathcal{N}(\boldsymbol{x}\vert \boldsymbol{\mu},\boldsymbol{\Sigma}) = \frac{1}{(2\pi)^{\frac{D}{2}}}\frac{1}{\vert\boldsymbol{\Sigma}\vert^{\frac 12}}e^{-\frac 12 (\boldsymbol{x}-\boldsymbol{\mu})^T\boldsymbol{\Sigma}^{-1}(\boldsymbol{x}-\boldsymbol{\mu})} \end{aligned}\] Student’s t-distribution $x\sim \text{St}(x\vert \mu, \lambda, \nu)$ \[\begin{aligned} p(x) = \text{St}(x\vert \mu, \lambda, \nu) = \frac {\Gamma(\nu/2+1/2)}{\Gamma(\nu /2)}\left(\frac \lambda {\pi\nu}\right)^{1/2} \left[1+\frac {\lambda(x-\mu)^2}{\nu} \right]^{-\frac {\nu + 1}{2}} \end{aligned}\] Student’s t-distribution (or simply the t-distribution) is any member of a family of continuous probability distributions that arise when estimating the mean of a normally distributed population in situations where the sample size is small and the population’s standard deviation is unknown The t-distribution plays a role in a number of widely used statistical analyses, including Student’s t-test for assessing the statistical significance of the difference between two sample means, the construction of confidence intervals for the difference between two population means, and in linear regression analysis. If we take a sample of $n$ observations from a normal distribution, then the t-distribution with $\nu=n-1$ degrees of freedom can be defined as the distribution of the location of the sample mean relative to the true mean, divided by the sample standard deviation, after multiplying by the standardizing term $\sqrt {n}$. In this way, the t-distribution can be used to construct a confidence interval for the true mean. Multivariate Student’s t-distribution \[\begin{aligned} \mathrm{St}(\boldsymbol{x}\vert \boldsymbol{\mu}, \boldsymbol{\Lambda}, \nu) &amp;= \int_0^\infty \mathcal{N}(\boldsymbol{x}\vert \boldsymbol{\mu}, (\eta \boldsymbol{\Lambda})^{-1}) \mathrm{Gam}(\eta \vert \frac \nu 2, \frac \nu 2)d\eta \\ &amp;= \frac {\Gamma((D+\nu)/2)}{\Gamma(\nu/2)} \frac {\vert \boldsymbol{\Lambda} \vert^{1/2}}{(\pi \nu)^{D/2}} \left[1+ \frac {(\boldsymbol{x}-\boldsymbol{\mu})^T\Lambda(\boldsymbol{x}-\boldsymbol{\mu})}{\nu}\right]^{-(D+\nu)/2} \end{aligned}\] Chi-squared distribution If $Z_1, …, Z_k$ are independent, standard normal random variables, then the sum of their squares \[Q = \sum_{i=1}^k Z_i^2\] is distribution according to the chi-squared distribution with $k$ degrees of freedom. This is usually denoted as: \[Q \sim \mathcal{X}^2(k) \text{\qquad or \qquad} Q \sim \mathcal{X}_k^2\] The chi-squared distribution is used primarily in hypothesis testing, and to a lesser extent for confidence intervals for population variance when the underlying distribution is normal. The chi-squared distribution is not as often applied in the direct modeling of natural phenomena $x\sim \text{Chi}(x\vert k)$: $k$ degrees of freedom \[p(x) = \text{Chi}(x\vert k) = \left\{\begin{aligned} &amp;\frac {1}{2^{k/2}\Gamma(k/2)}x^{\frac k2 -1} e^{-\frac x2} \qquad &amp;x&gt;0 \\ &amp;0 \qquad &amp;\text{otherwise} \end{aligned} \right.\] Note: if $x&gt;0$, Chi-squared distribution is a Gamma distribution \[\begin{aligned} \frac {1}{2^{k/2}\Gamma(k/2)}x^{\frac k2 -1} e^{-\frac x2} = \text{Gamma}\left(x\mid \frac k2, \frac 12\right) \end{aligned}\] Beta distribution $x\sim Beta(x\vert a,b), x \in [0,1], a&gt;0, b&gt;0$ \[\begin{aligned} p(x) = Beta(x\vert a,b) &amp;= \frac {x^{a-1}(1-x)^{b-1}}{\int_0^1 u^{a-1}(1-u)^{b-1}du} \\ &amp;= \frac 1{B(a,b)}x^{a-1}(1-x)^{b-1} \qquad &amp; \text{Beta \space function} \\ &amp;= \frac {\Gamma(a+b)}{\Gamma(a)\Gamma(b)}x^{a-1}(1-x)^{b-1} \qquad &amp;\text{Gamma\space function} \end{aligned}\] Expectation: $\frac {a}{a+b}$ \[\begin{aligned} \mathbb{E}[x] &amp;= \int_0^1 \frac {x}{B(a,b)}x^{a-1}(1-x)^{b-1} \\&amp;= \frac {B(a+1,b)}{B(a,b)} \\&amp;= \frac {\Gamma(a+1)\Gamma(b)}{\Gamma(a+b+1)}B(a,b)^{-1} \\&amp;= \frac {a\Gamma(a)\Gamma(b)}{(a+b)\Gamma(a+b)}B(a,b)^{-1} \qquad \qquad \Gamma(n+1) = n\Gamma(n) \\&amp;= \frac a{a+b} \end{aligned}\] Variance: $\frac {ab}{(a+b)^2(a+b+1)}$ \[\begin{aligned} \mathbb{E}[x^2] &amp;= \int_0^1 \frac {x^2}{B(a,b)}x^{a-1}(1-x)^{b-1} \\&amp;= \frac {B(a+2,b)}{B(a,b)} \\&amp;= \frac {\Gamma(a+2)\Gamma(b)}{\Gamma(a+b+2)}B(a,b)^{-1} \\&amp;= \frac {a(a+1)\Gamma(a)\Gamma(b)}{(a+b)(a+b+1)\Gamma(a+b)}B(a,b)^{-1} \qquad \qquad \Gamma(n+1) = n\Gamma(n) \\&amp;= \frac {a(a+1)}{(a+b)(a+b+1)} \\ \\ \text{var}[x] &amp;= \mathbb{E}[x^2] - \mathbb{E}[x]^2 \\ &amp;= \frac {a(a+1)}{(a+b)(a+b+1)} - \frac {a^2}{(a+b)^2} \\ &amp;= \frac {ab}{(a+b)^2(a+b+1)} \end{aligned}\] Dirichlet distribution Multivariate Beta distribution $\boldsymbol{x} \sim Dir(\boldsymbol{x}\vert \boldsymbol{a})$ $\boldsymbol{x}=[x_1,x_2,···,x_K]^T$ \[\begin{aligned} &amp;x_k \in [0,1], k=1,2,···,K \\ &amp;\sum_{k=1}^K x_k = 1 \end{aligned}\] $\boldsymbol{a}=[a_1, a_2,···,a_K]^K$ \[\tilde{a} = \sum_{k=1}^K a_k\] \[\begin{aligned} p(\boldsymbol{x}) = Dir(\boldsymbol{x}\vert \boldsymbol{a}) = \frac {\Gamma(\tilde{a})}{\Gamma(a_1)\Gamma(a_2)···\Gamma(a_K)}\prod_{k=1}^Kx_k^{a_k-1} \end{aligned}\] Expectation: $\frac {a_i}{\tilde{a}}$ \[\begin{aligned} \mathbb{E}[x_i] &amp;= \int_0^1···\int_0^1 \frac {\Gamma(\tilde{a})}{\prod_{k=1}^{K}\Gamma(a_k)}x_i\prod_{k=1}^Kx_k^{a_k-1} dx_1dx_2d_3···dx_K \\ &amp;= \int_0^1···\int_0^1 \frac {\Gamma(\tilde{a})}{\prod_{k\neq i}^{K}\Gamma(a_k)}x_ix_i^{a_i-1} \prod_{k\neq i}^{K}x_k^{a_k-1} dx_1dx_2d_3···dx_K \\&amp;= \int_0^1···\int_0^1 \frac {a_i\Gamma(\tilde{a})}{\Gamma(a_i+1)\prod_{k\neq i}^{K}\Gamma(a_k)}x_i^{a_i+1-1} \prod_{k\neq i}^{K}x_k^{a_k-1} dx_1dx_2d_3···dx_K \\&amp;= \int_0^1···\int_0^1 \frac {a_i\Gamma(\tilde{a}+1)}{\tilde{a}\Gamma(a_i+1)\prod_{k\neq i}^{K}\Gamma(a_k)}x_i^{a_i+1-1} \prod_{k\neq i}^{K}x_k^{a_k-1} dx_1dx_2d_3···dx_K \\ &amp;= \frac {a_i}{\tilde{a}} \end{aligned}\] Variance: $\frac {a_i(\tilde{a}-a_i)}{\tilde{a}^2(\tilde{a}+1)}$ \[\begin{aligned} \mathbb{E}[x_i^2] &amp;= \int_0^1···\int_0^1 \frac {\Gamma(\tilde{a})}{\prod_{k=1}^{K}\Gamma(a_k)}x_i^2\prod_{k=1}^Kx_k^{a_k-1} dx_1···dx_K \\&amp;= \int_0^1···\int_0^1 \frac {a_i(a_i+1)\Gamma(\tilde{a}+2)}{\tilde{a}(\tilde{a}+1)\Gamma(a_i+2)\prod_{k\neq i}^{K}\Gamma(a_k)}x_i^{a_i+2-1} \prod_{k\neq i}^{K}x_k^{a_k-1} dx_1···dx_K \\ &amp;= \frac {a_i(a_i+1)}{\tilde{a}(\tilde{a}+1)} \\ \\ \text{var}[x_i] &amp;= \frac {a_i(a_i+1)}{\tilde{a}(\tilde{a}+1)} - \frac {a_i^2}{\tilde{a}^2} = \frac {a_i(\tilde{a}-a_i)}{\tilde{a}^2(\tilde{a}+1)} \end{aligned}\] Covariance: $\frac {-a_ia_j}{\tilde{a}^2(\tilde{a}+1)}$ \[\begin{aligned} \begin{aligned} \mathbb{E}[x_ix_j] &amp;= \int_0^1···\int_0^1 \frac {\Gamma(\tilde{a})}{\prod_{k=1}^{K}\Gamma(a_k)}x_ix_j\prod_{k=1}^Kx_k^{a_k-1} dx_1···dx_K \\&amp;= \int_0^1···\int_0^1 \frac {a_ia_j\Gamma(\tilde{a}+2)}{\tilde{a}(\tilde{a}+1)\Gamma(a_i+1)\Gamma(a_j+1)\prod_{k\neq i,j}^{K}\Gamma(a_k)}x_i^{a_i+1-1}x_j^{a_j+1-1} \prod_{k\neq i,j}^{K}x_k^{a_k-1} dx_1···dx_K \\ &amp;= \frac {a_ia_j}{\tilde{a}(\tilde{a}+1)} \\ \\ \text{var}[x_i, x_j] &amp;= \mathbb{E}[x_ix_j] - \mathbb{E}[x_i]\mathbb{E}[x_j] \\&amp;= \frac {a_ia_j}{\tilde{a}(\tilde{a}+1)} - \frac {a_ia_j}{\tilde{a}^2} \\&amp;= \frac {-a_ia_j}{\tilde{a}^2(\tilde{a}+1)} \end{aligned} \end{aligned}\] Gamma distribution $x\sim \text{Gamma}(x\vert a,b), x&gt;0, a&gt;0,b&gt;0$ \[\begin{aligned} p(x) = \text{Gamma}(x\vert a,b) &amp;= \frac {1}{\Gamma(a)}b^ax^{a-1}e^{-bx} \end{aligned}\] Expectation: $\frac ab$ \[\begin{aligned} \mathbb{E}[x] &amp;= \int_0^{+\infty}\frac {x}{\Gamma(a)}b^ax^{a-1}e^{-bx}dx \\&amp;= \frac {1}{\Gamma(a)}\int_0^{+\infty}(bx)^ae^{-bx}dx \\&amp;= \frac {1}{\Gamma(a)}\int_0^{+\infty}\frac {t^a}{e^t}\frac 1bdt \\&amp;= \frac {\Gamma(a+1)}{b\Gamma(a)} \\&amp;= \frac ab \end{aligned}\] Variance: $\frac {a}{b^2}$ \[\begin{aligned} \mathbb{E}[x^2] &amp;= \int_0^{+\infty}\frac {x^2}{\Gamma(a)}b^ax^{a-1}e^{-bx}dx \\&amp;= \frac {1}{b\Gamma(a)}\int_0^{+\infty}(bx)^{a+1}e^{-bx}dx \\&amp;= \frac {1}{b\Gamma(a)}\int_0^{+\infty}\frac {t^{a+1}}{e^t}\frac 1bdt \\&amp;= \frac {\Gamma(a+2)}{b^2\Gamma(a)} \\&amp;= \frac {a(a+1)}{b^2} \\ \\ \text{var}[x] &amp;= \mathbb{E}[x^2] - \mathbb{E}[x]^2 \\ &amp;= \frac {a(a+1)}{b^2} - \frac {a^2}{b^2} \\ &amp;= \frac {a}{b^2} \end{aligned}\] Inverse Gamma distribution $x\sim \text{Gamma}(x\vert a,b), x&gt;0, a&gt;0,b&gt;0$ \[\begin{aligned} p(x) &amp;= \text{Gamma}(x\vert a,b) \\ &amp;= \frac {1}{\Gamma(a)}b^a\left(\frac 1x\right)^{a+1}e^{-\frac bx} \end{aligned}\] Derivation from Gamma distribution Let $Y = g(X) = \frac 1X$, then $g^{-1}(Y) = \frac 1Y$, the pdf of $Y$ is: \[\begin{aligned} f_Y(y) &amp;= f_X(g^{-1}(y))\left\vert \frac {d}{dy}g^{-1}(y) \right\vert \\ &amp;= \frac {1}{\Gamma(a)}b^a(1/y)^{a-1}e^{-b/y} \frac {1}{y^2} \\&amp;= \frac {1}{\Gamma(a)}b^a(1/y)^{a+1}e^{-b/y} \end{aligned}\] Expection: $\mathbb{E}[x] = 1/\mathbb{E}[1/x] = \frac ba$ Variance: $\frac {-b^2}{a^2(a+1)}$ \[\begin{aligned} \mathbb{E}[x^2] &amp;= 1/\mathbb{E}[1/x^2] \\ &amp;= \frac {b^2}{a(a+1)} \\ \\ \text{var}[x] &amp;= \mathbb{E}[x^2] - \mathbb{E}[x]^2 \\ &amp;= \frac {-b^2}{a^2(a+1)} \end{aligned}\] Wishart distribution Let $X$ be a $p × p$ symmetric matrix of random variables that is positive definite. Let $V$ be a (fixed) symmetric positive definite matrix of size $p × p$. Then, if $n ≥ p$, $X$ has a Wishart distribution with $n$ degrees of freedom if it has the probability density function: $X \sim \mathcal{W}(X\vert V, n)$ \[\begin{aligned} f_\mathcal{\boldsymbol{X}}(X) = \frac {1}{2^{np/2}\vert V \vert^{n/2} \Gamma_p(n/2) } \vert X \vert^{(n-p-1)/2}e^{-\frac 12 \text{tr}(V^{-1}X)} \end{aligned}\] The positive integer $n$ is the number of degrees of freedom. Sometimes this is written $\mathcal{W}(V, p, n)$. For $n ≥ p$ the matrix $S\sim \mathcal{W}(V, p)$ is invertible with probability 1 if $V$ is invertible. Where $\Gamma_p$ is the multivariate gamma function: \[\Gamma_p\left(\frac n2\right) = \pi^{p(p-1)/4}\prod_{j=1}^p \Gamma\left(\frac n2 - \frac {j-1}{2}) \right)\] Note: The density above is not the joint density of all the $p^{2}$ elements of the random matrix X (such $p^{2}$-dimensional density does not exist because of the symmetry constrains $X_{ij}=X_{ji})$, it is rather the joint density of $p(p+1)/2$ elements $X_{ij}$ for $i&lt;j$. Also, the density formula above applies only to positive definite matrices $X$ for other matrices the density is equal to zero. If $p=V=1$, then this distribution is a Chi-squared distribution with $n$ degrees of freedom, also because $x&gt;0$, it is also a Gamma distribution. Inverse Wishart distribution $X \sim \mathcal{W}^{-1}(X\vert V, n)$ \[\begin{aligned} f_\mathcal{\boldsymbol{X}}(X) = \frac {\vert V \vert^{n/2}}{2^{np/2} \Gamma_p(n/2) } \vert X \vert^{-(n+p+1)/2}e^{-\frac 12 \text{tr}(VX^{-1})} \end{aligned}\] Where $\Gamma_p$ is the multivariate gamma function: \[\Gamma_p\left(\frac n2\right) = \pi^{p(p-1)/4}\prod_{j=1}^p \Gamma\left(\frac n2 - \frac {j-1}{2}) \right)\] we see if $A = X^{-1}$, then $A \sim \mathcal{W}(V^{-1}, n)$ Gauss-Gamma distribution For a pair of random variables, $(x,t)$, suppose that the conditional distribution of $X$ given $T$ is given by \[p(x\vert \tau) \sim \mathcal{N}\left(x\vert \mu, (\lambda \tau)^{-1}\right)\] And suppose also that the marginal distribution of $t$ is given by: \[p(\tau) \sim \text{Gamma}(\tau \vert a,b)\] Then $(x,\tau)$ has a Gauss-Gamma distribution: $(x,\tau) \sim \text{Gauss-Gamma}(\mu, \lambda, a, b)$ \[\begin{aligned}p(x,\tau) &amp;= \text{Gauss-Gamma}(\mu, \lambda, a, b) \\&amp;= \mathcal{N}\left(x\vert \mu, (\lambda \tau)^{-1}\right)\text{Gamma}(a,b) \\&amp;= \sqrt{\frac{\lambda \tau}{2\pi}}\exp\left( -\frac 12 \lambda \tau (x-\mu)^2 \right) \frac {b^a}{\Gamma(a)}\tau^{a-1}\exp(-b\tau) \end{aligned}\] In the multivariate form: \[\begin{aligned} p(\boldsymbol{x},\tau) &amp;= \text{Gauss-Gamma}(\boldsymbol{\mu}, V^{-1}, a, b) \\&amp;= \mathcal{N}\left(x\vert \boldsymbol{\mu}, \frac 1\tau V \right)\text{Gamma}(\tau \vert a,b) \\ &amp;= \vert V\vert^{-\frac 12}\left(\frac{\tau}{2\pi}\right)^{k/2} \exp\left( -\frac \tau 2 (\boldsymbol{x}-\boldsymbol{\mu})^TV^{-1}(\boldsymbol{x}-\boldsymbol{\mu}) \right) \frac {b^a}{\Gamma(a)}\tau^{a-1}\exp(-b\tau) \end{aligned}\] Where $V$ is the $k\times k$ covariance matrix for the Gaussian prior on $\boldsymbol{\mu}$ Note: The marginal distribution of $\tau$ is a gamma distribution The conditional distribution of $x$ given $\tau$ is a gaussian distribution The marginal distribution of $x$ is a Student’s t-distribution. Gauss-inverse-Gamma distribution $(x,\sigma^2) \sim \text{Gauss-Gamma}^{-1}(\mu, \lambda, a, b)$ \[\begin{aligned} p(x, \sigma^2) = \text{Gauss-Gamma}^{-1}(\mu, \lambda, a, b) &amp;= \mathcal{N}(x\vert \mu, \sigma^2/\lambda)\text{Gamma}^{-1}(\sigma^2\vert a,b) \\ &amp;= \sqrt{\frac {\lambda}{2\pi\sigma^2}}\exp\left( -\frac {\lambda}{2\sigma^2} (x-\mu)^2 \right) \frac {b^a}{\Gamma(a)}\left(\frac 1{\sigma^2} \right)^{a+1}\exp\left(-\frac{b}{\sigma^2}\right) \end{aligned}\] In the multivariate form: \[\begin{aligned} p(\boldsymbol{x}, \sigma^2) &amp;= \text{Gauss-Gamma}^{-1}(\boldsymbol{\mu}, V^{-1}, a, b) \\&amp;= \mathcal{N}\left(x\vert \boldsymbol{\mu}, \sigma^2 V \right)\text{Gamma}^{-1}(\sigma^2 \vert a,b) \\ &amp;= \vert V\vert^{-\frac 12}(2\pi\sigma^2)^{-k/2}\exp\left( -\frac {1}{2\sigma^2} (\boldsymbol{x}-\boldsymbol{\mu})^TV^{-1}(\boldsymbol{x}-\boldsymbol{\mu}) \right) \frac {b^a}{\Gamma(a)}\left(\frac 1{\sigma^2} \right)^{a+1}\exp\left(-\frac{b}{\sigma^2}\right) \end{aligned}\] Where $V$ is the $k\times k$ covariance matrix for the Gaussian prior on $\boldsymbol{\mu}$ Gauss-Wishart distribution Suppose \[\begin{aligned} p(\boldsymbol{\mu}\vert \boldsymbol{\mu}_0, V^{-1}, \Lambda) \sim \mathcal{N}(\boldsymbol{\mu}\vert \boldsymbol{\mu}_0, V\Lambda^{-1}) \end{aligned}\] and: \[\begin{aligned} p(\Lambda \vert A, \nu) \sim \mathcal{W}(\Lambda \vert A, \nu) \end{aligned}\] Then \[\begin{aligned} p(\boldsymbol{\mu}, \Lambda) &amp;\sim \mathcal{NW}(\boldsymbol{\mu}, \Lambda \vert \boldsymbol{\mu}_0, V^{-1}, W, nu) \\ &amp;= \mathcal{N}(\boldsymbol{\mu}\vert \boldsymbol{\mu}_0, V\Lambda^{-1})\mathcal{W}(\Lambda \vert W, \nu) \end{aligned}\] Where $V$ is the $k\times k$ covariance matrix for the Gaussian prior on $\boldsymbol{\mu}$ Gauss-inverse-Wishart distribution Suppose \[\begin{aligned} p(\boldsymbol{\mu}\vert \boldsymbol{\mu}_0, V^{-1}, \Sigma) \sim \mathcal{N}\left(\boldsymbol{\mu}\vert \boldsymbol{\mu}_0, V\Sigma \right) \end{aligned}\] and: \[\begin{aligned} p(\Sigma \vert A, \nu) \sim \mathcal{W}^{-1}(\Sigma \vert W, \nu) \end{aligned}\] Then \[\begin{aligned} p(\boldsymbol{\mu}, \Sigma) &amp;\sim \mathcal{NW}^{-1}(\boldsymbol{\mu}, \Sigma \vert \boldsymbol{\mu}_0, V^{-1}, W, \nu) \\ &amp;= \mathcal{N}\left(\boldsymbol{\mu}\vert \boldsymbol{\mu}_0, V \Sigma \right)\mathcal{W}^{-1}(\Sigma \vert W, \nu) \end{aligned}\] Where $V$ is the $k\times k$ covariance matrix for the Gaussian prior on $\boldsymbol{\mu}$ Matrix Gaussian Distribution [\begin{aligned} p(X\mid M, U, V) = \frac {1}{(2\pi)^{\frac {np}{2}} \vert V\vert^{\frac n2} \vert U\vert^{\frac p2}} \exp\left( -\frac 12 \mathrm{Tr}\left[ V^{-1}(X-M)^TU^{-1}(X-M) \right] \right) \end{aligned}] $M$ is $n\times p$ $U$ is $p \times p$ $V$ is $n \times n$" />
+<meta property="og:description" content="Uniform distribution $x\sim \mathcal{U}(x\vert a,b)$, $x\in [a,b]$ \[\begin{aligned} p(x) = \mathcal{U}(x\vert a,b) = \frac {1}{b-a} \end{aligned}\] Univariate Gaussian distribution $x\sim \mathcal{N}(x\vert \mu, \sigma^2)$ \[\begin{aligned} p(x) = \mathcal{N}(x\vert \mu, \sigma^2) = \frac {1}{\sqrt{2\pi\sigma^2}}\exp(-\frac{(x-\mu)^2}{2\sigma^2}) \end{aligned}\] Expectation: $\mu$ Proof \[\begin{aligned} \mathbb{E}[x] &amp;= \int_{-\infty}^{+\infty}xp(x) \\&amp;= \frac {1}{\sqrt{2\pi\sigma^2}} \int_{-\infty}^{+\infty}x\exp\left(-\frac{(x-\mu)^2}{2\sigma^2}\right)dx \\&amp;= \frac {1}{\sqrt{2\pi\sigma^2}} \int_{-\infty}^{+\infty}(y+\mu)\exp\left(-\frac{y^2}{2\sigma^2}\right)dy \qquad \text{let \space} y=x-\mu \\&amp;= \frac {1}{\sqrt{2\pi\sigma^2}} \int_{-\infty}^{+\infty}y\exp\left(-\frac{y^2}{2\sigma^2}\right)dy + \frac {\mu}{\sqrt{2\pi\sigma^2}} \int_{-\infty}^{+\infty}\exp\left(-\frac{y^2}{2\sigma^2}\right)dy \end{aligned}\] The first term: \[\begin{aligned} \frac {1}{\sqrt{2\pi\sigma^2}} \int_{-\infty}^{+\infty}y\exp\left(-\frac{y^2}{2\sigma^2}\right)dy &amp;= 0 \qquad \text{odd \space function} \end{aligned}\] The second term: \[\begin{aligned} \text{let \space} I &amp;= \int_{-\infty}^{+\infty}\exp\left(-\frac{y^2}{2\sigma^2}\right)dy \\ \text{then \space} I^2 &amp;= \int_{-\infty}^{+\infty}\int_{-\infty}^{+\infty} \exp\left(-\frac{y_1^2}{2\sigma^2}\right)\exp\left(-\frac{y_2^2}{2\sigma^2}\right)dy_1dy_2 \\ &amp;= \int_{-\infty}^{+\infty}\int_{-\infty}^{+\infty} \exp\left(-\frac{y_1^2+y_2^2}{2\sigma^2}\right)dy_1dy_2 \\ \text{let \space} y_1 &amp;= r\cos(\theta) \\ y_2 &amp;= r\sin(\theta) \\ I^2 &amp;= \int_0^{2\pi}\int_0^{+\infty}\exp\left(-\frac{r^2}{2\sigma^2}\right)r dr d\theta \qquad \qquad \left\vert \frac{\partial(x,y)}{\partial(r,\theta)}\right\vert = r \\&amp;= 2\pi \int_0^{+\infty}\exp\left(-\frac{r^2}{2\sigma^2}\right)r dr \\&amp;= 2\pi\sigma^2\int_0^{+\infty} \exp(-t)dt \qquad \qquad t= \frac {r^2}{2\sigma^2}、dt=\frac{r}{\sigma^2}dr \\ &amp;= 2\pi\sigma^2 \end{aligned}\] Then: \[\begin{aligned} \mathbb{E}[x] = \frac {1}{\sqrt{2\pi\sigma^2}}(0 + \mu I) = \mu \end{aligned}\] Variance: $\sigma^2$ \[\begin{aligned} \text{var}[x] &amp;= \int_{-\infty}^{+\infty}(x-\mu)^2\frac {1}{\sqrt{2\pi\sigma^2}}\exp\left(-\frac{(x-\mu)^2}{2\sigma^2}\right) \\ &amp;= \frac {1}{\sqrt{2\pi\sigma^2}} \int_{-\infty}^{+\infty} y^2\exp\left(-\frac {y^2}{2\sigma^2}\right)dy \\ &amp;= \frac {1}{\sqrt{2\pi\sigma^2}}\int_0^{+\infty} 2\sigma^2t \exp(-t)\frac{\sqrt{2\sigma^2}}{\sqrt{t}}dt \\ &amp;= \frac {2\sigma^2}{\sqrt{\pi}}\int_0^{+\infty}\frac{t^{\frac12}}{\exp(t)}dt \\&amp;= \frac {2\sigma^2}{\sqrt{\pi}} \Gamma(\frac 32) \\ &amp;= \sigma^2 \qquad \qquad \because \Gamma(\frac 32)=\frac{\sqrt{\pi}}{2} \end{aligned}\] Multivariate Gaussian distribution $\boldsymbol{x}\backsim \mathcal{N}(\boldsymbol{x}\vert \boldsymbol{\mu}, \boldsymbol{\Sigma})$ \[\begin{aligned} \mathcal{N}(\boldsymbol{x}\vert \boldsymbol{\mu},\boldsymbol{\Sigma}) = \frac{1}{(2\pi)^{\frac{D}{2}}}\frac{1}{\vert\boldsymbol{\Sigma}\vert^{\frac 12}}e^{-\frac 12 (\boldsymbol{x}-\boldsymbol{\mu})^T\boldsymbol{\Sigma}^{-1}(\boldsymbol{x}-\boldsymbol{\mu})} \end{aligned}\] Student’s t-distribution $x\sim \text{St}(x\vert \mu, \lambda, \nu)$ \[\begin{aligned} p(x) = \text{St}(x\vert \mu, \lambda, \nu) = \frac {\Gamma(\nu/2+1/2)}{\Gamma(\nu /2)}\left(\frac \lambda {\pi\nu}\right)^{1/2} \left[1+\frac {\lambda(x-\mu)^2}{\nu} \right]^{-\frac {\nu + 1}{2}} \end{aligned}\] Student’s t-distribution (or simply the t-distribution) is any member of a family of continuous probability distributions that arise when estimating the mean of a normally distributed population in situations where the sample size is small and the population’s standard deviation is unknown The t-distribution plays a role in a number of widely used statistical analyses, including Student’s t-test for assessing the statistical significance of the difference between two sample means, the construction of confidence intervals for the difference between two population means, and in linear regression analysis. If we take a sample of $n$ observations from a normal distribution, then the t-distribution with $\nu=n-1$ degrees of freedom can be defined as the distribution of the location of the sample mean relative to the true mean, divided by the sample standard deviation, after multiplying by the standardizing term $\sqrt {n}$. In this way, the t-distribution can be used to construct a confidence interval for the true mean. Multivariate Student’s t-distribution \[\begin{aligned} \mathrm{St}(\boldsymbol{x}\vert \boldsymbol{\mu}, \boldsymbol{\Lambda}, \nu) &amp;= \int_0^\infty \mathcal{N}(\boldsymbol{x}\vert \boldsymbol{\mu}, (\eta \boldsymbol{\Lambda})^{-1}) \mathrm{Gam}(\eta \vert \frac \nu 2, \frac \nu 2)d\eta \\ &amp;= \frac {\Gamma((D+\nu)/2)}{\Gamma(\nu/2)} \frac {\vert \boldsymbol{\Lambda} \vert^{1/2}}{(\pi \nu)^{D/2}} \left[1+ \frac {(\boldsymbol{x}-\boldsymbol{\mu})^T\Lambda(\boldsymbol{x}-\boldsymbol{\mu})}{\nu}\right]^{-(D+\nu)/2} \end{aligned}\] Chi-squared distribution If $Z_1, …, Z_k$ are independent, standard normal random variables, then the sum of their squares \[Q = \sum_{i=1}^k Z_i^2\] is distribution according to the chi-squared distribution with $k$ degrees of freedom. This is usually denoted as: \[Q \sim \mathcal{X}^2(k) \text{\qquad or \qquad} Q \sim \mathcal{X}_k^2\] The chi-squared distribution is used primarily in hypothesis testing, and to a lesser extent for confidence intervals for population variance when the underlying distribution is normal. The chi-squared distribution is not as often applied in the direct modeling of natural phenomena $x\sim \text{Chi}(x\vert k)$: $k$ degrees of freedom \[p(x) = \text{Chi}(x\vert k) = \left\{\begin{aligned} &amp;\frac {1}{2^{k/2}\Gamma(k/2)}x^{\frac k2 -1} e^{-\frac x2} \qquad &amp;x&gt;0 \\ &amp;0 \qquad &amp;\text{otherwise} \end{aligned} \right.\] Note: if $x&gt;0$, Chi-squared distribution is a Gamma distribution \[\begin{aligned} \frac {1}{2^{k/2}\Gamma(k/2)}x^{\frac k2 -1} e^{-\frac x2} = \text{Gamma}\left(x\mid \frac k2, \frac 12\right) \end{aligned}\] Beta distribution $x\sim Beta(x\vert a,b), x \in [0,1], a&gt;0, b&gt;0$ \[\begin{aligned} p(x) = Beta(x\vert a,b) &amp;= \frac {x^{a-1}(1-x)^{b-1}}{\int_0^1 u^{a-1}(1-u)^{b-1}du} \\ &amp;= \frac 1{B(a,b)}x^{a-1}(1-x)^{b-1} \qquad &amp; \text{Beta \space function} \\ &amp;= \frac {\Gamma(a+b)}{\Gamma(a)\Gamma(b)}x^{a-1}(1-x)^{b-1} \qquad &amp;\text{Gamma\space function} \end{aligned}\] Expectation: $\frac {a}{a+b}$ \[\begin{aligned} \mathbb{E}[x] &amp;= \int_0^1 \frac {x}{B(a,b)}x^{a-1}(1-x)^{b-1} \\&amp;= \frac {B(a+1,b)}{B(a,b)} \\&amp;= \frac {\Gamma(a+1)\Gamma(b)}{\Gamma(a+b+1)}B(a,b)^{-1} \\&amp;= \frac {a\Gamma(a)\Gamma(b)}{(a+b)\Gamma(a+b)}B(a,b)^{-1} \qquad \qquad \Gamma(n+1) = n\Gamma(n) \\&amp;= \frac a{a+b} \end{aligned}\] Variance: $\frac {ab}{(a+b)^2(a+b+1)}$ \[\begin{aligned} \mathbb{E}[x^2] &amp;= \int_0^1 \frac {x^2}{B(a,b)}x^{a-1}(1-x)^{b-1} \\&amp;= \frac {B(a+2,b)}{B(a,b)} \\&amp;= \frac {\Gamma(a+2)\Gamma(b)}{\Gamma(a+b+2)}B(a,b)^{-1} \\&amp;= \frac {a(a+1)\Gamma(a)\Gamma(b)}{(a+b)(a+b+1)\Gamma(a+b)}B(a,b)^{-1} \qquad \qquad \Gamma(n+1) = n\Gamma(n) \\&amp;= \frac {a(a+1)}{(a+b)(a+b+1)} \\ \\ \text{var}[x] &amp;= \mathbb{E}[x^2] - \mathbb{E}[x]^2 \\ &amp;= \frac {a(a+1)}{(a+b)(a+b+1)} - \frac {a^2}{(a+b)^2} \\ &amp;= \frac {ab}{(a+b)^2(a+b+1)} \end{aligned}\] Dirichlet distribution Multivariate Beta distribution $\boldsymbol{x} \sim Dir(\boldsymbol{x}\vert \boldsymbol{a})$ $\boldsymbol{x}=[x_1,x_2,···,x_K]^T$ \[\begin{aligned} &amp;x_k \in [0,1], k=1,2,···,K \\ &amp;\sum_{k=1}^K x_k = 1 \end{aligned}\] $\boldsymbol{a}=[a_1, a_2,···,a_K]^K$ \[\tilde{a} = \sum_{k=1}^K a_k\] \[\begin{aligned} p(\boldsymbol{x}) = Dir(\boldsymbol{x}\vert \boldsymbol{a}) = \frac {\Gamma(\tilde{a})}{\Gamma(a_1)\Gamma(a_2)···\Gamma(a_K)}\prod_{k=1}^Kx_k^{a_k-1} \end{aligned}\] Expectation: $\frac {a_i}{\tilde{a}}$ \[\begin{aligned} \mathbb{E}[x_i] &amp;= \int_0^1···\int_0^1 \frac {\Gamma(\tilde{a})}{\prod_{k=1}^{K}\Gamma(a_k)}x_i\prod_{k=1}^Kx_k^{a_k-1} dx_1dx_2d_3···dx_K \\ &amp;= \int_0^1···\int_0^1 \frac {\Gamma(\tilde{a})}{\prod_{k\neq i}^{K}\Gamma(a_k)}x_ix_i^{a_i-1} \prod_{k\neq i}^{K}x_k^{a_k-1} dx_1dx_2d_3···dx_K \\&amp;= \int_0^1···\int_0^1 \frac {a_i\Gamma(\tilde{a})}{\Gamma(a_i+1)\prod_{k\neq i}^{K}\Gamma(a_k)}x_i^{a_i+1-1} \prod_{k\neq i}^{K}x_k^{a_k-1} dx_1dx_2d_3···dx_K \\&amp;= \int_0^1···\int_0^1 \frac {a_i\Gamma(\tilde{a}+1)}{\tilde{a}\Gamma(a_i+1)\prod_{k\neq i}^{K}\Gamma(a_k)}x_i^{a_i+1-1} \prod_{k\neq i}^{K}x_k^{a_k-1} dx_1dx_2d_3···dx_K \\ &amp;= \frac {a_i}{\tilde{a}} \end{aligned}\] Variance: $\frac {a_i(\tilde{a}-a_i)}{\tilde{a}^2(\tilde{a}+1)}$ \[\begin{aligned} \mathbb{E}[x_i^2] &amp;= \int_0^1···\int_0^1 \frac {\Gamma(\tilde{a})}{\prod_{k=1}^{K}\Gamma(a_k)}x_i^2\prod_{k=1}^Kx_k^{a_k-1} dx_1···dx_K \\&amp;= \int_0^1···\int_0^1 \frac {a_i(a_i+1)\Gamma(\tilde{a}+2)}{\tilde{a}(\tilde{a}+1)\Gamma(a_i+2)\prod_{k\neq i}^{K}\Gamma(a_k)}x_i^{a_i+2-1} \prod_{k\neq i}^{K}x_k^{a_k-1} dx_1···dx_K \\ &amp;= \frac {a_i(a_i+1)}{\tilde{a}(\tilde{a}+1)} \\ \\ \text{var}[x_i] &amp;= \frac {a_i(a_i+1)}{\tilde{a}(\tilde{a}+1)} - \frac {a_i^2}{\tilde{a}^2} = \frac {a_i(\tilde{a}-a_i)}{\tilde{a}^2(\tilde{a}+1)} \end{aligned}\] Covariance: $\frac {-a_ia_j}{\tilde{a}^2(\tilde{a}+1)}$ \[\begin{aligned} \begin{aligned} \mathbb{E}[x_ix_j] &amp;= \int_0^1···\int_0^1 \frac {\Gamma(\tilde{a})}{\prod_{k=1}^{K}\Gamma(a_k)}x_ix_j\prod_{k=1}^Kx_k^{a_k-1} dx_1···dx_K \\&amp;= \int_0^1···\int_0^1 \frac {a_ia_j\Gamma(\tilde{a}+2)}{\tilde{a}(\tilde{a}+1)\Gamma(a_i+1)\Gamma(a_j+1)\prod_{k\neq i,j}^{K}\Gamma(a_k)}x_i^{a_i+1-1}x_j^{a_j+1-1} \prod_{k\neq i,j}^{K}x_k^{a_k-1} dx_1···dx_K \\ &amp;= \frac {a_ia_j}{\tilde{a}(\tilde{a}+1)} \\ \\ \text{var}[x_i, x_j] &amp;= \mathbb{E}[x_ix_j] - \mathbb{E}[x_i]\mathbb{E}[x_j] \\&amp;= \frac {a_ia_j}{\tilde{a}(\tilde{a}+1)} - \frac {a_ia_j}{\tilde{a}^2} \\&amp;= \frac {-a_ia_j}{\tilde{a}^2(\tilde{a}+1)} \end{aligned} \end{aligned}\] Gamma distribution $x\sim \text{Gamma}(x\vert a,b), x&gt;0, a&gt;0,b&gt;0$ \[\begin{aligned} p(x) = \text{Gamma}(x\vert a,b) &amp;= \frac {1}{\Gamma(a)}b^ax^{a-1}e^{-bx} \end{aligned}\] Expectation: $\frac ab$ \[\begin{aligned} \mathbb{E}[x] &amp;= \int_0^{+\infty}\frac {x}{\Gamma(a)}b^ax^{a-1}e^{-bx}dx \\&amp;= \frac {1}{\Gamma(a)}\int_0^{+\infty}(bx)^ae^{-bx}dx \\&amp;= \frac {1}{\Gamma(a)}\int_0^{+\infty}\frac {t^a}{e^t}\frac 1bdt \\&amp;= \frac {\Gamma(a+1)}{b\Gamma(a)} \\&amp;= \frac ab \end{aligned}\] Variance: $\frac {a}{b^2}$ \[\begin{aligned} \mathbb{E}[x^2] &amp;= \int_0^{+\infty}\frac {x^2}{\Gamma(a)}b^ax^{a-1}e^{-bx}dx \\&amp;= \frac {1}{b\Gamma(a)}\int_0^{+\infty}(bx)^{a+1}e^{-bx}dx \\&amp;= \frac {1}{b\Gamma(a)}\int_0^{+\infty}\frac {t^{a+1}}{e^t}\frac 1bdt \\&amp;= \frac {\Gamma(a+2)}{b^2\Gamma(a)} \\&amp;= \frac {a(a+1)}{b^2} \\ \\ \text{var}[x] &amp;= \mathbb{E}[x^2] - \mathbb{E}[x]^2 \\ &amp;= \frac {a(a+1)}{b^2} - \frac {a^2}{b^2} \\ &amp;= \frac {a}{b^2} \end{aligned}\] Inverse Gamma distribution $x\sim \text{Gamma}(x\vert a,b), x&gt;0, a&gt;0,b&gt;0$ \[\begin{aligned} p(x) &amp;= \text{Gamma}(x\vert a,b) \\ &amp;= \frac {1}{\Gamma(a)}b^a\left(\frac 1x\right)^{a+1}e^{-\frac bx} \end{aligned}\] Derivation from Gamma distribution Let $Y = g(X) = \frac 1X$, then $g^{-1}(Y) = \frac 1Y$, the pdf of $Y$ is: \[\begin{aligned} f_Y(y) &amp;= f_X(g^{-1}(y))\left\vert \frac {d}{dy}g^{-1}(y) \right\vert \\ &amp;= \frac {1}{\Gamma(a)}b^a(1/y)^{a-1}e^{-b/y} \frac {1}{y^2} \\&amp;= \frac {1}{\Gamma(a)}b^a(1/y)^{a+1}e^{-b/y} \end{aligned}\] Expection: $\mathbb{E}[x] = 1/\mathbb{E}[1/x] = \frac ba$ Variance: $\frac {-b^2}{a^2(a+1)}$ \[\begin{aligned} \mathbb{E}[x^2] &amp;= 1/\mathbb{E}[1/x^2] \\ &amp;= \frac {b^2}{a(a+1)} \\ \\ \text{var}[x] &amp;= \mathbb{E}[x^2] - \mathbb{E}[x]^2 \\ &amp;= \frac {-b^2}{a^2(a+1)} \end{aligned}\] Wishart distribution Let $X$ be a $p × p$ symmetric matrix of random variables that is positive definite. Let $V$ be a (fixed) symmetric positive definite matrix of size $p × p$. Then, if $n ≥ p$, $X$ has a Wishart distribution with $n$ degrees of freedom if it has the probability density function: $X \sim \mathcal{W}(X\vert V, n)$ \[\begin{aligned} f_\mathcal{\boldsymbol{X}}(X) = \frac {1}{2^{np/2}\vert V \vert^{n/2} \Gamma_p(n/2) } \vert X \vert^{(n-p-1)/2}e^{-\frac 12 \text{tr}(V^{-1}X)} \end{aligned}\] The positive integer $n$ is the number of degrees of freedom. Sometimes this is written $\mathcal{W}(V, p, n)$. For $n ≥ p$ the matrix $S\sim \mathcal{W}(V, p)$ is invertible with probability 1 if $V$ is invertible. Where $\Gamma_p$ is the multivariate gamma function: \[\Gamma_p\left(\frac n2\right) = \pi^{p(p-1)/4}\prod_{j=1}^p \Gamma\left(\frac n2 - \frac {j-1}{2}) \right)\] Note: The density above is not the joint density of all the $p^{2}$ elements of the random matrix X (such $p^{2}$-dimensional density does not exist because of the symmetry constrains $X_{ij}=X_{ji})$, it is rather the joint density of $p(p+1)/2$ elements $X_{ij}$ for $i&lt;j$. Also, the density formula above applies only to positive definite matrices $X$ for other matrices the density is equal to zero. If $p=V=1$, then this distribution is a Chi-squared distribution with $n$ degrees of freedom, also because $x&gt;0$, it is also a Gamma distribution. Inverse Wishart distribution $X \sim \mathcal{W}^{-1}(X\vert V, n)$ \[\begin{aligned} f_\mathcal{\boldsymbol{X}}(X) = \frac {\vert V \vert^{n/2}}{2^{np/2} \Gamma_p(n/2) } \vert X \vert^{-(n+p+1)/2}e^{-\frac 12 \text{tr}(VX^{-1})} \end{aligned}\] Where $\Gamma_p$ is the multivariate gamma function: \[\Gamma_p\left(\frac n2\right) = \pi^{p(p-1)/4}\prod_{j=1}^p \Gamma\left(\frac n2 - \frac {j-1}{2}) \right)\] we see if $A = X^{-1}$, then $A \sim \mathcal{W}(V^{-1}, n)$ Gauss-Gamma distribution For a pair of random variables, $(x,t)$, suppose that the conditional distribution of $X$ given $T$ is given by \[p(x\vert \tau) \sim \mathcal{N}\left(x\vert \mu, (\lambda \tau)^{-1}\right)\] And suppose also that the marginal distribution of $t$ is given by: \[p(\tau) \sim \text{Gamma}(\tau \vert a,b)\] Then $(x,\tau)$ has a Gauss-Gamma distribution: $(x,\tau) \sim \text{Gauss-Gamma}(\mu, \lambda, a, b)$ \[\begin{aligned}p(x,\tau) &amp;= \text{Gauss-Gamma}(\mu, \lambda, a, b) \\&amp;= \mathcal{N}\left(x\vert \mu, (\lambda \tau)^{-1}\right)\text{Gamma}(a,b) \\&amp;= \sqrt{\frac{\lambda \tau}{2\pi}}\exp\left( -\frac 12 \lambda \tau (x-\mu)^2 \right) \frac {b^a}{\Gamma(a)}\tau^{a-1}\exp(-b\tau) \end{aligned}\] In the multivariate form: \[\begin{aligned} p(\boldsymbol{x},\tau) &amp;= \text{Gauss-Gamma}(\boldsymbol{\mu}, V^{-1}, a, b) \\&amp;= \mathcal{N}\left(x\vert \boldsymbol{\mu}, \frac 1\tau V \right)\text{Gamma}(\tau \vert a,b) \\ &amp;= \vert V\vert^{-\frac 12}\left(\frac{\tau}{2\pi}\right)^{k/2} \exp\left( -\frac \tau 2 (\boldsymbol{x}-\boldsymbol{\mu})^TV^{-1}(\boldsymbol{x}-\boldsymbol{\mu}) \right) \frac {b^a}{\Gamma(a)}\tau^{a-1}\exp(-b\tau) \end{aligned}\] Where $V$ is the $k\times k$ covariance matrix for the Gaussian prior on $\boldsymbol{\mu}$ Note: The marginal distribution of $\tau$ is a gamma distribution The conditional distribution of $x$ given $\tau$ is a gaussian distribution The marginal distribution of $x$ is a Student’s t-distribution. Gauss-inverse-Gamma distribution $(x,\sigma^2) \sim \text{Gauss-Gamma}^{-1}(\mu, \lambda, a, b)$ \[\begin{aligned} p(x, \sigma^2) = \text{Gauss-Gamma}^{-1}(\mu, \lambda, a, b) &amp;= \mathcal{N}(x\vert \mu, \sigma^2/\lambda)\text{Gamma}^{-1}(\sigma^2\vert a,b) \\ &amp;= \sqrt{\frac {\lambda}{2\pi\sigma^2}}\exp\left( -\frac {\lambda}{2\sigma^2} (x-\mu)^2 \right) \frac {b^a}{\Gamma(a)}\left(\frac 1{\sigma^2} \right)^{a+1}\exp\left(-\frac{b}{\sigma^2}\right) \end{aligned}\] In the multivariate form: \[\begin{aligned} p(\boldsymbol{x}, \sigma^2) &amp;= \text{Gauss-Gamma}^{-1}(\boldsymbol{\mu}, V^{-1}, a, b) \\&amp;= \mathcal{N}\left(x\vert \boldsymbol{\mu}, \sigma^2 V \right)\text{Gamma}^{-1}(\sigma^2 \vert a,b) \\ &amp;= \vert V\vert^{-\frac 12}(2\pi\sigma^2)^{-k/2}\exp\left( -\frac {1}{2\sigma^2} (\boldsymbol{x}-\boldsymbol{\mu})^TV^{-1}(\boldsymbol{x}-\boldsymbol{\mu}) \right) \frac {b^a}{\Gamma(a)}\left(\frac 1{\sigma^2} \right)^{a+1}\exp\left(-\frac{b}{\sigma^2}\right) \end{aligned}\] Where $V$ is the $k\times k$ covariance matrix for the Gaussian prior on $\boldsymbol{\mu}$ Gauss-Wishart distribution Suppose \[\begin{aligned} p(\boldsymbol{\mu}\vert \boldsymbol{\mu}_0, V^{-1}, \Lambda) \sim \mathcal{N}(\boldsymbol{\mu}\vert \boldsymbol{\mu}_0, V\Lambda^{-1}) \end{aligned}\] and: \[\begin{aligned} p(\Lambda \vert A, \nu) \sim \mathcal{W}(\Lambda \vert A, \nu) \end{aligned}\] Then \[\begin{aligned} p(\boldsymbol{\mu}, \Lambda) &amp;\sim \mathcal{NW}(\boldsymbol{\mu}, \Lambda \vert \boldsymbol{\mu}_0, V^{-1}, W, nu) \\ &amp;= \mathcal{N}(\boldsymbol{\mu}\vert \boldsymbol{\mu}_0, V\Lambda^{-1})\mathcal{W}(\Lambda \vert W, \nu) \end{aligned}\] Where $V$ is the $k\times k$ covariance matrix for the Gaussian prior on $\boldsymbol{\mu}$ Gauss-inverse-Wishart distribution Suppose \[\begin{aligned} p(\boldsymbol{\mu}\vert \boldsymbol{\mu}_0, V^{-1}, \Sigma) \sim \mathcal{N}\left(\boldsymbol{\mu}\vert \boldsymbol{\mu}_0, V\Sigma \right) \end{aligned}\] and: \[\begin{aligned} p(\Sigma \vert A, \nu) \sim \mathcal{W}^{-1}(\Sigma \vert W, \nu) \end{aligned}\] Then \[\begin{aligned} p(\boldsymbol{\mu}, \Sigma) &amp;\sim \mathcal{NW}^{-1}(\boldsymbol{\mu}, \Sigma \vert \boldsymbol{\mu}_0, V^{-1}, W, \nu) \\ &amp;= \mathcal{N}\left(\boldsymbol{\mu}\vert \boldsymbol{\mu}_0, V \Sigma \right)\mathcal{W}^{-1}(\Sigma \vert W, \nu) \end{aligned}\] Where $V$ is the $k\times k$ covariance matrix for the Gaussian prior on $\boldsymbol{\mu}$ Matrix Gaussian Distribution [\begin{aligned} p(X\mid M, U, V) = \frac {1}{(2\pi)^{\frac {np}{2}} \vert V\vert^{\frac n2} \vert U\vert^{\frac p2}} \exp\left( -\frac 12 \mathrm{Tr}\left[ V^{-1}(X-M)^TU^{-1}(X-M) \right] \right) \end{aligned}] $M$ is $n\times p$ $U$ is $p \times p$ $V$ is $n \times n$" />
+<link rel="canonical" href="http://0.0.0.0:4000/posts/quick_look_continuous_distributions/" />
+<meta property="og:url" content="http://0.0.0.0:4000/posts/quick_look_continuous_distributions/" />
+<meta property="og:site_name" content="Candy Note" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-02-20T00:00:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="A Quick Look of Continuous Distribution" />
+<meta name="twitter:site" content="@twitter_username" />
+<meta name="twitter:creator" content="@luo-songtao" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"luo-songtao"},"dateModified":"2021-02-20T00:00:00+00:00","datePublished":"2021-02-20T00:00:00+00:00","description":"Uniform distribution $x\\sim \\mathcal{U}(x\\vert a,b)$, $x\\in [a,b]$ \\[\\begin{aligned} p(x) = \\mathcal{U}(x\\vert a,b) = \\frac {1}{b-a} \\end{aligned}\\] Univariate Gaussian distribution $x\\sim \\mathcal{N}(x\\vert \\mu, \\sigma^2)$ \\[\\begin{aligned} p(x) = \\mathcal{N}(x\\vert \\mu, \\sigma^2) = \\frac {1}{\\sqrt{2\\pi\\sigma^2}}\\exp(-\\frac{(x-\\mu)^2}{2\\sigma^2}) \\end{aligned}\\] Expectation: $\\mu$ Proof \\[\\begin{aligned} \\mathbb{E}[x] &amp;= \\int_{-\\infty}^{+\\infty}xp(x) \\\\&amp;= \\frac {1}{\\sqrt{2\\pi\\sigma^2}} \\int_{-\\infty}^{+\\infty}x\\exp\\left(-\\frac{(x-\\mu)^2}{2\\sigma^2}\\right)dx \\\\&amp;= \\frac {1}{\\sqrt{2\\pi\\sigma^2}} \\int_{-\\infty}^{+\\infty}(y+\\mu)\\exp\\left(-\\frac{y^2}{2\\sigma^2}\\right)dy \\qquad \\text{let \\space} y=x-\\mu \\\\&amp;= \\frac {1}{\\sqrt{2\\pi\\sigma^2}} \\int_{-\\infty}^{+\\infty}y\\exp\\left(-\\frac{y^2}{2\\sigma^2}\\right)dy + \\frac {\\mu}{\\sqrt{2\\pi\\sigma^2}} \\int_{-\\infty}^{+\\infty}\\exp\\left(-\\frac{y^2}{2\\sigma^2}\\right)dy \\end{aligned}\\] The first term: \\[\\begin{aligned} \\frac {1}{\\sqrt{2\\pi\\sigma^2}} \\int_{-\\infty}^{+\\infty}y\\exp\\left(-\\frac{y^2}{2\\sigma^2}\\right)dy &amp;= 0 \\qquad \\text{odd \\space function} \\end{aligned}\\] The second term: \\[\\begin{aligned} \\text{let \\space} I &amp;= \\int_{-\\infty}^{+\\infty}\\exp\\left(-\\frac{y^2}{2\\sigma^2}\\right)dy \\\\ \\text{then \\space} I^2 &amp;= \\int_{-\\infty}^{+\\infty}\\int_{-\\infty}^{+\\infty} \\exp\\left(-\\frac{y_1^2}{2\\sigma^2}\\right)\\exp\\left(-\\frac{y_2^2}{2\\sigma^2}\\right)dy_1dy_2 \\\\ &amp;= \\int_{-\\infty}^{+\\infty}\\int_{-\\infty}^{+\\infty} \\exp\\left(-\\frac{y_1^2+y_2^2}{2\\sigma^2}\\right)dy_1dy_2 \\\\ \\text{let \\space} y_1 &amp;= r\\cos(\\theta) \\\\ y_2 &amp;= r\\sin(\\theta) \\\\ I^2 &amp;= \\int_0^{2\\pi}\\int_0^{+\\infty}\\exp\\left(-\\frac{r^2}{2\\sigma^2}\\right)r dr d\\theta \\qquad \\qquad \\left\\vert \\frac{\\partial(x,y)}{\\partial(r,\\theta)}\\right\\vert = r \\\\&amp;= 2\\pi \\int_0^{+\\infty}\\exp\\left(-\\frac{r^2}{2\\sigma^2}\\right)r dr \\\\&amp;= 2\\pi\\sigma^2\\int_0^{+\\infty} \\exp(-t)dt \\qquad \\qquad t= \\frac {r^2}{2\\sigma^2}、dt=\\frac{r}{\\sigma^2}dr \\\\ &amp;= 2\\pi\\sigma^2 \\end{aligned}\\] Then: \\[\\begin{aligned} \\mathbb{E}[x] = \\frac {1}{\\sqrt{2\\pi\\sigma^2}}(0 + \\mu I) = \\mu \\end{aligned}\\] Variance: $\\sigma^2$ \\[\\begin{aligned} \\text{var}[x] &amp;= \\int_{-\\infty}^{+\\infty}(x-\\mu)^2\\frac {1}{\\sqrt{2\\pi\\sigma^2}}\\exp\\left(-\\frac{(x-\\mu)^2}{2\\sigma^2}\\right) \\\\ &amp;= \\frac {1}{\\sqrt{2\\pi\\sigma^2}} \\int_{-\\infty}^{+\\infty} y^2\\exp\\left(-\\frac {y^2}{2\\sigma^2}\\right)dy \\\\ &amp;= \\frac {1}{\\sqrt{2\\pi\\sigma^2}}\\int_0^{+\\infty} 2\\sigma^2t \\exp(-t)\\frac{\\sqrt{2\\sigma^2}}{\\sqrt{t}}dt \\\\ &amp;= \\frac {2\\sigma^2}{\\sqrt{\\pi}}\\int_0^{+\\infty}\\frac{t^{\\frac12}}{\\exp(t)}dt \\\\&amp;= \\frac {2\\sigma^2}{\\sqrt{\\pi}} \\Gamma(\\frac 32) \\\\ &amp;= \\sigma^2 \\qquad \\qquad \\because \\Gamma(\\frac 32)=\\frac{\\sqrt{\\pi}}{2} \\end{aligned}\\] Multivariate Gaussian distribution $\\boldsymbol{x}\\backsim \\mathcal{N}(\\boldsymbol{x}\\vert \\boldsymbol{\\mu}, \\boldsymbol{\\Sigma})$ \\[\\begin{aligned} \\mathcal{N}(\\boldsymbol{x}\\vert \\boldsymbol{\\mu},\\boldsymbol{\\Sigma}) = \\frac{1}{(2\\pi)^{\\frac{D}{2}}}\\frac{1}{\\vert\\boldsymbol{\\Sigma}\\vert^{\\frac 12}}e^{-\\frac 12 (\\boldsymbol{x}-\\boldsymbol{\\mu})^T\\boldsymbol{\\Sigma}^{-1}(\\boldsymbol{x}-\\boldsymbol{\\mu})} \\end{aligned}\\] Student’s t-distribution $x\\sim \\text{St}(x\\vert \\mu, \\lambda, \\nu)$ \\[\\begin{aligned} p(x) = \\text{St}(x\\vert \\mu, \\lambda, \\nu) = \\frac {\\Gamma(\\nu/2+1/2)}{\\Gamma(\\nu /2)}\\left(\\frac \\lambda {\\pi\\nu}\\right)^{1/2} \\left[1+\\frac {\\lambda(x-\\mu)^2}{\\nu} \\right]^{-\\frac {\\nu + 1}{2}} \\end{aligned}\\] Student’s t-distribution (or simply the t-distribution) is any member of a family of continuous probability distributions that arise when estimating the mean of a normally distributed population in situations where the sample size is small and the population’s standard deviation is unknown The t-distribution plays a role in a number of widely used statistical analyses, including Student’s t-test for assessing the statistical significance of the difference between two sample means, the construction of confidence intervals for the difference between two population means, and in linear regression analysis. If we take a sample of $n$ observations from a normal distribution, then the t-distribution with $\\nu=n-1$ degrees of freedom can be defined as the distribution of the location of the sample mean relative to the true mean, divided by the sample standard deviation, after multiplying by the standardizing term $\\sqrt {n}$. In this way, the t-distribution can be used to construct a confidence interval for the true mean. Multivariate Student’s t-distribution \\[\\begin{aligned} \\mathrm{St}(\\boldsymbol{x}\\vert \\boldsymbol{\\mu}, \\boldsymbol{\\Lambda}, \\nu) &amp;= \\int_0^\\infty \\mathcal{N}(\\boldsymbol{x}\\vert \\boldsymbol{\\mu}, (\\eta \\boldsymbol{\\Lambda})^{-1}) \\mathrm{Gam}(\\eta \\vert \\frac \\nu 2, \\frac \\nu 2)d\\eta \\\\ &amp;= \\frac {\\Gamma((D+\\nu)/2)}{\\Gamma(\\nu/2)} \\frac {\\vert \\boldsymbol{\\Lambda} \\vert^{1/2}}{(\\pi \\nu)^{D/2}} \\left[1+ \\frac {(\\boldsymbol{x}-\\boldsymbol{\\mu})^T\\Lambda(\\boldsymbol{x}-\\boldsymbol{\\mu})}{\\nu}\\right]^{-(D+\\nu)/2} \\end{aligned}\\] Chi-squared distribution If $Z_1, …, Z_k$ are independent, standard normal random variables, then the sum of their squares \\[Q = \\sum_{i=1}^k Z_i^2\\] is distribution according to the chi-squared distribution with $k$ degrees of freedom. This is usually denoted as: \\[Q \\sim \\mathcal{X}^2(k) \\text{\\qquad or \\qquad} Q \\sim \\mathcal{X}_k^2\\] The chi-squared distribution is used primarily in hypothesis testing, and to a lesser extent for confidence intervals for population variance when the underlying distribution is normal. The chi-squared distribution is not as often applied in the direct modeling of natural phenomena $x\\sim \\text{Chi}(x\\vert k)$: $k$ degrees of freedom \\[p(x) = \\text{Chi}(x\\vert k) = \\left\\{\\begin{aligned} &amp;\\frac {1}{2^{k/2}\\Gamma(k/2)}x^{\\frac k2 -1} e^{-\\frac x2} \\qquad &amp;x&gt;0 \\\\ &amp;0 \\qquad &amp;\\text{otherwise} \\end{aligned} \\right.\\] Note: if $x&gt;0$, Chi-squared distribution is a Gamma distribution \\[\\begin{aligned} \\frac {1}{2^{k/2}\\Gamma(k/2)}x^{\\frac k2 -1} e^{-\\frac x2} = \\text{Gamma}\\left(x\\mid \\frac k2, \\frac 12\\right) \\end{aligned}\\] Beta distribution $x\\sim Beta(x\\vert a,b), x \\in [0,1], a&gt;0, b&gt;0$ \\[\\begin{aligned} p(x) = Beta(x\\vert a,b) &amp;= \\frac {x^{a-1}(1-x)^{b-1}}{\\int_0^1 u^{a-1}(1-u)^{b-1}du} \\\\ &amp;= \\frac 1{B(a,b)}x^{a-1}(1-x)^{b-1} \\qquad &amp; \\text{Beta \\space function} \\\\ &amp;= \\frac {\\Gamma(a+b)}{\\Gamma(a)\\Gamma(b)}x^{a-1}(1-x)^{b-1} \\qquad &amp;\\text{Gamma\\space function} \\end{aligned}\\] Expectation: $\\frac {a}{a+b}$ \\[\\begin{aligned} \\mathbb{E}[x] &amp;= \\int_0^1 \\frac {x}{B(a,b)}x^{a-1}(1-x)^{b-1} \\\\&amp;= \\frac {B(a+1,b)}{B(a,b)} \\\\&amp;= \\frac {\\Gamma(a+1)\\Gamma(b)}{\\Gamma(a+b+1)}B(a,b)^{-1} \\\\&amp;= \\frac {a\\Gamma(a)\\Gamma(b)}{(a+b)\\Gamma(a+b)}B(a,b)^{-1} \\qquad \\qquad \\Gamma(n+1) = n\\Gamma(n) \\\\&amp;= \\frac a{a+b} \\end{aligned}\\] Variance: $\\frac {ab}{(a+b)^2(a+b+1)}$ \\[\\begin{aligned} \\mathbb{E}[x^2] &amp;= \\int_0^1 \\frac {x^2}{B(a,b)}x^{a-1}(1-x)^{b-1} \\\\&amp;= \\frac {B(a+2,b)}{B(a,b)} \\\\&amp;= \\frac {\\Gamma(a+2)\\Gamma(b)}{\\Gamma(a+b+2)}B(a,b)^{-1} \\\\&amp;= \\frac {a(a+1)\\Gamma(a)\\Gamma(b)}{(a+b)(a+b+1)\\Gamma(a+b)}B(a,b)^{-1} \\qquad \\qquad \\Gamma(n+1) = n\\Gamma(n) \\\\&amp;= \\frac {a(a+1)}{(a+b)(a+b+1)} \\\\ \\\\ \\text{var}[x] &amp;= \\mathbb{E}[x^2] - \\mathbb{E}[x]^2 \\\\ &amp;= \\frac {a(a+1)}{(a+b)(a+b+1)} - \\frac {a^2}{(a+b)^2} \\\\ &amp;= \\frac {ab}{(a+b)^2(a+b+1)} \\end{aligned}\\] Dirichlet distribution Multivariate Beta distribution $\\boldsymbol{x} \\sim Dir(\\boldsymbol{x}\\vert \\boldsymbol{a})$ $\\boldsymbol{x}=[x_1,x_2,···,x_K]^T$ \\[\\begin{aligned} &amp;x_k \\in [0,1], k=1,2,···,K \\\\ &amp;\\sum_{k=1}^K x_k = 1 \\end{aligned}\\] $\\boldsymbol{a}=[a_1, a_2,···,a_K]^K$ \\[\\tilde{a} = \\sum_{k=1}^K a_k\\] \\[\\begin{aligned} p(\\boldsymbol{x}) = Dir(\\boldsymbol{x}\\vert \\boldsymbol{a}) = \\frac {\\Gamma(\\tilde{a})}{\\Gamma(a_1)\\Gamma(a_2)···\\Gamma(a_K)}\\prod_{k=1}^Kx_k^{a_k-1} \\end{aligned}\\] Expectation: $\\frac {a_i}{\\tilde{a}}$ \\[\\begin{aligned} \\mathbb{E}[x_i] &amp;= \\int_0^1···\\int_0^1 \\frac {\\Gamma(\\tilde{a})}{\\prod_{k=1}^{K}\\Gamma(a_k)}x_i\\prod_{k=1}^Kx_k^{a_k-1} dx_1dx_2d_3···dx_K \\\\ &amp;= \\int_0^1···\\int_0^1 \\frac {\\Gamma(\\tilde{a})}{\\prod_{k\\neq i}^{K}\\Gamma(a_k)}x_ix_i^{a_i-1} \\prod_{k\\neq i}^{K}x_k^{a_k-1} dx_1dx_2d_3···dx_K \\\\&amp;= \\int_0^1···\\int_0^1 \\frac {a_i\\Gamma(\\tilde{a})}{\\Gamma(a_i+1)\\prod_{k\\neq i}^{K}\\Gamma(a_k)}x_i^{a_i+1-1} \\prod_{k\\neq i}^{K}x_k^{a_k-1} dx_1dx_2d_3···dx_K \\\\&amp;= \\int_0^1···\\int_0^1 \\frac {a_i\\Gamma(\\tilde{a}+1)}{\\tilde{a}\\Gamma(a_i+1)\\prod_{k\\neq i}^{K}\\Gamma(a_k)}x_i^{a_i+1-1} \\prod_{k\\neq i}^{K}x_k^{a_k-1} dx_1dx_2d_3···dx_K \\\\ &amp;= \\frac {a_i}{\\tilde{a}} \\end{aligned}\\] Variance: $\\frac {a_i(\\tilde{a}-a_i)}{\\tilde{a}^2(\\tilde{a}+1)}$ \\[\\begin{aligned} \\mathbb{E}[x_i^2] &amp;= \\int_0^1···\\int_0^1 \\frac {\\Gamma(\\tilde{a})}{\\prod_{k=1}^{K}\\Gamma(a_k)}x_i^2\\prod_{k=1}^Kx_k^{a_k-1} dx_1···dx_K \\\\&amp;= \\int_0^1···\\int_0^1 \\frac {a_i(a_i+1)\\Gamma(\\tilde{a}+2)}{\\tilde{a}(\\tilde{a}+1)\\Gamma(a_i+2)\\prod_{k\\neq i}^{K}\\Gamma(a_k)}x_i^{a_i+2-1} \\prod_{k\\neq i}^{K}x_k^{a_k-1} dx_1···dx_K \\\\ &amp;= \\frac {a_i(a_i+1)}{\\tilde{a}(\\tilde{a}+1)} \\\\ \\\\ \\text{var}[x_i] &amp;= \\frac {a_i(a_i+1)}{\\tilde{a}(\\tilde{a}+1)} - \\frac {a_i^2}{\\tilde{a}^2} = \\frac {a_i(\\tilde{a}-a_i)}{\\tilde{a}^2(\\tilde{a}+1)} \\end{aligned}\\] Covariance: $\\frac {-a_ia_j}{\\tilde{a}^2(\\tilde{a}+1)}$ \\[\\begin{aligned} \\begin{aligned} \\mathbb{E}[x_ix_j] &amp;= \\int_0^1···\\int_0^1 \\frac {\\Gamma(\\tilde{a})}{\\prod_{k=1}^{K}\\Gamma(a_k)}x_ix_j\\prod_{k=1}^Kx_k^{a_k-1} dx_1···dx_K \\\\&amp;= \\int_0^1···\\int_0^1 \\frac {a_ia_j\\Gamma(\\tilde{a}+2)}{\\tilde{a}(\\tilde{a}+1)\\Gamma(a_i+1)\\Gamma(a_j+1)\\prod_{k\\neq i,j}^{K}\\Gamma(a_k)}x_i^{a_i+1-1}x_j^{a_j+1-1} \\prod_{k\\neq i,j}^{K}x_k^{a_k-1} dx_1···dx_K \\\\ &amp;= \\frac {a_ia_j}{\\tilde{a}(\\tilde{a}+1)} \\\\ \\\\ \\text{var}[x_i, x_j] &amp;= \\mathbb{E}[x_ix_j] - \\mathbb{E}[x_i]\\mathbb{E}[x_j] \\\\&amp;= \\frac {a_ia_j}{\\tilde{a}(\\tilde{a}+1)} - \\frac {a_ia_j}{\\tilde{a}^2} \\\\&amp;= \\frac {-a_ia_j}{\\tilde{a}^2(\\tilde{a}+1)} \\end{aligned} \\end{aligned}\\] Gamma distribution $x\\sim \\text{Gamma}(x\\vert a,b), x&gt;0, a&gt;0,b&gt;0$ \\[\\begin{aligned} p(x) = \\text{Gamma}(x\\vert a,b) &amp;= \\frac {1}{\\Gamma(a)}b^ax^{a-1}e^{-bx} \\end{aligned}\\] Expectation: $\\frac ab$ \\[\\begin{aligned} \\mathbb{E}[x] &amp;= \\int_0^{+\\infty}\\frac {x}{\\Gamma(a)}b^ax^{a-1}e^{-bx}dx \\\\&amp;= \\frac {1}{\\Gamma(a)}\\int_0^{+\\infty}(bx)^ae^{-bx}dx \\\\&amp;= \\frac {1}{\\Gamma(a)}\\int_0^{+\\infty}\\frac {t^a}{e^t}\\frac 1bdt \\\\&amp;= \\frac {\\Gamma(a+1)}{b\\Gamma(a)} \\\\&amp;= \\frac ab \\end{aligned}\\] Variance: $\\frac {a}{b^2}$ \\[\\begin{aligned} \\mathbb{E}[x^2] &amp;= \\int_0^{+\\infty}\\frac {x^2}{\\Gamma(a)}b^ax^{a-1}e^{-bx}dx \\\\&amp;= \\frac {1}{b\\Gamma(a)}\\int_0^{+\\infty}(bx)^{a+1}e^{-bx}dx \\\\&amp;= \\frac {1}{b\\Gamma(a)}\\int_0^{+\\infty}\\frac {t^{a+1}}{e^t}\\frac 1bdt \\\\&amp;= \\frac {\\Gamma(a+2)}{b^2\\Gamma(a)} \\\\&amp;= \\frac {a(a+1)}{b^2} \\\\ \\\\ \\text{var}[x] &amp;= \\mathbb{E}[x^2] - \\mathbb{E}[x]^2 \\\\ &amp;= \\frac {a(a+1)}{b^2} - \\frac {a^2}{b^2} \\\\ &amp;= \\frac {a}{b^2} \\end{aligned}\\] Inverse Gamma distribution $x\\sim \\text{Gamma}(x\\vert a,b), x&gt;0, a&gt;0,b&gt;0$ \\[\\begin{aligned} p(x) &amp;= \\text{Gamma}(x\\vert a,b) \\\\ &amp;= \\frac {1}{\\Gamma(a)}b^a\\left(\\frac 1x\\right)^{a+1}e^{-\\frac bx} \\end{aligned}\\] Derivation from Gamma distribution Let $Y = g(X) = \\frac 1X$, then $g^{-1}(Y) = \\frac 1Y$, the pdf of $Y$ is: \\[\\begin{aligned} f_Y(y) &amp;= f_X(g^{-1}(y))\\left\\vert \\frac {d}{dy}g^{-1}(y) \\right\\vert \\\\ &amp;= \\frac {1}{\\Gamma(a)}b^a(1/y)^{a-1}e^{-b/y} \\frac {1}{y^2} \\\\&amp;= \\frac {1}{\\Gamma(a)}b^a(1/y)^{a+1}e^{-b/y} \\end{aligned}\\] Expection: $\\mathbb{E}[x] = 1/\\mathbb{E}[1/x] = \\frac ba$ Variance: $\\frac {-b^2}{a^2(a+1)}$ \\[\\begin{aligned} \\mathbb{E}[x^2] &amp;= 1/\\mathbb{E}[1/x^2] \\\\ &amp;= \\frac {b^2}{a(a+1)} \\\\ \\\\ \\text{var}[x] &amp;= \\mathbb{E}[x^2] - \\mathbb{E}[x]^2 \\\\ &amp;= \\frac {-b^2}{a^2(a+1)} \\end{aligned}\\] Wishart distribution Let $X$ be a $p × p$ symmetric matrix of random variables that is positive definite. Let $V$ be a (fixed) symmetric positive definite matrix of size $p × p$. Then, if $n ≥ p$, $X$ has a Wishart distribution with $n$ degrees of freedom if it has the probability density function: $X \\sim \\mathcal{W}(X\\vert V, n)$ \\[\\begin{aligned} f_\\mathcal{\\boldsymbol{X}}(X) = \\frac {1}{2^{np/2}\\vert V \\vert^{n/2} \\Gamma_p(n/2) } \\vert X \\vert^{(n-p-1)/2}e^{-\\frac 12 \\text{tr}(V^{-1}X)} \\end{aligned}\\] The positive integer $n$ is the number of degrees of freedom. Sometimes this is written $\\mathcal{W}(V, p, n)$. For $n ≥ p$ the matrix $S\\sim \\mathcal{W}(V, p)$ is invertible with probability 1 if $V$ is invertible. Where $\\Gamma_p$ is the multivariate gamma function: \\[\\Gamma_p\\left(\\frac n2\\right) = \\pi^{p(p-1)/4}\\prod_{j=1}^p \\Gamma\\left(\\frac n2 - \\frac {j-1}{2}) \\right)\\] Note: The density above is not the joint density of all the $p^{2}$ elements of the random matrix X (such $p^{2}$-dimensional density does not exist because of the symmetry constrains $X_{ij}=X_{ji})$, it is rather the joint density of $p(p+1)/2$ elements $X_{ij}$ for $i&lt;j$. Also, the density formula above applies only to positive definite matrices $X$ for other matrices the density is equal to zero. If $p=V=1$, then this distribution is a Chi-squared distribution with $n$ degrees of freedom, also because $x&gt;0$, it is also a Gamma distribution. Inverse Wishart distribution $X \\sim \\mathcal{W}^{-1}(X\\vert V, n)$ \\[\\begin{aligned} f_\\mathcal{\\boldsymbol{X}}(X) = \\frac {\\vert V \\vert^{n/2}}{2^{np/2} \\Gamma_p(n/2) } \\vert X \\vert^{-(n+p+1)/2}e^{-\\frac 12 \\text{tr}(VX^{-1})} \\end{aligned}\\] Where $\\Gamma_p$ is the multivariate gamma function: \\[\\Gamma_p\\left(\\frac n2\\right) = \\pi^{p(p-1)/4}\\prod_{j=1}^p \\Gamma\\left(\\frac n2 - \\frac {j-1}{2}) \\right)\\] we see if $A = X^{-1}$, then $A \\sim \\mathcal{W}(V^{-1}, n)$ Gauss-Gamma distribution For a pair of random variables, $(x,t)$, suppose that the conditional distribution of $X$ given $T$ is given by \\[p(x\\vert \\tau) \\sim \\mathcal{N}\\left(x\\vert \\mu, (\\lambda \\tau)^{-1}\\right)\\] And suppose also that the marginal distribution of $t$ is given by: \\[p(\\tau) \\sim \\text{Gamma}(\\tau \\vert a,b)\\] Then $(x,\\tau)$ has a Gauss-Gamma distribution: $(x,\\tau) \\sim \\text{Gauss-Gamma}(\\mu, \\lambda, a, b)$ \\[\\begin{aligned}p(x,\\tau) &amp;= \\text{Gauss-Gamma}(\\mu, \\lambda, a, b) \\\\&amp;= \\mathcal{N}\\left(x\\vert \\mu, (\\lambda \\tau)^{-1}\\right)\\text{Gamma}(a,b) \\\\&amp;= \\sqrt{\\frac{\\lambda \\tau}{2\\pi}}\\exp\\left( -\\frac 12 \\lambda \\tau (x-\\mu)^2 \\right) \\frac {b^a}{\\Gamma(a)}\\tau^{a-1}\\exp(-b\\tau) \\end{aligned}\\] In the multivariate form: \\[\\begin{aligned} p(\\boldsymbol{x},\\tau) &amp;= \\text{Gauss-Gamma}(\\boldsymbol{\\mu}, V^{-1}, a, b) \\\\&amp;= \\mathcal{N}\\left(x\\vert \\boldsymbol{\\mu}, \\frac 1\\tau V \\right)\\text{Gamma}(\\tau \\vert a,b) \\\\ &amp;= \\vert V\\vert^{-\\frac 12}\\left(\\frac{\\tau}{2\\pi}\\right)^{k/2} \\exp\\left( -\\frac \\tau 2 (\\boldsymbol{x}-\\boldsymbol{\\mu})^TV^{-1}(\\boldsymbol{x}-\\boldsymbol{\\mu}) \\right) \\frac {b^a}{\\Gamma(a)}\\tau^{a-1}\\exp(-b\\tau) \\end{aligned}\\] Where $V$ is the $k\\times k$ covariance matrix for the Gaussian prior on $\\boldsymbol{\\mu}$ Note: The marginal distribution of $\\tau$ is a gamma distribution The conditional distribution of $x$ given $\\tau$ is a gaussian distribution The marginal distribution of $x$ is a Student’s t-distribution. Gauss-inverse-Gamma distribution $(x,\\sigma^2) \\sim \\text{Gauss-Gamma}^{-1}(\\mu, \\lambda, a, b)$ \\[\\begin{aligned} p(x, \\sigma^2) = \\text{Gauss-Gamma}^{-1}(\\mu, \\lambda, a, b) &amp;= \\mathcal{N}(x\\vert \\mu, \\sigma^2/\\lambda)\\text{Gamma}^{-1}(\\sigma^2\\vert a,b) \\\\ &amp;= \\sqrt{\\frac {\\lambda}{2\\pi\\sigma^2}}\\exp\\left( -\\frac {\\lambda}{2\\sigma^2} (x-\\mu)^2 \\right) \\frac {b^a}{\\Gamma(a)}\\left(\\frac 1{\\sigma^2} \\right)^{a+1}\\exp\\left(-\\frac{b}{\\sigma^2}\\right) \\end{aligned}\\] In the multivariate form: \\[\\begin{aligned} p(\\boldsymbol{x}, \\sigma^2) &amp;= \\text{Gauss-Gamma}^{-1}(\\boldsymbol{\\mu}, V^{-1}, a, b) \\\\&amp;= \\mathcal{N}\\left(x\\vert \\boldsymbol{\\mu}, \\sigma^2 V \\right)\\text{Gamma}^{-1}(\\sigma^2 \\vert a,b) \\\\ &amp;= \\vert V\\vert^{-\\frac 12}(2\\pi\\sigma^2)^{-k/2}\\exp\\left( -\\frac {1}{2\\sigma^2} (\\boldsymbol{x}-\\boldsymbol{\\mu})^TV^{-1}(\\boldsymbol{x}-\\boldsymbol{\\mu}) \\right) \\frac {b^a}{\\Gamma(a)}\\left(\\frac 1{\\sigma^2} \\right)^{a+1}\\exp\\left(-\\frac{b}{\\sigma^2}\\right) \\end{aligned}\\] Where $V$ is the $k\\times k$ covariance matrix for the Gaussian prior on $\\boldsymbol{\\mu}$ Gauss-Wishart distribution Suppose \\[\\begin{aligned} p(\\boldsymbol{\\mu}\\vert \\boldsymbol{\\mu}_0, V^{-1}, \\Lambda) \\sim \\mathcal{N}(\\boldsymbol{\\mu}\\vert \\boldsymbol{\\mu}_0, V\\Lambda^{-1}) \\end{aligned}\\] and: \\[\\begin{aligned} p(\\Lambda \\vert A, \\nu) \\sim \\mathcal{W}(\\Lambda \\vert A, \\nu) \\end{aligned}\\] Then \\[\\begin{aligned} p(\\boldsymbol{\\mu}, \\Lambda) &amp;\\sim \\mathcal{NW}(\\boldsymbol{\\mu}, \\Lambda \\vert \\boldsymbol{\\mu}_0, V^{-1}, W, nu) \\\\ &amp;= \\mathcal{N}(\\boldsymbol{\\mu}\\vert \\boldsymbol{\\mu}_0, V\\Lambda^{-1})\\mathcal{W}(\\Lambda \\vert W, \\nu) \\end{aligned}\\] Where $V$ is the $k\\times k$ covariance matrix for the Gaussian prior on $\\boldsymbol{\\mu}$ Gauss-inverse-Wishart distribution Suppose \\[\\begin{aligned} p(\\boldsymbol{\\mu}\\vert \\boldsymbol{\\mu}_0, V^{-1}, \\Sigma) \\sim \\mathcal{N}\\left(\\boldsymbol{\\mu}\\vert \\boldsymbol{\\mu}_0, V\\Sigma \\right) \\end{aligned}\\] and: \\[\\begin{aligned} p(\\Sigma \\vert A, \\nu) \\sim \\mathcal{W}^{-1}(\\Sigma \\vert W, \\nu) \\end{aligned}\\] Then \\[\\begin{aligned} p(\\boldsymbol{\\mu}, \\Sigma) &amp;\\sim \\mathcal{NW}^{-1}(\\boldsymbol{\\mu}, \\Sigma \\vert \\boldsymbol{\\mu}_0, V^{-1}, W, \\nu) \\\\ &amp;= \\mathcal{N}\\left(\\boldsymbol{\\mu}\\vert \\boldsymbol{\\mu}_0, V \\Sigma \\right)\\mathcal{W}^{-1}(\\Sigma \\vert W, \\nu) \\end{aligned}\\] Where $V$ is the $k\\times k$ covariance matrix for the Gaussian prior on $\\boldsymbol{\\mu}$ Matrix Gaussian Distribution [\\begin{aligned} p(X\\mid M, U, V) = \\frac {1}{(2\\pi)^{\\frac {np}{2}} \\vert V\\vert^{\\frac n2} \\vert U\\vert^{\\frac p2}} \\exp\\left( -\\frac 12 \\mathrm{Tr}\\left[ V^{-1}(X-M)^TU^{-1}(X-M) \\right] \\right) \\end{aligned}] $M$ is $n\\times p$ $U$ is $p \\times p$ $V$ is $n \\times n$","headline":"A Quick Look of Continuous Distribution","mainEntityOfPage":{"@type":"WebPage","@id":"http://0.0.0.0:4000/posts/quick_look_continuous_distributions/"},"url":"http://0.0.0.0:4000/posts/quick_look_continuous_distributions/"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+  <title>A Quick Look of Continuous Distribution | Candy Note
+  </title>
+
+  <!--
+  The Favicons for Web, Android, Microsoft, and iOS (iPhone and iPad) Apps
+  Generated by: https://realfavicongenerator.net/
+-->
+
+
+
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/img/favicons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicons/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicons/favicon-16x16.png">
+<link rel="manifest" href="/assets/img/favicons/site.webmanifest">
+<link rel="shortcut icon" href="/assets/img/favicons/favicon.ico">
+<meta name="apple-mobile-web-app-title" content="Candy Note">
+<meta name="application-name" content="Candy Note">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="msapplication-config" content="/assets/img/favicons/browserconfig.xml">
+<meta name="theme-color" content="#ffffff">
+
+
+  
+
+    
+      <link rel="preconnect" href="https://fonts.googleapis.com" >
+      <link rel="dns-prefetch" href="https://fonts.googleapis.com" >
+    
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+      <link rel="dns-prefetch" href="https://fonts.gstatic.com" crossorigin>
+    
+      <link rel="preconnect" href="https://fonts.googleapis.com" >
+      <link rel="dns-prefetch" href="https://fonts.googleapis.com" >
+    
+      <link rel="preconnect" href="https://cdn.jsdelivr.net" >
+      <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" >
+    
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato&family=Source+Sans+Pro:wght@400;600;700;900&display=swap">
+
+  
+
+  <!-- GA -->
+  
+
+  <!-- Bootstrap -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.11.2/css/all.min.css">
+
+  <link rel="stylesheet" href="/assets/css/style.css">
+
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@1.0.1/dist/bootstrap-toc.min.css">
+  
+
+  
+    <!-- Manific Popup -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/magnific-popup@1/dist/magnific-popup.min.css">
+  
+
+  <!-- JavaScript -->
+
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+
+</head>
+
+
+  
+    <!--
+  Switch the mode between dark and light.
+-->
+
+<script type="text/javascript">
+  class ModeToggle {
+    static get MODE_KEY() { return "mode"; }
+    static get MODE_ATTR() { return "data-mode"; }
+    static get DARK_MODE() { return "dark"; }
+    static get LIGHT_MODE() { return "light"; }
+    static get ID() { return "mode-toggle"; }
+
+    constructor() {
+      if (this.hasMode) {
+        if (this.isDarkMode) {
+          if (!this.isSysDarkPrefer) {
+            this.setDark();
+          }
+        } else {
+          if (this.isSysDarkPrefer) {
+            this.setLight();
+          }
+        }
+      }
+
+      let self = this;
+
+      /* always follow the system prefers */
+      this.sysDarkPrefers.addEventListener("change", () => {
+        if (self.hasMode) {
+          if (self.isDarkMode) {
+            if (!self.isSysDarkPrefer) {
+              self.setDark();
+            }
+
+          } else {
+            if (self.isSysDarkPrefer) {
+              self.setLight();
+            }
+          }
+
+          self.clearMode();
+        }
+
+        self.notify();
+
+      });
+
+    } /* constructor() */
+
+    get sysDarkPrefers() { return window.matchMedia("(prefers-color-scheme: dark)"); }
+
+    get isSysDarkPrefer() { return this.sysDarkPrefers.matches; }
+
+    get isDarkMode() { return this.mode === ModeToggle.DARK_MODE; }
+
+    get isLightMode() { return this.mode === ModeToggle.LIGHT_MODE; }
+
+    get hasMode() { return this.mode != null; }
+
+    get mode() { return sessionStorage.getItem(ModeToggle.MODE_KEY); }
+
+    /* get the current mode on screen */
+    get modeStatus() {
+      if (this.isDarkMode
+        || (!this.hasMode && this.isSysDarkPrefer)) {
+        return ModeToggle.DARK_MODE;
+      } else {
+        return ModeToggle.LIGHT_MODE;
+      }
+    }
+
+    setDark() {
+      $('html').attr(ModeToggle.MODE_ATTR, ModeToggle.DARK_MODE);
+      sessionStorage.setItem(ModeToggle.MODE_KEY, ModeToggle.DARK_MODE);
+    }
+
+    setLight() {
+      $('html').attr(ModeToggle.MODE_ATTR, ModeToggle.LIGHT_MODE);
+      sessionStorage.setItem(ModeToggle.MODE_KEY, ModeToggle.LIGHT_MODE);
+    }
+
+    clearMode() {
+      $('html').removeAttr(ModeToggle.MODE_ATTR);
+      sessionStorage.removeItem(ModeToggle.MODE_KEY);
+    }
+
+    /* Notify another plugins that the theme mode has changed */
+    notify() {
+      window.postMessage({
+        direction: ModeToggle.ID,
+        message: this.modeStatus
+      }, "*");
+    }
+
+  } /* ModeToggle */
+
+  const toggle = new ModeToggle();
+
+  function flipMode() {
+    if (toggle.hasMode) {
+      if (toggle.isSysDarkPrefer) {
+        if (toggle.isLightMode) {
+          toggle.clearMode();
+        } else {
+          toggle.setLight();
+        }
+
+      } else {
+        if (toggle.isDarkMode) {
+          toggle.clearMode();
+        } else {
+          toggle.setDark();
+        }
+      }
+
+    } else {
+      if (toggle.isSysDarkPrefer) {
+        toggle.setLight();
+      } else {
+        toggle.setDark();
+      }
+    }
+
+    toggle.notify();
+
+  } /* flipMode() */
+
+</script>
+
+  
+
+  <body data-spy="scroll" data-target="#toc" data-topbar-visible="true">
+
+    <!--
+  The Side Bar
+-->
+
+<div id="sidebar" class="d-flex flex-column align-items-end">
+  <div class="profile-wrapper text-center">
+    <div id="avatar">
+      <a href="/" alt="avatar" class="mx-auto">
+        
+          
+          <img src="
+            
+              /assets/img/head.jpg
+            
+          " alt="avatar" onerror="this.style.display='none'">
+        
+      </a>
+    </div>
+
+    <div class="site-title mt-3">
+      <a href="/">Candy Note</a>
+    </div>
+    <div class="site-subtitle font-italic">Personal Notes</div>
+
+  </div><!-- .profile-wrapper -->
+
+  <ul class="w-100">
+
+    <!-- home -->
+    <li class="nav-item">
+      <a href="/" class="nav-link">
+        <i class="fa-fw fas fa-home ml-xl-3 mr-xl-3 unloaded"></i>
+        <span>HOME</span>
+      </a>
+    </li>
+    <!-- the real tabs -->
+    
+    <li class="nav-item">
+      <a href="/categories/" class="nav-link">
+        <i class="fa-fw fas fa-stream ml-xl-3 mr-xl-3 unloaded"></i>
+        
+
+        <span>CATEGORIES</span>
+      </a>
+    </li> <!-- .nav-item -->
+    
+    <li class="nav-item">
+      <a href="/tags/" class="nav-link">
+        <i class="fa-fw fas fa-tag ml-xl-3 mr-xl-3 unloaded"></i>
+        
+
+        <span>TAGS</span>
+      </a>
+    </li> <!-- .nav-item -->
+    
+    <li class="nav-item">
+      <a href="/archives/" class="nav-link">
+        <i class="fa-fw fas fa-archive ml-xl-3 mr-xl-3 unloaded"></i>
+        
+
+        <span>ARCHIVES</span>
+      </a>
+    </li> <!-- .nav-item -->
+    
+    <li class="nav-item">
+      <a href="/about/" class="nav-link">
+        <i class="fa-fw fas fa-info-circle ml-xl-3 mr-xl-3 unloaded"></i>
+        
+
+        <span>ABOUT</span>
+      </a>
+    </li> <!-- .nav-item -->
+    
+
+  </ul> <!-- ul.nav.flex-column -->
+
+  <div class="sidebar-bottom mt-auto d-flex flex-wrap justify-content-center align-items-center">
+
+    
+      <button class="mode-toggle btn" aria-label="Switch Mode">
+        <i class="fas fa-adjust"></i>
+      </button>
+
+      
+        <span class="icon-border"></span>
+      
+    
+
+    
+      
+
+      
+      <a href="https://github.com/github_username" aria-label="github"
+        target="_blank" rel="noopener">
+        <i class="fab fa-github"></i>
+      </a>
+      
+
+    
+      
+
+      
+      <a href="https://twitter.com/twitter_username" aria-label="twitter"
+        target="_blank" rel="noopener">
+        <i class="fab fa-twitter"></i>
+      </a>
+      
+
+    
+      
+
+      
+      <a href="
+          javascript:location.href = 'mailto:' + ['ryomawithlst','gmail.com'].join('@')" aria-label="email"
+        >
+        <i class="fas fa-envelope"></i>
+      </a>
+      
+
+    
+      
+
+      
+      <a href="/feed.xml" aria-label="rss"
+        >
+        <i class="fas fa-rss"></i>
+      </a>
+      
+
+    
+
+  </div> <!-- .sidebar-bottom -->
+
+</div><!-- #sidebar -->
+
+
+    <!--
+  The Top Bar
+-->
+
+<div id="topbar-wrapper" class="row justify-content-center">
+  <div id="topbar" class="col-11 d-flex h-100 align-items-center justify-content-between">
+    <span id="breadcrumb">
+
+    
+
+    
+
+      
+
+        
+          <span>
+            <a href="/">
+              Home
+            </a>
+          </span>
+
+        
+
+      
+
+        
+
+      
+
+        
+
+          
+            <span>A Quick Look of Continuous Distribution</span>
+          
+
+        
+
+      
+
+    
+
+    </span><!-- endof #breadcrumb -->
+
+    <i id="sidebar-trigger" class="fas fa-bars fa-fw"></i>
+
+    <div id="topbar-title">
+      Post
+    </div>
+
+    <i id="search-trigger" class="fas fa-search fa-fw"></i>
+    <span id="search-wrapper" class="align-items-center">
+      <i class="fas fa-search fa-fw"></i>
+      <input class="form-control" id="search-input" type="search"
+        aria-label="search" autocomplete="off" placeholder="Search...">
+    </span>
+    <span id="search-cancel" >Cancel</span>
+  </div>
+
+</div>
+
+
+    <div id="main-wrapper">
+      <div id="main">
+
+        
+
+
+
+
+
+
+
+
+
+<div class="row">
+
+  <!-- core -->
+  <div id="core-wrapper" class="col-12 col-lg-11 col-xl-8">
+    <div class="post pl-1 pr-1 pl-sm-2 pr-sm-2 pl-md-4 pr-md-4">
+
+    
+
+    
+      
+      
+        <!--
+  Refactor the HTML structure.
+-->
+
+
+
+<!--
+  In order to allow a wide table to scroll horizontally,
+  we suround the markdown table with `<div class="table-wrapper">` and `</div>`
+-->
+
+
+
+<!--
+  Fixed kramdown code highlight rendering:
+  https://github.com/penibelst/jekyll-compress-html/issues/101
+  https://github.com/penibelst/jekyll-compress-html/issues/71#issuecomment-188144901
+-->
+
+
+
+<!-- Add attribute 'hide-bullet' to the checkbox list -->
+
+
+
+<!-- images -->
+
+
+
+
+
+<!-- Add header for code snippets -->
+
+
+
+<!-- Create heading anchors -->
+
+
+
+
+
+  
+  
+
+  
+
+  
+  
+
+  
+    
+    
+
+    
+      
+        
+        
+      
+
+      
+      
+
+      
+      
+      
+
+      
+
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+
+    
+
+    
+
+  
+
+  
+  
+
+  
+
+  
+  
+
+  
+
+
+
+
+<!-- Wrap prompt element of blockquote with the <div> tag -->
+
+
+
+
+
+
+
+<!-- return -->
+
+
+
+
+
+
+
+<h1 data-toc-skip>A Quick Look of Continuous Distribution</h1>
+
+<div class="post-meta text-muted">
+
+  <!-- author -->
+  <div>
+    
+    
+
+    
+
+    By
+    <em>
+      
+        <a href="https://github.com/luo-songtao">luo-songtao</a>
+      
+    </em>
+  </div>
+
+  <div class="d-flex">
+    <div>
+      <!-- published date -->
+      <span>
+        Posted
+        <!--
+  Date format snippet
+  See: ${JS_ROOT}/utils/timeago.js
+-->
+
+<em class="timeago"
+    data-ts="1613779200"
+    
+      data-toggle="tooltip" data-placement="bottom" data-tooltip-df="llll"
+    
+    >
+  2021-02-20
+</em>
+
+      </span>
+
+      <!-- lastmod date -->
+      
+
+      <!-- read time -->
+      <!--
+  Calculate the post's reading time, and display the word count in tooltip
+ -->
+
+
+
+<!-- words per minute  -->
+
+
+
+
+
+
+
+
+
+
+<!-- return element -->
+<span class="readtime" data-toggle="tooltip" data-placement="bottom"
+  title="1653 words">
+  <em>9 min</em> read</span>
+
+
+      <!-- page views -->
+      
+    </div>
+
+  </div> <!-- .d-flex -->
+
+</div> <!-- .post-meta -->
+
+<div class="post-content">
+  <h3 id="uniform-distribution"><span class="mr-2">Uniform distribution</span><a href="#uniform-distribution" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3></h3>
+
+<ul>
+  <li>
+    <p>$x\sim \mathcal{U}(x\vert a,b)$, $x\in [a,b]$</p>
+
+\[\begin{aligned} p(x) = \mathcal{U}(x\vert a,b) = \frac {1}{b-a} \end{aligned}\]
+  </li>
+</ul>
+
+<h3 id="univariate-gaussian-distribution"><span class="mr-2">Univariate Gaussian distribution</span><a href="#univariate-gaussian-distribution" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3></h3>
+
+<ul>
+  <li>
+    <p>$x\sim \mathcal{N}(x\vert \mu, \sigma^2)$</p>
+
+\[\begin{aligned} p(x) = \mathcal{N}(x\vert \mu, \sigma^2) = \frac {1}{\sqrt{2\pi\sigma^2}}\exp(-\frac{(x-\mu)^2}{2\sigma^2}) \end{aligned}\]
+  </li>
+  <li>Expectation: $\mu$
+    <ul>
+      <li>
+        <p>Proof</p>
+
+\[\begin{aligned} \mathbb{E}[x] &amp;= \int_{-\infty}^{+\infty}xp(x) \\&amp;= \frac {1}{\sqrt{2\pi\sigma^2}} \int_{-\infty}^{+\infty}x\exp\left(-\frac{(x-\mu)^2}{2\sigma^2}\right)dx \\&amp;= \frac {1}{\sqrt{2\pi\sigma^2}} \int_{-\infty}^{+\infty}(y+\mu)\exp\left(-\frac{y^2}{2\sigma^2}\right)dy \qquad \text{let \space} y=x-\mu \\&amp;= \frac {1}{\sqrt{2\pi\sigma^2}} \int_{-\infty}^{+\infty}y\exp\left(-\frac{y^2}{2\sigma^2}\right)dy + \frac {\mu}{\sqrt{2\pi\sigma^2}} \int_{-\infty}^{+\infty}\exp\left(-\frac{y^2}{2\sigma^2}\right)dy \end{aligned}\]
+
+        <ul>
+          <li>
+            <p>The first term:</p>
+
+\[\begin{aligned} \frac {1}{\sqrt{2\pi\sigma^2}} \int_{-\infty}^{+\infty}y\exp\left(-\frac{y^2}{2\sigma^2}\right)dy &amp;= 0 \qquad \text{odd \space function} \end{aligned}\]
+          </li>
+          <li>
+            <p>The second term:</p>
+
+\[\begin{aligned} \text{let \space} I &amp;= \int_{-\infty}^{+\infty}\exp\left(-\frac{y^2}{2\sigma^2}\right)dy \\ \text{then \space} I^2 &amp;= \int_{-\infty}^{+\infty}\int_{-\infty}^{+\infty} \exp\left(-\frac{y_1^2}{2\sigma^2}\right)\exp\left(-\frac{y_2^2}{2\sigma^2}\right)dy_1dy_2 \\ &amp;= \int_{-\infty}^{+\infty}\int_{-\infty}^{+\infty} \exp\left(-\frac{y_1^2+y_2^2}{2\sigma^2}\right)dy_1dy_2 \\ \text{let \space} y_1 &amp;= r\cos(\theta) \\ y_2 &amp;= r\sin(\theta) \\ I^2 &amp;= \int_0^{2\pi}\int_0^{+\infty}\exp\left(-\frac{r^2}{2\sigma^2}\right)r dr d\theta \qquad \qquad  \left\vert \frac{\partial(x,y)}{\partial(r,\theta)}\right\vert = r \\&amp;= 2\pi \int_0^{+\infty}\exp\left(-\frac{r^2}{2\sigma^2}\right)r dr \\&amp;= 2\pi\sigma^2\int_0^{+\infty} \exp(-t)dt \qquad \qquad t= \frac {r^2}{2\sigma^2}、dt=\frac{r}{\sigma^2}dr \\ &amp;= 2\pi\sigma^2 \end{aligned}\]
+          </li>
+          <li>
+            <p>Then:</p>
+
+\[\begin{aligned} \mathbb{E}[x] = \frac {1}{\sqrt{2\pi\sigma^2}}(0 + \mu I) = \mu \end{aligned}\]
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>Variance: $\sigma^2$</p>
+
+\[\begin{aligned} \text{var}[x] &amp;= \int_{-\infty}^{+\infty}(x-\mu)^2\frac {1}{\sqrt{2\pi\sigma^2}}\exp\left(-\frac{(x-\mu)^2}{2\sigma^2}\right) \\ &amp;= \frac {1}{\sqrt{2\pi\sigma^2}} \int_{-\infty}^{+\infty} y^2\exp\left(-\frac {y^2}{2\sigma^2}\right)dy \\ &amp;= \frac {1}{\sqrt{2\pi\sigma^2}}\int_0^{+\infty} 2\sigma^2t \exp(-t)\frac{\sqrt{2\sigma^2}}{\sqrt{t}}dt \\ &amp;= \frac {2\sigma^2}{\sqrt{\pi}}\int_0^{+\infty}\frac{t^{\frac12}}{\exp(t)}dt \\&amp;= \frac {2\sigma^2}{\sqrt{\pi}} \Gamma(\frac 32) \\ &amp;= \sigma^2 \qquad \qquad \because \Gamma(\frac 32)=\frac{\sqrt{\pi}}{2} \end{aligned}\]
+  </li>
+</ul>
+
+<h3 id="multivariate-gaussian-distribution"><span class="mr-2">Multivariate Gaussian distribution</span><a href="#multivariate-gaussian-distribution" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3></h3>
+
+<ul>
+  <li>
+    <p>$\boldsymbol{x}\backsim \mathcal{N}(\boldsymbol{x}\vert \boldsymbol{\mu}, \boldsymbol{\Sigma})$</p>
+
+\[\begin{aligned} \mathcal{N}(\boldsymbol{x}\vert \boldsymbol{\mu},\boldsymbol{\Sigma}) = \frac{1}{(2\pi)^{\frac{D}{2}}}\frac{1}{\vert\boldsymbol{\Sigma}\vert^{\frac 12}}e^{-\frac 12 (\boldsymbol{x}-\boldsymbol{\mu})^T\boldsymbol{\Sigma}^{-1}(\boldsymbol{x}-\boldsymbol{\mu})} \end{aligned}\]
+  </li>
+</ul>
+
+<h3 id="students-t-distribution"><span class="mr-2">Student’s t-distribution</span><a href="#students-t-distribution" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3></h3>
+
+<ul>
+  <li>
+    <p>$x\sim \text{St}(x\vert \mu, \lambda, \nu)$</p>
+
+\[\begin{aligned} p(x) = \text{St}(x\vert \mu, \lambda, \nu) = \frac {\Gamma(\nu/2+1/2)}{\Gamma(\nu /2)}\left(\frac \lambda {\pi\nu}\right)^{1/2} \left[1+\frac {\lambda(x-\mu)^2}{\nu} \right]^{-\frac {\nu + 1}{2}} \end{aligned}\]
+  </li>
+  <li>Student’s t-distribution (or simply the t-distribution) is any member of a family of continuous probability distributions that arise when estimating the mean of a normally distributed population in situations where the sample size is small and the population’s standard deviation is unknown</li>
+  <li>The t-distribution plays a role in a number of widely used statistical analyses, including Student’s t-test for assessing the statistical significance of the difference between two sample means, the construction of confidence intervals for the difference between two population means, and in linear regression analysis.</li>
+  <li>
+    <p>If we take a sample of $n$ observations from a normal distribution, then the t-distribution with $\nu=n-1$ degrees of freedom can be defined as the distribution of the location of the sample mean relative to the true mean, divided by the sample standard deviation, after multiplying by the standardizing term $\sqrt {n}$. In this way, the t-distribution can be used to construct a confidence interval for the true mean.</p>
+  </li>
+  <li>
+    <p>Multivariate Student’s t-distribution</p>
+
+\[\begin{aligned} \mathrm{St}(\boldsymbol{x}\vert \boldsymbol{\mu}, \boldsymbol{\Lambda}, \nu) &amp;= \int_0^\infty \mathcal{N}(\boldsymbol{x}\vert \boldsymbol{\mu}, (\eta \boldsymbol{\Lambda})^{-1}) \mathrm{Gam}(\eta \vert \frac \nu 2, \frac \nu 2)d\eta \\ &amp;= \frac {\Gamma((D+\nu)/2)}{\Gamma(\nu/2)} \frac {\vert \boldsymbol{\Lambda} \vert^{1/2}}{(\pi \nu)^{D/2}} \left[1+ \frac {(\boldsymbol{x}-\boldsymbol{\mu})^T\Lambda(\boldsymbol{x}-\boldsymbol{\mu})}{\nu}\right]^{-(D+\nu)/2} \end{aligned}\]
+  </li>
+</ul>
+
+<h3 id="chi-squared-distribution"><span class="mr-2">Chi-squared distribution</span><a href="#chi-squared-distribution" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3></h3>
+
+<ul>
+  <li>
+    <p>If $Z_1, …, Z_k$ are independent, standard normal random variables, then the sum of their squares</p>
+
+\[Q = \sum_{i=1}^k Z_i^2\]
+
+    <p>is distribution according to the chi-squared distribution with $k$ degrees of freedom. This is usually denoted as:</p>
+
+\[Q \sim \mathcal{X}^2(k) \text{\qquad or \qquad} Q \sim \mathcal{X}_k^2\]
+  </li>
+  <li>The chi-squared distribution is used primarily in hypothesis testing, and to a lesser extent for confidence intervals for population variance when the underlying distribution is normal.</li>
+  <li>
+    <p>The chi-squared distribution is not as often applied in the direct modeling of natural phenomena</p>
+  </li>
+  <li>
+    <p>$x\sim \text{Chi}(x\vert k)$: $k$ degrees of freedom</p>
+
+\[p(x) = \text{Chi}(x\vert k) = \left\{\begin{aligned} &amp;\frac {1}{2^{k/2}\Gamma(k/2)}x^{\frac k2 -1} e^{-\frac x2} \qquad &amp;x&gt;0 \\ &amp;0 \qquad &amp;\text{otherwise} \end{aligned} \right.\]
+  </li>
+  <li>
+    <p>Note: if $x&gt;0$, Chi-squared distribution is a Gamma distribution</p>
+
+\[\begin{aligned} \frac {1}{2^{k/2}\Gamma(k/2)}x^{\frac k2 -1} e^{-\frac x2} = \text{Gamma}\left(x\mid \frac k2, \frac 12\right) \end{aligned}\]
+  </li>
+</ul>
+
+<h3 id="beta-distribution"><span class="mr-2">Beta distribution</span><a href="#beta-distribution" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3></h3>
+
+<ul>
+  <li>
+    <p>$x\sim Beta(x\vert a,b), x \in [0,1], a&gt;0, b&gt;0$</p>
+
+\[\begin{aligned} p(x) = Beta(x\vert a,b) &amp;= \frac {x^{a-1}(1-x)^{b-1}}{\int_0^1 u^{a-1}(1-u)^{b-1}du} \\ &amp;= \frac 1{B(a,b)}x^{a-1}(1-x)^{b-1} \qquad &amp; \text{Beta \space function} \\ &amp;= \frac {\Gamma(a+b)}{\Gamma(a)\Gamma(b)}x^{a-1}(1-x)^{b-1} \qquad &amp;\text{Gamma\space function} \end{aligned}\]
+  </li>
+  <li>
+    <p>Expectation: $\frac {a}{a+b}$</p>
+
+\[\begin{aligned}  \mathbb{E}[x] &amp;= \int_0^1 \frac {x}{B(a,b)}x^{a-1}(1-x)^{b-1} \\&amp;= \frac {B(a+1,b)}{B(a,b)} \\&amp;= \frac {\Gamma(a+1)\Gamma(b)}{\Gamma(a+b+1)}B(a,b)^{-1} \\&amp;= \frac {a\Gamma(a)\Gamma(b)}{(a+b)\Gamma(a+b)}B(a,b)^{-1} \qquad \qquad \Gamma(n+1) = n\Gamma(n) \\&amp;= \frac a{a+b} \end{aligned}\]
+  </li>
+  <li>
+    <p>Variance: $\frac {ab}{(a+b)^2(a+b+1)}$</p>
+
+\[\begin{aligned}  \mathbb{E}[x^2] &amp;= \int_0^1 \frac {x^2}{B(a,b)}x^{a-1}(1-x)^{b-1} \\&amp;= \frac {B(a+2,b)}{B(a,b)} \\&amp;= \frac {\Gamma(a+2)\Gamma(b)}{\Gamma(a+b+2)}B(a,b)^{-1} \\&amp;= \frac {a(a+1)\Gamma(a)\Gamma(b)}{(a+b)(a+b+1)\Gamma(a+b)}B(a,b)^{-1} \qquad \qquad \Gamma(n+1) = n\Gamma(n) \\&amp;= \frac {a(a+1)}{(a+b)(a+b+1)} \\ \\ \text{var}[x] &amp;= \mathbb{E}[x^2] - \mathbb{E}[x]^2 \\ &amp;= \frac {a(a+1)}{(a+b)(a+b+1)} - \frac {a^2}{(a+b)^2} \\ &amp;= \frac {ab}{(a+b)^2(a+b+1)} \end{aligned}\]
+  </li>
+</ul>
+
+<h3 id="dirichlet-distribution"><span class="mr-2">Dirichlet distribution</span><a href="#dirichlet-distribution" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3></h3>
+
+<ul>
+  <li>
+    <p>Multivariate Beta distribution</p>
+  </li>
+  <li>
+    <p>$\boldsymbol{x} \sim Dir(\boldsymbol{x}\vert \boldsymbol{a})$</p>
+
+    <ul>
+      <li>
+        <p>$\boldsymbol{x}=[x_1,x_2,···,x_K]^T$</p>
+
+\[\begin{aligned} &amp;x_k \in [0,1], k=1,2,···,K \\ &amp;\sum_{k=1}^K x_k = 1 \end{aligned}\]
+      </li>
+      <li>
+        <p>$\boldsymbol{a}=[a_1, a_2,···,a_K]^K$</p>
+
+\[\tilde{a} = \sum_{k=1}^K a_k\]
+      </li>
+    </ul>
+
+\[\begin{aligned} p(\boldsymbol{x}) = Dir(\boldsymbol{x}\vert \boldsymbol{a}) = \frac {\Gamma(\tilde{a})}{\Gamma(a_1)\Gamma(a_2)···\Gamma(a_K)}\prod_{k=1}^Kx_k^{a_k-1} \end{aligned}\]
+  </li>
+  <li>
+    <p>Expectation: $\frac {a_i}{\tilde{a}}$</p>
+
+\[\begin{aligned} \mathbb{E}[x_i] &amp;= \int_0^1···\int_0^1 \frac {\Gamma(\tilde{a})}{\prod_{k=1}^{K}\Gamma(a_k)}x_i\prod_{k=1}^Kx_k^{a_k-1}  dx_1dx_2d_3···dx_K \\ &amp;= \int_0^1···\int_0^1 \frac {\Gamma(\tilde{a})}{\prod_{k\neq i}^{K}\Gamma(a_k)}x_ix_i^{a_i-1} \prod_{k\neq i}^{K}x_k^{a_k-1} dx_1dx_2d_3···dx_K \\&amp;= \int_0^1···\int_0^1 \frac {a_i\Gamma(\tilde{a})}{\Gamma(a_i+1)\prod_{k\neq i}^{K}\Gamma(a_k)}x_i^{a_i+1-1} \prod_{k\neq i}^{K}x_k^{a_k-1} dx_1dx_2d_3···dx_K \\&amp;= \int_0^1···\int_0^1 \frac {a_i\Gamma(\tilde{a}+1)}{\tilde{a}\Gamma(a_i+1)\prod_{k\neq i}^{K}\Gamma(a_k)}x_i^{a_i+1-1} \prod_{k\neq i}^{K}x_k^{a_k-1} dx_1dx_2d_3···dx_K \\ &amp;= \frac {a_i}{\tilde{a}} \end{aligned}\]
+  </li>
+  <li>
+    <p>Variance: $\frac {a_i(\tilde{a}-a_i)}{\tilde{a}^2(\tilde{a}+1)}$</p>
+
+\[\begin{aligned} \mathbb{E}[x_i^2] &amp;= \int_0^1···\int_0^1 \frac {\Gamma(\tilde{a})}{\prod_{k=1}^{K}\Gamma(a_k)}x_i^2\prod_{k=1}^Kx_k^{a_k-1}  dx_1···dx_K \\&amp;= \int_0^1···\int_0^1 \frac {a_i(a_i+1)\Gamma(\tilde{a}+2)}{\tilde{a}(\tilde{a}+1)\Gamma(a_i+2)\prod_{k\neq i}^{K}\Gamma(a_k)}x_i^{a_i+2-1} \prod_{k\neq i}^{K}x_k^{a_k-1} dx_1···dx_K  \\ &amp;= \frac {a_i(a_i+1)}{\tilde{a}(\tilde{a}+1)} \\ \\ \text{var}[x_i] &amp;= \frac {a_i(a_i+1)}{\tilde{a}(\tilde{a}+1)} - \frac {a_i^2}{\tilde{a}^2} = \frac {a_i(\tilde{a}-a_i)}{\tilde{a}^2(\tilde{a}+1)} \end{aligned}\]
+  </li>
+  <li>
+    <p>Covariance: $\frac {-a_ia_j}{\tilde{a}^2(\tilde{a}+1)}$</p>
+
+\[\begin{aligned} \begin{aligned} \mathbb{E}[x_ix_j] &amp;= \int_0^1···\int_0^1 \frac {\Gamma(\tilde{a})}{\prod_{k=1}^{K}\Gamma(a_k)}x_ix_j\prod_{k=1}^Kx_k^{a_k-1}  dx_1···dx_K \\&amp;= \int_0^1···\int_0^1 \frac {a_ia_j\Gamma(\tilde{a}+2)}{\tilde{a}(\tilde{a}+1)\Gamma(a_i+1)\Gamma(a_j+1)\prod_{k\neq i,j}^{K}\Gamma(a_k)}x_i^{a_i+1-1}x_j^{a_j+1-1}  \prod_{k\neq i,j}^{K}x_k^{a_k-1} dx_1···dx_K  \\ &amp;= \frac {a_ia_j}{\tilde{a}(\tilde{a}+1)} \\ \\ \text{var}[x_i, x_j] &amp;= \mathbb{E}[x_ix_j] - \mathbb{E}[x_i]\mathbb{E}[x_j] \\&amp;= \frac {a_ia_j}{\tilde{a}(\tilde{a}+1)} - \frac {a_ia_j}{\tilde{a}^2} \\&amp;= \frac {-a_ia_j}{\tilde{a}^2(\tilde{a}+1)} \end{aligned} \end{aligned}\]
+  </li>
+</ul>
+
+<h3 id="gamma-distribution"><span class="mr-2">Gamma distribution</span><a href="#gamma-distribution" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3></h3>
+
+<ul>
+  <li>
+    <p>$x\sim \text{Gamma}(x\vert a,b), x&gt;0, a&gt;0,b&gt;0$</p>
+
+\[\begin{aligned} p(x) = \text{Gamma}(x\vert a,b) &amp;= \frac {1}{\Gamma(a)}b^ax^{a-1}e^{-bx} \end{aligned}\]
+  </li>
+  <li>
+    <p>Expectation: $\frac ab$</p>
+
+\[\begin{aligned}  \mathbb{E}[x] &amp;= \int_0^{+\infty}\frac {x}{\Gamma(a)}b^ax^{a-1}e^{-bx}dx \\&amp;= \frac {1}{\Gamma(a)}\int_0^{+\infty}(bx)^ae^{-bx}dx \\&amp;= \frac {1}{\Gamma(a)}\int_0^{+\infty}\frac {t^a}{e^t}\frac 1bdt \\&amp;= \frac {\Gamma(a+1)}{b\Gamma(a)} \\&amp;= \frac ab \end{aligned}\]
+  </li>
+  <li>
+    <p>Variance: $\frac {a}{b^2}$</p>
+
+\[\begin{aligned} \mathbb{E}[x^2] &amp;= \int_0^{+\infty}\frac {x^2}{\Gamma(a)}b^ax^{a-1}e^{-bx}dx \\&amp;= \frac {1}{b\Gamma(a)}\int_0^{+\infty}(bx)^{a+1}e^{-bx}dx \\&amp;= \frac {1}{b\Gamma(a)}\int_0^{+\infty}\frac {t^{a+1}}{e^t}\frac 1bdt \\&amp;= \frac {\Gamma(a+2)}{b^2\Gamma(a)} \\&amp;= \frac {a(a+1)}{b^2} \\ \\ \text{var}[x] &amp;= \mathbb{E}[x^2] - \mathbb{E}[x]^2 \\ &amp;= \frac {a(a+1)}{b^2} - \frac {a^2}{b^2} \\ &amp;= \frac {a}{b^2} \end{aligned}\]
+  </li>
+</ul>
+
+<h3 id="inverse-gamma-distribution"><span class="mr-2">Inverse Gamma distribution</span><a href="#inverse-gamma-distribution" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3></h3>
+
+<ul>
+  <li>
+    <p>$x\sim \text{Gamma}(x\vert a,b), x&gt;0, a&gt;0,b&gt;0$</p>
+
+\[\begin{aligned} p(x) &amp;= \text{Gamma}(x\vert a,b)  \\ &amp;= \frac {1}{\Gamma(a)}b^a\left(\frac 1x\right)^{a+1}e^{-\frac bx} \end{aligned}\]
+
+    <ul>
+      <li>Derivation from Gamma distribution</li>
+      <li>
+        <p>Let $Y = g(X) = \frac 1X$, then $g^{-1}(Y) = \frac 1Y$, the pdf of $Y$ is:</p>
+
+\[\begin{aligned} f_Y(y) &amp;= f_X(g^{-1}(y))\left\vert \frac {d}{dy}g^{-1}(y) \right\vert \\ &amp;= \frac {1}{\Gamma(a)}b^a(1/y)^{a-1}e^{-b/y} \frac {1}{y^2} \\&amp;= \frac {1}{\Gamma(a)}b^a(1/y)^{a+1}e^{-b/y}   \end{aligned}\]
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>Expection: $\mathbb{E}[x] = 1/\mathbb{E}[1/x] = \frac ba$</p>
+  </li>
+  <li>
+    <p>Variance: $\frac {-b^2}{a^2(a+1)}$</p>
+
+\[\begin{aligned} \mathbb{E}[x^2] &amp;=  1/\mathbb{E}[1/x^2] \\ &amp;= \frac {b^2}{a(a+1)} \\ \\ \text{var}[x] &amp;=  \mathbb{E}[x^2] - \mathbb{E}[x]^2 \\ &amp;= \frac {-b^2}{a^2(a+1)} \end{aligned}\]
+  </li>
+</ul>
+
+<h3 id="wishart-distribution"><span class="mr-2">Wishart distribution</span><a href="#wishart-distribution" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3></h3>
+
+<ul>
+  <li>
+    <p>Let $X$ be a $p × p$ symmetric matrix of random variables that is positive definite. Let $V$ be a (fixed) symmetric positive definite matrix of size $p × p$.</p>
+  </li>
+  <li>
+    <p>Then, if $n ≥ p$, $X$ has a Wishart distribution with $n$ degrees of freedom if it has the probability density function:</p>
+  </li>
+  <li>
+    <p>$X \sim \mathcal{W}(X\vert V, n)$</p>
+
+\[\begin{aligned} f_\mathcal{\boldsymbol{X}}(X) = \frac {1}{2^{np/2}\vert V \vert^{n/2} \Gamma_p(n/2) } \vert X \vert^{(n-p-1)/2}e^{-\frac 12 \text{tr}(V^{-1}X)} \end{aligned}\]
+
+    <ul>
+      <li>The positive integer $n$ is the number of degrees of freedom. Sometimes this is written $\mathcal{W}(V, p, n)$. For $n ≥ p$ the matrix $S\sim \mathcal{W}(V, p)$ is invertible with probability 1 if $V$ is invertible.</li>
+      <li>
+        <p>Where $\Gamma_p$ is the multivariate gamma function:</p>
+
+\[\Gamma_p\left(\frac n2\right) = \pi^{p(p-1)/4}\prod_{j=1}^p \Gamma\left(\frac n2 - \frac {j-1}{2}) \right)\]
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>Note:</p>
+    <ul>
+      <li>The density above is not the joint density of all the $p^{2}$ elements of the random matrix X (such $p^{2}$-dimensional density does not exist because of the symmetry constrains $X_{ij}=X_{ji})$, it is rather the joint density of $p(p+1)/2$ elements $X_{ij}$ for $i&lt;j$.</li>
+      <li>Also, the density formula above applies only to positive definite matrices $X$ for other matrices the density is equal to zero.</li>
+      <li>If $p=V=1$, then this distribution is a Chi-squared distribution with $n$ degrees of freedom, also because $x&gt;0$, it is also a Gamma distribution.</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="inverse-wishart-distribution"><span class="mr-2">Inverse Wishart distribution</span><a href="#inverse-wishart-distribution" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3></h3>
+
+<ul>
+  <li>
+    <p>$X \sim \mathcal{W}^{-1}(X\vert V, n)$</p>
+
+\[\begin{aligned} f_\mathcal{\boldsymbol{X}}(X) = \frac {\vert V \vert^{n/2}}{2^{np/2} \Gamma_p(n/2) } \vert X \vert^{-(n+p+1)/2}e^{-\frac 12 \text{tr}(VX^{-1})} \end{aligned}\]
+
+    <ul>
+      <li>
+        <p>Where $\Gamma_p$ is the multivariate gamma function:</p>
+
+\[\Gamma_p\left(\frac n2\right) = \pi^{p(p-1)/4}\prod_{j=1}^p \Gamma\left(\frac n2 - \frac {j-1}{2}) \right)\]
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>we see if $A = X^{-1}$, then $A \sim \mathcal{W}(V^{-1}, n)$</p>
+  </li>
+</ul>
+
+<h3 id="gauss-gamma-distribution"><span class="mr-2">Gauss-Gamma distribution</span><a href="#gauss-gamma-distribution" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3></h3>
+
+<ul>
+  <li>
+    <p>For a pair of random variables, $(x,t)$, suppose that the conditional distribution of $X$ given $T$ is given by</p>
+
+\[p(x\vert \tau) \sim \mathcal{N}\left(x\vert \mu, (\lambda \tau)^{-1}\right)\]
+  </li>
+  <li>
+    <p>And suppose also that the marginal distribution of $t$ is given by:</p>
+
+\[p(\tau) \sim \text{Gamma}(\tau \vert a,b)\]
+  </li>
+  <li>
+    <p>Then $(x,\tau)$ has a Gauss-Gamma distribution: $(x,\tau) \sim \text{Gauss-Gamma}(\mu, \lambda, a, b)$</p>
+
+\[\begin{aligned}p(x,\tau) &amp;= \text{Gauss-Gamma}(\mu, \lambda, a, b) \\&amp;= \mathcal{N}\left(x\vert \mu, (\lambda \tau)^{-1}\right)\text{Gamma}(a,b) \\&amp;= \sqrt{\frac{\lambda \tau}{2\pi}}\exp\left( -\frac 12 \lambda \tau (x-\mu)^2 \right) \frac {b^a}{\Gamma(a)}\tau^{a-1}\exp(-b\tau) \end{aligned}\]
+  </li>
+  <li>
+    <p>In the multivariate form:</p>
+
+\[\begin{aligned} p(\boldsymbol{x},\tau) &amp;= \text{Gauss-Gamma}(\boldsymbol{\mu}, V^{-1}, a, b) \\&amp;= \mathcal{N}\left(x\vert \boldsymbol{\mu}, \frac 1\tau V \right)\text{Gamma}(\tau \vert a,b) \\ &amp;= \vert V\vert^{-\frac 12}\left(\frac{\tau}{2\pi}\right)^{k/2} \exp\left( -\frac \tau 2  (\boldsymbol{x}-\boldsymbol{\mu})^TV^{-1}(\boldsymbol{x}-\boldsymbol{\mu}) \right) \frac {b^a}{\Gamma(a)}\tau^{a-1}\exp(-b\tau) \end{aligned}\]
+
+    <ul>
+      <li>Where $V$ is the $k\times k$ covariance matrix for the Gaussian prior on $\boldsymbol{\mu}$</li>
+    </ul>
+  </li>
+  <li>
+    <p>Note:</p>
+    <ul>
+      <li>The marginal distribution of $\tau$ is a gamma distribution</li>
+      <li>The conditional distribution of $x$ given $\tau$ is a gaussian distribution</li>
+      <li>The marginal distribution of $x$ is a Student’s t-distribution.</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="gauss-inverse-gamma-distribution"><span class="mr-2">Gauss-inverse-Gamma distribution</span><a href="#gauss-inverse-gamma-distribution" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3></h3>
+
+<ul>
+  <li>
+    <p>$(x,\sigma^2) \sim \text{Gauss-Gamma}^{-1}(\mu, \lambda, a, b)$</p>
+
+\[\begin{aligned} p(x, \sigma^2) = \text{Gauss-Gamma}^{-1}(\mu, \lambda, a, b) &amp;= \mathcal{N}(x\vert \mu, \sigma^2/\lambda)\text{Gamma}^{-1}(\sigma^2\vert a,b) \\ &amp;= \sqrt{\frac {\lambda}{2\pi\sigma^2}}\exp\left( -\frac {\lambda}{2\sigma^2}  (x-\mu)^2 \right) \frac {b^a}{\Gamma(a)}\left(\frac 1{\sigma^2} \right)^{a+1}\exp\left(-\frac{b}{\sigma^2}\right)  \end{aligned}\]
+  </li>
+  <li>
+    <p>In the multivariate form:</p>
+
+\[\begin{aligned} p(\boldsymbol{x}, \sigma^2) &amp;= \text{Gauss-Gamma}^{-1}(\boldsymbol{\mu}, V^{-1}, a, b) \\&amp;= \mathcal{N}\left(x\vert \boldsymbol{\mu}, \sigma^2 V \right)\text{Gamma}^{-1}(\sigma^2 \vert a,b)  \\ &amp;= \vert V\vert^{-\frac 12}(2\pi\sigma^2)^{-k/2}\exp\left( -\frac {1}{2\sigma^2}  (\boldsymbol{x}-\boldsymbol{\mu})^TV^{-1}(\boldsymbol{x}-\boldsymbol{\mu}) \right) \frac {b^a}{\Gamma(a)}\left(\frac 1{\sigma^2} \right)^{a+1}\exp\left(-\frac{b}{\sigma^2}\right) \end{aligned}\]
+
+    <ul>
+      <li>Where $V$ is the $k\times k$ covariance matrix for the Gaussian prior on $\boldsymbol{\mu}$</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="gauss-wishart-distribution"><span class="mr-2">Gauss-Wishart distribution</span><a href="#gauss-wishart-distribution" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3></h3>
+
+<ul>
+  <li>
+    <p>Suppose</p>
+
+\[\begin{aligned} p(\boldsymbol{\mu}\vert \boldsymbol{\mu}_0, V^{-1}, \Lambda) \sim \mathcal{N}(\boldsymbol{\mu}\vert \boldsymbol{\mu}_0, V\Lambda^{-1}) \end{aligned}\]
+
+    <p>and:</p>
+
+\[\begin{aligned} p(\Lambda \vert A, \nu) \sim \mathcal{W}(\Lambda \vert A, \nu) \end{aligned}\]
+  </li>
+  <li>
+    <p>Then</p>
+
+\[\begin{aligned} p(\boldsymbol{\mu}, \Lambda) &amp;\sim \mathcal{NW}(\boldsymbol{\mu}, \Lambda \vert \boldsymbol{\mu}_0, V^{-1}, W, nu) \\ &amp;= \mathcal{N}(\boldsymbol{\mu}\vert \boldsymbol{\mu}_0, V\Lambda^{-1})\mathcal{W}(\Lambda \vert W, \nu) \end{aligned}\]
+
+    <ul>
+      <li>Where $V$ is the $k\times k$ covariance matrix for the Gaussian prior on $\boldsymbol{\mu}$</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="gauss-inverse-wishart-distribution"><span class="mr-2">Gauss-inverse-Wishart distribution</span><a href="#gauss-inverse-wishart-distribution" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3></h3>
+
+<ul>
+  <li>
+    <p>Suppose</p>
+
+\[\begin{aligned} p(\boldsymbol{\mu}\vert \boldsymbol{\mu}_0, V^{-1}, \Sigma) \sim \mathcal{N}\left(\boldsymbol{\mu}\vert \boldsymbol{\mu}_0, V\Sigma \right) \end{aligned}\]
+
+    <p>and:</p>
+
+\[\begin{aligned} p(\Sigma \vert A, \nu) \sim \mathcal{W}^{-1}(\Sigma \vert W, \nu) \end{aligned}\]
+  </li>
+  <li>
+    <p>Then</p>
+
+\[\begin{aligned} p(\boldsymbol{\mu}, \Sigma) &amp;\sim \mathcal{NW}^{-1}(\boldsymbol{\mu}, \Sigma \vert \boldsymbol{\mu}_0, V^{-1}, W, \nu) \\ &amp;= \mathcal{N}\left(\boldsymbol{\mu}\vert \boldsymbol{\mu}_0, V \Sigma \right)\mathcal{W}^{-1}(\Sigma \vert W, \nu) \end{aligned}\]
+
+    <ul>
+      <li>Where $V$ is the $k\times k$ covariance matrix for the Gaussian prior on $\boldsymbol{\mu}$</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="matrix-gaussian-distribution"><span class="mr-2">Matrix Gaussian Distribution</span><a href="#matrix-gaussian-distribution" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3></h3>
+
+\[\begin{aligned} p(X\mid M, U, V) = \frac {1}{(2\pi)^{\frac {np}{2}} \vert V\vert^{\frac n2} \vert U\vert^{\frac p2}} \exp\left( -\frac 12 \mathrm{Tr}\left[ V^{-1}(X-M)^TU^{-1}(X-M) \right] \right) \end{aligned}\]
+
+<ul>
+  <li>$M$ is $n\times p$</li>
+  <li>$U$ is $p \times p$</li>
+  <li>$V$ is $n \times n$</li>
+</ul>
+
+</div>
+
+<div class="post-tail-wrapper text-muted">
+
+  <!-- categories -->
+  
+  <div class="post-meta mb-3">
+    <i class="far fa-folder-open fa-fw mr-1"></i>
+    
+      <a href='/categories/probability/'>Probability</a>,
+      <a href='/categories/distribution/'>Distribution</a>
+  </div>
+  
+
+  <!-- tags -->
+  
+  <div class="post-tags">
+    <i class="fa fa-tags fa-fw mr-1"></i>
+      
+      <a href="/tags/gaussian/"
+          class="post-tag no-text-decoration" >Gaussian</a>
+      
+      <a href="/tags/gamma/"
+          class="post-tag no-text-decoration" >Gamma</a>
+      
+      <a href="/tags/beta/"
+          class="post-tag no-text-decoration" >Beta</a>
+      
+      <a href="/tags/dirichlet/"
+          class="post-tag no-text-decoration" >Dirichlet</a>
+      
+  </div>
+  
+
+  <div class="post-tail-bottom
+    d-flex justify-content-between align-items-center mt-3 pt-5 pb-2">
+    <div class="license-wrapper">
+
+      
+
+        
+
+        This post is licensed under 
+        <a href="https://creativecommons.org/licenses/by/4.0/">
+          CC BY 4.0
+        </a>
+         by the author.
+
+      
+    </div>
+
+    <!--
+ Post sharing snippet
+-->
+
+<div class="share-wrapper">
+  <span class="share-label text-muted mr-1">Share</span>
+  <span class="share-icons">
+    
+    
+
+    
+      
+        <a href="https://twitter.com/intent/tweet?text=A Quick Look of Continuous Distribution - Candy Note&amp;url=http://0.0.0.0:4000/posts/quick_look_continuous_distributions/" data-toggle="tooltip" data-placement="top"
+          title="Twitter" target="_blank" rel="noopener" aria-label="Twitter">
+          <i class="fa-fw fab fa-twitter"></i>
+        </a>
+    
+      
+        <a href="https://www.facebook.com/sharer/sharer.php?title=A Quick Look of Continuous Distribution - Candy Note&amp;u=http://0.0.0.0:4000/posts/quick_look_continuous_distributions/" data-toggle="tooltip" data-placement="top"
+          title="Facebook" target="_blank" rel="noopener" aria-label="Facebook">
+          <i class="fa-fw fab fa-facebook-square"></i>
+        </a>
+    
+      
+        <a href="https://t.me/share/url?url=http://0.0.0.0:4000/posts/quick_look_continuous_distributions/&amp;text=A Quick Look of Continuous Distribution - Candy Note" data-toggle="tooltip" data-placement="top"
+          title="Telegram" target="_blank" rel="noopener" aria-label="Telegram">
+          <i class="fa-fw fab fa-telegram"></i>
+        </a>
+    
+
+    <i id="copy-link" class="fa-fw fas fa-link small"
+        data-toggle="tooltip" data-placement="top"
+        title="Copy link"
+        data-title-succeed="Link copied successfully!">
+    </i>
+
+  </span>
+</div>
+
+
+  </div><!-- .post-tail-bottom -->
+
+</div><!-- div.post-tail-wrapper -->
+
+
+      
+    
+    
+
+    </div>
+  </div> <!-- #core-wrapper -->
+
+  <!-- pannel -->
+  <div id="panel-wrapper" class="col-xl-3 pl-2 text-muted">
+
+    <div class="access">
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+
+
+  <div id="access-tags">
+    <div class="panel-heading">Trending Tags</div>
+    <div class="d-flex flex-wrap mt-3 mb-1 mr-3">
+
+    
+      
+      <a class="post-tag" href="/tags/gaussian-distribution/">Gaussian Distribution</a>
+    
+      
+      <a class="post-tag" href="/tags/pca/">PCA</a>
+    
+      
+      <a class="post-tag" href="/tags/em/">EM</a>
+    
+      
+      <a class="post-tag" href="/tags/bayesian/">Bayesian</a>
+    
+      
+      <a class="post-tag" href="/tags/markov-chain/">Markov Chain</a>
+    
+      
+      <a class="post-tag" href="/tags/bernoulli/">Bernoulli</a>
+    
+      
+      <a class="post-tag" href="/tags/binomial/">Binomial</a>
+    
+      
+      <a class="post-tag" href="/tags/gamma-distribution/">Gamma Distribution</a>
+    
+      
+      <a class="post-tag" href="/tags/gmm/">GMM</a>
+    
+      
+      <a class="post-tag" href="/tags/kernel/">Kernel</a>
+    
+
+    </div>
+  </div>
+
+
+    </div>
+
+    
+      
+      
+
+
+
+<!-- BS-toc.js will be loaded at medium priority -->
+<script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@1.0.1/dist/bootstrap-toc.min.js"></script>
+
+<div id="toc-wrapper" class="pl-0 pr-4 mb-5">
+  <div class="panel-heading pl-3 pt-2 mb-2">Contents</div>
+  <nav id="toc" data-toggle="toc"></nav>
+</div>
+
+
+    
+  </div>
+
+</div>
+
+<!-- tail -->
+
+<div class="row">
+  <div class="col-12 col-lg-11 col-xl-8">
+    <div id="tail-wrapper" class="pl-1 pr-1 pl-sm-2 pr-sm-2 pl-md-4 pr-md-4">
+      
+        
+        <!--
+ Recommend the other 3 posts according to the tags and categories of the current post,
+ if the number is not enough, use the other latest posts to supplement.
+-->
+
+<!-- The total size of related posts  -->
+
+
+<!-- An random integer that bigger than 0  -->
+
+
+<!-- Equals to TAG_SCORE / {max_categories_hierarchy}  -->
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+
+
+
+<!-- Fill with the other newlest posts  -->
+
+
+
+
+
+
+  <div id="related-posts" class="mt-5 mb-2 mb-sm-4">
+    <h3 class="pt-2 mt-1 mb-4 ml-1"
+      data-toc-skip>Further Reading</h3>
+    <div class="card-deck mb-4">
+    
+      
+      
+      <div class="card">
+        <a href="/posts/quick_look_discrete_distributions/">
+          <div class="card-body">
+            <!--
+  Date format snippet
+  See: ${JS_ROOT}/utils/timeago.js
+-->
+
+<em class="timeago small"
+    data-ts="1613779200"
+    
+    >
+  2021-02-20
+</em>
+
+            <h3 class="pt-0 mt-1 mb-3" data-toc-skip>A Quick Look of Discrete Distribution</h3>
+            <div class="text-muted small">
+              <p>
+                
+
+
+
+
+
+                Bernoulli distribution
+
+
+  
+    $x\sim Bern(x\vert \mu)$
+
+\[\begin{aligned}  p(x) = Bern(x\vert \mu) &amp;amp;= \mu^x(1-\mu)^{1-x} \\ &amp;amp;= \mu^{\mathbb{I}(x=1)}(1-\mu)^{\mathbb{I}(x=0)} \\ \\ \mathbb...
+              </p>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+      
+      
+      <div class="card">
+        <a href="/posts/bernoulli_and_binomial_distribution/">
+          <div class="card-body">
+            <!--
+  Date format snippet
+  See: ${JS_ROOT}/utils/timeago.js
+-->
+
+<em class="timeago small"
+    data-ts="1613779200"
+    
+    >
+  2021-02-20
+</em>
+
+            <h3 class="pt-0 mt-1 mb-3" data-toc-skip>Bernoulli and Binomial Distribution</h3>
+            <div class="text-muted small">
+              <p>
+                
+
+
+
+
+
+                Bernoulli Distributions
+
+
+  
+    Bernoulli Distributions is the discrete probability distribution of a random variable which takes the value 1 with probability $\mu$ and the value 0 with probabilit...
+              </p>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+      
+      
+      <div class="card">
+        <a href="/posts/beta_distribution/">
+          <div class="card-body">
+            <!--
+  Date format snippet
+  See: ${JS_ROOT}/utils/timeago.js
+-->
+
+<em class="timeago small"
+    data-ts="1613779200"
+    
+    >
+  2021-02-20
+</em>
+
+            <h3 class="pt-0 mt-1 mb-3" data-toc-skip>Beta Distribution</h3>
+            <div class="text-muted small">
+              <p>
+                
+
+
+
+
+
+                Beta Distribution
+
+
+  
+    New we introduce a prior distribution of $p(\mu)$ over the parameter $\mu$ in the Bernouli and Binomial distribution
+  
+  
+    The beta distribution as the prior distribu...
+              </p>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+    </div> <!-- .card-deck -->
+  </div> <!-- #related-posts -->
+
+
+      
+        
+        <!--
+  Navigation buttons at the bottom of the post.
+-->
+
+<div class="post-navigation d-flex justify-content-between">
+  
+  <a href="/posts/probability_theorem/" class="btn btn-outline-primary"
+    prompt="Older">
+    <p>Probaility Theory</p>
+  </a>
+  
+
+  
+  <a href="/posts/quick_look_discrete_distributions/" class="btn btn-outline-primary"
+    prompt="Newer">
+    <p>A Quick Look of Discrete Distribution</p>
+  </a>
+  
+
+</div>
+
+      
+        
+        <!--  The comments switcher -->
+
+
+      
+    </div>
+  </div>
+</div> <!-- .row -->
+
+
+
+        <!--
+  The Footer
+-->
+
+<footer class="d-flex w-100 justify-content-center">
+  <div class="d-flex justify-content-between align-items-center text-muted">
+    <div class="footer-left">
+      <p class="mb-0">
+        © 2022
+        <a href="https://twitter.com/username">luo-songtao</a>.
+        
+        <span data-toggle="tooltip" data-placement="top"
+          title="Except where otherwise noted, the blog posts on this site are licensed under the Creative Commons Attribution 4.0 International (CC BY 4.0) License by the author.">Some rights reserved.</span>
+        
+      </p>
+    </div>
+
+    <div class="footer-right">
+      <p class="mb-0">
+        
+
+        
+
+        Powered by 
+          <a href="https://jekyllrb.com" target="_blank" rel="noopener">Jekyll</a>
+         with 
+          <a href="https://github.com/cotes2020/jekyll-theme-chirpy" target="_blank" rel="noopener">Chirpy</a>
+         theme.
+
+      </p>
+    </div>
+
+  </div> <!-- div.d-flex -->
+</footer>
+
+
+      </div>
+
+      <!--
+  The Search results
+-->
+<div id="search-result-wrapper" class="d-flex justify-content-center unloaded">
+  <div class="col-12 col-sm-11 post-content">
+    <div id="search-hints">
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+
+
+  <div id="access-tags">
+    <div class="panel-heading">Trending Tags</div>
+    <div class="d-flex flex-wrap mt-3 mb-1 mr-3">
+
+    
+      
+      <a class="post-tag" href="/tags/gaussian-distribution/">Gaussian Distribution</a>
+    
+      
+      <a class="post-tag" href="/tags/pca/">PCA</a>
+    
+      
+      <a class="post-tag" href="/tags/em/">EM</a>
+    
+      
+      <a class="post-tag" href="/tags/bayesian/">Bayesian</a>
+    
+      
+      <a class="post-tag" href="/tags/markov-chain/">Markov Chain</a>
+    
+      
+      <a class="post-tag" href="/tags/bernoulli/">Bernoulli</a>
+    
+      
+      <a class="post-tag" href="/tags/binomial/">Binomial</a>
+    
+      
+      <a class="post-tag" href="/tags/gamma-distribution/">Gamma Distribution</a>
+    
+      
+      <a class="post-tag" href="/tags/gmm/">GMM</a>
+    
+      
+      <a class="post-tag" href="/tags/kernel/">Kernel</a>
+    
+
+    </div>
+  </div>
+
+
+    </div>
+    <div id="search-results" class="d-flex flex-wrap justify-content-center text-muted mt-3"></div>
+  </div>
+</div>
+
+
+    </div> <!-- #main-wrapper -->
+
+    
+      <!--
+  mermaid-js loader
+-->
+
+<script src="https://cdn.jsdelivr.net/npm/mermaid@8/dist/mermaid.min.js"></script>
+
+<script>
+  $(function() {
+    function updateMermaid(event) {
+      if (event.source === window && event.data &&
+            event.data.direction === ModeToggle.ID) {
+
+        const mode = event.data.message;
+
+        if (typeof mermaid === "undefined") {
+          return;
+        }
+
+        let expectedTheme = (mode === ModeToggle.DARK_MODE? "dark" : "default");
+        let config = { theme: expectedTheme };
+
+        /* Re-render the SVG › <https://github.com/mermaid-js/mermaid/issues/311#issuecomment-332557344> */
+        $(".mermaid").each(function() {
+          let svgCode = $(this).prev().children().html();
+          $(this).removeAttr("data-processed");
+          $(this).html(svgCode);
+        });
+
+        mermaid.initialize(config);
+        mermaid.init(undefined, ".mermaid");
+      }
+    }
+
+    let initTheme = "default";
+
+    if ($("html[data-mode=dark]").length > 0
+      || ($("html[data-mode]").length == 0
+        && window.matchMedia("(prefers-color-scheme: dark)").matches ) ) {
+      initTheme = "dark";
+    }
+
+    let mermaidConf = {
+      theme: initTheme  /* <default|dark|forest|neutral> */
+    };
+
+    /* Markdown converts to HTML */
+    $("pre").has("code.language-mermaid").each(function() {
+      let svgCode = $(this).children().html();
+      $(this).addClass("unloaded");
+      $(this).after(`<div class=\"mermaid\">${svgCode}</div>`);
+    });
+
+    mermaid.initialize(mermaidConf);
+
+    window.addEventListener("message", updateMermaid);
+  });
+</script>
+
+    
+
+    <div id="mask"></div>
+
+    <a id="back-to-top" href="#" aria-label="back-to-top" class="btn btn-lg btn-box-shadow" role="button">
+      <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!--
+  Jekyll Simple Search loader
+  See: <https://github.com/christian-fei/Simple-Jekyll-Search>
+-->
+
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/simple-jekyll-search@1.10.0/dest/simple-jekyll-search.min.js"></script>
+
+<script>
+SimpleJekyllSearch({
+  searchInput: document.getElementById('search-input'),
+  resultsContainer: document.getElementById('search-results'),
+  json: '/assets/js/data/search.json',
+  searchResultTemplate: '<div class="pl-1 pr-1 pl-sm-2 pr-sm-2 pl-lg-4 pr-lg-4 pl-xl-0 pr-xl-0">  <a href="{url}">{title}</a>  <div class="post-meta d-flex flex-column flex-sm-row text-muted mt-1 mb-1">    {categories}    {tags}  </div>  <p>{snippet}</p></div>',
+  noResultsText: '<p class="mt-5">Oops! No result founds.</p>',
+  templateMiddleware: function(prop, value, template) {
+    if (prop === 'categories') {
+      if (value === '') {
+        return `${value}`;
+      } else {
+        return `<div class="mr-sm-4"><i class="far fa-folder fa-fw"></i>${value}</div>`;
+      }
+    }
+
+    if (prop === 'tags') {
+      if (value === '') {
+        return `${value}`;
+      } else {
+        return `<div><i class="fa fa-tag fa-fw"></i>${value}</div>`;
+      }
+    }
+  }
+});
+</script>
+
+
+    <!--
+  JS selector for site.
+-->
+
+<!-- layout specified -->
+
+
+  
+
+
+
+  <!-- image lazy-loading & popup & clipboard -->
+  
+
+  
+
+
+
+
+
+
+
+  
+    
+
+    
+
+  
+
+
+
+  
+    
+
+    
+
+  
+
+
+
+  
+    
+
+    
+
+  
+
+
+
+
+  <script src="https://cdn.jsdelivr.net/combine/npm/magnific-popup@1/dist/jquery.magnific-popup.min.js,npm/lozad/dist/lozad.min.js,npm/clipboard@2/dist/clipboard.min.js"></script>
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+
+
+
+
+
+  
+    
+
+    
+
+  
+
+
+
+  
+    
+
+    
+
+  
+
+
+
+  
+    
+
+    
+
+  
+
+
+
+  
+    
+
+    
+
+  
+
+
+
+
+  <script src="https://cdn.jsdelivr.net/combine/npm/dayjs@1/dayjs.min.js,npm/dayjs@1/locale/en.min.js,npm/dayjs@1/plugin/relativeTime.min.js,npm/dayjs@1/plugin/localizedFormat.min.js"></script>
+
+
+
+
+
+
+
+
+<script defer src="/assets/js/dist/post.min.js"></script>
+
+
+  <!-- MathJax -->
+  <script>
+  /* see: <https://docs.mathjax.org/en/latest/options/input/tex.html#tex-options> */
+  MathJax = {
+    tex: {
+      inlineMath: [              /* start/end delimiter pairs for in-line math */
+        ['$','$'],
+        ['\\(','\\)']
+      ],
+      displayMath: [             /* start/end delimiter pairs for display math */
+        ['$$', '$$'],
+        ['\\[', '\\]']
+      ]
+    }
+  };
+  </script>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+  </script>
+
+
+<!-- commons -->
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.bundle.min.js"></script>
+
+
+
+
+  </body>
+
+</html>
+

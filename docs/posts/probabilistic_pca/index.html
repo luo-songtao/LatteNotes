@@ -1,0 +1,4020 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html lang="en"
+  
+>
+
+  <!--
+  The Head
+-->
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Allow having a localized datetime different from the appearance language -->
+  
+
+  
+
+    
+
+    
+
+  
+
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+<meta name="generator" content="Jekyll v4.2.1" />
+<meta property="og:title" content="Probabilistic PCA" />
+<meta name="author" content="luo-songtao" />
+<meta property="og:locale" content="en" />
+<meta name="description" content="Probabilistic PCA We now show that PCA can also be expressed as the maximum likelihood solution of a probabilistic latent variable model. Note: the probabilistic PCA model can be expressed as a directed graph Several Advantages of Probabilistic PCA Probabilistic PCA represents a constrained form of the Gaussian distribution in which the number of free parameters can be restricted while still allowing the model to capture the dominant correlations in a data set. We can derive an EM algorithm for PCA that is computationally efficient in situations where only a few leading eigenvectors are required and that avoids having to evaluate the data covariance matrix as an intermediate step. The combination of a probabilistic model and EM allows us to deal with missing values in the data set. Mixtures of probabilistic PCA models can be formulated in a principled way and trained using the EM algorithm. Probabilistic PCA forms the basis for a Bayesian treatment of PCA in which the dimensionality of the principal subspace can be found automatically from the data. Probabilistic PCA can be used to model class-conditional densities and hence be applied to classification problems. The probabilistic PCA model can be run generatively to provide samples from the distribution. Definition Probabilistic PCA is closely related to factor analysis. Probabilistic PCA is a simple example of the linear-Gaussian framework, in which all of the marginal and conditional distributions are Gaussian. We can formulate probabilistic PCA by first introducing an explicit latent variable $z$ corresponding to the principal-component subspace. Next we define a Gaussian prior distribution $p(z)$ over the latent variable, together with a Gaussian conditional distribution $p(x\vert z)$ for the observed variable $x$ conditioned on the value of the latent variable. [\begin{aligned} p(\boldsymbol{z}) &amp;= \mathcal{N}(\boldsymbol{z} \vert 0, I) \ p(\boldsymbol{x} \vert \boldsymbol{z}) &amp;= \mathcal{N}(\boldsymbol{x} \vert \mathbf{W}\boldsymbol{z} + \boldsymbol{\mu}, \sigma^2 I) \end{aligned}] because we set the covariance as $\sigma^2I$, then this is an example of native Bayes model. and we shall see that the columns of $\mathbf{W}$ span a linear subspace with the data space that corresponds to the principal subspace. Generative Viewpoint of Probabilistic PCA first, choosing a value of the latent variable $\boldsymbol{z}$ from $p(\boldsymbol{z})$ and then sampling $\boldsymbol{x}$ from $p(\boldsymbol{x} \vert \boldsymbol{z})$ Specifically, the D-dimensional observed variable $\boldsymbol{x}$ is defined by a linear transformation of the M-dimensional latent variable latent variables $$ plus additive Gaussian noise, to that: \(\begin{aligned} \boldsymbol{x} = \mathbf{W}\boldsymbol{z} + \boldsymbol{\mu} + \boldsymbol{\epsilon} \end{aligned}\) $\boldsymbol{\epsilon} \sim \mathcal{N}(\boldsymbol{\epsilon} \vert 0, \sigma^2 I)$ Note that this framework is based on a mapping from latent space to data space, in contrast to the more conventional view of PCA. The Reverse mapping, from data space to the lantent space, will be obtained shortly using Bayes’ theorem. Predictive Distribution [\begin{aligned} p(\boldsymbol{x}) &amp;= \int p(\boldsymbol{x}\vert \boldsymbol{z})p(\boldsymbol{z})d\boldsymbol{z} \ &amp;= \mathcal{N}(\boldsymbol{x}\vert \boldsymbol{\mu}, \mathbf{C}) \\ C &amp;= \mathbf{W}\mathbf{W}^T + \sigma^2 I \end{aligned}] Note: when we evaluate the predictive distributino, we require $\mathbf{C}^{-1}$, which involves the inversion of a $D\times D$ matrix. But if we use the Woodbury matrix identity on $C$, \[\begin{aligned} \left(A+UCV\right)^{-1} &amp;= A^{-1}-A^{-1}U\left(C^{-1}+VA^{-1}U\right)^{-1}VA^{-1} \end{aligned}\] we have \[\begin{aligned} \mathbf C^{-1} &amp;= (\mathbf{W}\mathbf{W}^T + \sigma^2)^{-1} \\&amp;= \frac 1{\sigma^2} \left(I - \frac 1{\sigma^2} \mathbf{W}(I+\sigma^2\mathbf{W}^T\mathbf{W})^{-1}\mathbf{W}^T \right) \end{aligned}\] then the cost of evaluating $\mathbf C^{-1}$ is reduced from $O(D^3)$ to $O(M^3)$ by $(I+\sigma^2W^TW)^{-1}$ Posterior Distribution Let $\mathbf{M} = (I+\sigma^2\mathbf{W}^T\mathbf{W})^{-1}$ [\begin{aligned} p(\boldsymbol{z} \vert \boldsymbol{x}) = \mathcal{N}(\boldsymbol{z} \vert \mathbf{M}^{-1} \mathbf{W}^T(\boldsymbol{x}-\boldsymbol{\mu}), \sigma^2 \mathbf{M}) \end{aligned}] Proof: \[\begin{aligned} p(\boldsymbol{z} \vert \boldsymbol{x}) &amp;= \frac {p( \boldsymbol{x} \vert \boldsymbol{z}) p(\boldsymbol{z})}{p(\boldsymbol{x})} \\&amp;\propto \exp\left\{-\frac 12 \boldsymbol{z}^T\boldsymbol{z} - \frac {1}{2\sigma^2}\left( \boldsymbol{z}^T\mathbf{W}^T\mathbf{W}\boldsymbol{z} -2\boldsymbol{z}^T\mathbf{W}^T(\boldsymbol{x}-\boldsymbol{\mu}) \right) \right\} \\ &amp;\propto \exp\left\{ -\frac {1}{2\sigma^2}(\boldsymbol{z}^TM^{-1}\boldsymbol{z} - 2\boldsymbol{z}^T\mathbf{W}^T(\boldsymbol{x}-\boldsymbol{\mu})) \right\} \\ \\ p(\boldsymbol{z} \vert \boldsymbol{x}) &amp;= \mathcal{N}(\boldsymbol{z} \vert \mathbf{M}^{-1} \mathbf{W}^T(\boldsymbol{x}-\boldsymbol{\mu}), \sigma^2 \mathbf{M}) \end{aligned}\] And we can see that poseterior covariance is independent of $\boldsymbol{x}$ Inference - Maximum Likelihood Using Maximum Likelihood Given a data set $\mathbf{X}$, according to the prediction distribution $p(\boldsymbol{x}) \mathcal{N}(\boldsymbol{x}\vert \boldsymbol{\mu}, \mathbf{C})$, the log likelihood function is: [\begin{aligned} \ln p(\mathbf{X} \vert \boldsymbol{\mu}, \mathbf{W}, \sigma^2) &amp;= \sum_{n=1}^N \mathcal{N}(\boldsymbol{x}n \vert \boldsymbol{\mu}, \mathbf{C}) \ &amp;= -\frac {ND}{2} \ln (2\pi) - \frac N2 \ln \vert \mathbf{C} \vert -\frac 12 \sum{n=1}^N (\boldsymbol{x} - \boldsymbol{\mu})^T\mathbf{C}^{-1} (\boldsymbol{x} - \boldsymbol{\mu}) \end{aligned}] setting the derivative with respect to $\boldsymbol{\mu}$ equal to zero, we can obtain $\boldsymbol{\mu} = \overline{\boldsymbol{x}}$, and then we have: \[\begin{aligned} \ln p(\mathbf{X} \vert \boldsymbol{\mu}, \mathbf{W}, \sigma^2) &amp;= -\frac {N}{2} (\ln (2\pi) + \ln \vert \mathbf{C} \vert + \text{Tr}(C^{-1}X^TX) \end{aligned}\] Maximization with respect to $\mathbf{W}$ and $\sigma^2$ is more complex but nonetheless has an exact closed-form solution It was shown by Tipping and Bishop (1999b) that all of the stationary points of the log likelihood function can be written as: \[\begin{aligned} \mathbf{W}_{ML} = U_M(L_M - \sigma^2I)^{1/2} R \end{aligned}\] $U_M$ is a $D\times M$ matrix whose columns are given by any subset of size $M$ of the eigenvectors of data covariance matrix $X^TX$ $L_M$ is the $M\times M$ diagonal matrix with eigenvalues $\lambda_i$ $R$ is an arbitrary $M\times M$ orthogonal matrix. Furthermore, Tipping and Bishop (1999b) showed that the maximum of the likelihood function is obtained when the M eigenvectors are chosen to be those whose eigenvalues are the M largest (all other solutions being saddle points). assume that the eigenvectors have been arranged in order of decreasing values of the corresponding eigenvalues, so that the M principal eigenvectors are $\boldsymbol{\mu}_1, …,\boldsymbol{\mu}_M$. In this case, the columns of W define the principal subspace of standard PCA, and : [\begin{aligned} \sigma^2{ML} = \frac 1{D-M} \sum{i=M+1}^D \lambda_i \end{aligned}] so that $\sigma^2_{ML}$ is the average variance associated with the discarded dimensions. Rotation Invarianty If we set a new $\widetilde{\mathbf W} = \mathbf{WR}$, then: [\widetilde{\mathbf W}\widetilde{\mathbf W}^T = \mathbf{WR}\mathbf{R^T} \mathbf{W^T} = \mathbf{W}\mathbf{W^T}] then we can see $\mathbf{C}$ is independent of $\mathbf{R}$ This simply says that the predictive density is unchanged by rotations in the latent space and for the particular case of $\mathbf{R} = I$, we see that the columns of $\mathbf W$ are the principal component eigenvectors scaled by the variance parameters $\lambda_i - \sigma^2$ ML Solution Analysis It is worth taking a moment to study the form of the covariance matrix given by (待更) EM algorithm for PCA Complete-Data log likelihood function [\begin{aligned} \ln p(\mathbf{X}, \mathbf{Z}\vert \boldsymbol{\mu}, \mathbf{W}, \sigma^2) = \sum_{n=1}^N {\ln p(\boldsymbol{x}_n \vert \boldsymbol{z}_n) + \ln p(\boldsymbol{z}_n)} \end{aligned}] we already know that the exact maximum likelihood solution for $\boldsymbol{\mu}$ is given by the sample mean $\overline{\boldsymbol{x}}$, and it is convenient to substitute for $\boldsymbol{\mu}$ at this stage. Expectation step of Complete-Data LL taking the expectation with respect to the posterior distribution over the latent variables, we obtain [\begin{aligned} \mathbb{E}[\ln p(\mathbf{X}, \mathbf{Z}\vert \boldsymbol{\mu}, \mathbf{W}, \sigma^2)] \space =&amp; -\sum_{n=1}^N {\frac 12 \text{Tr}(\mathbb{E}[\boldsymbol{z}_n\boldsymbol{z}_n^T]) + \frac D2 \ln(2\pi\sigma^2) + \ &amp; +\frac {1}{2\sigma^2}|\boldsymbol{x}_n-\boldsymbol{\mu}|^2 -\frac {1}{\sigma^2}\mathbb{E}[\boldsymbol{z}_n]^T\mathbf{W}^T(\boldsymbol{x}_n-\boldsymbol{\mu}) \ &amp; + \frac {1}{2\sigma^2}\text{Tr}(\mathbb{E}[\boldsymbol{z}_n\boldsymbol{z}_n]^T\mathbf{W}^T\mathbf{W}) } \ \ \mathbb{E}[\boldsymbol{z}_n] \space =&amp; \mathbf{M^{-1}}\mathbf{W}^T(\boldsymbol{x}_n-\overline{\boldsymbol{x}}) \ \mathbb{E}[\boldsymbol{z}_n\boldsymbol{z}_n^T] \space =&amp; \sigma^2\mathbf{M^{-1}} + \mathbb{E}[\boldsymbol{z}_n]\mathbb{E}[\boldsymbol{z}_n]^T \end{aligned}] Maximization step maximize with respect to $\mathbf{W}_{new}$ $\sigma_{new}^2$ [\begin{aligned} \mathbf{W}{new}&amp;= \left[ \sum{n=1}^N \mathbb{E}[\boldsymbol{z}n\boldsymbol{z}_n] \right]^{-1} \left[ \sum{n=1}^N (\boldsymbol{x}n-\boldsymbol{\mu})\mathbb{E}[\boldsymbol{z}_n]^T \right] \ \sigma{new}^2 &amp;= \frac {1}{ND}\sum_{n=1}^N \left{ |\boldsymbol{x}n-\boldsymbol{\mu}|^2 -2\mathbb{E}[\boldsymbol{z}_n]^T\mathbf{W}{new}^T(\boldsymbol{x}n-\boldsymbol{\mu}) + \text{Tr}(\mathbb{E}[\boldsymbol{z}_n\boldsymbol{z}_n]^T\mathbf{W}{new}^T\mathbf{W}_{new}) \right} \end{aligned}] Advantages of EM in PCA One of the benefits of the EM algorithm for PCA is computational efficiency for large-scale applications Note that this EM algorithm can be implemented in an on-line form in which each D-dimensional data point is read in and processed and then discarded before the next data point is considered. Because we now have a fully probabilistic model for PCA, we can deal with missing data, provided that it is missing at random, by marginalizing over the distribution of the unobserved variables. EM for standard PCA Another elegant feature ofthe EM approach is that we can take the limit $\sigma^2 \rightarrow 0$, corresponding to standard PCA, and still obtain a valid EM-like algorithm [\begin{aligned} \mathbf{M} &amp;= \mathbf{W}^T\mathbf{W} \ \mathbf{\Omega} &amp;= (\mathbf{W}{old}^T\mathbf{W}{old})^{-1}\mathbf{W}{old}^T\widetilde{X} \ \mathbf{W}{new}&amp;= \widetilde{X}\mathbf{\Omega}^T(\mathbf{\Omega}\mathbf{\Omega}^T)^{-1} \end{aligned}] Again these can be implemented in an on-line form. [\begin{aligned} \end{aligned}]" />
+<meta property="og:description" content="Probabilistic PCA We now show that PCA can also be expressed as the maximum likelihood solution of a probabilistic latent variable model. Note: the probabilistic PCA model can be expressed as a directed graph Several Advantages of Probabilistic PCA Probabilistic PCA represents a constrained form of the Gaussian distribution in which the number of free parameters can be restricted while still allowing the model to capture the dominant correlations in a data set. We can derive an EM algorithm for PCA that is computationally efficient in situations where only a few leading eigenvectors are required and that avoids having to evaluate the data covariance matrix as an intermediate step. The combination of a probabilistic model and EM allows us to deal with missing values in the data set. Mixtures of probabilistic PCA models can be formulated in a principled way and trained using the EM algorithm. Probabilistic PCA forms the basis for a Bayesian treatment of PCA in which the dimensionality of the principal subspace can be found automatically from the data. Probabilistic PCA can be used to model class-conditional densities and hence be applied to classification problems. The probabilistic PCA model can be run generatively to provide samples from the distribution. Definition Probabilistic PCA is closely related to factor analysis. Probabilistic PCA is a simple example of the linear-Gaussian framework, in which all of the marginal and conditional distributions are Gaussian. We can formulate probabilistic PCA by first introducing an explicit latent variable $z$ corresponding to the principal-component subspace. Next we define a Gaussian prior distribution $p(z)$ over the latent variable, together with a Gaussian conditional distribution $p(x\vert z)$ for the observed variable $x$ conditioned on the value of the latent variable. [\begin{aligned} p(\boldsymbol{z}) &amp;= \mathcal{N}(\boldsymbol{z} \vert 0, I) \ p(\boldsymbol{x} \vert \boldsymbol{z}) &amp;= \mathcal{N}(\boldsymbol{x} \vert \mathbf{W}\boldsymbol{z} + \boldsymbol{\mu}, \sigma^2 I) \end{aligned}] because we set the covariance as $\sigma^2I$, then this is an example of native Bayes model. and we shall see that the columns of $\mathbf{W}$ span a linear subspace with the data space that corresponds to the principal subspace. Generative Viewpoint of Probabilistic PCA first, choosing a value of the latent variable $\boldsymbol{z}$ from $p(\boldsymbol{z})$ and then sampling $\boldsymbol{x}$ from $p(\boldsymbol{x} \vert \boldsymbol{z})$ Specifically, the D-dimensional observed variable $\boldsymbol{x}$ is defined by a linear transformation of the M-dimensional latent variable latent variables $$ plus additive Gaussian noise, to that: \(\begin{aligned} \boldsymbol{x} = \mathbf{W}\boldsymbol{z} + \boldsymbol{\mu} + \boldsymbol{\epsilon} \end{aligned}\) $\boldsymbol{\epsilon} \sim \mathcal{N}(\boldsymbol{\epsilon} \vert 0, \sigma^2 I)$ Note that this framework is based on a mapping from latent space to data space, in contrast to the more conventional view of PCA. The Reverse mapping, from data space to the lantent space, will be obtained shortly using Bayes’ theorem. Predictive Distribution [\begin{aligned} p(\boldsymbol{x}) &amp;= \int p(\boldsymbol{x}\vert \boldsymbol{z})p(\boldsymbol{z})d\boldsymbol{z} \ &amp;= \mathcal{N}(\boldsymbol{x}\vert \boldsymbol{\mu}, \mathbf{C}) \\ C &amp;= \mathbf{W}\mathbf{W}^T + \sigma^2 I \end{aligned}] Note: when we evaluate the predictive distributino, we require $\mathbf{C}^{-1}$, which involves the inversion of a $D\times D$ matrix. But if we use the Woodbury matrix identity on $C$, \[\begin{aligned} \left(A+UCV\right)^{-1} &amp;= A^{-1}-A^{-1}U\left(C^{-1}+VA^{-1}U\right)^{-1}VA^{-1} \end{aligned}\] we have \[\begin{aligned} \mathbf C^{-1} &amp;= (\mathbf{W}\mathbf{W}^T + \sigma^2)^{-1} \\&amp;= \frac 1{\sigma^2} \left(I - \frac 1{\sigma^2} \mathbf{W}(I+\sigma^2\mathbf{W}^T\mathbf{W})^{-1}\mathbf{W}^T \right) \end{aligned}\] then the cost of evaluating $\mathbf C^{-1}$ is reduced from $O(D^3)$ to $O(M^3)$ by $(I+\sigma^2W^TW)^{-1}$ Posterior Distribution Let $\mathbf{M} = (I+\sigma^2\mathbf{W}^T\mathbf{W})^{-1}$ [\begin{aligned} p(\boldsymbol{z} \vert \boldsymbol{x}) = \mathcal{N}(\boldsymbol{z} \vert \mathbf{M}^{-1} \mathbf{W}^T(\boldsymbol{x}-\boldsymbol{\mu}), \sigma^2 \mathbf{M}) \end{aligned}] Proof: \[\begin{aligned} p(\boldsymbol{z} \vert \boldsymbol{x}) &amp;= \frac {p( \boldsymbol{x} \vert \boldsymbol{z}) p(\boldsymbol{z})}{p(\boldsymbol{x})} \\&amp;\propto \exp\left\{-\frac 12 \boldsymbol{z}^T\boldsymbol{z} - \frac {1}{2\sigma^2}\left( \boldsymbol{z}^T\mathbf{W}^T\mathbf{W}\boldsymbol{z} -2\boldsymbol{z}^T\mathbf{W}^T(\boldsymbol{x}-\boldsymbol{\mu}) \right) \right\} \\ &amp;\propto \exp\left\{ -\frac {1}{2\sigma^2}(\boldsymbol{z}^TM^{-1}\boldsymbol{z} - 2\boldsymbol{z}^T\mathbf{W}^T(\boldsymbol{x}-\boldsymbol{\mu})) \right\} \\ \\ p(\boldsymbol{z} \vert \boldsymbol{x}) &amp;= \mathcal{N}(\boldsymbol{z} \vert \mathbf{M}^{-1} \mathbf{W}^T(\boldsymbol{x}-\boldsymbol{\mu}), \sigma^2 \mathbf{M}) \end{aligned}\] And we can see that poseterior covariance is independent of $\boldsymbol{x}$ Inference - Maximum Likelihood Using Maximum Likelihood Given a data set $\mathbf{X}$, according to the prediction distribution $p(\boldsymbol{x}) \mathcal{N}(\boldsymbol{x}\vert \boldsymbol{\mu}, \mathbf{C})$, the log likelihood function is: [\begin{aligned} \ln p(\mathbf{X} \vert \boldsymbol{\mu}, \mathbf{W}, \sigma^2) &amp;= \sum_{n=1}^N \mathcal{N}(\boldsymbol{x}n \vert \boldsymbol{\mu}, \mathbf{C}) \ &amp;= -\frac {ND}{2} \ln (2\pi) - \frac N2 \ln \vert \mathbf{C} \vert -\frac 12 \sum{n=1}^N (\boldsymbol{x} - \boldsymbol{\mu})^T\mathbf{C}^{-1} (\boldsymbol{x} - \boldsymbol{\mu}) \end{aligned}] setting the derivative with respect to $\boldsymbol{\mu}$ equal to zero, we can obtain $\boldsymbol{\mu} = \overline{\boldsymbol{x}}$, and then we have: \[\begin{aligned} \ln p(\mathbf{X} \vert \boldsymbol{\mu}, \mathbf{W}, \sigma^2) &amp;= -\frac {N}{2} (\ln (2\pi) + \ln \vert \mathbf{C} \vert + \text{Tr}(C^{-1}X^TX) \end{aligned}\] Maximization with respect to $\mathbf{W}$ and $\sigma^2$ is more complex but nonetheless has an exact closed-form solution It was shown by Tipping and Bishop (1999b) that all of the stationary points of the log likelihood function can be written as: \[\begin{aligned} \mathbf{W}_{ML} = U_M(L_M - \sigma^2I)^{1/2} R \end{aligned}\] $U_M$ is a $D\times M$ matrix whose columns are given by any subset of size $M$ of the eigenvectors of data covariance matrix $X^TX$ $L_M$ is the $M\times M$ diagonal matrix with eigenvalues $\lambda_i$ $R$ is an arbitrary $M\times M$ orthogonal matrix. Furthermore, Tipping and Bishop (1999b) showed that the maximum of the likelihood function is obtained when the M eigenvectors are chosen to be those whose eigenvalues are the M largest (all other solutions being saddle points). assume that the eigenvectors have been arranged in order of decreasing values of the corresponding eigenvalues, so that the M principal eigenvectors are $\boldsymbol{\mu}_1, …,\boldsymbol{\mu}_M$. In this case, the columns of W define the principal subspace of standard PCA, and : [\begin{aligned} \sigma^2{ML} = \frac 1{D-M} \sum{i=M+1}^D \lambda_i \end{aligned}] so that $\sigma^2_{ML}$ is the average variance associated with the discarded dimensions. Rotation Invarianty If we set a new $\widetilde{\mathbf W} = \mathbf{WR}$, then: [\widetilde{\mathbf W}\widetilde{\mathbf W}^T = \mathbf{WR}\mathbf{R^T} \mathbf{W^T} = \mathbf{W}\mathbf{W^T}] then we can see $\mathbf{C}$ is independent of $\mathbf{R}$ This simply says that the predictive density is unchanged by rotations in the latent space and for the particular case of $\mathbf{R} = I$, we see that the columns of $\mathbf W$ are the principal component eigenvectors scaled by the variance parameters $\lambda_i - \sigma^2$ ML Solution Analysis It is worth taking a moment to study the form of the covariance matrix given by (待更) EM algorithm for PCA Complete-Data log likelihood function [\begin{aligned} \ln p(\mathbf{X}, \mathbf{Z}\vert \boldsymbol{\mu}, \mathbf{W}, \sigma^2) = \sum_{n=1}^N {\ln p(\boldsymbol{x}_n \vert \boldsymbol{z}_n) + \ln p(\boldsymbol{z}_n)} \end{aligned}] we already know that the exact maximum likelihood solution for $\boldsymbol{\mu}$ is given by the sample mean $\overline{\boldsymbol{x}}$, and it is convenient to substitute for $\boldsymbol{\mu}$ at this stage. Expectation step of Complete-Data LL taking the expectation with respect to the posterior distribution over the latent variables, we obtain [\begin{aligned} \mathbb{E}[\ln p(\mathbf{X}, \mathbf{Z}\vert \boldsymbol{\mu}, \mathbf{W}, \sigma^2)] \space =&amp; -\sum_{n=1}^N {\frac 12 \text{Tr}(\mathbb{E}[\boldsymbol{z}_n\boldsymbol{z}_n^T]) + \frac D2 \ln(2\pi\sigma^2) + \ &amp; +\frac {1}{2\sigma^2}|\boldsymbol{x}_n-\boldsymbol{\mu}|^2 -\frac {1}{\sigma^2}\mathbb{E}[\boldsymbol{z}_n]^T\mathbf{W}^T(\boldsymbol{x}_n-\boldsymbol{\mu}) \ &amp; + \frac {1}{2\sigma^2}\text{Tr}(\mathbb{E}[\boldsymbol{z}_n\boldsymbol{z}_n]^T\mathbf{W}^T\mathbf{W}) } \ \ \mathbb{E}[\boldsymbol{z}_n] \space =&amp; \mathbf{M^{-1}}\mathbf{W}^T(\boldsymbol{x}_n-\overline{\boldsymbol{x}}) \ \mathbb{E}[\boldsymbol{z}_n\boldsymbol{z}_n^T] \space =&amp; \sigma^2\mathbf{M^{-1}} + \mathbb{E}[\boldsymbol{z}_n]\mathbb{E}[\boldsymbol{z}_n]^T \end{aligned}] Maximization step maximize with respect to $\mathbf{W}_{new}$ $\sigma_{new}^2$ [\begin{aligned} \mathbf{W}{new}&amp;= \left[ \sum{n=1}^N \mathbb{E}[\boldsymbol{z}n\boldsymbol{z}_n] \right]^{-1} \left[ \sum{n=1}^N (\boldsymbol{x}n-\boldsymbol{\mu})\mathbb{E}[\boldsymbol{z}_n]^T \right] \ \sigma{new}^2 &amp;= \frac {1}{ND}\sum_{n=1}^N \left{ |\boldsymbol{x}n-\boldsymbol{\mu}|^2 -2\mathbb{E}[\boldsymbol{z}_n]^T\mathbf{W}{new}^T(\boldsymbol{x}n-\boldsymbol{\mu}) + \text{Tr}(\mathbb{E}[\boldsymbol{z}_n\boldsymbol{z}_n]^T\mathbf{W}{new}^T\mathbf{W}_{new}) \right} \end{aligned}] Advantages of EM in PCA One of the benefits of the EM algorithm for PCA is computational efficiency for large-scale applications Note that this EM algorithm can be implemented in an on-line form in which each D-dimensional data point is read in and processed and then discarded before the next data point is considered. Because we now have a fully probabilistic model for PCA, we can deal with missing data, provided that it is missing at random, by marginalizing over the distribution of the unobserved variables. EM for standard PCA Another elegant feature ofthe EM approach is that we can take the limit $\sigma^2 \rightarrow 0$, corresponding to standard PCA, and still obtain a valid EM-like algorithm [\begin{aligned} \mathbf{M} &amp;= \mathbf{W}^T\mathbf{W} \ \mathbf{\Omega} &amp;= (\mathbf{W}{old}^T\mathbf{W}{old})^{-1}\mathbf{W}{old}^T\widetilde{X} \ \mathbf{W}{new}&amp;= \widetilde{X}\mathbf{\Omega}^T(\mathbf{\Omega}\mathbf{\Omega}^T)^{-1} \end{aligned}] Again these can be implemented in an on-line form. [\begin{aligned} \end{aligned}]" />
+<link rel="canonical" href="http://0.0.0.0:4000/posts/probabilistic_pca/" />
+<meta property="og:url" content="http://0.0.0.0:4000/posts/probabilistic_pca/" />
+<meta property="og:site_name" content="Candy Note" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-02-20T00:00:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Probabilistic PCA" />
+<meta name="twitter:site" content="@twitter_username" />
+<meta name="twitter:creator" content="@luo-songtao" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"luo-songtao"},"dateModified":"2022-02-20T00:00:00+00:00","datePublished":"2022-02-20T00:00:00+00:00","description":"Probabilistic PCA We now show that PCA can also be expressed as the maximum likelihood solution of a probabilistic latent variable model. Note: the probabilistic PCA model can be expressed as a directed graph Several Advantages of Probabilistic PCA Probabilistic PCA represents a constrained form of the Gaussian distribution in which the number of free parameters can be restricted while still allowing the model to capture the dominant correlations in a data set. We can derive an EM algorithm for PCA that is computationally efficient in situations where only a few leading eigenvectors are required and that avoids having to evaluate the data covariance matrix as an intermediate step. The combination of a probabilistic model and EM allows us to deal with missing values in the data set. Mixtures of probabilistic PCA models can be formulated in a principled way and trained using the EM algorithm. Probabilistic PCA forms the basis for a Bayesian treatment of PCA in which the dimensionality of the principal subspace can be found automatically from the data. Probabilistic PCA can be used to model class-conditional densities and hence be applied to classification problems. The probabilistic PCA model can be run generatively to provide samples from the distribution. Definition Probabilistic PCA is closely related to factor analysis. Probabilistic PCA is a simple example of the linear-Gaussian framework, in which all of the marginal and conditional distributions are Gaussian. We can formulate probabilistic PCA by first introducing an explicit latent variable $z$ corresponding to the principal-component subspace. Next we define a Gaussian prior distribution $p(z)$ over the latent variable, together with a Gaussian conditional distribution $p(x\\vert z)$ for the observed variable $x$ conditioned on the value of the latent variable. [\\begin{aligned} p(\\boldsymbol{z}) &amp;= \\mathcal{N}(\\boldsymbol{z} \\vert 0, I) \\ p(\\boldsymbol{x} \\vert \\boldsymbol{z}) &amp;= \\mathcal{N}(\\boldsymbol{x} \\vert \\mathbf{W}\\boldsymbol{z} + \\boldsymbol{\\mu}, \\sigma^2 I) \\end{aligned}] because we set the covariance as $\\sigma^2I$, then this is an example of native Bayes model. and we shall see that the columns of $\\mathbf{W}$ span a linear subspace with the data space that corresponds to the principal subspace. Generative Viewpoint of Probabilistic PCA first, choosing a value of the latent variable $\\boldsymbol{z}$ from $p(\\boldsymbol{z})$ and then sampling $\\boldsymbol{x}$ from $p(\\boldsymbol{x} \\vert \\boldsymbol{z})$ Specifically, the D-dimensional observed variable $\\boldsymbol{x}$ is defined by a linear transformation of the M-dimensional latent variable latent variables $$ plus additive Gaussian noise, to that: \\(\\begin{aligned} \\boldsymbol{x} = \\mathbf{W}\\boldsymbol{z} + \\boldsymbol{\\mu} + \\boldsymbol{\\epsilon} \\end{aligned}\\) $\\boldsymbol{\\epsilon} \\sim \\mathcal{N}(\\boldsymbol{\\epsilon} \\vert 0, \\sigma^2 I)$ Note that this framework is based on a mapping from latent space to data space, in contrast to the more conventional view of PCA. The Reverse mapping, from data space to the lantent space, will be obtained shortly using Bayes’ theorem. Predictive Distribution [\\begin{aligned} p(\\boldsymbol{x}) &amp;= \\int p(\\boldsymbol{x}\\vert \\boldsymbol{z})p(\\boldsymbol{z})d\\boldsymbol{z} \\ &amp;= \\mathcal{N}(\\boldsymbol{x}\\vert \\boldsymbol{\\mu}, \\mathbf{C}) \\\\ C &amp;= \\mathbf{W}\\mathbf{W}^T + \\sigma^2 I \\end{aligned}] Note: when we evaluate the predictive distributino, we require $\\mathbf{C}^{-1}$, which involves the inversion of a $D\\times D$ matrix. But if we use the Woodbury matrix identity on $C$, \\[\\begin{aligned} \\left(A+UCV\\right)^{-1} &amp;= A^{-1}-A^{-1}U\\left(C^{-1}+VA^{-1}U\\right)^{-1}VA^{-1} \\end{aligned}\\] we have \\[\\begin{aligned} \\mathbf C^{-1} &amp;= (\\mathbf{W}\\mathbf{W}^T + \\sigma^2)^{-1} \\\\&amp;= \\frac 1{\\sigma^2} \\left(I - \\frac 1{\\sigma^2} \\mathbf{W}(I+\\sigma^2\\mathbf{W}^T\\mathbf{W})^{-1}\\mathbf{W}^T \\right) \\end{aligned}\\] then the cost of evaluating $\\mathbf C^{-1}$ is reduced from $O(D^3)$ to $O(M^3)$ by $(I+\\sigma^2W^TW)^{-1}$ Posterior Distribution Let $\\mathbf{M} = (I+\\sigma^2\\mathbf{W}^T\\mathbf{W})^{-1}$ [\\begin{aligned} p(\\boldsymbol{z} \\vert \\boldsymbol{x}) = \\mathcal{N}(\\boldsymbol{z} \\vert \\mathbf{M}^{-1} \\mathbf{W}^T(\\boldsymbol{x}-\\boldsymbol{\\mu}), \\sigma^2 \\mathbf{M}) \\end{aligned}] Proof: \\[\\begin{aligned} p(\\boldsymbol{z} \\vert \\boldsymbol{x}) &amp;= \\frac {p( \\boldsymbol{x} \\vert \\boldsymbol{z}) p(\\boldsymbol{z})}{p(\\boldsymbol{x})} \\\\&amp;\\propto \\exp\\left\\{-\\frac 12 \\boldsymbol{z}^T\\boldsymbol{z} - \\frac {1}{2\\sigma^2}\\left( \\boldsymbol{z}^T\\mathbf{W}^T\\mathbf{W}\\boldsymbol{z} -2\\boldsymbol{z}^T\\mathbf{W}^T(\\boldsymbol{x}-\\boldsymbol{\\mu}) \\right) \\right\\} \\\\ &amp;\\propto \\exp\\left\\{ -\\frac {1}{2\\sigma^2}(\\boldsymbol{z}^TM^{-1}\\boldsymbol{z} - 2\\boldsymbol{z}^T\\mathbf{W}^T(\\boldsymbol{x}-\\boldsymbol{\\mu})) \\right\\} \\\\ \\\\ p(\\boldsymbol{z} \\vert \\boldsymbol{x}) &amp;= \\mathcal{N}(\\boldsymbol{z} \\vert \\mathbf{M}^{-1} \\mathbf{W}^T(\\boldsymbol{x}-\\boldsymbol{\\mu}), \\sigma^2 \\mathbf{M}) \\end{aligned}\\] And we can see that poseterior covariance is independent of $\\boldsymbol{x}$ Inference - Maximum Likelihood Using Maximum Likelihood Given a data set $\\mathbf{X}$, according to the prediction distribution $p(\\boldsymbol{x}) \\mathcal{N}(\\boldsymbol{x}\\vert \\boldsymbol{\\mu}, \\mathbf{C})$, the log likelihood function is: [\\begin{aligned} \\ln p(\\mathbf{X} \\vert \\boldsymbol{\\mu}, \\mathbf{W}, \\sigma^2) &amp;= \\sum_{n=1}^N \\mathcal{N}(\\boldsymbol{x}n \\vert \\boldsymbol{\\mu}, \\mathbf{C}) \\ &amp;= -\\frac {ND}{2} \\ln (2\\pi) - \\frac N2 \\ln \\vert \\mathbf{C} \\vert -\\frac 12 \\sum{n=1}^N (\\boldsymbol{x} - \\boldsymbol{\\mu})^T\\mathbf{C}^{-1} (\\boldsymbol{x} - \\boldsymbol{\\mu}) \\end{aligned}] setting the derivative with respect to $\\boldsymbol{\\mu}$ equal to zero, we can obtain $\\boldsymbol{\\mu} = \\overline{\\boldsymbol{x}}$, and then we have: \\[\\begin{aligned} \\ln p(\\mathbf{X} \\vert \\boldsymbol{\\mu}, \\mathbf{W}, \\sigma^2) &amp;= -\\frac {N}{2} (\\ln (2\\pi) + \\ln \\vert \\mathbf{C} \\vert + \\text{Tr}(C^{-1}X^TX) \\end{aligned}\\] Maximization with respect to $\\mathbf{W}$ and $\\sigma^2$ is more complex but nonetheless has an exact closed-form solution It was shown by Tipping and Bishop (1999b) that all of the stationary points of the log likelihood function can be written as: \\[\\begin{aligned} \\mathbf{W}_{ML} = U_M(L_M - \\sigma^2I)^{1/2} R \\end{aligned}\\] $U_M$ is a $D\\times M$ matrix whose columns are given by any subset of size $M$ of the eigenvectors of data covariance matrix $X^TX$ $L_M$ is the $M\\times M$ diagonal matrix with eigenvalues $\\lambda_i$ $R$ is an arbitrary $M\\times M$ orthogonal matrix. Furthermore, Tipping and Bishop (1999b) showed that the maximum of the likelihood function is obtained when the M eigenvectors are chosen to be those whose eigenvalues are the M largest (all other solutions being saddle points). assume that the eigenvectors have been arranged in order of decreasing values of the corresponding eigenvalues, so that the M principal eigenvectors are $\\boldsymbol{\\mu}_1, …,\\boldsymbol{\\mu}_M$. In this case, the columns of W define the principal subspace of standard PCA, and : [\\begin{aligned} \\sigma^2{ML} = \\frac 1{D-M} \\sum{i=M+1}^D \\lambda_i \\end{aligned}] so that $\\sigma^2_{ML}$ is the average variance associated with the discarded dimensions. Rotation Invarianty If we set a new $\\widetilde{\\mathbf W} = \\mathbf{WR}$, then: [\\widetilde{\\mathbf W}\\widetilde{\\mathbf W}^T = \\mathbf{WR}\\mathbf{R^T} \\mathbf{W^T} = \\mathbf{W}\\mathbf{W^T}] then we can see $\\mathbf{C}$ is independent of $\\mathbf{R}$ This simply says that the predictive density is unchanged by rotations in the latent space and for the particular case of $\\mathbf{R} = I$, we see that the columns of $\\mathbf W$ are the principal component eigenvectors scaled by the variance parameters $\\lambda_i - \\sigma^2$ ML Solution Analysis It is worth taking a moment to study the form of the covariance matrix given by (待更) EM algorithm for PCA Complete-Data log likelihood function [\\begin{aligned} \\ln p(\\mathbf{X}, \\mathbf{Z}\\vert \\boldsymbol{\\mu}, \\mathbf{W}, \\sigma^2) = \\sum_{n=1}^N {\\ln p(\\boldsymbol{x}_n \\vert \\boldsymbol{z}_n) + \\ln p(\\boldsymbol{z}_n)} \\end{aligned}] we already know that the exact maximum likelihood solution for $\\boldsymbol{\\mu}$ is given by the sample mean $\\overline{\\boldsymbol{x}}$, and it is convenient to substitute for $\\boldsymbol{\\mu}$ at this stage. Expectation step of Complete-Data LL taking the expectation with respect to the posterior distribution over the latent variables, we obtain [\\begin{aligned} \\mathbb{E}[\\ln p(\\mathbf{X}, \\mathbf{Z}\\vert \\boldsymbol{\\mu}, \\mathbf{W}, \\sigma^2)] \\space =&amp; -\\sum_{n=1}^N {\\frac 12 \\text{Tr}(\\mathbb{E}[\\boldsymbol{z}_n\\boldsymbol{z}_n^T]) + \\frac D2 \\ln(2\\pi\\sigma^2) + \\ &amp; +\\frac {1}{2\\sigma^2}|\\boldsymbol{x}_n-\\boldsymbol{\\mu}|^2 -\\frac {1}{\\sigma^2}\\mathbb{E}[\\boldsymbol{z}_n]^T\\mathbf{W}^T(\\boldsymbol{x}_n-\\boldsymbol{\\mu}) \\ &amp; + \\frac {1}{2\\sigma^2}\\text{Tr}(\\mathbb{E}[\\boldsymbol{z}_n\\boldsymbol{z}_n]^T\\mathbf{W}^T\\mathbf{W}) } \\ \\ \\mathbb{E}[\\boldsymbol{z}_n] \\space =&amp; \\mathbf{M^{-1}}\\mathbf{W}^T(\\boldsymbol{x}_n-\\overline{\\boldsymbol{x}}) \\ \\mathbb{E}[\\boldsymbol{z}_n\\boldsymbol{z}_n^T] \\space =&amp; \\sigma^2\\mathbf{M^{-1}} + \\mathbb{E}[\\boldsymbol{z}_n]\\mathbb{E}[\\boldsymbol{z}_n]^T \\end{aligned}] Maximization step maximize with respect to $\\mathbf{W}_{new}$ $\\sigma_{new}^2$ [\\begin{aligned} \\mathbf{W}{new}&amp;= \\left[ \\sum{n=1}^N \\mathbb{E}[\\boldsymbol{z}n\\boldsymbol{z}_n] \\right]^{-1} \\left[ \\sum{n=1}^N (\\boldsymbol{x}n-\\boldsymbol{\\mu})\\mathbb{E}[\\boldsymbol{z}_n]^T \\right] \\ \\sigma{new}^2 &amp;= \\frac {1}{ND}\\sum_{n=1}^N \\left{ |\\boldsymbol{x}n-\\boldsymbol{\\mu}|^2 -2\\mathbb{E}[\\boldsymbol{z}_n]^T\\mathbf{W}{new}^T(\\boldsymbol{x}n-\\boldsymbol{\\mu}) + \\text{Tr}(\\mathbb{E}[\\boldsymbol{z}_n\\boldsymbol{z}_n]^T\\mathbf{W}{new}^T\\mathbf{W}_{new}) \\right} \\end{aligned}] Advantages of EM in PCA One of the benefits of the EM algorithm for PCA is computational efficiency for large-scale applications Note that this EM algorithm can be implemented in an on-line form in which each D-dimensional data point is read in and processed and then discarded before the next data point is considered. Because we now have a fully probabilistic model for PCA, we can deal with missing data, provided that it is missing at random, by marginalizing over the distribution of the unobserved variables. EM for standard PCA Another elegant feature ofthe EM approach is that we can take the limit $\\sigma^2 \\rightarrow 0$, corresponding to standard PCA, and still obtain a valid EM-like algorithm [\\begin{aligned} \\mathbf{M} &amp;= \\mathbf{W}^T\\mathbf{W} \\ \\mathbf{\\Omega} &amp;= (\\mathbf{W}{old}^T\\mathbf{W}{old})^{-1}\\mathbf{W}{old}^T\\widetilde{X} \\ \\mathbf{W}{new}&amp;= \\widetilde{X}\\mathbf{\\Omega}^T(\\mathbf{\\Omega}\\mathbf{\\Omega}^T)^{-1} \\end{aligned}] Again these can be implemented in an on-line form. [\\begin{aligned} \\end{aligned}]","headline":"Probabilistic PCA","mainEntityOfPage":{"@type":"WebPage","@id":"http://0.0.0.0:4000/posts/probabilistic_pca/"},"url":"http://0.0.0.0:4000/posts/probabilistic_pca/"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+  <title>Probabilistic PCA | Candy Note
+  </title>
+
+  <!--
+  The Favicons for Web, Android, Microsoft, and iOS (iPhone and iPad) Apps
+  Generated by: https://realfavicongenerator.net/
+-->
+
+
+
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/img/favicons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicons/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicons/favicon-16x16.png">
+<link rel="manifest" href="/assets/img/favicons/site.webmanifest">
+<link rel="shortcut icon" href="/assets/img/favicons/favicon.ico">
+<meta name="apple-mobile-web-app-title" content="Candy Note">
+<meta name="application-name" content="Candy Note">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="msapplication-config" content="/assets/img/favicons/browserconfig.xml">
+<meta name="theme-color" content="#ffffff">
+
+
+  
+
+    
+      <link rel="preconnect" href="https://fonts.googleapis.com" >
+      <link rel="dns-prefetch" href="https://fonts.googleapis.com" >
+    
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+      <link rel="dns-prefetch" href="https://fonts.gstatic.com" crossorigin>
+    
+      <link rel="preconnect" href="https://fonts.googleapis.com" >
+      <link rel="dns-prefetch" href="https://fonts.googleapis.com" >
+    
+      <link rel="preconnect" href="https://cdn.jsdelivr.net" >
+      <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" >
+    
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato&family=Source+Sans+Pro:wght@400;600;700;900&display=swap">
+
+  
+
+  <!-- GA -->
+  
+
+  <!-- Bootstrap -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.11.2/css/all.min.css">
+
+  <link rel="stylesheet" href="/assets/css/style.css">
+
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@1.0.1/dist/bootstrap-toc.min.css">
+  
+
+  
+    <!-- Manific Popup -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/magnific-popup@1/dist/magnific-popup.min.css">
+  
+
+  <!-- JavaScript -->
+
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+
+</head>
+
+
+  
+    <!--
+  Switch the mode between dark and light.
+-->
+
+<script type="text/javascript">
+  class ModeToggle {
+    static get MODE_KEY() { return "mode"; }
+    static get MODE_ATTR() { return "data-mode"; }
+    static get DARK_MODE() { return "dark"; }
+    static get LIGHT_MODE() { return "light"; }
+    static get ID() { return "mode-toggle"; }
+
+    constructor() {
+      if (this.hasMode) {
+        if (this.isDarkMode) {
+          if (!this.isSysDarkPrefer) {
+            this.setDark();
+          }
+        } else {
+          if (this.isSysDarkPrefer) {
+            this.setLight();
+          }
+        }
+      }
+
+      let self = this;
+
+      /* always follow the system prefers */
+      this.sysDarkPrefers.addEventListener("change", () => {
+        if (self.hasMode) {
+          if (self.isDarkMode) {
+            if (!self.isSysDarkPrefer) {
+              self.setDark();
+            }
+
+          } else {
+            if (self.isSysDarkPrefer) {
+              self.setLight();
+            }
+          }
+
+          self.clearMode();
+        }
+
+        self.notify();
+
+      });
+
+    } /* constructor() */
+
+    get sysDarkPrefers() { return window.matchMedia("(prefers-color-scheme: dark)"); }
+
+    get isSysDarkPrefer() { return this.sysDarkPrefers.matches; }
+
+    get isDarkMode() { return this.mode === ModeToggle.DARK_MODE; }
+
+    get isLightMode() { return this.mode === ModeToggle.LIGHT_MODE; }
+
+    get hasMode() { return this.mode != null; }
+
+    get mode() { return sessionStorage.getItem(ModeToggle.MODE_KEY); }
+
+    /* get the current mode on screen */
+    get modeStatus() {
+      if (this.isDarkMode
+        || (!this.hasMode && this.isSysDarkPrefer)) {
+        return ModeToggle.DARK_MODE;
+      } else {
+        return ModeToggle.LIGHT_MODE;
+      }
+    }
+
+    setDark() {
+      $('html').attr(ModeToggle.MODE_ATTR, ModeToggle.DARK_MODE);
+      sessionStorage.setItem(ModeToggle.MODE_KEY, ModeToggle.DARK_MODE);
+    }
+
+    setLight() {
+      $('html').attr(ModeToggle.MODE_ATTR, ModeToggle.LIGHT_MODE);
+      sessionStorage.setItem(ModeToggle.MODE_KEY, ModeToggle.LIGHT_MODE);
+    }
+
+    clearMode() {
+      $('html').removeAttr(ModeToggle.MODE_ATTR);
+      sessionStorage.removeItem(ModeToggle.MODE_KEY);
+    }
+
+    /* Notify another plugins that the theme mode has changed */
+    notify() {
+      window.postMessage({
+        direction: ModeToggle.ID,
+        message: this.modeStatus
+      }, "*");
+    }
+
+  } /* ModeToggle */
+
+  const toggle = new ModeToggle();
+
+  function flipMode() {
+    if (toggle.hasMode) {
+      if (toggle.isSysDarkPrefer) {
+        if (toggle.isLightMode) {
+          toggle.clearMode();
+        } else {
+          toggle.setLight();
+        }
+
+      } else {
+        if (toggle.isDarkMode) {
+          toggle.clearMode();
+        } else {
+          toggle.setDark();
+        }
+      }
+
+    } else {
+      if (toggle.isSysDarkPrefer) {
+        toggle.setLight();
+      } else {
+        toggle.setDark();
+      }
+    }
+
+    toggle.notify();
+
+  } /* flipMode() */
+
+</script>
+
+  
+
+  <body data-spy="scroll" data-target="#toc" data-topbar-visible="true">
+
+    <!--
+  The Side Bar
+-->
+
+<div id="sidebar" class="d-flex flex-column align-items-end">
+  <div class="profile-wrapper text-center">
+    <div id="avatar">
+      <a href="/" alt="avatar" class="mx-auto">
+        
+          
+          <img src="
+            
+              /assets/img/head.jpg
+            
+          " alt="avatar" onerror="this.style.display='none'">
+        
+      </a>
+    </div>
+
+    <div class="site-title mt-3">
+      <a href="/">Candy Note</a>
+    </div>
+    <div class="site-subtitle font-italic">Personal Notes</div>
+
+  </div><!-- .profile-wrapper -->
+
+  <ul class="w-100">
+
+    <!-- home -->
+    <li class="nav-item">
+      <a href="/" class="nav-link">
+        <i class="fa-fw fas fa-home ml-xl-3 mr-xl-3 unloaded"></i>
+        <span>HOME</span>
+      </a>
+    </li>
+    <!-- the real tabs -->
+    
+    <li class="nav-item">
+      <a href="/categories/" class="nav-link">
+        <i class="fa-fw fas fa-stream ml-xl-3 mr-xl-3 unloaded"></i>
+        
+
+        <span>CATEGORIES</span>
+      </a>
+    </li> <!-- .nav-item -->
+    
+    <li class="nav-item">
+      <a href="/tags/" class="nav-link">
+        <i class="fa-fw fas fa-tag ml-xl-3 mr-xl-3 unloaded"></i>
+        
+
+        <span>TAGS</span>
+      </a>
+    </li> <!-- .nav-item -->
+    
+    <li class="nav-item">
+      <a href="/archives/" class="nav-link">
+        <i class="fa-fw fas fa-archive ml-xl-3 mr-xl-3 unloaded"></i>
+        
+
+        <span>ARCHIVES</span>
+      </a>
+    </li> <!-- .nav-item -->
+    
+    <li class="nav-item">
+      <a href="/about/" class="nav-link">
+        <i class="fa-fw fas fa-info-circle ml-xl-3 mr-xl-3 unloaded"></i>
+        
+
+        <span>ABOUT</span>
+      </a>
+    </li> <!-- .nav-item -->
+    
+
+  </ul> <!-- ul.nav.flex-column -->
+
+  <div class="sidebar-bottom mt-auto d-flex flex-wrap justify-content-center align-items-center">
+
+    
+      <button class="mode-toggle btn" aria-label="Switch Mode">
+        <i class="fas fa-adjust"></i>
+      </button>
+
+      
+        <span class="icon-border"></span>
+      
+    
+
+    
+      
+
+      
+      <a href="https://github.com/github_username" aria-label="github"
+        target="_blank" rel="noopener">
+        <i class="fab fa-github"></i>
+      </a>
+      
+
+    
+      
+
+      
+      <a href="https://twitter.com/twitter_username" aria-label="twitter"
+        target="_blank" rel="noopener">
+        <i class="fab fa-twitter"></i>
+      </a>
+      
+
+    
+      
+
+      
+      <a href="
+          javascript:location.href = 'mailto:' + ['ryomawithlst','gmail.com'].join('@')" aria-label="email"
+        >
+        <i class="fas fa-envelope"></i>
+      </a>
+      
+
+    
+      
+
+      
+      <a href="/feed.xml" aria-label="rss"
+        >
+        <i class="fas fa-rss"></i>
+      </a>
+      
+
+    
+
+  </div> <!-- .sidebar-bottom -->
+
+</div><!-- #sidebar -->
+
+
+    <!--
+  The Top Bar
+-->
+
+<div id="topbar-wrapper" class="row justify-content-center">
+  <div id="topbar" class="col-11 d-flex h-100 align-items-center justify-content-between">
+    <span id="breadcrumb">
+
+    
+
+    
+
+      
+
+        
+          <span>
+            <a href="/">
+              Home
+            </a>
+          </span>
+
+        
+
+      
+
+        
+
+      
+
+        
+
+          
+            <span>Probabilistic PCA</span>
+          
+
+        
+
+      
+
+    
+
+    </span><!-- endof #breadcrumb -->
+
+    <i id="sidebar-trigger" class="fas fa-bars fa-fw"></i>
+
+    <div id="topbar-title">
+      Post
+    </div>
+
+    <i id="search-trigger" class="fas fa-search fa-fw"></i>
+    <span id="search-wrapper" class="align-items-center">
+      <i class="fas fa-search fa-fw"></i>
+      <input class="form-control" id="search-input" type="search"
+        aria-label="search" autocomplete="off" placeholder="Search...">
+    </span>
+    <span id="search-cancel" >Cancel</span>
+  </div>
+
+</div>
+
+
+    <div id="main-wrapper">
+      <div id="main">
+
+        
+
+
+
+
+
+
+
+
+
+<div class="row">
+
+  <!-- core -->
+  <div id="core-wrapper" class="col-12 col-lg-11 col-xl-8">
+    <div class="post pl-1 pr-1 pl-sm-2 pr-sm-2 pl-md-4 pr-md-4">
+
+    
+
+    
+      
+      
+        <!--
+  Refactor the HTML structure.
+-->
+
+
+
+<!--
+  In order to allow a wide table to scroll horizontally,
+  we suround the markdown table with `<div class="table-wrapper">` and `</div>`
+-->
+
+
+
+<!--
+  Fixed kramdown code highlight rendering:
+  https://github.com/penibelst/jekyll-compress-html/issues/101
+  https://github.com/penibelst/jekyll-compress-html/issues/71#issuecomment-188144901
+-->
+
+
+
+<!-- Add attribute 'hide-bullet' to the checkbox list -->
+
+
+
+<!-- images -->
+
+
+
+
+
+<!-- Add header for code snippets -->
+
+
+
+<!-- Create heading anchors -->
+
+
+
+
+
+  
+  
+
+  
+    
+    
+
+    
+      
+        
+        
+      
+
+      
+      
+
+      
+      
+      
+
+      
+
+    
+
+    
+
+  
+
+  
+  
+
+  
+    
+    
+
+    
+      
+        
+        
+      
+
+      
+      
+
+      
+      
+      
+
+      
+
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+
+    
+
+    
+
+  
+
+  
+  
+
+  
+    
+    
+
+    
+      
+        
+        
+      
+
+      
+      
+
+      
+      
+      
+
+      
+
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+
+    
+
+    
+
+  
+
+  
+  
+
+  
+
+
+
+
+<!-- Wrap prompt element of blockquote with the <div> tag -->
+
+
+
+
+
+
+
+<!-- return -->
+
+
+
+
+
+
+
+<h1 data-toc-skip>Probabilistic PCA</h1>
+
+<div class="post-meta text-muted">
+
+  <!-- author -->
+  <div>
+    
+    
+
+    
+
+    By
+    <em>
+      
+        <a href="https://github.com/luo-songtao">luo-songtao</a>
+      
+    </em>
+  </div>
+
+  <div class="d-flex">
+    <div>
+      <!-- published date -->
+      <span>
+        Posted
+        <!--
+  Date format snippet
+  See: ${JS_ROOT}/utils/timeago.js
+-->
+
+<em class="timeago"
+    data-ts="1645315200"
+    
+      data-toggle="tooltip" data-placement="bottom" data-tooltip-df="llll"
+    
+    >
+  2022-02-20
+</em>
+
+      </span>
+
+      <!-- lastmod date -->
+      
+
+      <!-- read time -->
+      <!--
+  Calculate the post's reading time, and display the word count in tooltip
+ -->
+
+
+
+<!-- words per minute  -->
+
+
+
+
+
+
+
+
+
+
+<!-- return element -->
+<span class="readtime" data-toggle="tooltip" data-placement="bottom"
+  title="1285 words">
+  <em>7 min</em> read</span>
+
+
+      <!-- page views -->
+      
+    </div>
+
+  </div> <!-- .d-flex -->
+
+</div> <!-- .post-meta -->
+
+<div class="post-content">
+  <h2 id="probabilistic-pca"><span class="mr-2">Probabilistic PCA</span><a href="#probabilistic-pca" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2></h2>
+
+<p>We now show that PCA can also be expressed as the maximum likelihood solution of a probabilistic latent variable model.</p>
+
+<p>Note: the probabilistic PCA model can be expressed as a directed graph</p>
+
+<h3 id="several-advantages-of-probabilistic-pca"><span class="mr-2">Several Advantages of Probabilistic PCA</span><a href="#several-advantages-of-probabilistic-pca" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3></h3>
+
+<ul>
+  <li>
+    <p>Probabilistic PCA represents a constrained form of the <strong>Gaussian distribution</strong> in which the number of free parameters can be restricted while still allowing the model to capture the dominant correlations in a data set.</p>
+  </li>
+  <li>
+    <p>We can derive an EM algorithm for PCA that is computationally efficient in situations where only a few leading eigenvectors are required and that <strong>avoids having to evaluate the data covariance matrix</strong> as an intermediate step.</p>
+  </li>
+  <li>
+    <p>The combination of a probabilistic model and EM allows us to <strong>deal with missing values</strong> in the data set.</p>
+  </li>
+  <li>
+    <p>Mixtures of probabilistic PCA models can be formulated in a principled way and trained using the EM algorithm.</p>
+  </li>
+  <li>
+    <p>Probabilistic PCA forms the basis for a Bayesian treatment of PCA in which <strong>the dimensionality of the principal subspace can be found automatically</strong> from the data.</p>
+  </li>
+  <li>
+    <p>Probabilistic PCA can be used <strong>to model class-conditional densities and hence be applied to classification problems.</strong></p>
+  </li>
+  <li>
+    <p>The probabilistic PCA model <strong>can be run generatively</strong> to provide samples from the distribution.</p>
+  </li>
+</ul>
+
+<h3 id="definition"><span class="mr-2">Definition</span><a href="#definition" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3></h3>
+
+<p>Probabilistic PCA is closely related to factor analysis.</p>
+
+<p>Probabilistic PCA is a simple example of the <strong>linear-Gaussian framework</strong>, in which all of the marginal and conditional distributions are Gaussian.</p>
+
+<p>We can formulate probabilistic PCA by</p>
+<ul>
+  <li>first introducing an explicit latent variable $z$ corresponding to the principal-component subspace.</li>
+  <li>Next we define a Gaussian prior distribution $p(z)$ over the latent variable, together with a Gaussian conditional distribution $p(x\vert z)$ for the observed variable $x$ conditioned on the value of the latent variable.</li>
+</ul>
+
+\[\begin{aligned} p(\boldsymbol{z}) &amp;= \mathcal{N}(\boldsymbol{z} \vert 0, I) \\ p(\boldsymbol{x} \vert \boldsymbol{z}) &amp;= \mathcal{N}(\boldsymbol{x} \vert \mathbf{W}\boldsymbol{z} + \boldsymbol{\mu}, \sigma^2 I) \end{aligned}\]
+
+<ul>
+  <li>because we set the covariance as $\sigma^2I$, then this is an example of native Bayes model.</li>
+  <li>and we shall see that the columns of $\mathbf{W}$ span a linear subspace with the data space that corresponds to the principal subspace.</li>
+</ul>
+
+<h3 id="generative-viewpoint-of-probabilistic-pca"><span class="mr-2">Generative Viewpoint of Probabilistic PCA</span><a href="#generative-viewpoint-of-probabilistic-pca" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3></h3>
+
+<ul>
+  <li>first, choosing a value of the latent variable $\boldsymbol{z}$ from $p(\boldsymbol{z})$</li>
+  <li>and then sampling $\boldsymbol{x}$ from $p(\boldsymbol{x} \vert \boldsymbol{z})$</li>
+</ul>
+
+<p>Specifically, the D-dimensional observed variable $\boldsymbol{x}$ is defined by a linear transformation of the M-dimensional latent variable latent variables $$ plus additive Gaussian <code class="language-plaintext highlighter-rouge">noise</code>, to that:</p>
+
+<p>\(\begin{aligned} \boldsymbol{x} = \mathbf{W}\boldsymbol{z} + \boldsymbol{\mu} + \boldsymbol{\epsilon} \end{aligned}\)</p>
+<ul>
+  <li>$\boldsymbol{\epsilon} \sim \mathcal{N}(\boldsymbol{\epsilon} \vert 0, \sigma^2 I)$</li>
+</ul>
+
+<p>Note that this framework is based on a mapping from latent space to data space, in contrast to the more conventional view of PCA.</p>
+
+<p>The Reverse mapping, from data space to the lantent space, will be obtained shortly using Bayes’ theorem.</p>
+
+<h3 id="predictive-distribution"><span class="mr-2">Predictive Distribution</span><a href="#predictive-distribution" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3></h3>
+
+\[\begin{aligned} p(\boldsymbol{x}) &amp;= \int p(\boldsymbol{x}\vert \boldsymbol{z})p(\boldsymbol{z})d\boldsymbol{z} \\ &amp;= \mathcal{N}(\boldsymbol{x}\vert \boldsymbol{\mu}, \mathbf{C}) \\\\ C &amp;= \mathbf{W}\mathbf{W}^T + \sigma^2 I  \end{aligned}\]
+
+<p>Note: when we evaluate the predictive distributino, we require $\mathbf{C}^{-1}$, which involves the inversion of a $D\times D$ matrix.</p>
+
+<ul>
+  <li>
+    <p>But if we use the Woodbury matrix identity on $C$,</p>
+
+\[\begin{aligned} \left(A+UCV\right)^{-1} &amp;= A^{-1}-A^{-1}U\left(C^{-1}+VA^{-1}U\right)^{-1}VA^{-1} \end{aligned}\]
+  </li>
+  <li>
+    <p>we have</p>
+
+\[\begin{aligned} \mathbf C^{-1} &amp;= (\mathbf{W}\mathbf{W}^T + \sigma^2)^{-1} \\&amp;= \frac 1{\sigma^2} \left(I - \frac 1{\sigma^2} \mathbf{W}(I+\sigma^2\mathbf{W}^T\mathbf{W})^{-1}\mathbf{W}^T \right) \end{aligned}\]
+
+    <ul>
+      <li>then the cost of evaluating $\mathbf C^{-1}$ is reduced from $O(D^3)$ to $O(M^3)$ by $(I+\sigma^2W^TW)^{-1}$</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="posterior-distribution"><span class="mr-2">Posterior Distribution</span><a href="#posterior-distribution" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3></h3>
+
+<p>Let $\mathbf{M} = (I+\sigma^2\mathbf{W}^T\mathbf{W})^{-1}$</p>
+
+\[\begin{aligned} p(\boldsymbol{z} \vert \boldsymbol{x}) = \mathcal{N}(\boldsymbol{z} \vert \mathbf{M}^{-1} \mathbf{W}^T(\boldsymbol{x}-\boldsymbol{\mu}), \sigma^2 \mathbf{M}) \end{aligned}\]
+
+<ul>
+  <li>
+    <p>Proof:</p>
+
+\[\begin{aligned} p(\boldsymbol{z} \vert \boldsymbol{x}) &amp;= \frac {p( \boldsymbol{x} \vert \boldsymbol{z}) p(\boldsymbol{z})}{p(\boldsymbol{x})} \\&amp;\propto \exp\left\{-\frac 12 \boldsymbol{z}^T\boldsymbol{z} - \frac {1}{2\sigma^2}\left( \boldsymbol{z}^T\mathbf{W}^T\mathbf{W}\boldsymbol{z} -2\boldsymbol{z}^T\mathbf{W}^T(\boldsymbol{x}-\boldsymbol{\mu}) \right) \right\} \\ &amp;\propto \exp\left\{ -\frac {1}{2\sigma^2}(\boldsymbol{z}^TM^{-1}\boldsymbol{z} - 2\boldsymbol{z}^T\mathbf{W}^T(\boldsymbol{x}-\boldsymbol{\mu})) \right\} \\ \\ p(\boldsymbol{z} \vert \boldsymbol{x}) &amp;= \mathcal{N}(\boldsymbol{z} \vert \mathbf{M}^{-1} \mathbf{W}^T(\boldsymbol{x}-\boldsymbol{\mu}), \sigma^2 \mathbf{M}) \end{aligned}\]
+  </li>
+</ul>
+
+<p>And we can see that poseterior covariance is independent of $\boldsymbol{x}$</p>
+
+<h3 id="inference---maximum-likelihood"><span class="mr-2">Inference - Maximum Likelihood</span><a href="#inference---maximum-likelihood" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3></h3>
+
+<p>Using Maximum Likelihood</p>
+
+<p>Given a data set $\mathbf{X}$, according to the prediction distribution $p(\boldsymbol{x}) \mathcal{N}(\boldsymbol{x}\vert \boldsymbol{\mu}, \mathbf{C})$, the log likelihood function is:</p>
+
+\[\begin{aligned} \ln p(\mathbf{X} \vert \boldsymbol{\mu}, \mathbf{W}, \sigma^2) &amp;= \sum_{n=1}^N \mathcal{N}(\boldsymbol{x}_n \vert \boldsymbol{\mu}, \mathbf{C}) \\ &amp;= -\frac {ND}{2} \ln (2\pi) - \frac N2 \ln \vert \mathbf{C} \vert -\frac 12 \sum_{n=1}^N (\boldsymbol{x} - \boldsymbol{\mu})^T\mathbf{C}^{-1} (\boldsymbol{x} - \boldsymbol{\mu}) \end{aligned}\]
+
+<ul>
+  <li>
+    <p>setting the derivative with respect to $\boldsymbol{\mu}$ equal to zero, we can obtain $\boldsymbol{\mu} = \overline{\boldsymbol{x}}$, and then we have:</p>
+
+\[\begin{aligned} \ln p(\mathbf{X} \vert \boldsymbol{\mu}, \mathbf{W}, \sigma^2) &amp;= -\frac {N}{2} (\ln (2\pi) + \ln \vert \mathbf{C} \vert + \text{Tr}(C^{-1}X^TX) \end{aligned}\]
+  </li>
+  <li>
+    <p>Maximization with respect to $\mathbf{W}$ and $\sigma^2$ is more complex but nonetheless has an exact closed-form solution It was shown by Tipping and Bishop (1999b) that all of the stationary points of the log likelihood function can be written as:</p>
+
+\[\begin{aligned} \mathbf{W}_{ML} = U_M(L_M - \sigma^2I)^{1/2} R \end{aligned}\]
+
+    <ul>
+      <li>$U_M$ is a $D\times M$ matrix whose columns are given by any subset of size $M$ of the eigenvectors of data covariance matrix $X^TX$</li>
+      <li>$L_M$ is the $M\times M$ diagonal matrix with eigenvalues $\lambda_i$</li>
+      <li>$R$ is an arbitrary $M\times M$ orthogonal matrix.</li>
+    </ul>
+  </li>
+</ul>
+
+<p>Furthermore, Tipping and Bishop (1999b) showed that the maximum of the likelihood function is obtained when the M eigenvectors are chosen to be those whose eigenvalues are the M largest (all other solutions being saddle points).</p>
+
+<p>assume that the eigenvectors have been arranged in order of decreasing values of the corresponding eigenvalues, so that the M principal eigenvectors are $\boldsymbol{\mu}_1, …,\boldsymbol{\mu}_M$. In this case, the columns of W define the principal subspace of standard PCA, and :</p>
+
+\[\begin{aligned} \sigma^2_{ML} = \frac 1{D-M} \sum_{i=M+1}^D \lambda_i \end{aligned}\]
+
+<p>so that $\sigma^2_{ML}$ is the average variance associated with the discarded dimensions.</p>
+
+<h3 id="rotation-invarianty"><span class="mr-2">Rotation Invarianty</span><a href="#rotation-invarianty" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3></h3>
+
+<p>If we set a new $\widetilde{\mathbf W} = \mathbf{WR}$, then:</p>
+
+\[\widetilde{\mathbf W}\widetilde{\mathbf W}^T = \mathbf{WR}\mathbf{R^T} \mathbf{W^T} = \mathbf{W}\mathbf{W^T}\]
+
+<p>then we can see $\mathbf{C}$ is independent of $\mathbf{R}$</p>
+
+<p><strong>This simply says that the predictive density is unchanged by rotations in the latent space</strong></p>
+
+<p>and for the particular case of $\mathbf{R} = I$, we see that the columns of $\mathbf W$ are the principal component eigenvectors scaled by the variance parameters $\lambda_i - \sigma^2$</p>
+
+<h3 id="ml-solution-analysis"><span class="mr-2">ML Solution Analysis</span><a href="#ml-solution-analysis" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3></h3>
+
+<p>It is worth taking a moment to study the form of the covariance matrix given by</p>
+
+<p>(待更)</p>
+
+<h3 id="em-algorithm-for-pca"><span class="mr-2">EM algorithm for PCA</span><a href="#em-algorithm-for-pca" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3></h3>
+
+<h4 id="complete-data-log-likelihood-function"><span class="mr-2">Complete-Data log likelihood function</span><a href="#complete-data-log-likelihood-function" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h4></h4>
+
+\[\begin{aligned} \ln p(\mathbf{X}, \mathbf{Z}\vert \boldsymbol{\mu}, \mathbf{W}, \sigma^2) = \sum_{n=1}^N \{\ln p(\boldsymbol{x}_n \vert \boldsymbol{z}_n) + \ln p(\boldsymbol{z}_n)\} \end{aligned}\]
+
+<p>we already know that the exact maximum likelihood solution for $\boldsymbol{\mu}$ is given by the sample mean $\overline{\boldsymbol{x}}$, and it is convenient to substitute for $\boldsymbol{\mu}$ at this stage.</p>
+
+<h4 id="expectation-step-of-complete-data-ll"><span class="mr-2">Expectation step of Complete-Data LL</span><a href="#expectation-step-of-complete-data-ll" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h4></h4>
+
+<p>taking the expectation with respect to the posterior distribution over the latent variables, we obtain</p>
+
+\[\begin{aligned} \mathbb{E}[\ln p(\mathbf{X}, \mathbf{Z}\vert \boldsymbol{\mu}, \mathbf{W}, \sigma^2)] \space =&amp; -\sum_{n=1}^N \{\frac 12 \text{Tr}(\mathbb{E}[\boldsymbol{z}_n\boldsymbol{z}_n^T]) + \frac D2 \ln(2\pi\sigma^2) +   \\ &amp; +\frac {1}{2\sigma^2}\|\boldsymbol{x}_n-\boldsymbol{\mu}\|^2 -\frac {1}{\sigma^2}\mathbb{E}[\boldsymbol{z}_n]^T\mathbf{W}^T(\boldsymbol{x}_n-\boldsymbol{\mu}) \\ &amp; + \frac {1}{2\sigma^2}\text{Tr}(\mathbb{E}[\boldsymbol{z}_n\boldsymbol{z}_n]^T\mathbf{W}^T\mathbf{W}) \}  \\ \\ \mathbb{E}[\boldsymbol{z}_n] \space =&amp; \mathbf{M^{-1}}\mathbf{W}^T(\boldsymbol{x}_n-\overline{\boldsymbol{x}}) \\  \mathbb{E}[\boldsymbol{z}_n\boldsymbol{z}_n^T] \space =&amp; \sigma^2\mathbf{M^{-1}} + \mathbb{E}[\boldsymbol{z}_n]\mathbb{E}[\boldsymbol{z}_n]^T \end{aligned}\]
+
+<h4 id="maximization-step"><span class="mr-2">Maximization step</span><a href="#maximization-step" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h4></h4>
+
+<p>maximize with respect to</p>
+<ul>
+  <li>$\mathbf{W}_{new}$</li>
+  <li>$\sigma_{new}^2$</li>
+</ul>
+
+\[\begin{aligned} \mathbf{W}_{new}&amp;= \left[ \sum_{n=1}^N \mathbb{E}[\boldsymbol{z}_n\boldsymbol{z}_n]  \right]^{-1} \left[ \sum_{n=1}^N (\boldsymbol{x}_n-\boldsymbol{\mu})\mathbb{E}[\boldsymbol{z}_n]^T  \right] \\ \sigma_{new}^2 &amp;= \frac {1}{ND}\sum_{n=1}^N \left\{ \|\boldsymbol{x}_n-\boldsymbol{\mu}\|^2 -2\mathbb{E}[\boldsymbol{z}_n]^T\mathbf{W}_{new}^T(\boldsymbol{x}_n-\boldsymbol{\mu}) + \text{Tr}(\mathbb{E}[\boldsymbol{z}_n\boldsymbol{z}_n]^T\mathbf{W}_{new}^T\mathbf{W}_{new}) \right\} \end{aligned}\]
+
+<h4 id="advantages-of-em-in-pca"><span class="mr-2">Advantages of EM in PCA</span><a href="#advantages-of-em-in-pca" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h4></h4>
+
+<ul>
+  <li>One of the benefits of the EM algorithm for PCA is computational efficiency for large-scale applications</li>
+  <li>Note that this EM algorithm can be implemented in an on-line form in which each D-dimensional data point is read in and processed and then discarded before the next data point is considered.</li>
+  <li>Because we now have a fully probabilistic model for PCA, we can deal with missing data, provided that it is missing at random, by marginalizing over the distribution of the unobserved variables.</li>
+</ul>
+
+<h4 id="em-for-standard-pca"><span class="mr-2">EM for standard PCA</span><a href="#em-for-standard-pca" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h4></h4>
+
+<ul>
+  <li>Another elegant feature ofthe EM approach is that we can take the limit $\sigma^2 \rightarrow 0$, corresponding to standard PCA, and still obtain a valid EM-like algorithm</li>
+</ul>
+
+\[\begin{aligned} \mathbf{M} &amp;= \mathbf{W}^T\mathbf{W}  \\ \mathbf{\Omega} &amp;= (\mathbf{W}_{old}^T\mathbf{W}_{old})^{-1}\mathbf{W}_{old}^T\widetilde{X} \\ \mathbf{W}_{new}&amp;= \widetilde{X}\mathbf{\Omega}^T(\mathbf{\Omega}\mathbf{\Omega}^T)^{-1} \end{aligned}\]
+
+<p>Again these can be implemented in an on-line form.</p>
+
+\[\begin{aligned} \end{aligned}\]
+
+</div>
+
+<div class="post-tail-wrapper text-muted">
+
+  <!-- categories -->
+  
+  <div class="post-meta mb-3">
+    <i class="far fa-folder-open fa-fw mr-1"></i>
+    
+      <a href='/categories/machine-learning/'>Machine Learning</a>,
+      <a href='/categories/pca/'>PCA</a>
+  </div>
+  
+
+  <!-- tags -->
+  
+  <div class="post-tags">
+    <i class="fa fa-tags fa-fw mr-1"></i>
+      
+      <a href="/tags/pca/"
+          class="post-tag no-text-decoration" >PCA</a>
+      
+      <a href="/tags/em/"
+          class="post-tag no-text-decoration" >EM</a>
+      
+  </div>
+  
+
+  <div class="post-tail-bottom
+    d-flex justify-content-between align-items-center mt-3 pt-5 pb-2">
+    <div class="license-wrapper">
+
+      
+
+        
+
+        This post is licensed under 
+        <a href="https://creativecommons.org/licenses/by/4.0/">
+          CC BY 4.0
+        </a>
+         by the author.
+
+      
+    </div>
+
+    <!--
+ Post sharing snippet
+-->
+
+<div class="share-wrapper">
+  <span class="share-label text-muted mr-1">Share</span>
+  <span class="share-icons">
+    
+    
+
+    
+      
+        <a href="https://twitter.com/intent/tweet?text=Probabilistic PCA - Candy Note&amp;url=http://0.0.0.0:4000/posts/probabilistic_pca/" data-toggle="tooltip" data-placement="top"
+          title="Twitter" target="_blank" rel="noopener" aria-label="Twitter">
+          <i class="fa-fw fab fa-twitter"></i>
+        </a>
+    
+      
+        <a href="https://www.facebook.com/sharer/sharer.php?title=Probabilistic PCA - Candy Note&amp;u=http://0.0.0.0:4000/posts/probabilistic_pca/" data-toggle="tooltip" data-placement="top"
+          title="Facebook" target="_blank" rel="noopener" aria-label="Facebook">
+          <i class="fa-fw fab fa-facebook-square"></i>
+        </a>
+    
+      
+        <a href="https://t.me/share/url?url=http://0.0.0.0:4000/posts/probabilistic_pca/&amp;text=Probabilistic PCA - Candy Note" data-toggle="tooltip" data-placement="top"
+          title="Telegram" target="_blank" rel="noopener" aria-label="Telegram">
+          <i class="fa-fw fab fa-telegram"></i>
+        </a>
+    
+
+    <i id="copy-link" class="fa-fw fas fa-link small"
+        data-toggle="tooltip" data-placement="top"
+        title="Copy link"
+        data-title-succeed="Link copied successfully!">
+    </i>
+
+  </span>
+</div>
+
+
+  </div><!-- .post-tail-bottom -->
+
+</div><!-- div.post-tail-wrapper -->
+
+
+      
+    
+    
+
+    </div>
+  </div> <!-- #core-wrapper -->
+
+  <!-- pannel -->
+  <div id="panel-wrapper" class="col-xl-3 pl-2 text-muted">
+
+    <div class="access">
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+
+
+  <div id="access-tags">
+    <div class="panel-heading">Trending Tags</div>
+    <div class="d-flex flex-wrap mt-3 mb-1 mr-3">
+
+    
+      
+      <a class="post-tag" href="/tags/gaussian-distribution/">Gaussian Distribution</a>
+    
+      
+      <a class="post-tag" href="/tags/pca/">PCA</a>
+    
+      
+      <a class="post-tag" href="/tags/em/">EM</a>
+    
+      
+      <a class="post-tag" href="/tags/bayesian/">Bayesian</a>
+    
+      
+      <a class="post-tag" href="/tags/markov-chain/">Markov Chain</a>
+    
+      
+      <a class="post-tag" href="/tags/bernoulli/">Bernoulli</a>
+    
+      
+      <a class="post-tag" href="/tags/binomial/">Binomial</a>
+    
+      
+      <a class="post-tag" href="/tags/gamma-distribution/">Gamma Distribution</a>
+    
+      
+      <a class="post-tag" href="/tags/gmm/">GMM</a>
+    
+      
+      <a class="post-tag" href="/tags/kernel/">Kernel</a>
+    
+
+    </div>
+  </div>
+
+
+    </div>
+
+    
+      
+      
+
+
+
+<!-- BS-toc.js will be loaded at medium priority -->
+<script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@1.0.1/dist/bootstrap-toc.min.js"></script>
+
+<div id="toc-wrapper" class="pl-0 pr-4 mb-5">
+  <div class="panel-heading pl-3 pt-2 mb-2">Contents</div>
+  <nav id="toc" data-toggle="toc"></nav>
+</div>
+
+
+    
+  </div>
+
+</div>
+
+<!-- tail -->
+
+<div class="row">
+  <div class="col-12 col-lg-11 col-xl-8">
+    <div id="tail-wrapper" class="pl-1 pr-1 pl-sm-2 pr-sm-2 pl-md-4 pr-md-4">
+      
+        
+        <!--
+ Recommend the other 3 posts according to the tags and categories of the current post,
+ if the number is not enough, use the other latest posts to supplement.
+-->
+
+<!-- The total size of related posts  -->
+
+
+<!-- An random integer that bigger than 0  -->
+
+
+<!-- Equals to TAG_SCORE / {max_categories_hierarchy}  -->
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+
+
+
+<!-- Fill with the other newlest posts  -->
+
+
+
+
+
+
+  <div id="related-posts" class="mt-5 mb-2 mb-sm-4">
+    <h3 class="pt-2 mt-1 mb-4 ml-1"
+      data-toc-skip>Further Reading</h3>
+    <div class="card-deck mb-4">
+    
+      
+      
+      <div class="card">
+        <a href="/posts/factor_analysis/">
+          <div class="card-body">
+            <!--
+  Date format snippet
+  See: ${JS_ROOT}/utils/timeago.js
+-->
+
+<em class="timeago small"
+    data-ts="1645315200"
+    
+    >
+  2022-02-20
+</em>
+
+            <h3 class="pt-0 mt-1 mb-3" data-toc-skip>Factor Analysis</h3>
+            <div class="text-muted small">
+              <p>
+                
+
+
+
+
+
+                Factor Analysis
+
+Factor analysis is a linear-Gaussian latent variable model that is closely related to probabilistic PCA.
+
+
+  
+    in probabilistic PCA:
+
+\[\begin{aligned} \boldsymbol{x} &amp;amp;= \ma...
+              </p>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+      
+      
+      <div class="card">
+        <a href="/posts/Bayesian_pca/">
+          <div class="card-body">
+            <!--
+  Date format snippet
+  See: ${JS_ROOT}/utils/timeago.js
+-->
+
+<em class="timeago small"
+    data-ts="1645315200"
+    
+    >
+  2022-02-20
+</em>
+
+            <h3 class="pt-0 mt-1 mb-3" data-toc-skip>Bayesian PCA</h3>
+            <div class="text-muted small">
+              <p>
+                
+
+
+
+
+
+                Bayesian PCA
+
+Given that we have a probabilistic formulation of PCA, it seems natural to seek a Bayesian approach to model selection.
+
+But to do this, we need to marginalize out the model parameter...
+              </p>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+      
+      
+      <div class="card">
+        <a href="/posts/kernel_pca/">
+          <div class="card-body">
+            <!--
+  Date format snippet
+  See: ${JS_ROOT}/utils/timeago.js
+-->
+
+<em class="timeago small"
+    data-ts="1645315200"
+    
+    >
+  2022-02-20
+</em>
+
+            <h3 class="pt-0 mt-1 mb-3" data-toc-skip>Kernel PCA</h3>
+            <div class="text-muted small">
+              <p>
+                
+
+
+
+
+
+                Kernel PCA
+
+Centered case analysis
+
+
+  
+    Let $\mathbf{S}$ be $D\times D$ sample covariance matrix, as discussed at conventional PCA: (assume $\mathbf{X}$ are Centered data set)
+  
+  
+    Recall ...
+              </p>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+    </div> <!-- .card-deck -->
+  </div> <!-- #related-posts -->
+
+
+      
+        
+        <!--
+  Navigation buttons at the bottom of the post.
+-->
+
+<div class="post-navigation d-flex justify-content-between">
+  
+  <a href="/posts/principal_component_analysis/" class="btn btn-outline-primary"
+    prompt="Older">
+    <p>Principal Component Analysis</p>
+  </a>
+  
+
+  
+  <a href="/posts/Proximal_Gradient_Method/" class="btn btn-outline-primary"
+    prompt="Newer">
+    <p>Proximal Gradient Method</p>
+  </a>
+  
+
+</div>
+
+      
+        
+        <!--  The comments switcher -->
+
+
+      
+    </div>
+  </div>
+</div> <!-- .row -->
+
+
+
+        <!--
+  The Footer
+-->
+
+<footer class="d-flex w-100 justify-content-center">
+  <div class="d-flex justify-content-between align-items-center text-muted">
+    <div class="footer-left">
+      <p class="mb-0">
+        © 2022
+        <a href="https://twitter.com/username">luo-songtao</a>.
+        
+        <span data-toggle="tooltip" data-placement="top"
+          title="Except where otherwise noted, the blog posts on this site are licensed under the Creative Commons Attribution 4.0 International (CC BY 4.0) License by the author.">Some rights reserved.</span>
+        
+      </p>
+    </div>
+
+    <div class="footer-right">
+      <p class="mb-0">
+        
+
+        
+
+        Powered by 
+          <a href="https://jekyllrb.com" target="_blank" rel="noopener">Jekyll</a>
+         with 
+          <a href="https://github.com/cotes2020/jekyll-theme-chirpy" target="_blank" rel="noopener">Chirpy</a>
+         theme.
+
+      </p>
+    </div>
+
+  </div> <!-- div.d-flex -->
+</footer>
+
+
+      </div>
+
+      <!--
+  The Search results
+-->
+<div id="search-result-wrapper" class="d-flex justify-content-center unloaded">
+  <div class="col-12 col-sm-11 post-content">
+    <div id="search-hints">
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+
+
+  <div id="access-tags">
+    <div class="panel-heading">Trending Tags</div>
+    <div class="d-flex flex-wrap mt-3 mb-1 mr-3">
+
+    
+      
+      <a class="post-tag" href="/tags/gaussian-distribution/">Gaussian Distribution</a>
+    
+      
+      <a class="post-tag" href="/tags/pca/">PCA</a>
+    
+      
+      <a class="post-tag" href="/tags/em/">EM</a>
+    
+      
+      <a class="post-tag" href="/tags/bayesian/">Bayesian</a>
+    
+      
+      <a class="post-tag" href="/tags/markov-chain/">Markov Chain</a>
+    
+      
+      <a class="post-tag" href="/tags/bernoulli/">Bernoulli</a>
+    
+      
+      <a class="post-tag" href="/tags/binomial/">Binomial</a>
+    
+      
+      <a class="post-tag" href="/tags/gamma-distribution/">Gamma Distribution</a>
+    
+      
+      <a class="post-tag" href="/tags/gmm/">GMM</a>
+    
+      
+      <a class="post-tag" href="/tags/kernel/">Kernel</a>
+    
+
+    </div>
+  </div>
+
+
+    </div>
+    <div id="search-results" class="d-flex flex-wrap justify-content-center text-muted mt-3"></div>
+  </div>
+</div>
+
+
+    </div> <!-- #main-wrapper -->
+
+    
+      <!--
+  mermaid-js loader
+-->
+
+<script src="https://cdn.jsdelivr.net/npm/mermaid@8/dist/mermaid.min.js"></script>
+
+<script>
+  $(function() {
+    function updateMermaid(event) {
+      if (event.source === window && event.data &&
+            event.data.direction === ModeToggle.ID) {
+
+        const mode = event.data.message;
+
+        if (typeof mermaid === "undefined") {
+          return;
+        }
+
+        let expectedTheme = (mode === ModeToggle.DARK_MODE? "dark" : "default");
+        let config = { theme: expectedTheme };
+
+        /* Re-render the SVG › <https://github.com/mermaid-js/mermaid/issues/311#issuecomment-332557344> */
+        $(".mermaid").each(function() {
+          let svgCode = $(this).prev().children().html();
+          $(this).removeAttr("data-processed");
+          $(this).html(svgCode);
+        });
+
+        mermaid.initialize(config);
+        mermaid.init(undefined, ".mermaid");
+      }
+    }
+
+    let initTheme = "default";
+
+    if ($("html[data-mode=dark]").length > 0
+      || ($("html[data-mode]").length == 0
+        && window.matchMedia("(prefers-color-scheme: dark)").matches ) ) {
+      initTheme = "dark";
+    }
+
+    let mermaidConf = {
+      theme: initTheme  /* <default|dark|forest|neutral> */
+    };
+
+    /* Markdown converts to HTML */
+    $("pre").has("code.language-mermaid").each(function() {
+      let svgCode = $(this).children().html();
+      $(this).addClass("unloaded");
+      $(this).after(`<div class=\"mermaid\">${svgCode}</div>`);
+    });
+
+    mermaid.initialize(mermaidConf);
+
+    window.addEventListener("message", updateMermaid);
+  });
+</script>
+
+    
+
+    <div id="mask"></div>
+
+    <a id="back-to-top" href="#" aria-label="back-to-top" class="btn btn-lg btn-box-shadow" role="button">
+      <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!--
+  Jekyll Simple Search loader
+  See: <https://github.com/christian-fei/Simple-Jekyll-Search>
+-->
+
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/simple-jekyll-search@1.10.0/dest/simple-jekyll-search.min.js"></script>
+
+<script>
+SimpleJekyllSearch({
+  searchInput: document.getElementById('search-input'),
+  resultsContainer: document.getElementById('search-results'),
+  json: '/assets/js/data/search.json',
+  searchResultTemplate: '<div class="pl-1 pr-1 pl-sm-2 pr-sm-2 pl-lg-4 pr-lg-4 pl-xl-0 pr-xl-0">  <a href="{url}">{title}</a>  <div class="post-meta d-flex flex-column flex-sm-row text-muted mt-1 mb-1">    {categories}    {tags}  </div>  <p>{snippet}</p></div>',
+  noResultsText: '<p class="mt-5">Oops! No result founds.</p>',
+  templateMiddleware: function(prop, value, template) {
+    if (prop === 'categories') {
+      if (value === '') {
+        return `${value}`;
+      } else {
+        return `<div class="mr-sm-4"><i class="far fa-folder fa-fw"></i>${value}</div>`;
+      }
+    }
+
+    if (prop === 'tags') {
+      if (value === '') {
+        return `${value}`;
+      } else {
+        return `<div><i class="fa fa-tag fa-fw"></i>${value}</div>`;
+      }
+    }
+  }
+});
+</script>
+
+
+    <!--
+  JS selector for site.
+-->
+
+<!-- layout specified -->
+
+
+  
+
+
+
+  <!-- image lazy-loading & popup & clipboard -->
+  
+
+  
+
+
+
+
+
+
+
+  
+    
+
+    
+
+  
+
+
+
+  
+    
+
+    
+
+  
+
+
+
+  
+    
+
+    
+
+  
+
+
+
+
+  <script src="https://cdn.jsdelivr.net/combine/npm/magnific-popup@1/dist/jquery.magnific-popup.min.js,npm/lozad/dist/lozad.min.js,npm/clipboard@2/dist/clipboard.min.js"></script>
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+
+
+
+
+
+  
+    
+
+    
+
+  
+
+
+
+  
+    
+
+    
+
+  
+
+
+
+  
+    
+
+    
+
+  
+
+
+
+  
+    
+
+    
+
+  
+
+
+
+
+  <script src="https://cdn.jsdelivr.net/combine/npm/dayjs@1/dayjs.min.js,npm/dayjs@1/locale/en.min.js,npm/dayjs@1/plugin/relativeTime.min.js,npm/dayjs@1/plugin/localizedFormat.min.js"></script>
+
+
+
+
+
+
+
+
+<script defer src="/assets/js/dist/post.min.js"></script>
+
+
+  <!-- MathJax -->
+  <script>
+  /* see: <https://docs.mathjax.org/en/latest/options/input/tex.html#tex-options> */
+  MathJax = {
+    tex: {
+      inlineMath: [              /* start/end delimiter pairs for in-line math */
+        ['$','$'],
+        ['\\(','\\)']
+      ],
+      displayMath: [             /* start/end delimiter pairs for display math */
+        ['$$', '$$'],
+        ['\\[', '\\]']
+      ]
+    }
+  };
+  </script>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+  </script>
+
+
+<!-- commons -->
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.bundle.min.js"></script>
+
+
+
+
+  </body>
+
+</html>
+
